@@ -241,7 +241,7 @@ class ContentController extends Controller
 
         // dd($request->all());
         $this->validate($request, array(
-            'parent_id' => 'required',
+            // 'parent_id' => 'required',
             'title' => 'required',
             //'description' => 'required',
             //'body' => 'required',
@@ -259,7 +259,11 @@ class ContentController extends Controller
         $data['parent_id_hide'] = $request->parent_id;
         $data['parent_id'] = $request->parent_id_hide;
         if ($data['parent_id'] == '') {
-            $data['parent_id'] = $data['parent_id_hide'][0];
+            if (isset($data['parent_id_hide'])) {
+                $data['parent_id'] = $data['parent_id_hide'][0];
+            } else {
+                $data['parent_id'] = 0;
+            }
         }
 
         $data['type'] = '2';
@@ -406,9 +410,9 @@ class ContentController extends Controller
          ]);
         */
 
-        $this->validate($request, array(
-            'parent_id' => 'required',
-        ));
+        // $this->validate($request, array(
+        //     'parent_id' => 'required',
+        // ));
         /*$update = ['title' => $request->title, 'brief_description' => $request->brief_description
             , 'description' => $request->description
             , 'status' => $request->status
@@ -431,7 +435,7 @@ class ContentController extends Controller
         $data['parent_id_hide'] = $request->parent_id;
         $data['parent_id'] = $request->parent_id_hide;
         if ($data['parent_id'] == '') {
-            $data['parent_id'] = $data['parent_id_hide'][0];
+            $data['parent_id'] = isset($data['parent_id_hide']) ? $data['parent_id_hide'][0] : 0;
         }
 
         $data['slug'] = uniqueSlug(Content::class, $crud, ($request->slug != '') ? $request->slug : $request->title);

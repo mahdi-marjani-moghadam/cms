@@ -1,8 +1,8 @@
 <footer class="wide" id="footer">
-    <div class=" grid md:grid-cols-3 gap-x-5 md:py-10 max-md:px-5">
+    <div class=" grid md:grid-cols-3 gap-x-5 md:py-10 max-md:px-5 md:px-[10px]">
         <div class=" pt-1 ">
-            <div class="font-bold border-b-2 border-[#ca8a04] inline-block mb-3 pl-20">اطلاعات تماس</div>
-            <div class="text-gray-500">
+            <div class="font-bold border-b-2 border-[#ca8a04] md:inline-block mb-3 pl-20">اطلاعات تماس <span class="hidden max-sm:invisible">+</span></div>
+            <div class="text-gray-500 ">
                 <div>
                     <a class=" block" href="/درباره-ما">درباره ما</a>
                     <a class=" block" href="/تماس-با-ما">تماس با ما</a>
@@ -22,8 +22,8 @@
             </div>
         </div>
         <div class="">
-            <div class="font-bold border-b-2 border-[#ca8a04] inline-block mb-3 pl-20">پربازدید ها</div>
-            <div>
+            <div class="font-bold border-b-2 border-[#ca8a04] md:inline-block mb-3 pl-20">پربازدید ها</div>
+            <div class="max-sm:grid max-sm:grid-cols-2">
                 <a class=" block" href="/category/انگشتر-طلا-زنانه">انگشتر طلا زنانه</a>
                 <a class=" block" href="/دستبند-طلا-زنانه">دستبند طلا زنانه</a>
                 <a class=" block" href="/گردنبند-طلا-زنانه">گردنبند طلا زنانه</a>
@@ -35,37 +35,45 @@
         </div>
 
         <div class="">
-            <div class="font-bold border-b-2 border-[#ca8a04] inline-block mb-3 pl-20   ">خدمات مشتریان</div>
-            <div>
+            <div class="font-bold border-b-2 border-[#ca8a04] md:inline-block mb-3 pl-20   ">خدمات مشتریان</div>
+            <div class="">
+                <div class="max-sm:grid max-sm:grid-cols-2">
+                    <div><a href="/تماس-با-ما">نحوه پیگیری سفارش</a></div>
+                    <div><a href="/مقالات">مجله ایدن</a></div>
+                    <div><a href="/مجوزها"> مجوزها</a></div>
+                    <a href="https://www.instagram.com/eden.gold.gallery/" target="_blank" rel="noopener">
+                        <svg class="hover:fill-purple-900" width="20pt" height="20pt" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                            <g>
+                                <g>
+                                    <path d="M363.273,0H148.728C66.719,0,0,66.719,0,148.728v214.544C0,445.281,66.719,512,148.728,512h214.544
+        C445.281,512,512,445.281,512,363.273V148.728C512,66.719,445.281,0,363.273,0z M472,363.272C472,423.225,423.225,472,363.273,472
+        H148.728C88.775,472,40,423.225,40,363.273V148.728C40,88.775,88.775,40,148.728,40h214.544C423.225,40,472,88.775,472,148.728
+        V363.272z" />
+                                </g>
+                            </g>
+                            <g>
+                                <g>
+                                    <path d="M256,118c-76.094,0-138,61.906-138,138s61.906,138,138,138s138-61.906,138-138S332.094,118,256,118z M256,354
+        c-54.037,0-98-43.963-98-98s43.963-98,98-98s98,43.963,98,98S310.037,354,256,354z" />
+                                </g>
+                            </g>
+                            <g>
+                                <g>
+                                    <circle cx="396" cy="116" r="20" />
+                                </g>
+                            </g>
+                        </svg>
+                    </a>
+                </div>
+
                 {{-- <div><a href="">راهنمای خرید</a></div>
                 <div><a href="">راهنمایی تعیین سایز</a></div> --}}
-                <div><a href="/تماس-با-ما">نحوه پیگیری سفارش</a></div>
-                <div><a href="/مقالات">مجله ایدن</a></div>
-                <a href="https://www.instagram.com/eden.gold.gallery/" target="_blank" rel="noopener">
-                    <svg class="hover:fill-purple-900" width="20pt" height="20pt" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512"
-                        style="enable-background:new 0 0 512 512;" xml:space="preserve">
-                        <g>
-                            <g>
-                                <path d="M363.273,0H148.728C66.719,0,0,66.719,0,148.728v214.544C0,445.281,66.719,512,148.728,512h214.544
-       C445.281,512,512,445.281,512,363.273V148.728C512,66.719,445.281,0,363.273,0z M472,363.272C472,423.225,423.225,472,363.273,472
-       H148.728C88.775,472,40,423.225,40,363.273V148.728C40,88.775,88.775,40,148.728,40h214.544C423.225,40,472,88.775,472,148.728
-       V363.272z" />
-                            </g>
-                        </g>
-                        <g>
-                            <g>
-                                <path d="M256,118c-76.094,0-138,61.906-138,138s61.906,138,138,138s138-61.906,138-138S332.094,118,256,118z M256,354
-       c-54.037,0-98-43.963-98-98s43.963-98,98-98s98,43.963,98,98S310.037,354,256,354z" />
-                            </g>
-                        </g>
-                        <g>
-                            <g>
-                                <circle cx="396" cy="116" r="20" />
-                            </g>
-                        </g>
-                    </svg>
-                </a>
+
+                <div>
+                    <a class="certificate" href="/مجوزها">
+                        <img class="rounded m-1 border border-gray-500" width="100" src="{{ url('eden/img/certificate.jpg') }}" alt="">
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -80,7 +88,7 @@
 
 <script>
     if (screen && screen.width <= 768) {
-        document.write('<script type="text/javascript" src="{{ url('/eden/pullToRefresh.umd.min.js') }}"><\/script>');
+        document.write('<script type="text/javascript" src="{{ url(' / eden / pullToRefresh.umd.min.js ') }}"><\/script>');
 
         setTimeout(() => {
             PullToRefresh.init({
@@ -90,6 +98,12 @@
                 }
             });
         }, 500);
+
+        // $('.toggle-show').hide();
+
+        // $('.toggle-show').prev().click(function(e){
+        //     $(this).next().toggle();
+        // });
     }
 </script>
 
@@ -98,12 +112,11 @@
 </script>
 <script src="{{ url('/main.js') }}"></script> --}}
 @if (WebsiteSetting::where('variable', '=', 'phone')->first())
-    <a href="tel:{{ WebsiteSetting::where('variable', '=', 'phone')->first()->value }}" id="callnowbutton">phone</a>
+<a href="tel:{{ WebsiteSetting::where('variable', '=', 'phone')->first()->value }}" id="callnowbutton">phone</a>
 @endif
 
 
-<a href="https://api.whatsapp.com/send?phone=989374599840&text=سلام.%20میخواستم%20سفارش%20ثبت%20کنم"
-    class="whatsappbutton" target="_blank">
+<a href="https://api.whatsapp.com/send?phone=989374599840&text=سلام.%20میخواستم%20سفارش%20ثبت%20کنم" class="whatsappbutton" target="_blank">
     <i class="fab fa-whatsapp my-float"></i>
 </a>
 

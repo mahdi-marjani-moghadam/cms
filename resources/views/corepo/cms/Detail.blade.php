@@ -170,7 +170,7 @@ $append = '';
                 <div class="mb-1">محل تبلیغ شما</div>
 
 
-                {{-- images&label=adv&var=adv&count=3 --}}
+                {{--images&label=adv&var=adv&count=3 --}}
                 @if (isset($adv) && isset($adv['images']))
                 <div class="text-center">
                     @foreach ($adv['images'] as $k => $content)
@@ -181,7 +181,7 @@ $append = '';
                 </div>
                 @endisset
                 <div>وبسایت ها</div>
-                {{-- category&label=sideCategory&var=sideCategory&count=6 --}}
+                {{--category&label=sideCategory&var=sideCategory&count=6 --}}
                 @isset($sideCategory['data'])
                 <ul class="max-sm:flex max-sm:flex-wrap max-sm:gap-x-4">
                     @foreach ($sideCategory['data'] as $item)
