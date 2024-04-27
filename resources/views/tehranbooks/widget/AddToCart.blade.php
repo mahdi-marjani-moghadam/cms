@@ -1,5 +1,5 @@
-@if ($detail->attr_type == 'product' && env('SHOP', false) )
-    <form action="{{ route('customer.cart.store') }}" method="post" class="order-form  ">
+@if ($detail->attr_type == 'product' )
+    <form action="{{ route('customer.cart.store') }}" method="post" class="order-form   ">
         @csrf
         @if (\Session::has('success'))
             <div class="alert alert-success ">
@@ -18,10 +18,9 @@
         @endif
 
         <input type="hidden" name="id" value="{{ $detail->id }}">
-        <button class="bg-lime-700 text-white  p-3 rounded-md w-full">
+        <button class="py-1 border-radius-5  block w-full bg-teal-700 text-white rounded">
             <i class="fa fa-plus"></i>
             ثبت سفارش
         </button>
     </form>
-
 @endif

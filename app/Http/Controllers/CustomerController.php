@@ -221,9 +221,20 @@ class CustomerController extends Controller
         $user = Auth::user();
         $name = $request->all()['data'][0]['name'];
         $value = $request->all()['data'][0]['value'];
+
         if ($user->customer == null) {
-            // $user->customer = new Customer();
-            return response(array('status' => false, 'data' => ['name' => $name, 'value' => $value], 'msg' => 'Customer not found'), 200);
+
+            Customer::create([
+                'user_id'=> $user->id,
+                'mobile' => $user->mobile,
+                $name => $value
+            ]);
+
+            if(count($user->getRoleNames()) == 0){
+                $user->assignRole('customer');
+            }
+
+            return response(array('status' => false, 'data' => ['name' => $name, 'value' => $value], 'msg' => ' مشکلی پیش آمده مجدد تلاش نمایید.'), 404);
         }
         // dd($user->customer);
         $user->customer->$name = $value;
@@ -572,7 +583,7 @@ class CustomerController extends Controller
         $order->status = 2;
         $order->save();
 
-        
+
         if(env('SMS_PURCHASE', false))
         {
             @sendSms(array('09374599840','09331181877'), "فیش {$order->id} مبلغ {$order->total_price} ثبت شد.");

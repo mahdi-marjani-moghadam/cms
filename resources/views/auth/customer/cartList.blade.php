@@ -1,5 +1,5 @@
 @extends(@env('TEMPLATE_NAME') . '.App')
-@section('meta-title', __('messages.invoices'))
+@section('meta-title', __('messages.cart') )
 
 @section('Content')
     <section class="panel max-w-lg mx-auto my-10">
@@ -37,18 +37,25 @@
                                     @else
                                         <span class="text-slate-400">بیعانه:</span>
                                     @endif
-                                    @convertCurrency($content['price']) @lang('messages.toman')
+                                    @if ($content['price'] == 0)
+                                        رایگان
+                                    @else
+                                        @convertCurrency($content['price']) @lang('messages.toman')
+                                    @endif
                                 </div>
-                                <div class="text-slate-600 text-sm">
-                                    <span class="text-slate-400">وزن:</span>
-                                    {{ $content['associatedModel']['attr']['weight'] }}g
-                                </div>
+
+                                @if (isset($content['associatedModel']['attr']['weight']))
+                                    <div class="text-slate-600 text-sm">
+                                        <span class="text-slate-400">وزن:</span>
+                                        {{ $content['associatedModel']['attr']['weight'] }}g
+                                    </div>
+                                @endif
 
                                 <div>
                                     <form method="post" action="{{ route('customer.cart.destroy', $content['id']) }}">
                                         @csrf
                                         @method('delete')
-                                        <button class="text-red-700 text-sm absolute top-0 -left-4"><span class="">حذف
+                                        <button class="text-red-700 text-sm absolute top-1 left-1"><span class="">حذف
                                             </span> <i class="fa fa-remove"></i> </button>
                                     </form>
                                 </div>
@@ -81,11 +88,6 @@
 
 
 
-
-
-
-
-
                         </div>
                         @if (isset($content['associatedModel']['attr']['in-stock']) && $content['associatedModel']['attr']['in-stock'] == 0)
                             <div class=" bg-yellow-100 border rounded-sm mt-2">
@@ -99,14 +101,13 @@
                 <div class="align-center">
                     @if (count($cart))
 
-                        <form method="post" id="customer-order-store" class="text-center" action="{{ route('customer.order.store') }}">
+                        <form method="post" id="customer-order-store" class="text-center"
+                            action="{{ route('customer.order.store') }}">
                             @csrf
-                            <button class="bg-lime-700 px-5 btn-buy">ادامه خرید ← </button>
+                            <button class="bg-lime-700 rounded px-5 py-3 mt-5 btn-buy">ادامه خرید ← </button>
                         </form>
 
                         @if (\Request::header('Referer') == url('login'))
-                            <!-- <script src="{{asset('/jquery-3.6.0.min.js')}}"
-                                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
                             <script>
                                 console.log('after login');
                                 $(window).ready(function(e) {

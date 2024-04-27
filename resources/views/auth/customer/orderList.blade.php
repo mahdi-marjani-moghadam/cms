@@ -1,5 +1,5 @@
 @extends(@env('TEMPLATE_NAME') . '.App')
-@section('meta-title', __('messages.invoices'))
+@section('meta-title', __('messages.orders').' | '.env('SITE_NAME'))
 
 @section('Content')
     <section class="panel">
@@ -7,7 +7,7 @@
 
         <div class="list">
             <h1 class="">@lang('messages.orders') </h1>
-            <div class="flex one">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
                 @if (\Session::has('success'))
                     <div class="alert alert-success">
                         {!! \Session::get('success') !!}
@@ -103,10 +103,11 @@
                                 <img width="50" class="rounded" src="{{ $item->attributes['image'] }}">
                             @endforeach
                         </div>
-                    </div>
-                    @if (!$loop->last)
-                        <hr class=" my-3">
+                        @if (!$loop->last)
+                        <hr class=" md:invisible  my-3">
                     @endif
+                    </div>
+
                 @endforeach
                 <div class="align-center">
                     @if (count($orders) == 0)

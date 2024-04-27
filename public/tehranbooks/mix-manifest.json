@@ -1,6 +1,5 @@
 {
     "/panel/panel.css": "/panel/panel.css?id=451c9130a4d3a7f5b3672a842d9072ed",
-    "/tehranbooks.css": "/tehranbooks.css?id=faf48567ff22558770bcb9169a3a2a04",
     "/fonts/fontawesome-webfont.eot": "/fonts/fontawesome-webfont.eot?id=016fa45033a942ffecadc970f22fe41b",
     "/fonts/fontawesome-webfont.svg": "/fonts/fontawesome-webfont.svg?id=912ec66d7572ff821749319396470bde",
     "/fonts/fontawesome-webfont.ttf": "/fonts/fontawesome-webfont.ttf?id=ecebce3ab95b6640919b6b2f66b44bf8",
@@ -50,5 +49,7 @@
     "/panel/webfonts/fa-solid-900.ttf": "/panel/webfonts/fa-solid-900.ttf?id=dfdc7801582dd0d20ea75faa3b96c296",
     "/panel/webfonts/fa-solid-900.woff2": "/panel/webfonts/fa-solid-900.woff2?id=a0feb384c3c6071947a49708f2b0bc85",
     "/panel/webfonts/fa-v4compatibility.ttf": "/panel/webfonts/fa-v4compatibility.ttf?id=e24ec0b8661f7fa333b29444df39e399",
-    "/panel/webfonts/fa-v4compatibility.woff2": "/panel/webfonts/fa-v4compatibility.woff2?id=e11465c0eff0549edd4e8ea6bbcf242f"
+    "/panel/webfonts/fa-v4compatibility.woff2": "/panel/webfonts/fa-v4compatibility.woff2?id=e11465c0eff0549edd4e8ea6bbcf242f",
+    "/jquery-3.6.0.min.js": "/jquery-3.6.0.min.js?id=8fb8fee4fcc3cc86ff6c724154c49c42",
+    "/tehranbooks.css": "/tehranbooks.css?id=ad7dc8c5733f7d92524be80c9476239a"
 }

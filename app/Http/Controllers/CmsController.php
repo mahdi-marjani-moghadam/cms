@@ -124,7 +124,6 @@ class CmsController extends Controller
 
     public function request(Request $request, $arg1 = False,  $arg2 = False)
     {
-
         $request = $request->all();
         $slug = (isset($arg2) && $arg2 != '') ? $arg1 . '/' . $arg2 : $arg1;
 
@@ -226,10 +225,12 @@ class CmsController extends Controller
                 $widget = $this->getWidget($detail->attr['template_name']);
                 $template = env('TEMPLATE_NAME') . '.cms.' . $detail->attr['template_name'];
             }
+            // dd($widget);
             // dd($detail->childs);
 
             //$detail->description=editorModule($detail->description);
             $showcallnowbutton = false;
+
             return view($template, $widget, compact([
                 'detail',
                 'breadcrumb',
@@ -276,33 +277,36 @@ class CmsController extends Controller
                 unset($data[$var]['type']);
                 continue;
             }
-            $type = '';
-            //$data[$var] =new Content();
+
             $module = new Content();
 
+            $filter[] = ['publish_date', '<=', DB::raw('now()')];
+
             if ($config['type'] == 'post') {
-                $module = $module->where('type', '=', '2');
-                $module = $module->where('attr_type', '=', 'article');
+                $filter[] = ['type', '=', '2'];
+                $filter[] = ['attr_type', '=', 'article'];
             } else if ($config['type'] == 'product') {
-                $module = $module->where('type', '=', '2');
-                $module = $module->where('attr_type', '=', 'product');
+                $filter[] = ['type', '=', '2'];
+                $filter[] = ['attr_type', '=', 'product'];
             } else if ($config['type'] == 'category') {
-                $module = $module->where('type', '=', '1');
+                $filter[] = ['type', '=', '1'];
             } else if ($config['type'] == 'categoryDetail') {
-                $module = $module->where('type', '=', '1')->where('id', '=', $config['parent_id']);
+                $filter[] = ['type', '=', '1'];
+                $filter[] = ['id', '=', $config['parent_id']];
             }
+
             if ($config['parent_id'] != 0 and $config['type'] != 'categoryDetail') {
-                $module = $module->where('parent_id', '=', $config['parent_id']);
+                $filter[] = ['parent_id', '=', $config['parent_id']];
             }
 
             $sort = explode(' ', $config['sort']);
 
-            $module = $module->orderby($sort[0], $sort[1]);
-
-
             $module = $module
-                ->where('publish_date', '<=', DB::raw('now()'))
-                ->limit($config['count']);
+                ->where($filter)
+                ->limit($config['count'])
+                ->orderby($sort[0], $sort[1]);
+
+            // dd($module->dump());
 
             if ($config['type'] == 'categoryDetail') {
                 $data[$var]['data'] = $module->first();
@@ -311,7 +315,7 @@ class CmsController extends Controller
 
                 // get children
                 if (isset($config['child']) && $config['child'] == 'true') {
-                    $data[$var]['data'] = $this->getCatChildOfcontent($config['parent_id'], $data[$var]['data']);
+                    $data[$var]['data'] = $this->getCatChildOfcontent($config, $data[$var]['data'],);
                 }
             }
             if (isset($config['background'])) {
@@ -322,18 +326,26 @@ class CmsController extends Controller
         return $data;
     }
 
-    function getCatChildOfcontent($parentId, $temp, $attr_type = '')
+    function getCatChildOfcontent($config, $temp, $attr_type = '')
     {
 
-        $cat = Content::where([['parent_id', '=', $parentId], ['type', '=', 1]])->get()->toArray();
+
+        $cat = Content::where([['parent_id', '=', (int)$config['parent_id']], ['type', '=', 1]])->get()->toArray();
 
 
-        $content = Content::where([['parent_id', '=', $parentId], ['type', '=', 2], ['attr_type', '=', $attr_type]])
-            ->where('publish_date', '<=', DB::raw('now()'));
+        $content = Content::where([
+            ['parent_id', '=', $config['parent_id']],
+            ['type', '=', 2],
+            // ['attr_type', '=', $attr_type],
+            ['publish_date', '<=', DB::raw('now()')]
+        ]);
 
         if ($attr_type != '') $content = $content->where('attr_type', '=', $attr_type);
 
+
         $content = $content->get();
+
+
 
         if (gettype($temp) == 'array') {
             $temp = new Collection;
@@ -341,11 +353,16 @@ class CmsController extends Controller
 
         $temp = $temp->merge($content);
 
+
+
+
         if (count($cat) == 0) {
             return $temp;
         } else {
             foreach ($cat as $k => $v) {
-                $temp = $this->getCatChildOfcontent($v["id"], $temp, $attr_type);
+                $temp = $this->getCatChildOfcontent(['parent_id' => $v["id"]], $temp, $attr_type);
+
+                if (isset($config['count']) && count($temp) >= $config['count']) return $temp->take($config['count']);
             }
             return $temp;
         }

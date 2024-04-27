@@ -951,11 +951,12 @@ function getGoldPrice($offline = 'offline')
             // dd($price);
 
             if (!is_null($price)) {
-
-                // dd($price);
-                echo 'قیمت: ' . $stringPrice = trim(str_replace('تومان', '', $price->nodeValue));
-                echo ' - ' . $integerPrice = (int) str_replace(',', '', $stringPrice);
+                $stringPrice = trim(str_replace('تومان', '', $price->nodeValue));
+                echo $integerPrice = (int) str_replace(',', '', $stringPrice);
+                echo ' - قیمت: ' . $stringPrice = number_format($integerPrice, 0, ',');
                 echo '<br>';
+
+
                 WebsiteSetting::updateOrCreate(
                     ['variable' => 'goldPrice'],
                     [
@@ -997,7 +998,7 @@ function calcuteGoldPrice($weight = 0, $additionalPrice = 0, $ojrat = 18, $goldP
     $gold = $goldPrice * $weight;
     $ojrat = $gold * $ojrat / 100;
     $Sood = ($gold + $ojrat) * 0.07;
-    $tax = ($Sood + $ojrat) * 0.09;
+    $tax = ($Sood + $ojrat) * 0.1;
 
     return [
         'totalPrice' => (int) floor(($gold + $Sood + $ojrat + $tax + $additionalPrice) / 1000) * 1000,
@@ -1025,25 +1026,26 @@ function getSession($name)
     return session()->get($name);
 }
 
-function replace_shortcodes($content) {
+function replace_shortcodes($content)
+{
     $facade = new Thunder\Shortcode\ShortcodeFacade();
 
-    $facade->addHandler('product-list', function(Thunder\Shortcode\Shortcode\ShortcodeInterface $s) {
+    $facade->addHandler('product-list', function (Thunder\Shortcode\Shortcode\ShortcodeInterface $s) {
         $category = $s->getParameter('category');
         $limit = $s->getParameter('limit', 4);
         $product_list = Category::find($category)->products()->limit($limit)->get();
-        return view(env('TEMPLATE_NAME') . '.shortcut.productList', compact('product_list','limit'));
+        return view(env('TEMPLATE_NAME') . '.shortcut.productList', compact('product_list', 'limit'));
     });
 
 
-    $facade->addHandler('content-list', function(Thunder\Shortcode\Shortcode\ShortcodeInterface $s) {
+    $facade->addHandler('content-list', function (Thunder\Shortcode\Shortcode\ShortcodeInterface $s) {
         $category = $s->getParameter('category');
         $limit = $s->getParameter('limit', 4);
         $content_list = Category::find($category)->posts()->limit($limit)->get();
-        return view(env('TEMPLATE_NAME') . '.shortcut.contentList', compact('content_list','limit'));
+        return view(env('TEMPLATE_NAME') . '.shortcut.contentList', compact('content_list', 'limit'));
     });
 
-    $facade->addHandler('category-child', function(Thunder\Shortcode\Shortcode\ShortcodeInterface $s) {
+    $facade->addHandler('category-child', function (Thunder\Shortcode\Shortcode\ShortcodeInterface $s) {
         $parent = $s->getParameter('parent');
         $limit = $s->getParameter('limit', 4);
         $category_child = Category::find($parent)->childCategory()->limit($limit)->get();
@@ -1051,5 +1053,4 @@ function replace_shortcodes($content) {
     });
 
     return  $facade->process($content);
-
 }

@@ -20,6 +20,7 @@
 
 @push('head')
 @endpush
+
 @push('scripts')
     <script type="text/javascript">
         function zoom(e) {
@@ -41,13 +42,11 @@
             $('#main-image').data('xlarge', imgs.dataset.xlarge);
         }
     </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
     <script>
         $(window).ready(function(e) {
 
             var zoomer = e.currentTarget;
-
 
             $('.zoom').css({
                 position: 'absolute',
@@ -65,7 +64,6 @@
                 $(this).toggleClass('fa-magnifying-glass-plus')
                 $(this).toggleClass('fa-magnifying-glass-minus')
             })
-
 
         });
     </script>
@@ -93,7 +91,7 @@
 @section('footer')
     @auth
         @if (Auth::user()->id == 1)
-            <div class="btn btn-info edit-button" onclick="window.open('{{ url('/admin/contents/' . $detail->id . '/edit/') }}')">
+            <div class="btn btn-info edit-button p-4 cursor-pointer" onclick="window.open('{{ url('/admin/contents/' . $detail->id . '/edit/') }}')">
                 ویرایش</div>
         @endif
     @endauth
@@ -101,7 +99,6 @@
 
 @section('Content')
 
-    <script></script>
     @php
         $tableOfImages = tableOfImages($detail->description);
         $append = '';
@@ -193,7 +190,7 @@
                                     @endif
                                 </div>
 
-                                <div class="  ">
+                                <div class="">
                                     <h1 id="product-name font-bold" class="">{{ $detail->title }}</h1>
 
 
@@ -228,10 +225,9 @@
 
 
                                 </div>
-                                <div class="  ">
+                                <div class="">
                                     <div class="bg-gray  p-2 ">
-
-                                        @include('eden.AddToCart')
+                                        @include(asset('widget.AddToCart'))
                                     </div>
 
                                 </div>
@@ -325,6 +321,7 @@
 
                             </div>
                         @endif
+
                         <ul class="sm:p-1">
                             @foreach ($table_of_content as $key => $item)
                                 <li class="toc1">

@@ -201,13 +201,7 @@
                                                     loading="lazy" width="400" height="400">
                                                 <figcaption>
                                                     <h3 class="px-0 m-0 text-center"> {{ $content->title }}</h3>
-                                                    <div class=" text-green font-09 ">
-                                                        @isset($content->attr['weight'])
-                                                            @convertCurrency($content->GoldPrice()['totalPrice']) تومان
-                                                        @else
-                                                            تماس گرفته شود
-                                                        @endisset
-                                                    </div>
+                                                    @include(asset('widget.price'))
                                                 </figcaption>
                                             </figure>
                                         @else

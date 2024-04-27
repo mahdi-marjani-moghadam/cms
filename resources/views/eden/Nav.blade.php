@@ -2,7 +2,7 @@
     <div class="customer-menu text-sm">
 
         @auth
-            @role('customer')
+        @role('customer')
                 <span class="relative" onclick="window.location.href='{{ route('customer.cart.list') }}'">
                     <i class="fa-solid fa-basket-shopping"></i> سبد خرید
                     <span
@@ -11,12 +11,28 @@
                     </span>
                 </span>
 
-                {{-- <span onclick="window.location.href='{{ route('customer.order.list') }}'"> سفارشات </span> --}}
                 <span class="login" onclick="window.location.href='{{ route('customer.order.list') }}'"><i
                         class="far fa-user"></i></span>
-                {{-- <span onclick="window.location.href='{{ route('customer.dashboard') }}'">حساب کاربری</span> --}}
+                @elserole('super admin')
+                <span class="ml-4 bg-blue-200 text-xs px-1 rounded"> مشتری</span>
+
+                <span class="relative" onclick="window.location.href='{{ route('customer.cart.list') }}'">
+                    <i class="fa-solid fa-basket-shopping"></i> سبد خرید
+                    <span
+                        class="absolute -right-7 top-0 rounded-full bg-red-400 w-5 h-5 top text-xs right p-1 m-0 text-white leading-tight text-center">
+                        {{ \Cart::session(getSession('cart'))->getContent()->count() ?? 0 }}
+                    </span>
+                </span>
+
+                <span class="login" onclick="window.location.href='{{ route('customer.order.list') }}'"><i
+                        class="far fa-user"></i></span>
+                |
+                <span class="bg-yellow-200 text-xs px-1 rounded"> {{ env('COMPANY_LABEL', 'کمپانی') }}</span>
+                <span onclick="window.location.href='{{ route('company.dashboard') }}'">اکانت
+                    {{ env('COMPANY_LABEL', 'کمپانی') }} </span>
             @else
-                <span onclick="window.location.href='{{ route('company.dashboard') }}'">حساب کمپانی</span>
+                <span onclick="window.location.href='{{ route('company.dashboard') }}'">حساب
+                    {{ env('COMPANY_LABEL', 'کمپانی') }}</span>
             @endrole
         @else
             <span class="relative " onclick="window.location.href='{{ route('customer.cart.list') }}'">

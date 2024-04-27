@@ -44,7 +44,7 @@
     <section class="" id="">
         <div class="flex justify-center">
             <div class="w-1/2 ">
-                <h1 class="p-0 m-0">تماس با گالری طلای ایدن</h1>
+                <h1 class="p-0 m-0">ارتباط با پشتیبانی</h1>
 
 
                 <div class="contact-form">
@@ -81,7 +81,7 @@
                                         style="overflow: hidden; overflow-wrap: break-word; height: 98px;">{{ old('comment') }}</textarea>
                                 </div>
                                 <div class="control">
-                                    <button class="btn btn-primary">
+                                    <button class="btn btn-primary rounded">
                                         ارسال
                                     </button>
                                 </div>

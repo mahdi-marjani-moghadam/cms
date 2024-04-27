@@ -10,11 +10,7 @@
     </div>
     <ul>
         <li class="company-logo">
-            {{-- @if (!isset(Auth::user()->customer->logo['large']) || Auth::user()->customer->logo['large'] == '' || !file_exists(public_path(Auth::user()->customer->logo['large'])))
-                <i class="far fa-user logo"></i>
-            @else
-                <img width="100" src="{{ url(Auth::user()->customer->logo['large']) }}?{{ uniqid() }}">
-            @endif --}}
+
 
 
         </li>
@@ -76,8 +72,8 @@
 </style>
 
 
-<script src="{{asset('/jquery-3.6.0.min.js')}}"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!-- <script src="{ {asset('/jquery-3.6.0.min.js')}}"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
 
 
 

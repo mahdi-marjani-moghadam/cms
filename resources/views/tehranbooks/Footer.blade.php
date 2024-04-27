@@ -1,7 +1,6 @@
-<footer class="wide" id="footer">
+<footer class="wide mt-5 py-2" id="footer">
     <div>
-        <div class="flex  three four-500 six-900 font-09 text-center pt-1 center">
-            <a class="color-gray" href="/محصولات">تمامی محصولات</a>
+        <div class="flex gap-x-3 justify-center font-09 pt-1 center">
             <a class="color-gray" href="/درباره-ما">درباره ما</a>
             <a class="color-gray" href="/تماس-با-ما">تماس با ما</a>
         </div>
@@ -44,8 +43,8 @@
             </a>
 
         </div>
-        <div class="flex grow one text-center">
-            <div> فروش طلا بدون واسطه به قیمت بازار.
+        <div class="flex justify-center p-3 grow one text-center text-sm">
+            <div> فروش کتاب بدون واسطه به قیمت ناشر.
                 ساخته شده توسط <a target="_blank" rel="noopener" href="https://dingweb.ir">دینگ وب</a></div>
         </div>
     </div>

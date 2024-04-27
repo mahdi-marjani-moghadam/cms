@@ -5,7 +5,7 @@ $theme-color2: rgb(255, 208, 0);
 $theme-color3: #c99d4d;
 $theme-color1-text: #fff;
 
-$a: #622916;
+$a: theme('colors.teal.700');
 $a-hover: #1e2135;
 
 $menu-color: #333;
@@ -28,15 +28,11 @@ $h2-color: #000; // default: $a
 $h3-font-size: 13px; // default:1.7em;
 $h3-color: #000; // default: $a
 $button-color: black;
-$button-bg-color: yellow;
+$button-bg-color: theme('colors.teal.700');
 
 $font-family: IRANSans; // Vazir2
 
-// @import "app.scss";
 @import "public.scss";
-// @import "grid.scss";
-// @import "nav.scss";
-// @import "nav-mega-menu.scss";
 @import "font-icon.scss";
 
 
@@ -76,17 +72,7 @@ $font-family: IRANSans; // Vazir2
 ////////////////////
 //     banner     //
 ////////////////////
-.banner {
-    .flex {
-        align-items: flex-end;
-        justify-content: center;
 
-        h1 {
-            position: absolute;
-            width: auto;
-        }
-    }
-}
 
 ////////////////////
 //     HOME       //
@@ -127,9 +113,9 @@ $font-family: IRANSans; // Vazir2
 ////////////////////////
 //  category detail   //
 ////////////////////////
-.overflow-hidden {
-    overflow: hidden;
-}
+// .overflow-hidden {
+//     overflow: hidden;
+// }
 img {
     transition: transform 0.2s;
 }
@@ -156,36 +142,6 @@ img {
 }
 
 
-// @media not all and (min-width: 768px) {
-//     .brand {
-//         position: absolute;
-//         left: 0;
-//         height: 46px;
-//         z-index: 1;
-//         img {
-//             height: 100%;
-//             width: auto;
-//             object-fit: contain;
-//         }
-//     }
-
-//     nav {
-//         border-top: 1px solid #f1f1f1;
-//         height: 3em;
-//         width: auto;
-//         position: relative;
-//     }
-//     .intro {
-//         margin: 1em auto 1em !important;
-//         padding: 1em 0 0;
-//     }
-//     .hero {
-//         background-attachment: scroll;
-//     }
-//     .pseudo.button:hover {
-//         border: none;
-//     }
-// }
 
 
 ////////////////////////////////
@@ -238,8 +194,6 @@ header {
 #footer {
     background: #ececec;
     color: #475667;
-    padding: 0;
-    margin: 0;
     .footer-links {
         margin: 0;
     }

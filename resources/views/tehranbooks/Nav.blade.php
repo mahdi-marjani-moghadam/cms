@@ -1,6 +1,6 @@
 <div class="top-menu">
     <div class="customer-menu text-sm">
-
+        @if(env('SHOP', false) || env('ORDER_IF_PRICE_ZERO', false))
         @auth
             @role('customer')
                 <span class="relative" onclick="window.location.href='{{ route('customer.cart.list') }}'">
@@ -45,6 +45,7 @@
 
             <span class="" onclick="window.location.href='{{ route('login') }}'">ورود</span>
         @endauth
+        @endif
     </div>
 
 
@@ -117,19 +118,19 @@
                         @if (count($subMenu))
                             <li class='max-lg:border-b max-lg:py-2 md:mb-0 relative parent '>
                                 <a href="{{ url($menuItem['link']) }}"
-                                    class='lg:hover:text-yellow-600 text-gray-600 block font-bold text-[15px] lg:group-hover:ul md:ml-5'>
+                                    class='lg:hover:text-teal-700 text-gray-600 block font-bold text-[15px] lg:group-hover:ul md:ml-5'>
                                     <i
                                         class="arrow down left-10 md:left-1  border-gray-400"></i>{{ $menuItem['label'] }}
                                 </a>
 
                                 <ul class="hidden submenu ">
                                     @foreach ($subMenu as $subMenuItem)
-                                        <li><a class="lg:hover:text-yellow-600 text-gray-600 block font-bold text-[15px] py-2 pr-10 md:pr-0"
+                                        <li><a class="lg:hover:text-teal-700 text-gray-600 block font-bold text-[15px] py-2 pr-10 md:pr-0"
                                                 href="{{ in_array($subMenuItem['type'], ['internal', 'external']) ? url($subMenuItem['link']) : '/#' . $subMenuItem['link'] }}">{{ $subMenuItem['label'] }}</a>
                                         </li>
                                     @endforeach
                                     <li class="lg:hidden">
-                                        <a class="text-yellow-600  block font-bold text-[15px]"
+                                        <a class="text-teal-700  block font-bold text-[15px]"
                                             href="{{ url($menuItem['link']) }}">همه محصولات
                                             {{ $menuItem['label'] }}</a>
                                     </li>
@@ -138,12 +139,12 @@
                         @else
                             <li class='max-lg:border-b max-lg:py-2 md:mb-0'>
                                 <a href='{{ in_array($menuItem['type'], ['internal', 'external']) ? url($menuItem['link']) : '/#' . $menuItem['link'] }}'
-                                    class='lg:hover:text-yellow-600 text-gray-600  block font-bold text-[15px]'>{{ $menuItem['label'] }}</a>
+                                    class='lg:hover:text-teal-700 text-gray-600  block font-bold text-[15px]'>{{ $menuItem['label'] }}</a>
                             </li>
                         @endif
                     @endforeach
                     <li class='max-lg:border-b max-lg:py-2 md:mb-0'>
-                        <a class="lg:hover:text-yellow-600 text-gray-600  block font-bold text-[15px]"
+                        <a class="lg:hover:text-teal-700 text-gray-600  block font-bold text-[15px]"
                             href="{{ route('search') }}">جستجوگر</a>
                     </li>
 
@@ -154,8 +155,10 @@
             </div>
         </header>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    <script src="{{ url('/eden/jquery-3.6.0.min.js') }}"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
     <script>
         var toggleBtn = document.getElementById('toggle');
         var collapseMenu = document.getElementById('collapseMenu');
