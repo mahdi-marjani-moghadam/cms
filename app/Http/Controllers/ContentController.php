@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Lang;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
 use App\Models\RedirectUrl;
-
+use Exception;
 
 class ContentController extends Controller
 {
@@ -38,6 +38,7 @@ class ContentController extends Controller
 
 
             $image_parts = explode(";base64,", $file);
+
             $image_type_aux = explode("image/", $image_parts[0]);
             $image_type = $image_type_aux[1];
             $image_base64 = base64_decode($image_parts[1]);
@@ -49,9 +50,12 @@ class ContentController extends Controller
 
             $file = $fileOrg->move(public_path($imagePath), $fileName . '-org.' . $fileType); // original
 
-
-
-            file_put_contents(public_path() . $imagePath . $fileNameAndType, $image_base64); // croped
+            try{
+                file_put_contents(public_path() . $imagePath . $fileNameAndType, $image_base64); // croped
+            }
+            catch (Exception $e){
+                dd($e);
+            }
 
 
             $url['images'] = $this->resize($imagePath . $fileNameAndType, $type, $imagePath, $fileNameAndType, $fileName, $fileType);
