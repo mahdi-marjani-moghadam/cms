@@ -1037,11 +1037,16 @@ function replace_shortcodes($content)
         return view(env('TEMPLATE_NAME') . '.shortcut.productList', compact('product_list', 'limit'));
     });
 
-
+    // [content-list ids="440" limit="1"]
     $facade->addHandler('content-list', function (Thunder\Shortcode\Shortcode\ShortcodeInterface $s) {
         $category = $s->getParameter('category');
+        $ids = explode(',', $s->getParameter('ids', null));
         $limit = $s->getParameter('limit', 4);
-        $content_list = Category::find($category)->posts()->limit($limit)->get();
+        if ($ids) {
+            $content_list = Content::find($ids);
+        } else {
+            $content_list = Category::find($category)->posts()->limit($limit)->get();
+        }
         return view(env('TEMPLATE_NAME') . '.shortcut.contentList', compact('content_list', 'limit'));
     });
 
