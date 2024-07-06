@@ -35,7 +35,7 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>@lang('messages.mobile')</th>
+                            <th width="300">@lang('messages.mobile')</th>
                             <th>@lang('messages.total price')</th>
                             <th>@lang('messages.status')</th>
 
@@ -48,17 +48,20 @@
                         @foreach ($list as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
-                                <td class="">{{ $item->user->mobile ?? '' }} {{ $item->user->customer->name ?? '' }} {{ $item->user->customer->family ?? '' }}</td>
+                                <td class="">{{ $item->user->mobile ?? '' }} {{ $item->user->customer->name ?? '' }} {{ $item->user->customer->family ?? '' }}<br>
+                                @foreach ($item->orderDetail as $item2)
+                                        @if (isset($item2['attributes']['image']) && file_exists(public_path() . $item2['attributes']['image']))
+                                            <img height="60" style="border:1px solid #ccc"
+                                                src="{{ $item2->attributes['image'] }}" alt="">
+                                        @endif
+                                    @endforeach
+                                </td>
+
                                 <td style="font-weight:bold">
 
                                     @convertCurrency($item->total_price) @lang('messages.toman')
 
-                                    @foreach ($item->orderDetail as $item2)
-                                        @if (isset($item2['attributes']['image']) && file_exists(public_path() . $item2['attributes']['image']))
-                                            <img height="40" style="border:1px solid #ccc"
-                                                src="{{ $item2->attributes['image'] }}" alt="">
-                                        @endif
-                                    @endforeach
+
                                 </td>
 
                                 <td>

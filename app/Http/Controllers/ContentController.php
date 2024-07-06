@@ -167,7 +167,7 @@ class ContentController extends Controller
 
 
 
-        $contents = Content::where('type', '=', '2')->where('attr_type', '=', $type)->orderBy('id', 'desc');
+        $contents = Content::where('type', '=', '2')->where('attr_type', '=', $type)->orderBy('publish_date', 'desc');
 
         if ($companyId != '') {
             $data['company'] = Company::find($companyId);

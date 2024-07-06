@@ -251,7 +251,7 @@
     </section>
 
 
-    @if(Request::is('تعرفه') || Request::is('رپورتاژ')  || Request::is('درباره-ما'))
+    <!-- @if(Request::is('تعرفه') || Request::is('رپورتاژ')  || Request::is('درباره-ما')) -->
     <section class="category-content" id="">
         <div class="flex one ">
             <div class="font-08">
@@ -289,6 +289,8 @@
             </div>
         </div>
     </section>
+    <!-- @endif -->
+
     @if(!Request::is('درباره-ما') && !Request::is('تعرفه') && !Request::is('رپورتاژ'))
     <section class="comments bg-gray mt-0 mb-0">
         <div class="flex one">
@@ -375,6 +377,6 @@
         </div>
     </section>
     @endif
-    @endif
+
 
 @endsection
