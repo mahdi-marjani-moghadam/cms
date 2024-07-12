@@ -140,7 +140,7 @@ class CmsController extends Controller
             ->where('publish_date', '<=', DB::raw('now()'))
             ->first();
 
-
+        // 404
         if ($detail === null) {
             $data['title'] = '404';
             $data['name'] = 'Page not found';
@@ -190,13 +190,19 @@ class CmsController extends Controller
         $relatedProduct = array();
         $editorModule = editorModule($detail->description);
 
-
+        // category or detail
         if ($detail->type == 1) {
 
             return $this->showCategory($seo, $detail, $breadcrumb, $table_of_content, $images, $editorModule, $request);
+
+
         } else {
+
+
+            // Detail
             $detail = Content::find($detail->id);
-            // dd($detail);
+
+            // related post
             $relatedPost = Content::where('type', '=', '2')
                 ->where('parent_id', '=', $detail->parent_id)
                 ->where('id', '<>', $detail->id)
@@ -206,29 +212,33 @@ class CmsController extends Controller
                 ->limit(env('RELATED_POST_COUNT', 4))->get();
 
 
-
+            // related product
             $relatedProduct = Content::where('type', '=', '2')
                 ->whereHas('categories', function ($query) use ($detail) {
                     $query->where('cat_id', '=', $detail->parent_id);
                 })
                 ->where('id', '<>', $detail->id)
-                ->where('attr_type', '=', 'product');
+                ->where('attr_type', '=', 'product')
+                ->orderBy('attr->in-stock', 'desc')
+                ->limit(env('RELATED_PRODUCT_COUNT', 4))
+                ->get();
+
 
             // todo: check in-stock exists
-            $relatedProduct = $relatedProduct->orderBy('attr->in-stock', 'desc');
+            // $relatedProduct = $relatedProduct->orderBy('attr->in-stock', 'desc');
+            // $relatedProduct = $relatedProduct->limit(env('RELATED_PRODUCT_COUNT', 4))->get();
 
-            // dd($relatedProduct->toSql());
-            $relatedProduct = $relatedProduct->limit(env('RELATED_PRODUCT_COUNT', 4))->get();
+
+            // template name
             $template = env('TEMPLATE_NAME') . '.cms.Detail';
             $widget = $this->getWidget('Detail');
+
             if (isset($detail->attr['template_name'])) {
                 $widget = $this->getWidget($detail->attr['template_name']);
                 $template = env('TEMPLATE_NAME') . '.cms.' . $detail->attr['template_name'];
             }
-            // dd($widget);
-            // dd($detail->childs);
 
-            //$detail->description=editorModule($detail->description);
+
             $showcallnowbutton = false;
 
             return view($template, $widget, compact([
