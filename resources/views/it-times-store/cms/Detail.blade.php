@@ -103,7 +103,7 @@
         </div>
     </section>
     <section class="intro my-0 py-0" id="detail">
-        <div class="flex one three-500  ">
+        <div class="flex one four-500  ">
             <div class="order2-500">
                 @if (isset($detail->images['images']['large']))
                     <figure class="image">
@@ -129,7 +129,7 @@
                 @endif
 
             </div>
-            <div class="two-fifth-500 order3-500 md:pr-1">
+            <div class="three-fourth-500 order3-500 md:pr-1">
                 <div>
                     <h1 class="site-name pt-0">{{ $detail->title }}</h1>
                     <div class="website"></div>
@@ -176,50 +176,7 @@
                 @endforeach
 
             </div>
-            <div class="fifth-500 shadow1 bg-gray order1-500 detail-side  visible-500 ">
-                <div class="">
 
-                    @if (count($relatedProduct))
-                        <div> محصولات مرتبط</div>
-                        <ul class="p-0 m-0">
-                            @foreach ($relatedProduct as $content)
-                                <li class="flex ">
-                                    <a class="flex" href="{{ url($content->slug) }}">
-                                        @if (isset($content->images['images']['small']))
-                                            <div class="third  pb-0"><img style="width: 100%" alt="{{ $content->title }}"
-                                                    src="{{ $content->images['images']['small'] }}"></div>
-                                        @endif
-                                        <div class="two-third  pb-0 font-09">
-
-                                            {{ $content->title }}
-                                        </div>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endisset
-
-                    <div> نوشته های تازه</div>
-                    {{-- post&label=sideLastPost&var=sideLastPost&count=3&child=true --}}
-                    @isset($sideLastPost['data'])
-                        <ul class="p-0  m-0">
-                            @foreach ($sideLastPost['data'] as $content)
-                                <li class="flex ">
-                                    <a class="flex" href="{{ url($content->slug) }}">
-                                        @if (isset($content->images['images']['small']))
-                                            <div class="third  pb-0"><img style="width: 100%" alt="{{ $content->title }}"
-                                                    src="{{ $content->images['images']['small'] }}"></div>
-                                        @endif
-                                        <div class="two-third  pb-0 font-09">
-
-                                            {{ $content->title }}
-                                        </div>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endisset
-            </div>
         </div>
     </div>
 </section>
