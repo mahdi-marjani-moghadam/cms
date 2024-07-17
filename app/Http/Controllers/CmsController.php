@@ -97,8 +97,8 @@ class CmsController extends Controller
 
 
         $template = env('TEMPLATE_NAME') . '.cms.DetailCategory';
-        //Widget
 
+        // Widget
         if (isset($detail->attr['template_name'])) {
             $widget = $this->getWidget($detail->attr['template_name']);
             $template = env('TEMPLATE_NAME') . '.cms.' . $detail->attr['template_name'];
@@ -106,8 +106,7 @@ class CmsController extends Controller
             $widget = $this->getWidget('DetailCategory');
         }
 
-        return view($template, [
-            'widget' => $widget,
+        return view($template, $widget, [
             'detail' => $detail,
             'relatedProduct' => $relatedProduct,
             'relatedPost' => $relatedPost,
@@ -178,8 +177,8 @@ class CmsController extends Controller
             $table_of_content = $resultTableContent['list'];
             $table_of_images = $this->tableOfImage($detail->description);
 
-            //preg_match_all('/<img[^>]+>/i',$detail->description, $result);
-            // preg_match_all('/(alt|title|src)=("[^"]*")/i',$img_tag, $img[$img_tag]);
+            //preg_match_all ('/<img[^>]+>/i',$detail->description, $result);
+            // preg_match_all ('/(alt|title|src)=("[^"]*")/i',$img_tag, $img[$img_tag]);
 
             $a = $detail->description;
         }
@@ -194,8 +193,6 @@ class CmsController extends Controller
         if ($detail->type == 1) {
 
             return $this->showCategory($seo, $detail, $breadcrumb, $table_of_content, $images, $editorModule, $request);
-
-
         } else {
 
 
@@ -318,13 +315,14 @@ class CmsController extends Controller
 
             // dd($module->dump());
 
+
             if ($config['type'] == 'categoryDetail') {
                 $data[$var]['data'] = $module->first();
             } else {
                 $data[$var]['data'] = $module->get();
 
                 // get children
-                if (isset($config['child']) && $config['child'] == 'true') {
+                if (isset($config['child']) && $config['child'] == 'true' && $data[$var]['data']->count() < (int) $config['count']) {
                     $data[$var]['data'] = $this->getCatChildOfcontent($config, $data[$var]['data'],);
                 }
             }
@@ -336,43 +334,45 @@ class CmsController extends Controller
         return $data;
     }
 
-    function getCatChildOfcontent($config, $temp, $attr_type = '')
+    function getCatChildOfcontent($config, $data, $attr_type = '')
     {
 
-
+        // Get category
         $cat = Content::where([['parent_id', '=', (int)$config['parent_id']], ['type', '=', 1]])->get()->toArray();
 
-
+        // Get post and product with parent id
+        $sort = explode(' ', $config['sort']);
         $content = Content::where([
             ['parent_id', '=', $config['parent_id']],
             ['type', '=', 2],
             // ['attr_type', '=', $attr_type],
             ['publish_date', '<=', DB::raw('now()')]
-        ]);
+        ])
+        ->limit($config['count'])
+        ->orderby($sort[0], $sort[1]);
 
         if ($attr_type != '') $content = $content->where('attr_type', '=', $attr_type);
 
-
         $content = $content->get();
 
+        // dd($content);
 
+        // if (gettype($data) == 'array') {
+        //     $temp = new Collection;
+        // }
 
-        if (gettype($temp) == 'array') {
-            $temp = new Collection;
-        }
+        $data = $data->merge($content);
 
-        $temp = $temp->merge($content);
-
-
+        // dd($data);
 
 
         if (count($cat) == 0) {
-            return $temp;
+            return $data;
         } else {
             foreach ($cat as $k => $v) {
-                $temp = $this->getCatChildOfcontent(['parent_id' => $v["id"]], $temp, $attr_type);
+                $temp = $this->getCatChildOfcontent(['parent_id' => $v["id"]], $data, $attr_type);
 
-                if (isset($config['count']) && count($temp) >= $config['count']) return $temp->take($config['count']);
+                if (isset($config['count']) && count($data) >= $config['count']) return $data->take($config['count']);
             }
             return $temp;
         }

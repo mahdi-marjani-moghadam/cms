@@ -20,6 +20,7 @@ $search-bg: #888;
 $search-text: rgb(100, 100, 100);
 
 $pink: #e81e6c;
+$h1-font-size:2em;
 $h2-font-size: 1.2em;
 $h2-color: #d35400;
 
@@ -41,6 +42,7 @@ input:focus,
 textarea:focus {
     border: 1px solid #ccc;
 }
+img{display: inline-block;}
 
 .content-detail > .flex {
     width: 100%;
@@ -57,6 +59,39 @@ textarea:focus {
 }
 
 .shadow{padding: 1em;}
+.shadow {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background: #fff;
+    // padding: 1em;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+
+////////////
+////////////
+//  bread //
+////////////
+////////////
+
+.breadcrumb {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+    a {
+        color: #333;
+        font-size: 0.7em;
+        text-overflow: ellipsis;
+        max-width: 50px;
+        overflow: hidden;
+    }
+    span {
+        color: #888;
+        font-size: 0.7em;
+    }
+}
+
 //////////
 //////////
 // home //
@@ -73,7 +108,7 @@ article {
     background: #fff;
     color: #222;
     padding: 1em;
-    text-align: center;
+    // text-align: center;
     border-radius: 10px;
     // min-height: 412px;
     height: 100%;
@@ -284,12 +319,13 @@ figure {
 
 .category-section {
     // position: relative;
+    padding: 1em 0;
     img {
         height: 40px !important;
         width: 40px;
     }
-    h2,
-    h3 {
+    h2
+     {
         font-size: 0.9em;
     }
     .next2,
@@ -299,20 +335,19 @@ figure {
         background: rgba(0, 0, 0, 0.05);
         padding: 0 0.5em;
         color: #717171;
-        font-size: 23px;
-        font-weight: 700;
+        font-size: 20px;
+        // font-weight: 700;
         cursor: pointer;
         top: 50%;
         margin-top: -20px;
         user-select: none;
+        border-radius:  5px;
     }
     .next2 {
         left: 0;
-        border-radius: 0 5px 5px 0;
     }
     .prev2 {
         right: 0;
-        border-radius: 5px 0 0 5px;
     }
 }
 
