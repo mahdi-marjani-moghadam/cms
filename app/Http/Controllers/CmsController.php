@@ -75,7 +75,8 @@ class CmsController extends Controller
 
                 $relatedProduct = $detail->products('power', 'desc', $request)
                     ->select(DB::raw("JSON_EXTRACT(attr,'$.weight') * $g  + $g * JSON_EXTRACT(attr,'$.weight') * 0.28 + JSON_EXTRACT(attr,'$.additionalprice') as p"))
-                    ->havingRaw(DB::raw("p between $wMin and $wMax"));
+                    ->havingRaw("p between $wMin and $wMax");
+                // dd($relatedProduct->paginate(15));
                 $relatedProduct = $relatedProduct->paginate(15);
             } else {
                 $relatedProduct = $detail->products('power', 'desc', $request)->paginate(15);
@@ -348,8 +349,8 @@ class CmsController extends Controller
             // ['attr_type', '=', $attr_type],
             ['publish_date', '<=', DB::raw('now()')]
         ])
-        ->limit($config['count'])
-        ->orderby($sort[0], $sort[1]);
+            ->limit($config['count'])
+            ->orderby($sort[0], $sort[1]);
 
         if ($attr_type != '') $content = $content->where('attr_type', '=', $attr_type);
 

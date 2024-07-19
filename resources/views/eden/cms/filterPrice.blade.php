@@ -193,8 +193,8 @@
             prefix: ''
         });
         noUiSlider.create(rangeSlider, {
-            start: [{{ $_GET['min_price'] ?? 100000}}, {{ $_GET['max_price'] ?? 2000000}}],
-            step: 10000,
+            start: [{{ $_GET['min_price'] ?? 0}}, {{ $_GET['max_price'] ?? 10000000}}],
+            step: 500000,
             range: {
                 'min': [0],
                 'max': [10000000]
