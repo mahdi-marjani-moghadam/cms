@@ -11,6 +11,7 @@ use App\Models\Content;
 use App\Models\Menu;
 use App\Models\WebsiteSetting;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\Request;
 use Morilog\Jalali\CalendarUtils;
 use Morilog\Jalali\Jalalian;
 
@@ -1053,8 +1054,9 @@ if (!function_exists('getSession')) {
     }
 }
 if (!function_exists('replace_shortcodes')) {
-    function replace_shortcodes($content)
+    function replace_shortcodes($content, $detail)
     {
+
         $facade = new Thunder\Shortcode\ShortcodeFacade();
 
         $facade->addHandler('product-list', function (Thunder\Shortcode\Shortcode\ShortcodeInterface $s) {
@@ -1065,14 +1067,17 @@ if (!function_exists('replace_shortcodes')) {
         });
 
         // [content-list ids="440" limit="1"]
-        $facade->addHandler('content-list', function (Thunder\Shortcode\Shortcode\ShortcodeInterface $s) {
-            $category = $s->getParameter('category');
-            $ids = explode(',', $s->getParameter('ids', null));
+        $facade->addHandler('content-list', function (Thunder\Shortcode\Shortcode\ShortcodeInterface $s) use ($detail) {
+            $category = $s->getParameter('category', null);
+            $ids = $s->getParameter('ids', null);
             $limit = $s->getParameter('limit', 4);
             if ($ids) {
+                $ids = explode(',', $ids);
                 $content_list = Content::find($ids);
             } else {
-                $content_list = Category::find($category)->posts()->limit($limit)->get();
+                $cat =  (!$category) ? $detail->category : Category::find($category);
+
+                $content_list = $cat->posts()->where('contents.id', '!=', $detail->id)->orderBy('id', 'desc')->limit($limit)->get();
             }
             return view(env('TEMPLATE_NAME') . '.shortcut.contentList', compact('content_list', 'limit'));
         });

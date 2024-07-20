@@ -87,24 +87,24 @@
 @yield('cropper')
 
 <script>
-    if (screen && screen.width <= 768) {
-        document.write('<script type="text/javascript" src="{{ url(' / eden / pullToRefresh.umd.min.js ') }}"><\/script>');
+    // if (screen && screen.width <= 768) {
+    //     document.write('<script type="text/javascript" src="{{ url('/eden/pullToRefresh.umd.min.js ') }}"><\/script>');
 
-        setTimeout(() => {
-            PullToRefresh.init({
-                mainElement: 'body',
-                onRefresh: function() {
-                    location.reload();
-                }
-            });
-        }, 500);
+    //     setTimeout(() => {
+    //         PullToRefresh.init({
+    //             mainElement: 'body',
+    //             onRefresh: function() {
+    //                 location.reload();
+    //             }
+    //         });
+    //     }, 500);
 
         // $('.toggle-show').hide();
 
         // $('.toggle-show').prev().click(function(e){
         //     $(this).next().toggle();
         // });
-    }
+    // }
 </script>
 
 {{-- <script>
