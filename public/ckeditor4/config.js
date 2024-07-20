@@ -9,10 +9,16 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.uiColor = '#AADC6E';
 
     config.extraPlugins = 'image2';
-
     // config.image2_alignClasses = [ 'image-left', 'image-center', 'image-right' ];
     // config.image2_captionedClass = 'image-captioned';
     // config.image2_altRequired = true;
+
+
+    // پلاگین را اضافه کنید
+    config.extraPlugins = 'contentlist';
+
+
+
 
     // config.disableObjectResizing = false;
     // config.disableNativeTableHandles = false;
@@ -26,4 +32,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.filebrowserImageUploadUrl = '/ckeditor4/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';
     config.filebrowserFlashUploadUrl = '/ckeditor4/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash';
     // config.filebrowserFileUploadUrl = '/ckeditor4/plugins/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';
+
+
+
 };

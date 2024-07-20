@@ -21,6 +21,8 @@
 {{-- <script type="text/javascript" src="/ckeditor4/plugins/ckfinder/ckfinder.js"></script> --}}
 <script>
     $(function() {
+
+
         // Initialize grid editor
         $('#gridMacker').gridEditor({
             new_row_layouts: [
@@ -33,13 +35,13 @@
             content_types: ['ckeditor'],
             ckeditor: {
                 config: {
-                    extraPlugins:['ckfinder','html5video','widget','widgetselection','clipboard','lineutils','spacingsliders','image2'],
+                    extraPlugins:['ckfinder','html5video','widget','widgetselection','clipboard','lineutils','spacingsliders','image2','contentlist'],
                     @if(!$ltr)
                         language: 'fa',
                     @endif
                     allowedContent:false,
                     // ckfinder: {
-                    //     uploadUrl: "{{ route('contents.upload', ['_token' => csrf_token()]) }}",
+                    //     uploadUrl: "{ { route('contents.upload', ['_token' => csrf_token()]) }}",
                     // },
                     on: {
                         instanceReady: function(evt) {
