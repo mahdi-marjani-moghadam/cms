@@ -1012,7 +1012,7 @@ if (!function_exists('getGoldPrice')) {
     }
 }
 if (!function_exists('calcuteGoldPrice')) {
-    function calcuteGoldPrice($weight = 0, $additionalPrice = 0, $ojrat = 18, $goldPrice = 0, $round = false)
+    function calcuteGoldPrice($weight = 0, $additionalPrice = 0, $ojrat = 13, $goldPrice = 0, $round = false)
     {
         $str = is_numeric($goldPrice) && $goldPrice > 0 ? $goldPrice : getGoldPrice();
         $weight = (float) $weight;

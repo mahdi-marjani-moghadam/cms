@@ -243,7 +243,7 @@ $price = $detail->GoldPrice();
                                         <span class="text-left">@convertCurrency($detail->GoldPrice()['goldprice']) تومان</span>
                                     </div>
                                     <div class="flex border-t p-3 justify-between">
-                                        <span class="text-slate-500 text-sm">اجرت ساخت ({{ $detail->attr['ojrat'] ?? 18 }}٪):</span> <span class="text-left">@convertCurrency($detail->GoldPrice()['ojrat']) تومان</span>
+                                        <span class="text-slate-500 text-sm">اجرت ساخت ({{ $detail->attr['ojrat'] ?? 13 }}٪):</span> <span class="text-left">@convertCurrency($detail->GoldPrice()['ojrat']) تومان</span>
                                     </div>
                                     <div class="flex border-t p-3 justify-between"><span class="text-slate-500 text-sm">سود ایدن (7٪):</span><span class="text-left"> @convertCurrency($detail->GoldPrice()['sood']) تومان</span></div>
                                     <div class="flex border-t p-3 justify-between"><span class="text-slate-500 text-sm">مالیات (10% بر روی سود و اجرت):</span><span class="text-left">@convertCurrency($detail->GoldPrice()['tax']) تومان</span> </div>

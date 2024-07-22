@@ -85,7 +85,7 @@ class Content extends Model
 
     public function GoldPrice()
     {
-        return calcuteGoldPrice($this->attr['weight'] ?? 0, $this->attr['additionalprice'] ?? 0, $this->attr['ojrat'] ?? 18);
+        return calcuteGoldPrice($this->attr['weight'] ?? 0, $this->attr['additionalprice'] ?? 0, $this->attr['ojrat'] ?? 13);
     }
 
 
