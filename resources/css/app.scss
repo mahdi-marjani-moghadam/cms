@@ -39,20 +39,20 @@ h3{font-size: $h3-font-size ; color: $h3-color; }
     // padding-right: 0.5em;
     // padding-bottom: 1em;
 }
-.flex[class*="eight"] > *,
-.flex[class*="eleven"] > *,
-.flex[class*="five"] > *,
-.flex[class*="four"] > *,
-.flex[class*="nine"] > *,
-.flex[class*="one"] > *,
-.flex[class*="seven"] > *,
-.flex[class*="six"] > *,
-.flex[class*="ten"] > *,
-.flex[class*="three"] > *,
-.flex[class*="twelve"] > *,
-.flex[class*="two"] > * {
-    flex-grow: 0;
-}
+// .flex[class*="eight"] > *,
+// .flex[class*="eleven"] > *,
+// .flex[class*="five"] > *,
+// .flex[class*="four"] > *,
+// .flex[class*="nine"] > *,
+// .flex[class*="one"] > *,
+// .flex[class*="seven"] > *,
+// .flex[class*="six"] > *,
+// .flex[class*="ten"] > *,
+// .flex[class*="three"] > *,
+// .flex[class*="twelve"] > *,
+// .flex[class*="two"] > * {
+//     flex-grow: 0;
+// }
 
 .justify-content-between {
     justify-content: space-between !important;

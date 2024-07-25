@@ -124,11 +124,14 @@ class CmsController extends Controller
 
     public function request(Request $request, $arg1 = False,  $arg2 = False)
     {
+
         $request = $request->all();
         $slug = (isset($arg2) && $arg2 != '') ? $arg1 . '/' . $arg2 : $arg1;
 
         // redirect url
-        $spesifiedUrl = RedirectUrl::where('url', 'like', '/' . $slug);
+
+        $spesifiedUrl = RedirectUrl::where('url', 'like', '/' . rawurldecode($slug))->orWhere('url', 'like', '/' .rawurlencode($slug));
+
         if ($spesifiedUrl->exists()) {
             // return Redirect::to(url(urlencode($spesifiedUrl->first()->redirect_to)), 301);
             header("Location: " . url($spesifiedUrl->first()->redirect_to), true, 301);

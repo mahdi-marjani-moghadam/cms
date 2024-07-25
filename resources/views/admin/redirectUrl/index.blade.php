@@ -44,8 +44,8 @@
                         @foreach ($RedirectUrl as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
-                                <td class="ltr text-right"> <a target="_blank" href="{{ url('/') }}{!! $item->url !!}">{{ url('/') }}{!! $item->url !!} <i class="fa fa-external-link"></i>  </a></td>
-                                <td class="ltr text-right"><a target="_blank" href="{{ url('/') }}{!! $item->redirect_to !!}">{{ url('/') }}{!! $item->redirect_to !!} <i class="fa fa-external-link"></i>  </a></td>
+                                <td class="ltr text-right"> <a target="_blank" href="{{ url('/') }}{!! $item->url !!}">{{ url('/') }}{!! rawurldecode($item->url) !!} <i class="fa fa-external-link"></i>  </a></td>
+                                <td class="ltr text-right"><a target="_blank" href="{{ url('/') }}{!! $item->redirect_to !!}">{{ url('/') }}{!! rawurldecode($item->redirect_to) !!} <i class="fa fa-external-link"></i>  </a></td>
 
 
                                 <td class="with-100">

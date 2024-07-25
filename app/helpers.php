@@ -1053,6 +1053,7 @@ if (!function_exists('getSession')) {
         return session()->get($name);
     }
 }
+
 if (!function_exists('replace_shortcodes')) {
     function replace_shortcodes($content, $detail)
     {
@@ -1090,5 +1091,11 @@ if (!function_exists('replace_shortcodes')) {
         });
 
         return  $facade->process($content);
+    }
+}
+if (!function_exists('image_or_placeholder')) {
+    function image_or_placeholder($src, $type='post')
+    {
+        return file_exists(public_path($src))? $src: asset("img/placeholder-$type.png");
     }
 }
