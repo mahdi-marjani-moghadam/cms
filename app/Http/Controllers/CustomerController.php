@@ -177,8 +177,10 @@ class CustomerController extends Controller
     }
     public function orderDetail(Order $order)
     {
+        if(!$order) return redirect()->route('customer.order.list')->with('message', __('messages.not found'));
         $user = Auth()->user();
         $orderDetail = $user->orders($order->id)->orderDetail;
+
         return view('auth.customer.orderDetailList', compact('order', 'orderDetail'));
     }
     public function orderDestroy(Order $order)
