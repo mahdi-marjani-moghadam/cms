@@ -251,7 +251,7 @@ $append = '';
             @if(Request::is('تعرفه') || Request::is('رپورتاژ') || Request::is('درباره-ما') || Request::is('تبلیغات'))
             <div class="!rounded-lg shadow" id="">
                 <div class="flex one ">
-                    <div>
+                    <div class="overflow-auto ">
                         <ul>
                             @foreach ($table_of_content as $key => $item)
                             <li class="toc1">

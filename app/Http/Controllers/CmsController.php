@@ -133,9 +133,9 @@ class CmsController extends Controller
         $spesifiedUrl = RedirectUrl::where('url', 'like', '/' . rawurldecode($slug))->orWhere('url', 'like', '/' .rawurlencode($slug));
 
         if ($spesifiedUrl->exists()) {
-            // return Redirect::to(url(urlencode($spesifiedUrl->first()->redirect_to)), 301);
-            header("Location: " . url($spesifiedUrl->first()->redirect_to), true, 301);
-            exit();
+            return Redirect::to(url($spesifiedUrl->first()->redirect_to), 301);
+            // header("Location: " . url($spesifiedUrl->first()->redirect_to), true, 301);
+            // exit();
         }
 
         // detail
