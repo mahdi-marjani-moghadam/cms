@@ -647,21 +647,27 @@ class ContentController extends Controller
         //     ->writeToFile('sitemap.xml');
 
         $sitemap = SiteMap::create()
-            ->add()->setPriority('1')
+            ->add()
+            ->setPriority('1')
             ->setLoc('/')
-            ->setLastMod('2020')
-            ->setChangefreq('weekly')
+
+            ->setLastMod('2024')
+            ->setChangefreq('daily')
             ->setLocFieldName('slug')
             ->setLastModFieldName('updated_at')
+
             ->setDefultPriority('1')
             ->setDefultChangefreq('weekly')
             ->addByCollection($category)
+
             ->setDefultPriority('0.9')
             ->setDefultChangefreq('weekly')
             ->addByCollection($post)
+
             ->setDefultPriority('0.6')
             ->setDefultChangefreq('weekly')
             ->addByCollection($product)
+
             ->writeToFile('sitemap.xml');
 
         /*  ->add(array(
