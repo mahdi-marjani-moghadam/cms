@@ -35,10 +35,10 @@
     </a>
 @endif
 @if (count($filterList['removeFilter']))
-    <div class="">
-        <div class="  shadow filter-remote-link ">
+    <div class="px-3 mb-2">
+        <div class="  filter-remote-link ">
             @foreach ($filterList['removeFilter'] as $key => $filterItem)
-                <a class="" href="{{ $filterItem->url }}">{{ $filterItem->name }} </a>
+                <a class="bg-white  after:text-red-500  hover:border-b-red-500  border border-gray-300     !text-gray-500   after:rounded-full  !overflow-hidden !rounded" href="{{ $filterItem->url }}">{{ $filterItem->name }} </a>
             @endforeach
         </div>
     </div>
@@ -56,24 +56,25 @@
             @include(@env('TEMPLATE_NAME') . '.cms.filterPrice')
         </div>
     </div>
-    {{-- @if (count($filterList['filter']))
+    @if (count($filterList['filter']))
         @foreach ($filterList['filter'] as $key => $filterItem)
             <div class="toc1 shadow mt-1 ">
-                <a class="filter-header border-radius-15" href="#{{ $filterItem->label }}">{{ $filterItem->label }}</a>
+                <a class="filter-header p-3" href="#{{ $filterItem->label }}">{{ $filterItem->label }}</a>
                 <div class="filter-items-list">
 
                     @foreach ($filterItem->ComboFields as $key2 => $filterOption)
-                        <div class="toc1">
+                        
+                        <div class="toc1 px-2">
                             @if ($filterOption->check == 'checked')
-                                ✔ {{ $filterOption->name }}
+                             <a href="{{ $filterOption->url }}">🮱 {{ $filterOption->name }}</a>
                             @else
-                                <a href="{{ $filterOption->url }}">{{ $filterOption->name }}</a>
+                             <a class="block" href="{{ $filterOption->url }}"> ⬜ {{ $filterOption->name }}</a>
                             @endif
-                            {{-- <input type="checkbox" name="vehicle3" value="Boat" {{ $filterOption['check'] }}> --} }
+                            {{-- <input type="checkbox" name="vehicle3" value="Boat" {{ $filterOption['check'] }}> --}}
                         </div>
                     @endforeach
                 </div>
             </div>
         @endforeach
-    @endif --}}
+    @endif
 </div>

@@ -134,10 +134,10 @@ $append = '';
                 <div class="hover text-center">
                     @if (isset($content->images['images']['small']))
                     <figure class="image">
-                        <img loading="lazy" src="{{ $content->images['images']['small']  }}" alt="{{ $content->title }}" width="{{ env('CATEGORY_SMALL_W') }}" height="{{ env('CATEGORY_SMALL_H') }}" srcset="
-                                            {{ $content->images['images']['small']  }} {{ env('CATEGORY_SMALL_W') }}w,
-                                            {{ $content->images['images']['medium'] ?? $content->images['images']['small'] }} {{ env('CATEGORY_MEDIUM_W') }}w,
-                                            {{ $content->images['images']['large'] ?? $content->images['images']['small'] }} {{ env('CATEGORY_LARGE_W') }}w">
+                        <img loading="lazy" src="{{ image_or_placeholder($content->images['images']['small'])  }}" alt="{{ $content->title }}" width="{{ env('CATEGORY_SMALL_W') }}" height="{{ env('CATEGORY_SMALL_H') }}" srcset="
+                                            {{ image_or_placeholder($content->images['images']['small'])  }} {{ env('CATEGORY_SMALL_W') }}w,
+                                            {{ $content->images['images']['medium'] ?? image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_MEDIUM_W') }}w,
+                                            {{ $content->images['images']['large'] ?? image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_LARGE_W') }}w">
                         <figcaption>
                             <h3 class="p-0 m-0 text-center"> {{ $content->title }}</h3>
                         </figcaption>
@@ -209,24 +209,24 @@ $append = '';
                     @foreach ($relatedPost as $content)
                     <div>
                         <a href="{{ $content->slug }}">
-                            <article class="shadow !rounded-xl grid grid-cols-1 md:grid-cols-5 gap-x-2 max-sm:text-center">
+                            <article class="shadow !rounded-xl grid grid-cols-5 gap-x-2 ">
                                 @if (isset($content->images['images']['small']))
                                 <figure class="image">
-                                    <img loading="lazy" src="{{ $content->images['images']['small']  }}" width="{{ env('ARTICLE_SMALL_W', 200) }}" height="{{ env('ARTICLE_SMALL_H', 200) }}" alt="{{ $content->title }}">
+                                    <img loading="lazy" src="{{ image_or_placeholder($content->images['images']['small'])  }}" width="{{ env('ARTICLE_SMALL_W', 200) }}" height="{{ env('ARTICLE_SMALL_H', 200) }}" alt="{{ $content->title }}">
                                 </figure>
                                 @endif
-                                <div class="md:col-span-4 flex content-between max-sm:justify-center ">
+                                <div class="col-span-4 flex content-between">
                                     <div class="w-full">
                                         <div class="title text-lg">{{ $content->title }}</div>
-                                        <div class="info">
-                                            {!! readMore($content->brief_description, 1000) !!}
+                                        <div class="info line-clamp-5">
+                                            {!! $content->brief_description !!}
                                         </div>
                                     </div>
                                     <div class="rate mt-1 md:justify-start ">
-                                        <div class="flex gap-x-2 ">
+                                        <div class="flex justify-center gap-x-2 ">
                                             @include(asset('widget.rate'))
 
-                                            <div class="flex gap-x-1 items-center">
+                                            <div class="flex flex-1 gap-x-1 text-sm items-center">
                                                 @include(asset('widget.publishDate'))
                                                 @include(asset('widget.viewCount'))
 
@@ -278,7 +278,7 @@ $append = '';
                 <div class="text-center shadow rounded-xl">
                     @foreach ($adv['images'] as $k => $content)
                     <a class="text-center block" target="_blanck" href="{{ $adv['url'][$k] }}" @if (!isset($adv['follow'][$k])) rel="nofollow" @endif>
-                        <img class="inline" width="200px" height="200px" src="{{ $content }}" alt="محل تبلیغ کریپو">
+                        <img class="inline" width="200px" height="200px" src="{{ image_or_placeholder($content) }}" alt="محل تبلیغ کریپو">
                     </a>
                     @endforeach
                 </div>
@@ -294,7 +294,7 @@ $append = '';
                     <li class="border-b last:border-b-0 border-gray-300 pb-2 last:pb-0">
                         <a class="flex gap-x-1" href="{{ url($item->slug) }} ">
                             <div>
-                                <img class="rounded h-auto object-contain" src="{{ $item->images['images']['small'] }}" width="35" height="35" alt="">
+                                <img class="rounded h-auto object-contain" src="{{ image_or_placeholder($item->images['images']['small']) }}" width="35" height="35" alt="">
                             </div>
                             <span class="flex-initial w-4/5 max-sm:w-2/3">{{ $item->title }}</span>
                         </a>

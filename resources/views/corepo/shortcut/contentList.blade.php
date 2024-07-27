@@ -10,7 +10,7 @@
                                 @if (isset($content->attr['in-stock']) && $content->attr['in-stock'] == 0)
                                     <div class="not-in-stock">قابل سفارش</div>
                                 @endif
-                                <img src="{{ $content->images['images']['large'] }}" alt="{{ $content->title }}"
+                                <img src="{{ image_or_placeholder($content->images['images']['large']) }}" alt="{{ $content->title }}"
                                     title="{{ $content->title }}" loading="lazy" width="400" height="400">
                                 <figcaption>
                                     <h3 class="px-0 m-0 text-center"> {{ $content->title }}</h3>

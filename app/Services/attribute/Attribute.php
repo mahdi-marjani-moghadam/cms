@@ -148,7 +148,7 @@ class Attribute
                         //print_r($filterOption) ;
                         $remove->add(clone $filterOption);
                         // print_r($remove ) ;
-                        $filterOption->url = '';
+                        // $filterOption->url = '';
                         //dd($remove);
 
                     }

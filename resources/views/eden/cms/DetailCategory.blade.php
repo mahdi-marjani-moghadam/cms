@@ -126,13 +126,13 @@
                             <div class="hover text-center">
                                 @if (isset($content->images['images']['small']))
                                     <figure class="image">
-                                        <img loading="lazy" src="{{ $content->images['images']['small'] }}"
+                                        <img loading="lazy" src="{{ image_or_placeholder($content->images['images']['small']) }}"
                                             alt="{{ $content->title }}" width="{{ env('CATEGORY_SMALL_W') }}"
                                             height="{{ env('CATEGORY_SMALL_H') }}"
                                             srcset="
-                                            {{ $content->images['images']['small'] }} {{ env('CATEGORY_SMALL_W') }}w,
-                                            {{ $content->images['images']['medium'] ?? $content->images['images']['small'] }} {{ env('CATEGORY_MEDIUM_W') }}w,
-                                            {{ $content->images['images']['large'] ?? $content->images['images']['small'] }} {{ env('CATEGORY_LARGE_W') }}w">
+                                            {{ image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_SMALL_W') }}w,
+                                            {{ $content->images['images']['medium'] ?? image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_MEDIUM_W') }}w,
+                                            {{ $content->images['images']['large'] ?? image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_LARGE_W') }}w">
                                         <figcaption>
                                             <h3 class="p-0 m-0 text-center"> {{ $content->title }}</h3>
                                         </figcaption>
@@ -196,7 +196,7 @@
                                                 @if (isset($content->attr['in-stock']) && $content->attr['in-stock'] == 0)
                                                     <div class="not-in-stock">قابل سفارش</div>
                                                 @endif
-                                                <img src="{{ $content->images['images']['large'] }}"
+                                                <img src="{{ image_or_placeholder($content->images['images']['large']) }}"
                                                     alt="{{ $content->title }}" title="{{ $content->title }}"
                                                     loading="lazy" width="400" height="400">
                                                 <figcaption>
@@ -241,7 +241,7 @@
                                     <div class="shadow hover p-0 ">
                                         @if (isset($content->images['images']['small']))
                                             <figure class="image ">
-                                                <img src="{{ $content->images['images']['large'] }}"
+                                                <img src="{{ image_or_placeholder($content->images['images']['large']) }}"
                                                     alt="{{ $content->title }}" title="{{ $content->title }}"
                                                     width="400" height="400">
                                                 <figcaption>

@@ -3320,20 +3320,20 @@ section.extra-link {
         border-radius: 1px;
         flex: 1 0 auto;
         overflow: hidden;
-        margin: 3px;
+        margin: 5px;
         padding: 0 1em 0 30px;
         display: block;
-        border: 1px solid red;
+        // border: 1px solid red;
         color: $a;
         position: relative;
         &:after {
             position: absolute;
             left: 0;
             content: "X";
-            background: red;
+            // background: red;
             padding: 0 0.6em;
-            color: white;
-            font-weight: bold;
+            // color: white;
+            // font-weight: bold;
         }
     }
 }
@@ -3345,10 +3345,10 @@ section.extra-link {
         color: #333;
         font-weight: bold;
     }
-    .filter-items-list {
-        max-height: 150px;
-        overflow-y: auto;
-    }
+    // .filter-items-list {
+        // max-height: 150px;
+        // overflow-y: auto;
+    // }
 }
 
 .not-in-stock{

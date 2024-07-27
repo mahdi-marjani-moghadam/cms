@@ -24,7 +24,6 @@
 <link href="{{ url($detail->slug) }}" rel="canonical" />
 
 
-<link rel="stylesheet" href="{{ asset('/detail.css') }}">
 @endsection
 @section('footer')
 <script type="text/javascript">
@@ -101,8 +100,8 @@ $append = '';
         <div class="pb-0 max-sm:w-full">
             @if (isset($detail->images['images']['small']))
             <figure class="image">
-                <img class="" src="{{ $detail->images['images']['small'] }}" alt="{{ $detail->title }}" width="200" height="200" srcset="
-                                    {{ $detail->images['images']['small'] }} 1x,
+                <img class="" src="{{ image_or_placeholder($detail->images['images']['small']) }}" alt="{{ $detail->title }}" width="200" height="200" srcset="
+                                    {{ image_or_placeholder($detail->images['images']['small']) }} 1x,
                                     {{ $detail->images['images']['large'] ?? $detail->images['images']['small'] }} 2x">
 
             </figure>
@@ -174,7 +173,7 @@ $append = '';
                 <div class="text-center shadow rounded-xl">
                     @foreach ($adv['images'] as $k => $content)
                     <a class="text-center block" target="_blanck" href="{{ $adv['url'][$k] }}" @if (!isset($adv['follow'][$k])) rel="nofollow" @endif>
-                        <img class="inline" width="200px" height="200px" src="{{ $content }}" alt="محل تبلیغ کریپو">
+                        <img class="inline" width="200px" height="200px" src="{{ image_or_placeholder($content) }}" alt="محل تبلیغ کریپو">
                     </a>
                     @endforeach
                 </div>
@@ -185,14 +184,14 @@ $append = '';
                 <div class="mt-4">آخرین مقالات</div>
                 {{--post&label=sideCategory&var=sideCategory&count=10&child=true --}}
                 @isset($sideCategory['data'])
-                <ul class="max-sm:grid max-sm:grid-cols-2 max-sm:gap-x-1 shadow rounded-xl">
+                <ul class=" shadow rounded-xl">
                     @foreach ($sideCategory['data'] as $item)
                     <li class="border-b last:border-b-0 border-gray-300 pb-2 last:pb-0">
                         <a class="flex gap-x-1" href="{{ url($item->slug) }} ">
-                            <div>
-                                <img class="rounded h-auto object-contain" src="{{ $item->images['images']['small'] }}" width="35" height="35" alt="">
+                            <div class="flex-none">
+                                <img class="rounded h-auto object-contain" src="{{ image_or_placeholder($item->images['images']['small']) }}" width="35" height="35" alt="">
                             </div>
-                            <span class="flex-initial w-4/5 max-sm:w-2/3">{{ $item->title }}</span>
+                            <span class="flex-1 max-sm:line-clamp-1" title="{{ $item->title }}">{{ $item->title }}</span>
                         </a>
                     </li>
                     @endforeach
@@ -217,7 +216,7 @@ $append = '';
                     <div>
                         <article>
                             @if (isset($content->images['images']['small']))
-                            <div><img loading="lazy" src="{{ $content->images['images']['small'] }}"></div>
+                            <div><img loading="lazy" src="{{ image_or_placeholder($content->images['images']['small']) }}"></div>
                             @endif
                             <footer>
                                 <h2><a href="{{ $content->slug }}"> {{ $content->title }}</a></h2>
@@ -240,13 +239,13 @@ $append = '';
         <div>
             <div class="shadow">
                 <h2>مقاله های مرتبط {{ $detail->title }}</h2>
-                <div class="flex two six-900 center">
+                <div class="grid grid-cols-2 md:grid-cols-6">
                     @foreach ($relatedPost as $content)
                     <div>
                         <a href="{{ $content->slug }}">
                             <article>
                                 @if (isset($content->images['images']['small']))
-                                <div><img width="150" height="150" loading="lazy" src="{{ $content->images['images']['small'] }}">
+                                <div><img class="rounded" width="150" height="150" loading="lazy" src="{{ image_or_placeholder($content->images['images']['small']) }}">
                                 </div>
                                 @endif
                                 <footer>
