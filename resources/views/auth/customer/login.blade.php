@@ -135,7 +135,7 @@
         @endif
         <h1>@lang('messages.login')</h1>
 
-        <form method="POST" action="/login">
+        <form method="POST" action="/login" id="login-form">
             @csrf
 
             <div class="form-group">

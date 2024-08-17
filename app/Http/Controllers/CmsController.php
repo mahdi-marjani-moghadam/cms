@@ -77,9 +77,9 @@ class CmsController extends Controller
                     ->select(DB::raw("JSON_EXTRACT(attr,'$.weight') * $g  + $g * JSON_EXTRACT(attr,'$.weight') * 0.28 + JSON_EXTRACT(attr,'$.additionalprice') as p"))
                     ->havingRaw("p between $wMin and $wMax");
                 // dd($relatedProduct->paginate(15));
-                $relatedProduct = $relatedProduct->paginate(15);
+                $relatedProduct = $relatedProduct->paginate(15)->withQueryString();
             } else {
-                $relatedProduct = $detail->products('power', 'desc', $request)->paginate(15);
+                $relatedProduct = $detail->products('power', 'desc', $request)->paginate(15)->withQueryString();
             }
 
             $queries = DB::getQueryLog();

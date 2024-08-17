@@ -22,7 +22,7 @@
                 perPageNumber = 5;
                 perPageNumberProducts = 4;
             } else {
-                perPageNumber = 5;
+                perPageNumber = 6;
                 perPageNumberProducts = 4;
             }
         }
@@ -273,6 +273,20 @@
             </div> --}}
         </div>
 
+    </section>
+
+
+
+    <section>
+        <div>
+            <h2>پیشنهاد خرید طلا:</h2>
+            <div class="grid md:grid-cols-4 grid-cols-2 gap-4 [&>a]:border [&>a]:border-yellow-600 [&>a]:rounded-sm  [&>a]:p-1 [&>a]:text-center [&>a]:h-40 [&>a]:flex [&>a]:items-center [&>a]:justify-center [&>a]:bg-white [&>a]:text-lg [&>a]:md:text-3xl">
+                <a href="/محصولات?min_price=500000&max_price=1000000" class="hover:scale-105 category-filter" > از ۵۰۰ هزار تا ۱ میلیون</a>
+                <a href="/محصولات?min_price=1000000&max_price=2000000" class="hover:scale-105 category-filter"> از ۱ تا ۲ میلیون</a>
+                <a href="/محصولات?min_price=0&max_price=5000000" class="hover:scale-105 category-filter">تا ۵ میلیون</a>
+                <a href="/محصولات?min_price=5000000&max_price=10000000" class="hover:scale-105 category-filter">از ۵ تا ۱۰ میلیون</a>
+            </div>
+        </div>
     </section>
 
 

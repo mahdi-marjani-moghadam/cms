@@ -373,7 +373,7 @@ $price = $detail->GoldPrice();
                             @if (isset($content->attr['in-stock']) && $content->attr['in-stock'] == 0)
                             <div class="not-in-stock">قابل سفارش</div>
                             @endif
-                            <img loading="lazy" src="{{ $content->images['images']['large'] }}" alt="{{ $content->title }}" title="{{ $content->title }}" width="300" height="300">
+                            <img loading="lazy" src="{{ image_or_placeholder($content->images['images']['large']) }}" alt="{{ $content->title }}" title="{{ $content->title }}" width="300" height="300">
                             <figcaption>
                                 <h3 class="p-3 m-0 text-center text-sm"> {{ $content->title }}</h3>
                             </figcaption>
