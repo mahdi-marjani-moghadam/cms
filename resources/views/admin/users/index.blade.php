@@ -57,7 +57,7 @@
                                 </td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->company?->name }}</td>
-                                <td class="ltr text-right">{{ $user->date }}</td>
+                                <td class="ltr text-right">{{ convertGToJ($user->date, true) }}</td>
                                 <td class="width-80">
                                     <div class="row">
                                         <div class="col-xs-6">

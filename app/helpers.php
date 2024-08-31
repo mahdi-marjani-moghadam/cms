@@ -12,6 +12,7 @@ use App\Models\Menu;
 use App\Models\WebsiteSetting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\URL;
 use Morilog\Jalali\CalendarUtils;
 use Morilog\Jalali\Jalalian;
 
@@ -47,7 +48,7 @@ if (!function_exists('readMore')) {
             $string = $endPoint ? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
             $string .= '...';
             if ($noLink == 1) {
-                $string .= ' <a  data-text="' . $text . '" data-title="' . $title . '" class="readMore" href="">ادامه</a>';
+                $string .= ' <a  data-text="' . $text . '" data-title="' . $string . '" class="readMore" href="">ادامه</a>';
             }
         }
 
@@ -56,14 +57,7 @@ if (!function_exists('readMore')) {
 }
 
 if (!function_exists('tableOfContent')) {
-    /**
-     * Get the evaluated view contents for the given view.
-     *
-     * @param  string|null $view
-     * @param  \Illuminate\Contracts\Support\Arrayable|array $data
-     * @param  array $mergeData
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
-     */
+
     function tableOfContent($content)
     {
         //preg_match_all( '|<h[^>]+>(.*)</h[^>]+>|iU',$detail->description, $matches );
@@ -116,44 +110,38 @@ if (!function_exists('tableOfContent')) {
     }
 }
 
-if (!function_exists('render')) {
-    /**
-     * Get the evaluated view contents for the given view.
-     *
-     * @param  string|null $view
-     * @param  \Illuminate\Contracts\Support\Arrayable|array $data
-     * @param  array $mergeData
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
-     */
-    function render($string, $data)
-    {
-        $php = Blade::compileString($string);
-        $content = \Blade::compileString($bladeString);
+// if (!function_exists('render')) {
 
-        return $this->file->put($bladePath, $content) ? $bladePath : false;
+//     function render($string, $data)
+//     {
+//         $php = Blade::compileString($string);
+//         $content = Blade::compileString($bladeString);
 
-        view('remotyadak.cms.Detail');
-        $obLevel = ob_get_level();
-        ob_start();
-        extract($data, EXTR_SKIP);
+//         return $this->file->put($bladePath, $content) ? $bladePath : false;
 
-        try {
-            eval('?' . '>' . $php);
-        } catch (Exception $e) {
-            while (ob_get_level() > $obLevel) {
-                ob_end_clean();
-            }
-            throw $e;
-        } catch (Throwable $e) {
-            while (ob_get_level() > $obLevel) {
-                ob_end_clean();
-            }
-            throw new FatalThrowableError($e);
-        }
+//         view('remotyadak.cms.Detail');
+//         $obLevel = ob_get_level();
+//         ob_start();
+//         extract($data, EXTR_SKIP);
 
-        return ob_get_clean();
-    }
+//         try {
+//             eval('?' . '>' . $php);
+//         } catch (Exception $e) {
+//             while (ob_get_level() > $obLevel) {
+//                 ob_end_clean();
+//             }
+//             throw $e;
+//         } catch (Throwable $e) {
+//             while (ob_get_level() > $obLevel) {
+//                 ob_end_clean();
+//             }
+//             throw new FatalThrowableError($e);
+//         }
 
+//         return ob_get_clean();
+//     }
+// }
+if (!function_exists('editorModule')) {
     function editorModule($content)
     {
         //$content=str_replace('r','',$content);
@@ -701,8 +689,9 @@ if (!function_exists('convertJToG')) {
             return $date;
         }
 
-        $convertFaToEn = CalendarUtils::convertNumbers($date, true); // 1395-02-19
-        $convertDate = CalendarUtils::createCarbonFromFormat('Y/m/d', $convertFaToEn)->format('Y-m-d'); //2016-05-8
+        $convertFaToEn = CalendarUtils::convertNumbers($date, true); // 1402/12/19 3:30:0
+        $convertDate = CalendarUtils::createCarbonFromFormat('Y/m/d H:i:s', $convertFaToEn)->format('Y-m-d H:i:s'); //2016-05-8 3:30:0
+
         return $convertDate;
     }
 }
@@ -750,14 +739,10 @@ if (!function_exists('idToSlug')) {
 if (!function_exists('filterUrl')) {
     function filterUrl($filterItem, $filterOption)
     {
-        $url = url()->full();
+        $url = URL::full();
         $url = urldecode($url);
 
         if (count($_GET)) {
-            /*foreach ($_GET as $key =>$val)
-        {
-             $val;
-        }*/
             $url = $url . '&';
         } else {
             $url = $url . '?';
@@ -807,8 +792,18 @@ if (!function_exists('sendSms')) {
         $sms_client = new SoapClient('http://payamak-service.ir/SendService.svc?wsdl', ['encoding' => 'UTF-8']);
         $fromNumber = (array)json_decode(env('SMS_SENDER')) ?? [
             '1000365',
-            '1000101', '10002188', '500022200', '50002708636341', '10009611', '5000249', 'SimCard',
-            '50005708631983', '10002188', '5000249', '210002100000021', '30005920000015'
+            '1000101',
+            '10002188',
+            '500022200',
+            '50002708636341',
+            '10009611',
+            '5000249',
+            'SimCard',
+            '50005708631983',
+            '10002188',
+            '5000249',
+            '210002100000021',
+            '30005920000015'
         ];
 
         try {
@@ -1094,8 +1089,8 @@ if (!function_exists('replace_shortcodes')) {
     }
 }
 if (!function_exists('image_or_placeholder')) {
-    function image_or_placeholder($src, $type='post')
+    function image_or_placeholder($src, $type = 'post')
     {
-        return file_exists(public_path($src))? $src: asset("img/placeholder-$type.png");
+        return file_exists(public_path($src)) ? $src : asset("img/placeholder-$type.png");
     }
 }

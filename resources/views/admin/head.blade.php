@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport"
@@ -27,7 +28,7 @@
     <link href="{{ url('/adminAssets/css/fancy.min.css') }}" rel="stylesheet">
     <link href="{{ url('/adminAssets/css/style.css') }}" rel="stylesheet">
     @if ($ltr)
-        <link href="{{ url('/adminAssets/css/style.ltr.css') }}" rel="stylesheet">
+    <link href="{{ url('/adminAssets/css/style.ltr.css') }}" rel="stylesheet">
     @endif
     <link href="{{ url('/adminAssets/css/responsive.css') }}" rel="stylesheet">
     <link href="{{ url('/adminAssets/css/persian-datepicker.min.css') }}" rel="stylesheet">
@@ -64,14 +65,21 @@
         $(function() {
             $('.datepicker').persianDatepicker({
                 initialValue: true,
-                format: 'YYYY/MM/DD',
+                format: 'YYYY/MM/DD HH:m:ss',
                 autoClose: true,
                 responsive: false,
+                viewMode: 'month',
                 "toolbox": {
                     "enabled": true,
                     "calendarSwitch": {
                         "enabled": false,
                         "format": "MMMM"
+                    }
+                },
+                timePicker: {
+                    enabled: true,
+                    meridiem: {
+                        enabled: true
                     }
                 }
             });
@@ -99,7 +107,6 @@
                 return $.ajax(option);
             };
         });
-
     </script>
 
     @yield('header')

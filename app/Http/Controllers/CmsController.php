@@ -179,7 +179,7 @@ class CmsController extends Controller
             $resultTableContent = $this->tableOfContent($detail->description);
             $detail->description = $resultTableContent['content'];
             $table_of_content = $resultTableContent['list'];
-            $table_of_images = $this->tableOfImage($detail->description);
+            // $table_of_images = $this->tableOfImage($detail->description);
 
             //preg_match_all ('/<img[^>]+>/i',$detail->description, $result);
             // preg_match_all ('/(alt|title|src)=("[^"]*")/i',$img_tag, $img[$img_tag]);
@@ -383,39 +383,39 @@ class CmsController extends Controller
     }
 
 
-    public function tableOfImage($content)
-    {
-        $doc = new \DOMDocument();
-        /* use @ or libxml_use_internal_errors
-         * libxml_use_internal_errors(true);
-        $dom->loadHTML('...');
-        libxml_clear_errors();*/
-        @$doc->loadHTML($content);
+    // public function tableOfImage($content) : void
+    // {
+    //     $doc = new \DOMDocument();
+    //     /* use @ or libxml_use_internal_errors
+    //      * libxml_use_internal_errors(true);
+    //     $dom->loadHTML('...');
+    //     libxml_clear_errors();*/
+    //     @$doc->loadHTML($content);
 
-        /*echo '<pre/>';
-        print_r($a);
-        die();*/
-        $tags = $doc->getElementsByTagName('figure');
+    //     /*echo '<pre/>';
+    //     print_r($a);
+    //     die();*/
+    //     $tags = $doc->getElementsByTagName('figure');
 
-        $count = -1;
-        foreach ($tags as $tag) {
-            $count++;
-            // echo '<pre/>';
-            // print_r($tag);
-            foreach ($tag->childNodes as $tag1) {
-                //print_r($tag1);
-                if ($tag1->nodeName == 'img') {
-                    foreach ($tag1->attributes as $tag3) {
-                        $images[$count]['src'] = $tag3->value;
-                        break;
-                    }
-                }
-                if ($tag1->nodeName == 'figcaption') {
-                    $images[$count]['alt'] = $tag1->nodeValue;
-                }
-            }
-        }
-    }
+    //     $count = -1;
+    //     foreach ($tags as $tag) {
+    //         $count++;
+    //         // echo '<pre/>';
+    //         // print_r($tag);
+    //         foreach ($tag->childNodes as $tag1) {
+    //             //print_r($tag1);
+    //             if ($tag1->nodeName == 'img') {
+    //                 foreach ($tag1->attributes as $tag3) {
+    //                     $images[$count]['src'] = $tag3->value;
+    //                     break;
+    //                 }
+    //             }
+    //             if ($tag1->nodeName == 'figcaption') {
+    //                 $images[$count]['alt'] = $tag1->nodeValue;
+    //             }
+    //         }
+    //     }
+    // }
 
     public function tableOfContent($content)
     {

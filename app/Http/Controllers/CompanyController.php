@@ -376,7 +376,6 @@ class CompanyController extends Controller
         $price = 30000 * $count;
 
         // dd(Lang::get('messages.power up for',['count'=>$count,'content'=>$content->title]));
-
         $user->transactions()->where('transactionable_id', '=', $content->id)->where('transactionable_type', '=', Content::class)->delete();
 
         $transaction = $user->transactions()->firstOrCreate([
@@ -390,7 +389,6 @@ class CompanyController extends Controller
             'status' => 0
         ]);
 
-        // dd($transaction);
 
         return redirect()->route('company.invoice', $transaction->id)->with('success', Lang::get('messages.invoice created'));
     }

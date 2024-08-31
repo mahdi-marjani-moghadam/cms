@@ -10,9 +10,8 @@
 /public/upload/images/2023/*
 /public/upload/images/2024/*
 /public/upload/images/modules/*
+/public/upload/_thumbs/Images/*
 
-
-/public/upload/_thumbs/*
 /storage/*.key
 /vendor
 .env

@@ -129,12 +129,12 @@
                             <div class="hover text-center">
                                 @if (isset($content->images['images']['small']))
                                     <figure class="image">
-                                        <img src="{{ $content->images['images']['small'] }}" alt="{{ $content->title }}"
+                                        <img src="{{ image_or_placeholder($content->images['images']['small']) }}" alt="{{ $content->title }}"
                                             width="{{ env('CATEGORY_SMALL_W') }}" height="{{ env('CATEGORY_SMALL_H') }}"
                                             srcset="
-                                {{ $content->images['images']['small'] }} {{ env('CATEGORY_SMALL_W') }}w,
-                                {{ $content->images['images']['medium'] ?? $content->images['images']['small'] }} {{ env('CATEGORY_MEDIUM_W') }}w,
-                                {{ $content->images['images']['large'] ?? $content->images['images']['small'] }} {{ env('CATEGORY_LARGE_W') }}w">
+                                {{ image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_SMALL_W') }}w,
+                                {{ image_or_placeholder($content->images['images']['medium']) ?? $content->images['images']['small'] }} {{ env('CATEGORY_MEDIUM_W') }}w,
+                                {{ image_or_placeholder($content->images['images']['large']) ?? $content->images['images']['small'] }} {{ env('CATEGORY_LARGE_W') }}w">
                                         <figcaption>
                                             <div class="p-0 m-0 text-center"> {{ $content->title }}</div>
                                         </figcaption>
@@ -172,11 +172,11 @@
                                             <a href="{{ $content->slug }}">
 
                                                 <figure class="image">
-                                                    <img src="{{ $content->images['images']['small'] }}"
+                                                    <img src="{{ image_or_placeholder($content->images['images']['small']) }}"
                                                     sizes="(max-width:{{ env('ARTICLE_SMALL_W') }}px) 100vw {{ env('ARTICLE_SMALL_W') }}px {{ ENV('ARTICLE_MEDIUM_W') }}px"
                                                     alt="{{ $content->title }}" width="100" height="100" srcset="
-                                                    {{ $content->images['images']['small'] }} {{ env('ARTICLE_SMALL_W') }}w,
-                                                    {{ $content->images['images']['medium'] }} 2x">
+                                                    {{ image_or_placeholder($content->images['images']['small']) }} {{ env('ARTICLE_SMALL_W') }}w,
+                                                    {{ image_or_placeholder($content->images['images']['medium']) }} 2x">
                                                 </figure>
                                             </a>
                                         @endif
@@ -212,7 +212,7 @@
                                     <article class="shadow2">
                                         @if (isset($content->images['images']['medium']))
                                             <figure class="image">
-                                                <img src="{{ $content->images['images']['medium'] }}" width="198"
+                                                <img src="{{ image_or_placeholder($content->images['images']['medium']) }}" width="198"
                                                     height="100" alt="{{ $content->title }}">
                                             </figure>
                                         @endif
@@ -285,7 +285,7 @@
                         <article class="shadow2">
                             @if (isset($content->images['images']['medium']))
                             <figure class="image">
-                                <img src="{{ $content->images['images']['medium'] }}"
+                                <img src="{{ image_or_placeholder($content->images['images']['medium']) }}"
                                 width="198" height="100" alt="{{ $content->title }}">
                             </figure>
                             @endif

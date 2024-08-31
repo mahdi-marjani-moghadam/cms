@@ -149,7 +149,7 @@
                                 </td>
 
                                 <td>
-                                    {{ convertGToJ(date('Y-m-d', strtotime($content->publish_date))) }}
+                                    {{ convertGToJ(date('Y-m-d H:i:s', strtotime($content->publish_date)), true) }}
 
                                 </td>
                                 <td>

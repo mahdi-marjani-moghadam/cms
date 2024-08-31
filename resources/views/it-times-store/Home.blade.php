@@ -55,7 +55,7 @@
             {{--images&label=banner&var=banners&count=1 --}}
             @if (isset($banners) && isset($banners['images']))
                 @foreach ($banners['images'] as $content)
-                    <img src="{{ $content }}" alt="عصر آی تی">
+                    <img src="{{ image_or_placeholder($content) }}" alt="عصر آی تی">
                 @endforeach
             @endisset
     </div>
@@ -74,10 +74,10 @@
                         <div class="hover text-center">
                             @if (isset($content->images['images']['small']))
                                 <figure class="image">
-                                    <img src="{{ $content->images['images']['small'] }}" alt="{{ $content->title }}"
+                                    <img src="{{ image_or_placeholder($content->images['images']['small']) }}" alt="{{ $content->title }}"
                                         width="" height=""
-                                        srcset="{{ $content->images['images']['small'] }} {{ env('CATEGORY_SMALL_W') }}w,
-                                                {{ $content->images['images']['medium'] }} {{ env('CATEGORY_MEDIUM_W') }}w">
+                                        srcset="{{ image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_SMALL_W') }}w,
+                                                {{ image_or_placeholder($content->images['images']['medium']) }} {{ env('CATEGORY_MEDIUM_W') }}w">
                                     <figcaption>
                                         <div class="p-0 m-0 text-center"> {{ $content->title }}</div>
                                     </figcaption>
@@ -107,7 +107,7 @@
                     {!! $about['data']->brief_description !!}
                 </div>
                 <div class="third">
-                    <img src="{{ $about['data']->images['images']['large'] }}" alt="">
+                    <img src="{{ image_or_placeholder($about['data']->images['images']['large']) }}" alt="">
                 </div>
             </div>
         </div>
@@ -146,7 +146,7 @@
                             <article class="shadow2">
                                 @if (isset($content->images['images']['small']))
                                     <figure class="image">
-                                        <img src="{{ $content->images['images']['small'] }}" alt="{{ $content->title }}"
+                                        <img src="{{ image_or_placeholder($content->images['images']['small']) }}" alt="{{ $content->title }}"
                                             width="{{ env('ARTICLE_SMALL_W') }}" height="{{ env('ARTICLE_SMALL_H') }}">
                                     </figure>
                                 @endif
@@ -257,7 +257,7 @@
                             <article class="shadow2">
                                 @if (isset($content->images['images']['medium']))
                                     <figure class="image">
-                                        <img src="{{ $content->images['images']['medium'] }}" width="198" height="100"
+                                        <img src="{{ image_or_placeholder($content->images['images']['medium']) }}" width="198" height="100"
                                             alt="{{ $content->title }}">
                                     </figure>
                                 @endif

@@ -29,7 +29,7 @@ class Contents extends Migration
             $table->integer('commentCount')->default('0');
             $table->string('attr_type')->default(NULL)->nullable();
             $table->text('attr')->nullable();
-            $table->date('publish_date')->nullable();
+            $table->dateTime('publish_date')->nullable();
             $table->integer('status')->default(0);
             $table->integer('power')->default(0);
             $table->timestamps();

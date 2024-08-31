@@ -206,7 +206,7 @@ $append = '';
                         <article class="shadow2">
                             @if (isset($content->images['images']['medium']))
                             <figure class="image">
-                                <img src="{{ $content->images['images']['medium'] }}" width="198" height="100" alt="{{ $content->title }}">
+                                <img src="{{ image_or_placeholder($content->images['images']['medium']) }}" width="198" height="100" alt="{{ $content->title }}">
                             </figure>
                             @endif
 
