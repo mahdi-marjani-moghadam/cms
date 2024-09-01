@@ -31,7 +31,7 @@
 
 
                             <ul
-                                class="hidden submenu rounded-2xl shadow-xl border bg-gray-50 md:grid-cols-3 md:gap-4 md:p-4 md:w-[700px] group-hover:block ">
+                                class="hidden submenu md:rounded-2xl md:shadow-xl border bg-gray-50 md:grid-cols-3 md:gap-4 md:p-4 md:w-[700px] lg:group-hover:block ">
                                 @foreach ($subMenu as $subMenuItem)
                                     <li class="parent2 relative  border-b last:border-b-0">
                                         <?php $subMenu2 = App\Models\Menu::where('menu', '=', '1')
@@ -49,7 +49,7 @@
                                             </a>
 
 
-                                            <ul class="hidden submenu2 shadow-xl bg-gray-100 border md:absolute !top-0 md:right-[100%] z-20 rounded-2xl">
+                                            <ul class="hidden submenu2 md:shadow-xl bg-gray-100 border md:absolute !top-0 md:right-[100%] z-20 md:rounded-2xl">
                                                 @foreach ($subMenu2 as $subMenuItem2)
                                                     <li class="border-b last:border-b-0">
                                                         <a href="{{ url($subMenuItem2['link']) }}"
@@ -89,7 +89,7 @@
         </div>
     </header>
 
-    <script src="{{ url('/eden/jquery-3.6.0.min.js') }}" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    <script src="{{ url('/it-times-store/jquery-3.6.0.min.js') }}" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>
     <script>
         var toggleBtn = document.getElementById('toggle');
@@ -111,8 +111,11 @@
             if ($(window).width() <= 1023) {
                 $('.parent > a,.parent2 > a ').attr('href', '#')
 
-                $(".parent > a,.parent2 > a").click(function() {
-                    $(this).next(".submenu,.submenu2").toggleClass("hidden");
+                $(".parent > a").click(function() {
+                    $(this).next(".submenu").toggleClass("hidden");
+                });
+                $(".parent2 > a").click(function() {
+                    $(this).next(".submenu2").toggleClass("hidden");
                 });
             } else {
                 $(".parent").hover(function() {

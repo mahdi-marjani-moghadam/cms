@@ -272,7 +272,7 @@ $append = '';
     <div class="flex one">
         <div>
 
-            @include('eden.Comment')
+            @include('it-times-store.Comment')
 
         </div>
     </div>
