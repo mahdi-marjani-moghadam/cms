@@ -148,7 +148,7 @@
                         <p class="border bg-yellow-50 rounded-md p-1 text-xs">بعد از پرداخت کارت به کارت تصویر فیش خود را آپلود نماید تا تیم فروش مراحل خرید شما را پیگیری نمایند.</p>
                         <p class="border bg-green-50 rounded-md p-1 mt-1 ">شماره کارت به نام حمیده اخضری
                             <br>
-                            <span class="font-bold ltr ">6104-3379-7236-7427 <a href="#" class="text-sm ring-1  rounded-full px-3" id="copy-card">کپی</a> </span>
+                            <span class="font-bold ltr ">6037-9915-2686-9023 <a href="#" class="text-sm ring-1  rounded-full px-3" id="copy-card">کپی</a> </span>
                         </p>
                     </div>
 
@@ -196,7 +196,7 @@
         e.preventDefault();
         var $temp = $("<input>");
         $("body").append($temp);
-        $temp.val("6104337972367427").select();
+        $temp.val("6037991526869023").select();
         document.execCommand("copy");
         $temp.remove();
         alert('شماره کارت کپی شد');

@@ -1,5 +1,5 @@
 <div class="top-menu">
-    <header class='border-b py-1 px-1 lg:px-5  bg-white  min-h-[50px] max-w-[1450px] m-auto'>
+    <header class='border-b py-1 px-1 lg:px-5  bg-white  min-h-[50px] max-w-[1200px] m-auto'>
         <div class='flex flex-wrap items-center lg:gap-y-2 gap-y-4 gap-x-4 '>
             <a href="/" class="">
                 <img height="60" width="44" alt=" ایدن لوگو" class="inline-block"
@@ -15,73 +15,112 @@
                     </svg>
                 </button>
             </div>
+
+
+
+
             <ul id="collapseMenu"
                 class=' lg:!flex lg:mr-10 lg:space-x-8 lg:space-x-reverse max-lg:space-y-2 max-lg:hidden max-lg:w-full max-lg:my-4'>
                 @foreach (App\Models\Menu::where('parent', '=', '0')->orderBy('sort')->get() as $menuItem)
-                    <?php $subMenu = App\Models\Menu::where('menu', '=', '1')
-                        ->where('parent', '=', $menuItem['id'])
-                        ->orderBy('sort')
-                        ->get(); ?>
-                    @if (count($subMenu))
-                        <li class='max-lg:border-b max-lg:py-2 md:mb-0 relative parent group'>
-                            <a href="{{ url($menuItem['link']) }}"
-                                class='lg:hover:text-yellow-600 text-gray-600 block pr-5 font-bold text-[15px] lg:group-hover:ul md:ml-5'>
-                                <i class="arrow top-2 down left-10 md:left-1  border-gray-400"></i>{{ $menuItem['label'] }}
+                <?php $subMenu = App\Models\Menu::where('menu', '=', '1')
+                    ->where('parent', '=', $menuItem['id'])
+                    ->orderBy('sort')
+                    ->get(); ?>
+                @if (count($subMenu))
+                <li class='max-lg:border-b max-lg:py-2 md:mb-0 relative parent group'>
+                    <a href="{{ url($menuItem['link']) }}"
+                        class='lg:hover:text-yellow-600 text-gray-600 block pr-5 font-bold  lg:group-hover:ul md:ml-5'>
+                        <i class="arrow top-2 down left-10 md:left-1  border-gray-400"></i>{{ $menuItem['label'] }}
+                    </a>
+
+
+                    <ul
+                        class="hidden submenu md:rounded-2xl md:shadow-xl border bg-gray-50 md:grid-cols-3 md:gap-2 md:p-4 md:w-[700px] lg:group-hover:block ">
+                        @foreach ($subMenu as $subMenuItem)
+
+                        <?php $subMenu2 = App\Models\Menu::where('menu', '=', '1')
+                            ->where('parent', '=', $subMenuItem['id'])
+                            ->orderBy('sort')
+                            ->get(); ?>
+                        @if (count($subMenu2))
+                        <li class="parent2 relative  border-b last:border-b-0">
+                            <a class="lg:hover:text-yellow-600 border-b text-gray-600 block font-bold  py-2 pr-10 md:px-5"
+                                href="{{ in_array($subMenuItem['type'], ['internal', 'external']) ? url($subMenuItem['link']) : '/#' . $subMenuItem['link'] }}">
+
+                                <i
+                                    class="arrow top-4 left-10 md:left-4 max-sm:rotate-45 md:rotate-[135deg] border-gray-400"></i>
+
+                                {{ $subMenuItem['label'] }}
                             </a>
 
 
-                            <ul
-                                class="hidden submenu md:rounded-2xl md:shadow-xl border bg-gray-50 md:grid-cols-3 md:gap-4 md:p-4 md:w-[700px] lg:group-hover:block ">
-                                @foreach ($subMenu as $subMenuItem)
-                                    <li class="parent2 relative  border-b last:border-b-0">
-                                        <?php $subMenu2 = App\Models\Menu::where('menu', '=', '1')
-                                            ->where('parent', '=', $subMenuItem['id'])
-                                            ->orderBy('sort')
-                                            ->get(); ?>
-                                        @if (count($subMenu2))
-                                            <a class="lg:hover:text-yellow-600 border-b text-gray-600 block font-bold text-[15px] py-2 pr-10 md:px-5"
-                                                href="{{ in_array($subMenuItem['type'], ['internal', 'external']) ? url($subMenuItem['link']) : '/#' . $subMenuItem['link'] }}">
+                            <ul class="hidden submenu2 md:shadow-xl bg-gray-100 border md:absolute !top-0 md:right-[100%] z-20 md:rounded-2xl">
+                                @foreach ($subMenu2 as $subMenuItem2)
 
-                                                <i
-                                                    class="arrow top-4 left-10 md:left-4 max-sm:rotate-45 md:rotate-[135deg] border-gray-400"></i>
-
-                                                {{ $subMenuItem['label'] }}
+                                <?php $subMenu3 = App\Models\Menu::where('menu', '=', '1')
+                                    ->where('parent', '=', $subMenuItem2['id'])
+                                    ->orderBy('sort')
+                                    ->get(); ?>
+                                @if (count($subMenu3))
+                                <li class="parent3 border-b last:border-b-0">
+                                    <a href="{{ url($subMenuItem2['link']) }}"
+                                        class='lg:hover:text-yellow-600 text-gray-600 block font-bold py-2 pr-16 md:px-5   md:ml-5'>
+                                        <i
+                                            class="arrow top-4 left-10 md:left-4 max-sm:rotate-45 md:rotate-[135deg] border-gray-400"></i>
+                                        {{ $subMenuItem2['label'] }}
+                                    </a>
+                                    <ul class="hidden submenu3 md:shadow-xl bg-gray-100 border md:absolute !top-0 md:right-[100%] z-20 md:rounded-2xl">
+                                        @foreach ($subMenu3 as $subMenuItem3)
+                                        <li class="border-b last:border-b-0">
+                                            <a href="{{ url($subMenuItem3['link']) }}"
+                                                class='lg:hover:text-yellow-600 text-gray-600 block font-bold py-2 pr-16 md:px-5   md:ml-5'>
+                                                {{ $subMenuItem3['label'] }}
                                             </a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                @else
+                                <li class=" border-b last:border-b-0">
+                                    <a class="lg:hover:text-yellow-600 text-gray-600 block font-bold  py-2 pr-20 md:px-5"
+                                        href="{{ in_array($subMenuItem2['type'], ['internal', 'external']) ? url($subMenuItem2['link']) : '/#' . $subMenuItem2['link'] }}">
 
-
-                                            <ul class="hidden submenu2 md:shadow-xl bg-gray-100 border md:absolute !top-0 md:right-[100%] z-20 md:rounded-2xl">
-                                                @foreach ($subMenu2 as $subMenuItem2)
-                                                    <li class="border-b last:border-b-0">
-                                                        <a href="{{ url($subMenuItem2['link']) }}"
-                                                            class='lg:hover:text-yellow-600 text-gray-600 block font-bold py-2 pr-16 md:px-5 text-[15px] lg:group-hover:ul md:ml-5'>
-                                                            {{ $subMenuItem2['label'] }}
-                                                        </a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        @else
-                                            <a class="lg:hover:text-yellow-600 text-gray-600 block font-bold text-[15px] py-2 pr-10 md:px-5"
-                                                href="{{ in_array($subMenuItem['type'], ['internal', 'external']) ? url($subMenuItem['link']) : '/#' . $subMenuItem['link'] }}">
-
-                                                {{ $subMenuItem['label'] }}
-                                            </a>
-                                        @endif
-                                    </li>
+                                        {{ $subMenuItem2['label'] }}
+                                    </a>
+                                </li>
+                                @endif
                                 @endforeach
                                 <li class="lg:hidden">
-                                    <a class="text-yellow-600  block font-bold text-[15px]"
-                                        href="{{ url($menuItem['link']) }}">همه محصولات
-                                        {{ $menuItem['label'] }}</a>
+                                    <a class="text-yellow-600  block font-bold pr-20"
+                                        href="{{ url($subMenuItem['link']) }}">همه محصولات
+                                        {{ $subMenuItem['label'] }}</a>
 
                                 </li>
                             </ul>
                         </li>
-                    @else
-                        <li class='max-lg:border-b max-lg:py-2 md:mb-0'>
-                            <a href='{{ in_array($menuItem['type'], ['internal', 'external']) ? url($menuItem['link']) : '/#' . $menuItem['link'] }}'
-                                class='lg:hover:text-yellow-600 text-gray-600 pr-5 block font-bold text-[15px]'>{{ $menuItem['label'] }}</a>
+                        @else
+                        <li class=" relative  border-b last:border-b-0">
+                            <a class="lg:hover:text-yellow-600 text-gray-600 block font-bold  py-2 pr-10 md:px-5"
+                                href="{{ in_array($subMenuItem['type'], ['internal', 'external']) ? url($subMenuItem['link']) : '/#' . $subMenuItem['link'] }}">
+                                {{ $subMenuItem['label'] }}
+                            </a>
                         </li>
-                    @endif
+                        @endif
+                        @endforeach
+                        <li class="lg:hidden">
+                            <a class="text-yellow-600  block font-bold pr-10"
+                                href="{{ url($menuItem['link']) }}">همه محصولات
+                                {{ $menuItem['label'] }}</a>
+
+                        </li>
+                    </ul>
+                </li>
+                @else
+                <li class='max-lg:border-b max-lg:py-2 md:mb-0'>
+                    <a href='{{ in_array($menuItem['type'], ['internal', 'external']) ? url($menuItem['link']) : '/#' . $menuItem['link'] }}'
+                        class='lg:hover:text-yellow-600 text-gray-600 pr-5 block font-bold '>{{ $menuItem['label'] }}</a>
+                </li>
+                @endif
                 @endforeach
 
 
@@ -109,13 +148,16 @@
 
         $(document).ready(function() {
             if ($(window).width() <= 1023) {
-                $('.parent > a,.parent2 > a ').attr('href', '#')
+                $('.parent > a, .parent2 > a, .parent3 > a ').attr('href', '#')
 
                 $(".parent > a").click(function() {
                     $(this).next(".submenu").toggleClass("hidden");
                 });
                 $(".parent2 > a").click(function() {
                     $(this).next(".submenu2").toggleClass("hidden");
+                });
+                $(".parent3 > a").click(function() {
+                    $(this).next(".submenu3").toggleClass("hidden");
                 });
             } else {
                 $(".parent").hover(function() {
@@ -128,6 +170,12 @@
                     $(this).find(".submenu2").addClass("hover");
                 }, function() {
                     $(this).find(".submenu2").removeClass("hover");
+                });
+
+                $(".parent3").hover(function() {
+                    $(this).find(".submenu3").addClass("hover");
+                }, function() {
+                    $(this).find(".submenu3").removeClass("hover");
                 });
             }
         });
@@ -145,81 +193,81 @@
                 <a href="/" class="brand">
                     <img height="64" width="64" alt=" کریپو لوگو"
                         srcset="{{ url(env('TEMPLATE_NAME') . '/img/logo1x.png') }} 1x, {{ url(env('TEMPLATE_NAME') . '/img/logo2x.png') }} 2x"
-                        src="{{ url(env('TEMPLATE_NAME') . '/img/logo1x.png') }}" />
-                </a>
-                <span  class="white-space-nowrap px-1 ml-0 m-auto font-08 "></span>
+src="{{ url(env('TEMPLATE_NAME') . '/img/logo1x.png') }}" />
+</a>
+<span class="white-space-nowrap px-1 ml-0 m-auto font-08 "></span>
 
-                <input id="bmenu" type="checkbox" class="show">
-                <label for="bmenu" class="burger toggle pseudo button">
-                    <span class="hamburger">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                </label>
+<input id="bmenu" type="checkbox" class="show">
+<label for="bmenu" class="burger toggle pseudo button">
+    <span class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </span>
+</label>
 
-                <div class="menu">
+<div class="menu">
+    <ul>
+        @foreach (App\Models\Menu::where('parent', '=', '0')->orderBy('sort')->get() as $menuItem)
+        @php
+        $subMenu = App\Models\Menu::where('menu', '=', '1')
+        ->where('parent', '=', $menuItem['id'])
+        ->orderBy('sort')
+        ->get(); @endphp
+        @if (count($subMenu))
+
+        <li class="parent">
+            <a href="{{ url($menuItem['link']) }}">{{ $menuItem['label'] }} </a>
+            <div><i class="arrow down"></i></div>
+            <ul class="mega">
+                @foreach ($subMenu as $subMenuItem)
+
+                @php
+                $subMenu2 = App\Models\Menu::where('menu', '=', '1')
+                ->where('parent', '=', $subMenuItem['id'])
+                ->orderBy('sort')
+                ->get(); @endphp
+
+                @if (count($subMenu2))
+
+                <li class="parent">
+                    <a
+                        href="{{ url($subMenuItem['link']) }}">{{ $subMenuItem['label'] }}</a>
+
+                    <div><i class="arrow left"></i></div>
                     <ul>
-                        @foreach (App\Models\Menu::where('parent', '=', '0')->orderBy('sort')->get() as $menuItem)
-                            @php
-                                $subMenu = App\Models\Menu::where('menu', '=', '1')
-                                    ->where('parent', '=', $menuItem['id'])
-                                    ->orderBy('sort')
-                                ->get(); @endphp
-                            @if (count($subMenu))
-
-                                <li class="parent">
-                                    <a href="{{ url($menuItem['link']) }}">{{ $menuItem['label'] }} </a>
-                                    <div><i class="arrow down"></i></div>
-                                    <ul class="mega">
-                                        @foreach ($subMenu as $subMenuItem)
-
-                                            @php
-                                                $subMenu2 = App\Models\Menu::where('menu', '=', '1')
-                                                    ->where('parent', '=', $subMenuItem['id'])
-                                                    ->orderBy('sort')
-                                                ->get(); @endphp
-
-                                            @if (count($subMenu2))
-
-                                                <li class="parent">
-                                                    <a
-                                                        href="{{ url($subMenuItem['link']) }}">{{ $subMenuItem['label'] }}</a>
-
-                                                    <div><i class="arrow left"></i></div>
-                                                    <ul>
-                                                        @foreach ($subMenu2 as $subMenuItem2)
-                                                            <li><a
-                                                                    href="{{ in_array($subMenuItem2['type'], ['internal', 'external']) ? url($subMenuItem2['link']) : '/#' . url($subMenuItem2['link']) }}">
-                                                                    {{ $subMenuItem2['label'] }}
-                                                                </a>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </li>
-                                            @else
-                                                <li><a
-                                                        href="{{ in_array($subMenuItem['type'], ['internal', 'external']) ? url($subMenuItem['link']) : '/#' . url($subMenuItem['link']) }}">
-                                                        {{ $subMenuItem['label'] }}
-                                                    </a>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                </li>
-                            @else
-                                <li><a
-                                        href="{{ in_array($menuItem['type'], ['internal', 'external']) ? url($menuItem['link']) : '/#' . url($menuItem['link']) }}">
-                                        {{ $menuItem['label'] }}
-                                    </a>
-                                </li>
-
-                            @endif
-
+                        @foreach ($subMenu2 as $subMenuItem2)
+                        <li><a
+                                href="{{ in_array($subMenuItem2['type'], ['internal', 'external']) ? url($subMenuItem2['link']) : '/#' . url($subMenuItem2['link']) }}">
+                                {{ $subMenuItem2['label'] }}
+                            </a>
+                        </li>
                         @endforeach
                     </ul>
-                </div>
-            </nav>
-        </div>
-    </section>
+                </li>
+                @else
+                <li><a
+                        href="{{ in_array($subMenuItem['type'], ['internal', 'external']) ? url($subMenuItem['link']) : '/#' . url($subMenuItem['link']) }}">
+                        {{ $subMenuItem['label'] }}
+                    </a>
+                </li>
+                @endif
+                @endforeach
+            </ul>
+        </li>
+        @else
+        <li><a
+                href="{{ in_array($menuItem['type'], ['internal', 'external']) ? url($menuItem['link']) : '/#' . url($menuItem['link']) }}">
+                {{ $menuItem['label'] }}
+            </a>
+        </li>
+
+        @endif
+
+        @endforeach
+    </ul>
+</div>
+</nav>
+</div>
+</section>
 </div> --}}

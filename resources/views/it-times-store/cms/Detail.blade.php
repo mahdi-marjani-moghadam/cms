@@ -102,7 +102,7 @@ $append = '';
         </div>
     </div>
 </section>
-<section class="intro my-0 py-0" id="detail">
+<section class="intro my-0 pt-0 pb-4" id="detail">
     <div class="flex one four-500  ">
         <div class="order2-500">
             @if (isset($detail->images['images']['large']))
@@ -184,22 +184,17 @@ $append = '';
     </div>
 </section>
 
-<section class="content-detail bg-gray py-0 my-0" id="">
+<section class="content-detail bg-gray  pt-6 my-0 " id="">
     <div class="flex one ">
+        <ul class="">
+            @foreach ($table_of_content as $key => $item)
+            <li class="toc1 ">
+                <a class="" id="test" href="#{{ $item['anchor'] }}">✅ {{ $item['label'] }}</a>
+            </li>
+            @endforeach
 
-        <div class="">
-            <div>
-                <ul>
-                    @foreach ($table_of_content as $key => $item)
-                    <li class="toc1">
-                        <a id="test" href="#{{ $item['anchor'] }}">{{ $item['label'] }}</a>
-                    </li>
-                    @endforeach
-
-                </ul>
-                @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
-            </div>
-        </div>
+        </ul>
+        @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
     </div>
 </section>
 
