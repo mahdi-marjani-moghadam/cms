@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Lang;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 
+
 class CustomerController extends Controller
 {
 
@@ -66,7 +67,10 @@ class CustomerController extends Controller
 
         $cart = ($cookieUser) ? \Cart::session($cookieUser)->getContent()->toArray() : array();
 
-        return view('auth.customer.cartList', compact('cart'));
+        $previousUrl = url()->previous();
+        $backLink = Str::contains($previousUrl, 'customer/cart') ? url('/محصولات') : $previousUrl;
+
+        return view('auth.customer.cartList', compact('cart', 'backLink'));
     }
     public function cartStore(Request $request)
     {
@@ -92,6 +96,7 @@ class CustomerController extends Controller
                 'product_id' => $Product->id,
                 'slug' => $Product->slug,
                 'image' => $Product->images['images']['small'],
+                'in-stock' => $Product->attr['in-stock'],
             ),
             'associatedModel' => $Product
         ));
@@ -159,14 +164,15 @@ class CustomerController extends Controller
             dd($e);
         }
 
-        $message = "{$user->mobile}\nنام : {$pN}\nمبلغ : {$order->total_price}";
+        $name = (!is_null($user->customer) && $user->customer['name'] != '')? $user->customer['name'] . '-': '';
+        $message = "{$name} {$user->mobile} \n {$pN}\nمبلغ: {$order->total_price}";
 
-        if (env('SMS_PURCHASE', false)) {
-            @sendSms(array('09331181877'), $message);
-        }
+        // if (env('SMS_PURCHASE', false)) {
+        //     @sendSms(['09331181877'], $message);
+        // }
 
 
-        return redirect()->route('customer.order.detail',['order'=>$order]);
+        return redirect()->route('customer.order.detail', ['order' => $order]);
     }
     public function orderList()
     {
@@ -177,7 +183,7 @@ class CustomerController extends Controller
     }
     public function orderDetail(Order $order)
     {
-        if(!$order) return redirect()->route('customer.order.list')->with('message', __('messages.not found'));
+        if (!$order) return redirect()->route('customer.order.list')->with('message', __('messages.not found'));
         $user = Auth()->user();
         $orderDetail = $user->orders($order->id)->orderDetail;
 
@@ -227,12 +233,12 @@ class CustomerController extends Controller
         if ($user->customer == null) {
 
             Customer::create([
-                'user_id'=> $user->id,
+                'user_id' => $user->id,
                 'mobile' => $user->mobile,
                 $name => $value
             ]);
 
-            if(count($user->getRoleNames()) == 0){
+            if (count($user->getRoleNames()) == 0) {
                 $user->assignRole('customer');
             }
 
@@ -552,21 +558,60 @@ class CustomerController extends Controller
             return redirect()->back()->with('error', 'Ooops!');
         }
 
+        $this->validate($request, [
+            'name' => 'required',
+            'address' => 'required',
+            'zipcode' => 'required'
+        ], [
+            'name' => 'نام را وارد نمایید',
+            'address' => 'آدرس را وارد نمایید',
+            'zipcode' => 'کدپستی را وارد نمایید'
+        ]);
+
+        $name = $request->name;
+        $address = $request->address;
+        $zipcode = $request->zipcode;
+
+
+        if ($user->customer == null) {
+
+            Customer::create([
+                'user_id' => $user->id,
+                'mobile' => $user->mobile,
+                $name => $name
+            ]);
+
+            if (count($user->getRoleNames()) == 0) {
+                $user->assignRole('customer');
+            }
+        }
+        // dd($user->customer);
+        $user->customer->name = $name;
+        $user->customer->address = $address;
+        $user->customer->zipcode = $zipcode;
+        $user->customer->save();
+
+        $user->name = $name;
+        $user->save();
+
 
         // get bill
-        $bill = $request->file('bill');
+        $bills = $request->file('bill');
+
 
 
         // check file
-        if (!$bill) return redirect()->back()->with('error', 'لطفا فایل را آپلود نمایید');
-
-
-        // upload file on server
+        if (!$bills) return redirect()->back()->with('error', 'لطفا فایل را آپلود نمایید');
         $imagePath = '/upload/images/customer/bill/';
-        $fileName = $user->id . '(' . $user->mobile . ')-' . $order->id . '-' . Carbon::now() . '.' . $bill->extension();
-        $bill->move(public_path($imagePath), $fileName);
+        $fileNames = '';
+        foreach ($bills as $bill) {
+            // upload file on server
 
-
+            $uniq = Carbon::now();
+            $fileName =  $user->id . '(' . $user->mobile . ')-' . $order->id . '-' . $uniq . '.' . $bill->extension();
+            $fileNames .= ',' . $imagePath . $fileName;
+            $bill->move(public_path($imagePath), $fileName);
+        }
         // transaction
         $user->transactions()->firstOrCreate([
             'title' => 'آپلود فیش',
@@ -575,7 +620,7 @@ class CustomerController extends Controller
             'discount_code' => '',
             'status' => 3,
             'message' => "آپلود فیش {$order->price} " . convertGToJ(Carbon::now()),
-            'description' => "{$imagePath}{$fileName}",
+            'description' => trim($fileNames, ','),
             'transactionable_type' => Order::class,
             'transactionable_id' => $order->id,
         ]);
@@ -586,12 +631,11 @@ class CustomerController extends Controller
         $order->save();
 
 
-        if(env('SMS_PURCHASE', false))
-        {
-            @sendSms(array('09374599840','09331181877'), "فیش {$order->id} مبلغ {$order->total_price} ثبت شد.");
+        if (env('SMS_PURCHASE', false)) {
+            @sendSms(array('09374599840', '09331181877'), "پرداخت  #{$order->id} - {$name} \n{$order->total_price} تومان");
         }
 
-        return redirect()->route('customer.transaction')->with('success', 'فیش آپلود شد. منتظر تماس از بخش ارسال بمانید.');
+        return redirect()->route('customer.order.list')->with('success', 'فیش آپلود شد. منتظر تماس از بخش ارسال بمانید.');
     }
 
     public function sendToBand(Request $request, Transaction $transaction)

@@ -789,6 +789,7 @@ if (!function_exists('sendSms')) {
     {
         // media.sms24.ir
         ini_set('soap.wsdl_cache_enabled', '0');
+
         $sms_client = new SoapClient('http://payamak-service.ir/SendService.svc?wsdl', ['encoding' => 'UTF-8']);
         $fromNumber = (array)json_decode(env('SMS_SENDER')) ?? [
             '1000365',
@@ -813,7 +814,7 @@ if (!function_exists('sendSms')) {
             $parameters['toNumbers'] = $numbers;
             $parameters['messageContent'] = $message;
             $parameters['isFlash'] = false;
-            $recId = array(0);
+            $recId = [0];
             $status = 0x0;
             $parameters['recId'] = &$recId;
             $parameters['status'] = &$status;
@@ -830,7 +831,7 @@ if (!function_exists('sendSms')) {
 
             // $res = sendSms($numbers, $message, ++$i);
 
-            return $res;
+            // return $res;
         } catch (Exception $e) {
 
             return 'SMS exception: ' . $e->getMessage() . "\n";
@@ -1091,6 +1092,7 @@ if (!function_exists('replace_shortcodes')) {
 if (!function_exists('image_or_placeholder')) {
     function image_or_placeholder($src, $type = 'post')
     {
-        return file_exists(public_path($src)) ? $src : asset("img/placeholder-$type.png");
+
+        return file_exists(public_path($src)) ? $src : url(asset("img/placeholder-$type.png"));
     }
 }

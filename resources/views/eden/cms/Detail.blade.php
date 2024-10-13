@@ -153,7 +153,7 @@ $price = $detail->GoldPrice();
                                                     <div class="not-in-stock">قابل سفارش</div>
                                                 @endif --}}
                                     <div class="overflow-hidden">
-                                        <img id="main-image" loading="lazy" class="" data-xlarge="{{ $detail->images['images']['xlarge'] ?? $detail->images['images']['large'] }}" src="{{ $detail->images['images']['large'] }}" alt="{{ $detail->title }}" width="{{ env(Str::upper($detail->attr_type) . '_LARGE_W') }}" height="{{ env(Str::upper($detail->attr_type) . '_LARGE_H') }}">
+                                        <img id="main-image" loading="lazy" class="" data-xlarge="{{ $detail->images['images']['xlarge'] ?? $detail->images['images']['large'] }}" src="{{ image_or_placeholder($detail->images['images']['large']) }}" alt="{{ $detail->title }}" width="{{ env(Str::upper($detail->attr_type) . '_LARGE_W') }}" height="{{ env(Str::upper($detail->attr_type) . '_LARGE_H') }}">
 
                                         <i class="fa-solid hidden-500 fa-magnifying-glass-plus font-15 zoom p-3 border-radius-5"></i>
                                     </div>
@@ -163,9 +163,9 @@ $price = $detail->GoldPrice();
 
                             @if ($detail->gallery->count())
                             <div class="gallery">
-                                <img onclick="myFunction(this);" class="m-1" data-large="{{ $detail->images['images']['large'] }}" data-xlarge="{{ $detail->images['images']['xlarge'] ?? $detail->images['images']['large'] }}" src="{{ $detail->images['images']['small'] }}" height="100">
+                                <img onclick="myFunction(this);" class="m-1 max-h-24" data-large="{{ $detail->images['images']['large'] }}" data-xlarge="{{ $detail->images['images']['xlarge'] ?? $detail->images['images']['large'] }}" src="{{ image_or_placeholder($detail->images['images']['small']) }}" height="100">
                                 @foreach ($detail->gallery as $item)
-                                <img onclick="myFunction(this);" class="m-1" data-large="{{ $item->images['images']['large'] }}" data-xlarge="{{ $item->images['images']['xlarge'] ?? $item->images['images']['large'] }}" src="{{ $item->images['images']['small'] }}" height="100">
+                                <img onclick="myFunction(this);" class="m-1 max-h-24" data-large="{{ $item->images['images']['large'] }}" data-xlarge="{{ $item->images['images']['xlarge'] ?? $item->images['images']['large'] }}" src="{{ image_or_placeholder($item->images['images']['small']) }}" height="100">
                                 @endforeach
                             </div>
                             @endif

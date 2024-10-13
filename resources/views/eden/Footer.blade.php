@@ -1,4 +1,4 @@
-<footer class="wide" id="footer">
+<footer class="wide @if(in_array(Route::currentRouteName(), ['customer.order.detail','customer.cart.list'])) hidden @endif" id="footer">
     <div class=" grid md:grid-cols-3 gap-x-5 md:py-10 max-md:px-5 md:px-[10px]">
         <div class=" pt-1 ">
             <div class="font-bold border-b-2 border-[#ca8a04] md:inline-block mb-3 pl-20">اطلاعات تماس <span class="hidden max-sm:invisible">+</span></div>
@@ -99,11 +99,11 @@
     //         });
     //     }, 500);
 
-        // $('.toggle-show').hide();
+    // $('.toggle-show').hide();
 
-        // $('.toggle-show').prev().click(function(e){
-        //     $(this).next().toggle();
-        // });
+    // $('.toggle-show').prev().click(function(e){
+    //     $(this).next().toggle();
+    // });
     // }
 </script>
 

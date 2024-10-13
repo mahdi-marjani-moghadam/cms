@@ -80,8 +80,7 @@ class LoginController extends Controller
             return $this->traitLogin($request);
         }
 
-
-        if (!$this->attemptLogin($request)) {
+        if (!$this->attemptLogin($request) && $request->header('referer') != url('admin/login')) {
 
 
 
