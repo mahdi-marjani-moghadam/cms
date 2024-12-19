@@ -67,6 +67,9 @@
             <a href="{{ route('contact.index') }}" class="no-margin @if (!$ltr) text-right @endif">
                 <i class="sidebar-icon @if (!$ltr) pull-right @endif fa fa-envelope"></i>
                 <span class="sidebar-text @if (!$ltr) text-right @endif">@lang('messages.contact')</span>
+                @isset($contactCount)
+                    <span class="budget ">{{ $contactCount ?? 0 }}</span>
+                @endisset
             </a>
         </li>
 
