@@ -78,7 +78,18 @@
 {{-- <script src="{{ url('/main.js') }}"></script> --}}
 @if (WebsiteSetting::where('variable', '=', 'phone')->first()?->value != '' )
 <a href="tel:{{ WebsiteSetting::where('variable', '=', 'phone')->first()->value }}" id="callnowbutton"></a>
+<script>
+    document.getElementById('callnowbutton').addEventListener('click', function() {
+    gtag('event', 'call_button', {
+        event_category: 'Contact',
+        event_label: 'Call Button',
+        value: 1
+    });
+});
+</script>
 @endif
+
+
 </body>
 
 </html>
