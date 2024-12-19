@@ -59,7 +59,7 @@
                 <div>
                     این وب سایت متعلق به فروشگاه عصر آی تی می باشد.
 
-                    ساخته شده توسط <a target="_blanck" href="https://tarhoweb.com">طرح و وب</a></div>
+                    ساخته شده توسط <a target="_blanck" href="https://dingweb.ir">DingWeb</a></div>
             </div>
         </div>
     </div>

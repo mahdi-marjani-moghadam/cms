@@ -153,14 +153,16 @@ $append = '';
 
         <div class="md:col-span-3 shadow !rounded-lg">
             <div class="">
+                <div class="text-lg">فهرست مطالب</div>
                 <ul>
                     @foreach ($table_of_content as $key => $item)
                     <li class="toc1">
-                        <a id="test" href="#{{ $item['anchor'] }}">{{ $item['label'] }}</a>
+                        - <a id="test" href="#{{ $item['anchor'] }}">{{ $item['label'] }}</a>
                     </li>
                     @endforeach
 
                 </ul>
+                <hr class="pb-2 pt-2">
                 @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
             </div>
         </div>
@@ -202,6 +204,15 @@ $append = '';
             </div>
         </div>
 
+    </div>
+</section>
+
+<section class="content-detail">
+    <div class="lg:w-1/2 m-auto">
+        <a href="https://dxbestate.net" target="blank" rel="nofollow">
+
+            <img src="{{asset('img/banner-bottom-article1.gif')}}" alt="">
+        </a>
     </div>
 </section>
 

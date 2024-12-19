@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Redirect;
 use Intervention\Image\Facades\Image;
 use App\Models\RedirectUrl;
 use App\Models\Widget;
+use Hamcrest\Arrays\IsArray;
 use Illuminate\Database\Eloquent\Collection;
 use PDF;
 use PhpParser\ErrorHandler\Collecting;
@@ -23,9 +24,7 @@ class CmsController extends Controller
     public $breadcrumb;
 
 
-    public function showContent($seo, $detail, $breadcrumb, $table_of_content, $images, $editorModule)
-    {
-    }
+    public function showContent($seo, $detail, $breadcrumb, $table_of_content, $images, $editorModule) {}
 
     public function showCategory($seo, $detail, $breadcrumb, $table_of_content, $images, $editorModule, $request)
     {
@@ -130,7 +129,7 @@ class CmsController extends Controller
 
         // redirect url
 
-        $spesifiedUrl = RedirectUrl::where('url', 'like', '/' . rawurldecode($slug))->orWhere('url', 'like', '/' .rawurlencode($slug));
+        $spesifiedUrl = RedirectUrl::where('url', 'like', '/' . rawurldecode($slug))->orWhere('url', 'like', '/' . rawurlencode($slug));
 
         if ($spesifiedUrl->exists()) {
             return Redirect::to(url($spesifiedUrl->first()->redirect_to), 301);
@@ -343,17 +342,26 @@ class CmsController extends Controller
 
         // Get category
         $cat = Content::where([['parent_id', '=', (int)$config['parent_id']], ['type', '=', 1]])->get()->toArray();
-
+        // dd($config['sort']);
         // Get post and product with parent id
-        $sort = explode(' ', $config['sort']);
+
+        // dd($sort);
         $content = Content::where([
             ['parent_id', '=', $config['parent_id']],
             ['type', '=', 2],
             // ['attr_type', '=', $attr_type],
             ['publish_date', '<=', DB::raw('now()')]
-        ])
-            ->limit($config['count'])
-            ->orderby($sort[0], $sort[1]);
+        ]);
+        if (isset($config['count'])) {
+            $content = $content->limit($config['count']);
+        }
+
+        if (isset($config['sort'])) {
+            $sort = explode(' ', $config['sort']);
+            if (is_array($sort)) {
+                $content = $content->orderby($sort[0], $sort[1]);
+            }
+        }
 
         if ($attr_type != '') $content = $content->where('attr_type', '=', $attr_type);
 
