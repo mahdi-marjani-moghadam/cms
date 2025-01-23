@@ -88,6 +88,9 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                {!! $users->appends(Request::except('page'))->appends(Request::except('qtitle'))->onEachSide(5)->links() !!}
+
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@
     @if (url('/') == 'https://it-times-store.com')
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZG33MET3P7"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZGJ98DVSCC"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -14,7 +14,7 @@
         }
         gtag('js', new Date());
 
-        gtag('config', 'G-ZG33MET3P7');
+        gtag('config', 'G-ZGJ98DVSCC');
     </script>
 
     @endif

@@ -14,15 +14,11 @@ use GuzzleHttp;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
-
+use Illuminate\Http\JsonResponse;
 
 class SpiderController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
     public function __construct()
     {
         //$this->middleware('auth');
@@ -30,14 +26,15 @@ class SpiderController extends Controller
         //$this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+
     public function index()
     {
         return view('admin.index');
+    }
+
+    public function tolidatScraping(SpiderService $sp, $page) : JsonResponse {
+        $sp->tolidat($page);
+        return response()->json('Hello, World!');
     }
 
     public function spider(SpiderService $sp)

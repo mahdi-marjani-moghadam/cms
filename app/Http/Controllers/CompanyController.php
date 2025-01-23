@@ -292,7 +292,7 @@ class CompanyController extends Controller
         // dd($filenameOrg);
 
 
-        $image_parts = explode(";base64,", $file);
+        $image_parts = explode(";base64,", string: $file);
         $image_type_aux = explode("image/", $image_parts[0]);
         $image_type = $image_type_aux[1];
         $image_base64 = base64_decode($image_parts[1]);
@@ -329,7 +329,7 @@ class CompanyController extends Controller
 
         $images['crop'] = $imagePath . $fileNameAndType;
         foreach ($sizes as $name => $size) {
-            $images[$name] = $imagePath  . $fileName . "-{$name}." . $fileType;
+            $images[$name] = $imagePath . $fileName . "-{$name}." . $fileType;
 
             // dd($path);
             $img = Image::make(public_path($path));
@@ -382,7 +382,7 @@ class CompanyController extends Controller
             'title' => $content->title,
             'count' => $count,
             'price' => $price,
-            'description' =>  Lang::get('messages.power up for', ['count' => $count, 'content' => $content->title]),
+            'description' => Lang::get('messages.power up for', ['count' => $count, 'content' => $content->title]),
             'transactionable_type' => Content::class,
             'transactionable_id' => $content->id,
             'message' => Lang::get('messages.invoice created'),
@@ -521,7 +521,7 @@ class CompanyController extends Controller
         // dd($breadcrumb);
         return view('auth.profileShow', compact('company', 'breadcrumb', 'seo'));
     }
-    public function clearInstagramUrl(String $var = null)
+    public function clearInstagramUrl(string $var = null)
     {
         // $var = 'https://instagram.com/ads/f#adsf@instagram';
         if (str_contains($var, 'instagram.com')) {
@@ -582,7 +582,7 @@ class CompanyController extends Controller
 
     public function companyList()
     {
-        $companies = Company::orderBy('id', 'desc')->get();
+        $companies = Company::orderBy('id', 'desc')->paginate(10);
 
         return view('admin.company.index', compact('companies'));
     }
@@ -621,7 +621,7 @@ class CompanyController extends Controller
         $data['password'] = Hash::make(123456);
 
 
-        $user = $this->companyStoreService($data, new Company);
+        $this->companyStoreService($data, new Company);
 
         return redirect()->route('admin.company.index')->with('success', Lang::get('messages.Greate! Company created successfully.'));
     }
@@ -645,7 +645,7 @@ class CompanyController extends Controller
 
 
 
-    public function companyStoreService($data, $company)
+    public function companyStoreService($data, $company): Company
     {
 
         $parent_id_hide = $data['parent_id_hide'];
@@ -661,7 +661,6 @@ class CompanyController extends Controller
             $company->update($data);
             $user = User::where('id', '=', $company->user_id)->first();
 
-            $company->categories()->detach();
         } else {
             $user = User::create($data);
             $data['user_id'] = $user->id;
@@ -675,8 +674,10 @@ class CompanyController extends Controller
         }
 
         $user->assignRole('company');
+        if($company->parent_id != null){
+            $company->categories()->attach($data['parent_id_hide']);
+        }
 
-        $company->categories()->attach($data['parent_id_hide']);
 
 
         if ($data['imageJson']) {
@@ -686,7 +687,7 @@ class CompanyController extends Controller
         }
 
 
-        return $user;
+        return $company;
     }
     public function companyDestroy(Company $company)
     {

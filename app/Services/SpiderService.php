@@ -2,26 +2,241 @@
 
 namespace App\Services;
 
+use App\Http\Controllers\CompanyController;
+use App\Models\Category;
+use App\Models\Company;
 use App\Models\Role;
 use App\Models\spider;
+use App\Models\User;
 use CURLFile;
 use DOMDocument;
 use DOMXPath;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Client;
-
+use Illuminate\Support\Facades\Hash;
+use PhpParser\Node\Expr\Cast\Array_;
 
 class SpiderService
 {
 
     protected $role;
 
-    public function __construct()
+    public function __construct($address = 'https://tolidat.ir/company/')
     {
         // $this->role = $role;
+
+        $this->base_uri = $address;
+
+        // https://books.toscrape.com/
+        $this->client = new Client([
+            'base_uri' => $this->base_uri,
+            'timeout' => 300.0,
+            'verify' => false
+        ]);
+
+    }
+
+    public function tolidat($page = 1)
+    {
+        ini_set('max_execution_time', 300000000); //300 seconds = 5 minutes
+
+        // $page = 1; // شروع از صفحه 1
+
+        $allData = []; // آرایه‌ای برای ذخیره همه داده‌ها
+        while (true) {
+            $url = $page === 1 ? '/company/' : "/company/page/$page";
+            echo '<pre>';
+            print_r($url);
+            ob_flush();
+            flush();
+            $this->load_html($url); // Load HTML from URL
+            $this->load_dom(); // Load HTML to DOMDocument & DOMXpath to start reading nodes
+            $data = $this->scrape(); // Scrape data from nodes as required
+
+            if (empty($data)) {
+                break; // اگر داده‌ای یافت نشد، از حلقه خارج شو
+            }
+
+            $allData = array_merge($allData, $data); // اضافه کردن داده‌های جدید به آرایه اصلی
+            $page++; // رفتن به صفحه بعد
+
+
+            if ($page == 200) {
+                break;
+            }
+        }
+        // echo $page;
+        dd('Fetched ' . count($allData));
+
+    }
+
+    private function load_html($url = '')
+    {
+        $response = $this->client->get($url);
+        $this->html = $response->getBody()->getContents();
+
+        // file_put_contents('debug.html', $this->html); // ذخیره برای بررسی
+    }
+
+    private function load_dom()
+    {
+        // throw Exception if no HTML content.
+        if (!$this->html) {
+            throw new Exception('No HTML content.');
+        }
+
+        $this->doc = new DOMDocument;
+        @$this->doc->loadHTML($this->html);
+        $this->xpath = new DOMXpath($this->doc);
+    }
+    private function scrape()
+    {
+        // Identify all book nodes
+        $elements = $this->xpath->query("//div[@class='lg:col-span-3']/div[contains(@class,'w-full')]");
+        if ($elements->length == 0) {
+            return [];
+            // throw new Exception('Elements not present for scraping.');
+        }
+
+        // Loop through each book node and find book data,
+        // then store data to $data array
+        $data = [];
+        foreach ($elements as $key => $element) {
+            // echo $this->doc->saveHTML($element);
+
+            $item = $this->parse_detail($element);
+            $data[] = $item;
+            // echo '<pre>';
+            // print_r($item);
+            // ob_flush();
+            // flush();
+            // array_push($data, $item);
+        }
+
+        return $data;
+        // Write $data to csv
+        // $this->to_csv($data);
+    }
+
+    private function parse_detail($element)
+    {
+        $item = [];
+
+        // get detail
+        $item['logo'] = $this->extract(".//img[contains(@class,'rounded-md')]/@src", $element);
+        $item['name'] = $this->extract(".//a//h3", $element);
+        $item['url'] = $this->extract(".//a/@href", $element);
+        $item = array_merge($item, $this->getDetail($item['url']));
+
+        // insert db
+        $this->addToCompany($item);
+
+
+        return $item;
+    }
+    public function extractDetail($element, $xpath)
+    {
+        $value = $xpath->query($element);
+        $returnValue = '';
+        foreach ($value as $v) {
+            $returnValue .= ',' . trim($v->nodeValue, "- \n\r\t\v\0");
+        }
+        return trim($returnValue, "-, \n\r\t\v\0");
+    }
+
+    private function extract($node, $element)
+    {
+        // Get node text
+        $value = '';
+        try {
+            $value = $this->xpath->query($node, $element);
+            if ($value->length > 0) {
+                $value = $value->item(0)->nodeValue;
+            }
+        }
+        catch (Exception $e) {
+            dd($e);
+        }
+
+        return trim($value);
+    }
+    private function getDetail($url): array
+    {
+        $this->load_html($url);
+        $doc = new DOMDocument;
+        @$doc->loadHTML($this->html);
+        $xpath = new DOMXpath($doc);
+
+        $item['phone'] = $item['mobile'] = str_replace('tel:', '', $this->extractDetail("//a[@id='btn-call-to-company']/@href", $xpath));
+        $item['description'] = $this->extractDetail("//p[contains(@class,'text-regular text')]/text()", $xpath);
+        $item['address'] = $this->extractDetail("//ul[contains(@class,'address-contact')]/li/text()", $xpath);
+        $item['category'] = $this->extractDetail("//div[contains(@class,'category-inside border-t pt-2 flex flex-wrap gap-2')]//a/text()", $xpath);
+
+        return $item;
     }
 
 
+    private function addToCompany($item): Company|null
+    {
+
+        $company = null;
+        $categoryTitles = explode(',', $item['category']);
+        $category = [null];
+        if (!User::where('name', '=', $item['name'])->exists() && $item['name'] != '') {
+            $cat = (new Category)->select('title', 'id');
+            foreach ($categoryTitles as $v) {
+                $cat = $cat->orWhere('title', 'like', $v);
+            }
+            $category = $cat->get()->toArray();
+
+            if (is_array($category) && count($category) == 0) {
+
+                echo "<pre>⛔ categories: {$item['category']} !Not Exist";
+                ob_flush();
+                flush();
+
+                return null;
+            }
+
+
+            $item['parent_id_hide'] = $category[0]->id ?? Null;
+            $item['parent_id'] = array_merge(array_column($category, 'id'), [1]);
+            $item['imageJson'] = '';
+            if ($item['logo'] != 'https://tolidat.ir/templates/template_fa/assets/images/placeholder-logo.png') {
+                $arrContextOptions = array(
+                    "ssl" => array(
+                        "verify_peer" => false,
+                        "verify_peer_name" => false,
+                    ),
+                );
+                $item['imageJson'] = "data:@image/jpg;base64," . base64_encode(file_get_contents($item['logo'], false, stream_context_create($arrContextOptions)));
+            }
+
+            $item['password'] = Hash::make(123456);
+            $item['status'] = 1;
+            $randomId = implode('', array_map(fn() => random_int(0, 9), range(1, 12)));
+            $item['mobile'] = ($item['mobile'] != '') ? $item['mobile'] : $randomId;
+            try {
+                $company = app('App\Http\Controllers\CompanyController')->companyStoreService($item, new Company);
+            }
+            catch (Exception $e) {
+                echo "<pre>" . $e->getMessage();
+                ob_flush();
+                flush();
+            }
+
+            echo "<pre>✅ {$item['mobile']} - {$item['name']}  +Created";
+            ob_flush();
+            flush();
+
+        } else {
+            echo "<pre>⚠️ {$item['mobile']} - {$item['name']} !Exists";
+            ob_flush();
+            flush();
+        }
+        return $company;
+    }
     public static function addToCms($request)
     {
 
@@ -326,6 +541,9 @@ class SpiderService
 
 
     }
+
+
+
 
 
 

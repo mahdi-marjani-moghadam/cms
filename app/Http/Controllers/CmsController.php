@@ -144,6 +144,7 @@ class CmsController extends Controller
 
         // 404
         if ($detail === null) {
+
             $data['title'] = '404';
             $data['name'] = 'Page not found';
             return response()
@@ -444,7 +445,6 @@ class CmsController extends Controller
         $content = str_replace('&nbsp;', ' ', $content);
 
         $whocares = preg_match_all($pattern, $content, $winners);
-
         // dd($winners[0],$winners[1]);
         //dd(Request::url());
         //dd(url()->current());
@@ -477,9 +477,11 @@ class CmsController extends Controller
             $list['list'][$count]['label'] = $label;
             $list['list'][$count]['anchor'] = $anchor;
             $table_of_content = '';
-            //dd($val);
-
-            $anchor = '<a id="' . str_replace(' ', '-', cleareText($val)) . '" href="#' . str_replace(' ', '-', cleareText($val)) . '">' . cleareText($val) . '</a>';
+            if(preg_match_all('|<a[^>]*>(.*?)</a>|', $val) == 0){
+                $anchor = '<a id="' . str_replace(' ', '-', cleareText($val)) . '" href="#' . str_replace(' ', '-', cleareText($val)) . '">' . cleareText($val) . '</a>';
+            }else{
+                $anchor = $val.'<span id="' . str_replace(' ', '-', cleareText($val)) . '">' . ' ' . '</span>';
+            }
 
             $anchor = str_replace($winners[1][$key], $anchor, $winners[0][$key]);
             // echo ($anchor);die();

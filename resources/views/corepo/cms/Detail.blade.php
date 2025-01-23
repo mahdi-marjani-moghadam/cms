@@ -9,13 +9,13 @@
 
 @if (isset($detail->images['images']['medium']))
 
-@section('twitter:image', url($detail->images['images']['medium']))
+    @section('twitter:image', url($detail->images['images']['medium']))
 
-@section('og:image', url($detail->images['images']['medium']))
-@section('og:image:type', 'image/jpeg')
-@section('og:image:width', $detail->attr_type == 'product' ? env('PRODUCT_MEDIUM_W') : env('ARTICLE_MEDIUM_W'))
-@section('og:image:height', $detail->attr_type == 'article' ? env('PRODUCT_MEDIUM_H') : env('ARTICLE_MEDIUM_H'))
-@section('og:image:alt', $detail->title)
+    @section('og:image', url($detail->images['images']['medium']))
+    @section('og:image:type', 'image/jpeg')
+    @section('og:image:width', $detail->attr_type == 'product' ? env('PRODUCT_MEDIUM_W') : env('ARTICLE_MEDIUM_W'))
+    @section('og:image:height', $detail->attr_type == 'article' ? env('PRODUCT_MEDIUM_H') : env('ARTICLE_MEDIUM_H'))
+    @section('og:image:alt', $detail->title)
 
 @endif
 
@@ -55,10 +55,10 @@
 </script>
 
 @auth
-@if (Auth::user()->id == 1)
-<div class="btn btn-info edit-button" onclick="window.open('{{ url('/admin/contents/' . $detail->id . '/edit/') }}')">
-    ویرایش</div>
-@endif
+    @if (Auth::user()->id == 1)
+        <div class="btn btn-info edit-button" onclick="window.open('{{ url('/admin/contents/' . $detail->id . '/edit/') }}')">
+            ویرایش</div>
+    @endif
 @endauth
 @endsection
 
@@ -66,21 +66,21 @@
 
 @section('Content')
 @php
-$tableOfImages = tableOfImages($detail->description);
-$append = '';
+    $tableOfImages = tableOfImages($detail->description);
+    $append = '';
 @endphp
 
 @if ($detail->attr_type == 'product')
-@include('jsonLdProduct')
+    @include('jsonLdProduct')
 @endif
 @include('jsonLdFaq')
 
 @if ($detail->attr_type == 'article')
-@include('jsonLdArticle')
+    @include('jsonLdArticle')
 @endif
 
 @if (count($breadcrumb) > 0)
-@include('jsonLdBreadcrumb')
+    @include('jsonLdBreadcrumb')
 @endif
 
 <section class="breadcrumb">
@@ -88,23 +88,26 @@ $append = '';
         <div class="p-0">
             <a href="/">خانه </a>
             @foreach ($breadcrumb as $key => $item)
-            <span>></span>
-            <a title="{{ $item['title'] }}" href="{{ $item['slug'] }}">{{ $item['title'] }}</a>
+                <span>></span>
+                <a title="{{ $item['title'] }}" href="{{ $item['slug'] }}">{{ $item['title'] }}</a>
             @endforeach
 
         </div>
     </div>
 </section>
+
+
 <section class="intro" id="detail">
     <div class="grid sm:grid-cols-3 md:grid-cols-5 gap-x-5">
         <div class="pb-0 max-sm:w-full">
             @if (isset($detail->images['images']['small']))
-            <figure class="image">
-                <img class="" src="{{ image_or_placeholder($detail->images['images']['small']) }}" alt="{{ $detail->title }}" width="200" height="200" srcset="
-                                    {{ image_or_placeholder($detail->images['images']['small']) }} 1x,
-                                    {{ $detail->images['images']['large'] ?? $detail->images['images']['small'] }} 2x">
+                <figure class="image">
+                    <img class="" src="{{ image_or_placeholder($detail->images['images']['small']) }}"
+                        alt="{{ $detail->title }}" width="200" height="200" srcset="
+                                        {{ image_or_placeholder($detail->images['images']['small']) }} 1x,
+                                        {{ $detail->images['images']['large'] ?? $detail->images['images']['small'] }} 2x">
 
-            </figure>
+                </figure>
             @endif
 
         </div>
@@ -114,23 +117,23 @@ $append = '';
             <div class="website"></div>
             <div class="rate text-xs flex gap-x-1 items-center">
                 @if (isset($detail->comments) && count($detail->comments))
-                @php
-                $rateAvrage = $rateSum = 0;
-                @endphp
-                @foreach ($detail->comments as $comment)
-                @php
-                $rateSum = $rateSum + $comment['rate'];
-                @endphp
-                @endforeach
-                <span>
-                    @for ($i = $rateSum / count($detail->comments); $i >= 1; $i--)
-                    <label></label>
-                    @endfor
-                </span>
+                                @php
+                                    $rateAvrage = $rateSum = 0;
+                                @endphp
+                                @foreach ($detail->comments as $comment)
+                                            @php
+                                                $rateSum = $rateSum + $comment['rate'];
+                                            @endphp
+                                @endforeach
+                                <span>
+                                    @for ($i = $rateSum / count($detail->comments); $i >= 1; $i--)
+                                        <label></label>
+                                    @endfor
+                                </span>
                 @endif
                 <span class="">
                     @if (isset($detail->comments) && count($detail->comments))
-                    ({{ count($detail->comments) }} نفر) |
+                        ({{ count($detail->comments) }} نفر) |
                     @endif
                     {{ $detail->viewCount }}
                     بازدید
@@ -150,21 +153,30 @@ $append = '';
 
 <section class="content-detail" id="">
     <div class="grid  md:grid-cols-4 gap-4">
-
         <div class="md:col-span-3 shadow !rounded-lg">
-            <div class="">
+
+
+
+
+            <div class="[&_img]:my-4">
                 <div class="text-lg">فهرست مطالب</div>
                 <ul>
                     @foreach ($table_of_content as $key => $item)
-                    <li class="toc1">
-                        - <a id="test" href="#{{ $item['anchor'] }}">{{ $item['label'] }}</a>
-                    </li>
+                        <li class="toc1">
+                            - <a id="test" href="#{{ $item['anchor'] }}">{{ $item['label'] }}</a>
+                        </li>
                     @endforeach
 
                 </ul>
                 <hr class="pb-2 pt-2">
                 @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
             </div>
+
+
+
+
+
+
         </div>
         <div class=" ">
             <div class="">
@@ -174,9 +186,10 @@ $append = '';
                 @if (isset($adv) && isset($adv['images']))
                 <div class="text-center shadow rounded-xl">
                     @foreach ($adv['images'] as $k => $content)
-                    <a class="text-center block" target="_blanck" href="{{ $adv['url'][$k] }}" @if (!isset($adv['follow'][$k])) rel="nofollow" @endif>
-                        <img class="inline" width="200px" height="200px" src="{{ image_or_placeholder($content) }}" alt="محل تبلیغ کریپو">
-                    </a>
+                        <a class="text-center block" target="_blanck" href="{{ $adv['url'][$k] }}" @if (!isset($adv['follow'][$k])) rel="nofollow" @endif>
+                            <img class="inline" width="200px" height="200px" src="{{ image_or_placeholder($content) }}"
+                                alt="محل تبلیغ کریپو">
+                        </a>
                     @endforeach
                 </div>
                 @endisset
@@ -186,18 +199,21 @@ $append = '';
                 <div class="mt-4">آخرین مقالات</div>
                 {{--post&label=sideCategory&var=sideCategory&count=10&child=true --}}
                 @isset($sideCategory['data'])
-                <ul class=" shadow rounded-xl">
-                    @foreach ($sideCategory['data'] as $item)
-                    <li class="border-b last:border-b-0 border-gray-300 pb-2 last:pb-0">
-                        <a class="flex gap-x-1" href="{{ url($item->slug) }} ">
-                            <div class="flex-none">
-                                <img class="rounded h-auto object-contain" src="{{ image_or_placeholder($item->images['images']['small']) }}" width="35" height="35" alt="">
-                            </div>
-                            <span class="flex-1 max-sm:line-clamp-1" title="{{ $item->title }}">{{ $item->title }}</span>
-                        </a>
-                    </li>
-                    @endforeach
-                </ul>
+                    <ul class=" shadow rounded-xl">
+                        @foreach ($sideCategory['data'] as $item)
+                            <li class="border-b last:border-b-0 border-gray-300 pb-2 last:pb-0">
+                                <a class="flex gap-x-1" href="{{ url($item->slug) }} ">
+                                    <div class="flex-none">
+                                        <img class="rounded h-auto object-contain"
+                                            src="{{ image_or_placeholder($item->images['images']['small']) }}" width="35"
+                                            height="35" alt="">
+                                    </div>
+                                    <span class="flex-1 max-sm:line-clamp-1"
+                                        title="{{ $item->title }}">{{ $item->title }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
                 @endisset
 
 
@@ -217,61 +233,63 @@ $append = '';
 </section>
 
 @if (count($relatedProduct))
-<section class="products bg-gray m-0 pt-1 pb-1" id="index-best-view">
-    <div class="flex one ">
-        <div>
-            <div class="shadow ">
-                <h2>محصولات مرتبط {{ $detail->title }}</h2>
-                <div class="flex one two-500 four-900 center ">
-                    @foreach ($relatedProduct as $content)
-                    <div>
-                        <article>
-                            @if (isset($content->images['images']['small']))
-                            <div><img loading="lazy" src="{{ image_or_placeholder($content->images['images']['small']) }}"></div>
-                            @endif
-                            <footer>
-                                <h2><a href="{{ $content->slug }}"> {{ $content->title }}</a></h2>
-                                {!! $content->brief_description !!}
-                            </footer>
-                        </article>
-                    </div>
-                    @endforeach
+    <section class="products bg-gray m-0 pt-1 pb-1" id="index-best-view">
+        <div class="flex one ">
+            <div>
+                <div class="shadow ">
+                    <h2>محصولات مرتبط {{ $detail->title }}</h2>
+                    <div class="flex one two-500 four-900 center ">
+                        @foreach ($relatedProduct as $content)
+                            <div>
+                                <article>
+                                    @if (isset($content->images['images']['small']))
+                                        <div><img loading="lazy"
+                                                src="{{ image_or_placeholder($content->images['images']['small']) }}"></div>
+                                    @endif
+                                    <footer>
+                                        <h2><a href="{{ $content->slug }}"> {{ $content->title }}</a></h2>
+                                        {!! $content->brief_description !!}
+                                    </footer>
+                                </article>
+                            </div>
+                        @endforeach
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 @endif
 
 @if (count($relatedPost))
-<section class="products" id="index-best-view">
-    <div class="flex one ">
-        <div>
-            <div class="shadow">
-                <h2>مقاله های مرتبط {{ $detail->title }}</h2>
-                <div class="grid grid-cols-2 md:grid-cols-6">
-                    @foreach ($relatedPost as $content)
-                    <div>
-                        <a href="{{ $content->slug }}">
-                            <article>
-                                @if (isset($content->images['images']['small']))
-                                <div><img class="rounded" width="150" height="150" loading="lazy" src="{{ image_or_placeholder($content->images['images']['small']) }}">
-                                </div>
-                                @endif
-                                <footer>
-                                    <h3 class=" font-09"> {{ $content->title }}</h3>
-                                </footer>
-                            </article>
-                        </a>
-                    </div>
-                    @endforeach
+    <section class="products" id="index-best-view">
+        <div class="flex one ">
+            <div>
+                <div class="shadow">
+                    <h2>مقاله های مرتبط {{ $detail->title }}</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-6">
+                        @foreach ($relatedPost as $content)
+                            <div>
+                                <a href="{{ $content->slug }}">
+                                    <article>
+                                        @if (isset($content->images['images']['small']))
+                                            <div><img class="rounded" width="150" height="150" loading="lazy"
+                                                    src="{{ image_or_placeholder($content->images['images']['small']) }}">
+                                            </div>
+                                        @endif
+                                        <footer>
+                                            <h3 class=" font-09"> {{ $content->title }}</h3>
+                                        </footer>
+                                    </article>
+                                </a>
+                            </div>
+                        @endforeach
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 @endif
 
 <section class="comments bg-gray mt-0 mb-0">

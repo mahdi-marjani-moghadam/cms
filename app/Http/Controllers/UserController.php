@@ -38,7 +38,7 @@ class UserController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }*/
-        $users = User::orderBy('id', 'desc')->get();
+        $users = User::orderBy('id', 'desc')->paginate(10);
 
 
         return view('admin.users.index', compact('users'));
@@ -83,7 +83,7 @@ class UserController extends Controller
 
         $customer = Customer::create(['user_id' => $user->id, 'name' => $request->name, 'mobile' => $request->mobile, 'status' => 1]);
         $user->assignRole('customer');
-        
+
 
         return redirect()->back()->with('success', Lang::get('messages.added'));
     }

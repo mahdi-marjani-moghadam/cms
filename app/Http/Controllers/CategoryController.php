@@ -86,7 +86,7 @@ class CategoryController extends Controller
         foreach ($sizes as $name => $size) {
 
             // $images[$name] = $imagePath . "{$name}_" . $filename;
-            $images[$name] = $imagePath  . $fileName . "-{$name}." . $fileType;
+            $images[$name] = $imagePath . $fileName . "-{$name}." . $fileType;
 
             $img = Image::make(public_path($path));
             $img->resize($size, null, function ($constraint) {
@@ -102,20 +102,13 @@ class CategoryController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create(Request $request)
     {
         $result = $this->tree_set();
         $attr_type = $request->type;
         $category = $this->convertTemplateSelect1($result);
         return view('admin.category.CreateOrEdit', compact(['category', 'attr_type']));
-
-        // return view('admin.category.Create', $data);
-
     }
 
     public function convertTemplateSelect1($listCat, $_input = array(), $start = '|-', $befor = '', $after = '', $level = 0)
@@ -125,7 +118,8 @@ class CategoryController extends Controller
             $_input = $listCat[0];
         }
         foreach ($_input as $key => $val) {
-            if (in_array($val->slug, ['تماس-با-ما', 'درباره-ما', 'وبلاگ', 'تعرفه-تبلیغات'])) continue;
+            if (in_array($val->slug, ['تماس-با-ما', 'درباره-ما', 'وبلاگ', 'تعرفه-تبلیغات']))
+                continue;
             $newStart = str_repeat($befor, $level) . $start;
             $val->level = $level;
             $val->symbol = $newStart;
@@ -170,7 +164,7 @@ class CategoryController extends Controller
 
     public function tree_set($searchmap = array())
     {
-        $items = Category::where('type', '=', 1);
+        $items = Category::where('type', '=', value: 1);
         foreach ($searchmap as $condition) {
             $items = $items->where($condition[0], $condition[1], $condition[2]);
         }
@@ -201,32 +195,14 @@ class CategoryController extends Controller
             //'images' => 'required|mimes:jpeg,png,bmp',
         ));
 
-        $imagesUrl = '';
 
         $data = $request->all();
-
-        $date['attr_type'] = 'category';
-        $date = $data['publish_date'];
-
-        $data['publish_date'] = convertJToG($date);
-
+        $data['publish_date'] = convertJToG($data['publish_date']);
         $data['parent_id'] = $request->parent_id;
-
         $data['type'] = '1';
+        $data['images'] = '';
 
-        $data['images'] = $imagesUrl;
-
-
-        $data['slug'] = uniqueSlug(Content::class, ($data['slug'] != '') ? $data['slug'] : $data['title']);
-
-
-
-
-
-
-
-        //Content::create(array_merge($request->all(), ['images' => $imagesUrl]));
-        $cat = Category::create($data);
+        $cat = $this->categoryStoreService($data);
 
 
         if ($request->file('images')) {
@@ -237,40 +213,10 @@ class CategoryController extends Controller
         return redirect('admin/category')->with('success', 'Greate! Content created successfully.');
     }
 
-    public function store1(Request $request)
-    {
-        /*$this->validate($request, [
-            'title' => 'required',
-            'brief_description' => 'required',
-            'description' => 'required',
-        ]);*/
-        /*$request->validate([
-            'title' => 'required',
-            'product_code' => 'required',
-            'description' => 'required',
-        ]);*/
-        /*print_r($_POST);die();*/
-
-        $data = $request->all();
-
-        $date = $data['publish_date'];
-
-        $data['publish_date'] = convertJToG($date);
-
-        $data['type'] = 1;
-
-        //$data['images']= $imagesUrl;
-
-
-        $data['slug'] = uniqueSlug(Content::class, ($request->slug != '') ? $request->slug : $request->title);
-
-
-
-
-
-        // Content::create(array_merge($request->all(), ['images' => $imagesUrl]));
-
-        return redirect('admin/category?type=' . $request->attr_type)->with('success', 'Greate! Content created successfully.');
+    public function categoryStoreService($data): Category {
+        $data['slug'] = uniqueSlug(Content::class, (($data['slug'] ?? '') != '') ? $data['slug'] : $data['title']);
+        //Content::create(array_merge($request->all(), ['images' => $imagesUrl]));
+        return Category::create($data);
     }
 
     /**
@@ -316,7 +262,7 @@ class CategoryController extends Controller
                 unset($category[$id]);
             }
         }
-        $content->prefix = (strpos($content->slug, 'category/') !== false)?'category/':'';
+        $content->prefix = (strpos($content->slug, 'category/') !== false) ? 'category/' : '';
 
         $content->slug = str_replace('category/', '', $content->slug);
 
@@ -389,7 +335,7 @@ class CategoryController extends Controller
 
 
         $data['slug'] = uniqueSlug(Category::class, $crud, ($data['slug'] != '') ? $data['slug'] : $data['title']);
-        $data['slug'] = (isset($data['prefix']) && $data['prefix'] != '')? 'category/'.$data['slug']: $data['slug'];
+        $data['slug'] = (isset($data['prefix']) && $data['prefix'] != '') ? 'category/' . $data['slug'] : $data['slug'];
         // dd($data);
         // Redirect when change category
         (new RedirectUrl)->createIfChange($crud->slug, $data['slug']);
@@ -416,7 +362,7 @@ class CategoryController extends Controller
         $crud->delete();
 
         if (is_array($images)) {
-            $images =  array_map(function ($item) {
+            $images = array_map(function ($item) {
                 return trim($item, '/');
             }, array_values($images));
 

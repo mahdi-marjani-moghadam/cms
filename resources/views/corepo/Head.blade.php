@@ -15,7 +15,7 @@
     <link rel="manifest" href="{{ url(env('TEMPLATE_NAME') . '/manifest.json') }}">
     <meta name="theme-color" content="#fff" />
 
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#fa490e">
     <meta name="apple-mobile-web-app-title" content="corepo">
     <link rel="apple-touch-icon" href="{{ url(env('TEMPLATE_NAME') . '/img/logo-96-96.png') }}">
