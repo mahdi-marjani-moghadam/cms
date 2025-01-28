@@ -498,8 +498,24 @@
 
 <section class="bg-pink  mt-0 mb-0">
     <div class="flex one ">
-        <div class="text-center">
+        <div class="text-center" >
             <h3>جدیدترین وب سایت ها</h3>
+
+            {{--category&label=websiteCategory&var=websiteCategory&count=10--}}
+            @isset($websiteCategory)
+                <div class="my-0 pb-5 text-base/10">
+                    <div class="text-center">
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-right [&>a]:text-black [&>a]:px-3 [&>a]:shadow  [&>a]:bg-white [&>a]:rounded-lg">
+                            @foreach ($websiteCategory['data'] as $content)
+                                <a class="hover:text-corepoColor text-center" href="{{ url($content->slug) }}">{{ $content->title }}</a>
+                            @endforeach
+                        </div>
+
+                    </div>
+                </div>
+            @endisset
+
             <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-1 mb-1 ">
                 {{--post&label=newWebsite&var=newWebsite&count=5 --}}
                 @isset($newWebsite['data'])
@@ -545,6 +561,23 @@
         </div>
     </div>
 </section>
+
+
+{{--category&label=companyCategory&var=companyCategory&count=50--}}
+@isset($companyCategory)
+    <section class="my-0 py-12 text-base/10">
+        <div class="text-center">
+            <h3><a href="/کمپانی">کمپانی ها</a></h3>
+            <div
+                class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-right [&>a]:text-black [&>a]:px-3 [&>a]:shadow  [&>a]:bg-white [&>a]:rounded-lg">
+                @foreach ($companyCategory['data'] as $content)
+                    <a class="hover:text-corepoColor" href="{{ url($content->slug) }}">{{ $content->title }}</a>
+                @endforeach
+            </div>
+
+        </div>
+    </section>
+@endisset
 
 
 

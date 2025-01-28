@@ -51,7 +51,7 @@
         } else if (w <= 1024) {
             perPageNumber = 5;
         } else {
-            perPageNumber = 7;
+            perPageNumber = 5;
         }
     }
 
@@ -126,39 +126,17 @@
 @endif
 
 @if (count($subCategory))
-    <section class="bg-amber-400 category-section my-0" id="index-best-view">
+    <section class=" border-b border-b-gray-300 my-0 pb-0" id="index-best-view">
         <div class="flex one relative">
-            <div class="siema p-0">
+            <div class="flex gap-2 max-sm:!flex-nowrap contain-content p-0 max-sm:overflow-x-scroll scrollbar pb-3">
                 @foreach ($subCategory as $content)
                     <a href="{{ $content->slug }}">
-                        <div class="hover text-center">
-                            @if (isset($content->images['images']['small']))
-                                <figure class="image">
-                                    <img loading="lazy" src="{{ image_or_placeholder($content->images['images']['small'])  }}"
-                                        alt="{{ $content->title }}" width="{{ env('CATEGORY_SMALL_W') }}"
-                                        height="{{ env('CATEGORY_SMALL_H') }}"
-                                        srcset="
-                                                                                                                    {{ image_or_placeholder($content->images['images']['small'])  }} {{ env('CATEGORY_SMALL_W') }}w,
-                                                                                                                    {{ $content->images['images']['medium'] ?? image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_MEDIUM_W') }}w,
-                                                                                                                    {{ $content->images['images']['large'] ?? image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_LARGE_W') }}w">
-                                    <figcaption>
-                                        <h3 class="p-0 m-0 text-center"> {{ $content->title }}</h3>
-                                    </figcaption>
-                                </figure>
-                            @else
-                                <h3 class="p-0 m-0 text-center"> {{ $content->title }}</h3>
-                            @endif
-
+                        <div class="hover over rounded-md !py-0 px-2 border bg-white whitespace-nowrap text-center">
+                            <span class="px-2 m-0 text-center"> {{ $content->title }}</span>
                         </div>
                     </a>
                 @endforeach
-
             </div>
-            <a class="prev2">&#10094;</a>
-            <a class="next2">&#10095;</a>
-
-
-
         </div>
     </section>
 @endif
@@ -180,8 +158,8 @@
                                                 sizes="(max-width:{{ env('ARTICLE_SMALL_W') }}px) 100vw {{ env('ARTICLE_SMALL_W') }}px {{ ENV('ARTICLE_MEDIUM_W') }}px"
                                                 alt="{{ $content->title }}" width="100" height="100"
                                                 srcset="
-                                                                                                                                {{ $content->images['images']['small']  }} {{ env('ARTICLE_SMALL_W') }}w,
-                                                                                                                                {{ $content->images['images']['medium'] ?? $content->images['images']['small'] }} 2x">
+                                                                                                                                                                                                                                                                                            {{ $content->images['images']['small']  }} {{ env('ARTICLE_SMALL_W') }}w,
+                                                                                                                                                                                                                                                                                            {{ $content->images['images']['medium'] ?? $content->images['images']['small'] }} 2x">
                                         </figure>
 
                                     @endif
@@ -200,7 +178,7 @@
     </section>
 @endif
 
-<section class=" bg-gray-100 mt-0">
+<section class=" bg-gray-100 mt-0 pt-0">
     <div>
         <h1>{{ $detail->title ?? '' }}</h1>
     </div>
@@ -215,19 +193,19 @@
                             @foreach ($relatedPost as $content)
                                 <div>
                                     <a href="{{ $content->slug }}">
-                                        <article class="shadow !rounded-xl grid grid-cols-5 gap-x-2 ">
+                                        <article class="shadow !rounded-xl grid grid-cols-6 gap-x-2 ">
+                                        <div class="title col-span-6 pb-2">{{ $content->title }}</div>
                                             @if (isset($content->images['images']['small']))
-                                                <figure class="image">
+                                                <figure class="image col-span-2 sm:col-span-1">
                                                     <img loading="lazy"
                                                         src="{{ image_or_placeholder($content->images['images']['small'])  }}"
                                                         width="{{ env('ARTICLE_SMALL_W', 200) }}"
                                                         height="{{ env('ARTICLE_SMALL_H', 200) }}" alt="{{ $content->title }}">
                                                 </figure>
                                             @endif
-                                            <div class="col-span-4 flex content-between">
+                                            <div class="col-span-4 sm:col-span-5 flex content-between">
                                                 <div class="w-full">
-                                                    <div class="title text-lg">{{ $content->title }}</div>
-                                                    <div class="info line-clamp-5">
+                                                    <div class="info line-clamp-3 sm:line-clamp-5">
                                                         {!! $content->brief_description !!}
                                                     </div>
                                                 </div>
@@ -256,51 +234,47 @@
             @endif
 
             @if (isset($relatedCompany) && $relatedCompany->count())
-                <section class="">
-                    <h2>کمپانی ها</h2>
-                    <div class="grid grid-cols-5 gap-3 mb-5">
-                        @foreach ($relatedCompany as $content)
-                            <a class="shadow block text-center" href="{{ url('profile/' . $content->id) }}">
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-5">
+                    @foreach ($relatedCompany as $content)
+                        <a class="shadow rounded-lg block text-center" href="{{ url('profile/' . $content->id) }}">
 
-                                <img alt="{{ $content->name ?? '' }}" class="rounded" width="{{ env('COMPANY_LARGE_W') }}"
-                                    height="{{ env('COMPANY_LARGE_H') }}"
-                                    src="{{ image_or_placeholder($content->logo['large'] ?? '') }}">
+                            <img alt="{{ $content->name ?? '' }}" class="rounded" width="{{ env('COMPANY_LARGE_W') }}"
+                                height="{{ env('COMPANY_LARGE_H') }}"
+                                src="{{ image_or_placeholder($content->logo['large'] ?? '') }}">
 
-                                <div class=" ">
-                                    {{ $content->name ?? 'کاربر جدید' }}
-                                </div>
+                            <div class=" ">
+                                {{ $content->name ?? 'کاربر جدید' }}
+                            </div>
 
-                            </a>
-                        @endforeach
+                        </a>
+                    @endforeach
 
-                    </div>
-                    {{ $relatedCompany->links('pagination::default') }}
-                </section>
+                </div>
+                {{ $relatedCompany->links('pagination::default') }}
             @endif
 
 
-
-            @if(Request::is('تعرفه') || Request::is('رپورتاژ') || Request::is('درباره-ما') || Request::is('تبلیغات'))
-                <div class="!rounded-lg shadow" id="">
+            @if ($detail->description != '')
+                <div class="!rounded-lg mt-4 shadow" id="">
                     <div class="flex one ">
                         <div class="overflow-auto ">
                             <ul>
                                 @foreach ($table_of_content as $key => $item)
                                     <li class="toc1">
-                                        <a href="#{{ $item['anchor'] }}">{{ $item['label'] }}</a>
+                                        - <a href="#{{ $item['anchor'] }}">{{ $item['label'] }}</a>
                                     </li>
                                 @endforeach
-
                             </ul>
+                            <hr>
                             @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
                         </div>
                     </div>
                 </div>
             @endif
 
-
-
-
+            <div class="mt-4">
+                @include('corepo.Comment')
+            </div>
         </div>
 
         <div class="">
@@ -322,16 +296,14 @@
                 <div class="mt-4">آخرین مقالات</div>
                 {{--post&label=sideCategory&var=sideCategory&count=10&child=true --}}
                 @isset($sideCategory['data'])
-                    <ul class="max-sm:grid max-sm:grid-cols-2 max-sm:gap-x-1 shadow rounded-xl">
+                    <ul class=" shadow rounded-xl">
                         @foreach ($sideCategory['data'] as $item)
                             <li class="border-b last:border-b-0 border-gray-300 pb-2 last:pb-0">
                                 <a class="flex gap-x-1" href="{{ url($item->slug) }} ">
-                                    <div>
-                                        <img class="rounded h-auto object-contain"
+                                        <img class="rounded h-auto object-contain flex-none"
                                             src="{{ image_or_placeholder($item->images['images']['small']) }}" width="35"
                                             height="35" alt="">
-                                    </div>
-                                    <span class="flex-initial w-4/5 max-sm:w-2/3">{{ $item->title }}</span>
+                                    <span class="flex-1">{{ $item->title }}</span>
                                 </a>
                             </li>
                         @endforeach
@@ -347,94 +319,9 @@
 
 
 
-@if(!Request::is('درباره-ما') && !Request::is('تعرفه') && !Request::is('رپورتاژ') && !Request::is('تبلیغات'))
-    <section class="comments bg-gray mt-0 mb-0">
-        <div class="flex one">
-            <div>
-                <div>نظرات شما درباره {{ $detail->title }}</div>
-                <div>
-                    <div class="comment-form lg:w-1/2 m-auto">
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success">
-                                {!! \Session::get('success') !!}
-                            </div>
-                        @endif
 
-                        @if (\Session::has('error'))
-                            <div class="alert alert-danger">
-                                {!! \Session::get('error') !!}
-                            </div>
-                        @endif
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                {!! implode('', $errors->all('<div>:message</div>')) !!}
-                            </div>
-                        @endif
-                        <form action="{{ route('comment.client.store') }}#comment" id="comment" method="post">
-                            <input type="hidden" name="content_id" value="{{ $detail->id }}">
 
-                            @csrf
-                            <div>
-                                <div class="rating">
-                                    <span>امتیاز: </span>
-                                    <input name="rate" type="radio" id="st5" {{ old('rate') == '5' ? 'checked' : '' }}
-                                        value="5" />
-                                    <label for="st5" title="عالی"></label>
-                                    <input name="rate" type="radio" id="st4" {{ old('rate') == '4' ? 'checked' : '' }}
-                                        value="4" />
-                                    <label for="st4" title="خوب"></label>
-                                    <input name="rate" type="radio" id="st3" {{ old('rate') == '3' ? 'checked' : '' }}
-                                        value="3" />
-                                    <label for="st3" title="معمولی"></label>
-                                    <input name="rate" type="radio" id="st2" {{ old('rate') == '2' ? 'checked' : '' }}
-                                        value="2" />
-                                    <label for="st2" title="ضعیف"></label>
-                                    <input name="rate" type="radio" id="st1" {{ old('rate') == '1' ? 'checked' : '' }}
-                                        value="1" />
-                                    <label for="st1" title="بد"></label>
-                                    <span id="rating-hover-label"></span>
-                                </div>
-                            </div>
 
-                            <div>
-                                <label for="comment_name">نام:</label>
-                                <input id="comment_name" class="w-full p-1" type="text" name="name"
-                                    value="{{ old('name') }}">
-                            </div>
-                            <div>
-                                <label for="comment-text">پیام:</label>
-                                <textarea id="comment-text" class="w-full p-1"
-                                    name="comment">{{ old('comment') }}</textarea>
-                            </div>
-                            <button class="button button-blue g-recaptcha" data-sitekey="reCAPTCHA_site_key"
-                                data-callback='onSubmit' data-action='submit'>ارسال نظر</button>
-                        </form>
-                    </div>
-
-                    @foreach ($detail->comments as $comment)
-                        @if ($comment['name'] != '' && $comment['comment'] != '')
-                            <div class="comment">
-                                <div class="aside">
-                                    <div class="name">{{ $comment['name'] }}</div>
-                                    <div class="date">{{ convertGToJ($comment['created_at']) }}</div>
-                                </div>
-                                <div class="article">
-                                    <div>
-                                        @for ($i = $comment->rate; $i >= 1; $i--)
-                                            <label></label>
-
-                                        @endfor
-                                    </div>
-                                    <div class="text">{!! $comment['comment'] !!}</div>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
-@endif
 
 
 

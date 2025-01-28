@@ -1097,6 +1097,7 @@ if (!function_exists('replace_shortcodes')) {
 if (!function_exists('image_or_placeholder')) {
     function image_or_placeholder($src, $type = 'post')
     {
+
         return (file_exists(public_path($src)) && $src != '') ? $src : url(asset("img/placeholder-$type.png"));
     }
 }

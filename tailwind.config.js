@@ -5,7 +5,11 @@ module.exports = {
         "./resources/**/*.js",
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                'corepoColor': '#ea6413',
+              },
+        },
     },
     plugins: [
         require('tailwindcss-rtl'),

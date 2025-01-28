@@ -559,7 +559,6 @@ class CmsController extends Controller
     public function create()
     {
         $result = app('App\Http\Controllers\CategoryController')->tree_set();
-
         $data['category'] = app('App\Http\Controllers\CategoryController')->convertTemplateSelect1($result);
 
         return view('content.Create', $data);

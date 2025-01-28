@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 use App\Models\RedirectUrl;
 use Illuminate\Support\Facades\DB;
 use App\SiteMap;
-
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
@@ -26,11 +26,28 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request): View
     {
 
-        $contents = $this->tree_set();
-        $contents = $this->convertTemplateTable1($contents);
+        $contents = Category::where('type', '=', value: 1);
+
+        if (isset($request->qtitle)) {
+            $contents = $contents->where('title', 'like', '%' . $request->qtitle . '%');
+        }
+
+        if (isset($request->qslug)) {
+            $contents = $contents->where('slug', 'like', '%' . $request->qslug . '%');
+        }
+
+        if (isset($request->qsort)) {
+            $sort = explode(',', $request->qsort);
+            $contents = $contents->orderBy($sort[0], $sort[1]);
+        }
+
+        $contents = $contents->paginate(10);
+
+        // $contents = $this->tree_set();
+        // $contents = $this->convertTemplateTable1($contents);
 
         return view('admin.category.List', compact('contents'));
     }
@@ -136,7 +153,7 @@ class CategoryController extends Controller
 
     public function convertTemplateTable1($listCat, $_input = array(), $start = '|-', $befor = '', $after = '', $level = 0)
     {
-        static $mainMenu = array();
+        static $mainMenu = [];
         //echo $this->level;
         if (!count($_input) and count($listCat)) {
             $_input = $listCat[0];
@@ -162,18 +179,20 @@ class CategoryController extends Controller
     }
 
 
-    public function tree_set($searchmap = array())
+    public function tree_set($searchmap = []): array
     {
-        $items = Category::where('type', '=', value: 1);
+        $categories = Category::where('type', '=', value: 1);
         foreach ($searchmap as $condition) {
-            $items = $items->where($condition[0], $condition[1], $condition[2]);
+            $categories = $categories->where($condition[0], $condition[1], $condition[2]);
         }
-        $items = $items->orderBy('parent_id', 'desc')->get();
-        $list = array();
+        $categories = $categories->orderBy('parent_id', 'desc')->get();
 
-        foreach ($items as $item) {
+        $list = [];
+
+        foreach ($categories as $item) {
             $list[$item->parent_id][] = $item;
         }
+
         return $list;
     }
 
@@ -213,7 +232,8 @@ class CategoryController extends Controller
         return redirect('admin/category')->with('success', 'Greate! Content created successfully.');
     }
 
-    public function categoryStoreService($data): Category {
+    public function categoryStoreService($data): Category
+    {
         $data['slug'] = uniqueSlug(Content::class, (($data['slug'] ?? '') != '') ? $data['slug'] : $data['title']);
         //Content::create(array_merge($request->all(), ['images' => $imagesUrl]));
         return Category::create($data);

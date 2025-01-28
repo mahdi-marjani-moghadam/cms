@@ -1,6 +1,6 @@
+@if(!Request::is(['درباره-ما', 'تعرفه', 'تبلیغات', 'رپورتاژ', 'تماس-با-ما', 'ثبت-آگهی-در-کمپانی-ها']))
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-
         const ratings = document.querySelectorAll('[name="rate"]');
         const labels = document.querySelectorAll('.rating > label');
 
@@ -15,7 +15,6 @@
 
             document.getElementById('rating-hover-label').innerHTML = '';
         }
-
         ratings.forEach((el) => {
             el.addEventListener('change', change);
         });
@@ -24,14 +23,11 @@
             el.addEventListener('mouseleave', mouseleave);
         });
 
-
-
-
     });
 </script>
 
 <div>
-    <div class="comment-form lg:w-1/2 m-auto">
+    <div class="comment-form m-auto">
         <div>نظرات شما درباره {{ $detail->title }}</div>
 
         @if (\Session::has('comment_success'))
@@ -39,8 +35,6 @@
                 {!! \Session::get('comment_success') !!}
             </div>
         @endif
-
-
         @if (\Session::has('comment_error'))
             <div class="alert alert-danger">
                 {!! \Session::get('comment_error') !!}
@@ -48,7 +42,6 @@
         @endif
         <form action="{{ route('comment.client.store') }}#comment" id="comment" method="post">
             <input type="hidden" name="content_id" value="{{ $detail->id }}">
-
             @csrf
             <div>
                 <div class="text-red-600">
@@ -56,20 +49,15 @@
                 </div>
                 <div class="rating">
                     <span>امتیاز: </span>
-                    <input name="rate" type="radio" id="st5" {{ old('rate') == '5' ? 'checked' : '' }}
-                        value="5" />
+                    <input name="rate" type="radio" id="st5" {{ old('rate') == '5' ? 'checked' : '' }} value="5" />
                     <label for="st5" title="عالی"></label>
-                    <input name="rate" type="radio" id="st4" {{ old('rate') == '4' ? 'checked' : '' }}
-                        value="4" />
+                    <input name="rate" type="radio" id="st4" {{ old('rate') == '4' ? 'checked' : '' }} value="4" />
                     <label for="st4" title="خوب"></label>
-                    <input name="rate" type="radio" id="st3" {{ old('rate') == '3' ? 'checked' : '' }}
-                        value="3" />
+                    <input name="rate" type="radio" id="st3" {{ old('rate') == '3' ? 'checked' : '' }} value="3" />
                     <label for="st3" title="معمولی"></label>
-                    <input name="rate" type="radio" id="st2" {{ old('rate') == '2' ? 'checked' : '' }}
-                        value="2" />
+                    <input name="rate" type="radio" id="st2" {{ old('rate') == '2' ? 'checked' : '' }} value="2" />
                     <label for="st2" title="ضعیف"></label>
-                    <input name="rate" type="radio" id="st1" {{ old('rate') == '1' ? 'checked' : '' }}
-                        value="1" />
+                    <input name="rate" type="radio" id="st1" {{ old('rate') == '1' ? 'checked' : '' }} value="1" />
                     <label for="st1" title="بد"></label>
                     <span id="rating-hover-label"></span>
                 </div>
@@ -113,3 +101,4 @@
         @endif
     @endforeach
 </div>
+@endif

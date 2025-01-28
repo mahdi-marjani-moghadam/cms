@@ -167,7 +167,7 @@ class ContentController extends Controller
 
 
 
-        $contents = Content::where('type', '=', '2')->where('attr_type', '=', $type)->orderBy('publish_date', 'desc');
+        $contents = Content::where('type', '=', '2')->where('attr_type', '=', $type);
 
         if ($companyId != '') {
             $data['company'] = Company::find($companyId);
@@ -184,8 +184,13 @@ class ContentController extends Controller
             $contents->where('slug', 'like', '%' . $request->qslug . '%');
         }
 
+        if (isset($request->qsort)) {
+            $sort = explode(',', $request->qsort);
+        }else{
+            $sort = ['publish_date','desc'];
+        }
 
-        $contents = $contents->paginate(10);
+        $contents = $contents->orderBy($sort[0], $sort[1])->paginate(10);
         // dd($contents->links());
 
         $data['contents'] = $contents;

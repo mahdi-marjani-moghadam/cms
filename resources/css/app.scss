@@ -3159,20 +3159,27 @@ nav[role="navigation"] {
     margin: auto;
     ul {
         justify-content: center;
-        gap: 0 2px;
+        gap: 0 4px;
         li {
-            width: 30px;
+            min-width: 30px;
             flex: 0 0 auto;
-            padding: 0;
+
             a {
                 text-align: center;
-                border: 1px solid $theme-color1;
-                border-radius: 3px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                overflow: hidden;
+                padding: 0 5px;
             }
             &:not(.active) {
                 a {
-                    border-color: #ccc;
                     background-color: #fff;
+                }
+            }
+            &.active {
+                a {
+                    color: #fff;
+                    background-color: #666;
                 }
             }
             &.disabled {

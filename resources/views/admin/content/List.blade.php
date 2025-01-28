@@ -15,7 +15,7 @@
 
         @endisset
 
-        <form  style="margin-bottom:1em; display:inline-flex;flex-wrap:wrap " action="{{ route('contents.type.show', ['type' => $type]) }}" method="get">
+        <form  style="margin-bottom:1em; display:inline-flex;flex-wrap:wrap;gap:0 10px " action="{{ route('contents.type.show', ['type' => $type]) }}" method="get">
 
             <div>
 
@@ -28,6 +28,17 @@
                 <label for="qslug"> @lang('messages.url')</label>
                 <input id="qslug" name="qslug" dir="ltr" value="{{ old('qslug', app('request')->qslug) }}" type="text">
             </div>
+
+            <div>
+                    <label for="qsort"> براساس</label>
+                    <select name="qsort" id="qsort">
+                        <option value=""></option>
+                        <option value="publish_date,desc" {{ app('request')->qsort == 'publish_date,desc' ? 'selected' : '' }}>تاریخ انتشار</option>
+                        <option value="updated_at,desc" {{ app('request')->qsort == 'updated_at,desc' ? 'selected' : '' }}>آخرین ویرایش</option>
+                        <option value="viewCount,desc" {{ app('request')->qsort == 'viewCount,desc' ? 'selected' : '' }}>بیشترین نمایش</option>
+                    </select>
+                </div>
+
             <button>فیلتر</button>
         </form>
 
