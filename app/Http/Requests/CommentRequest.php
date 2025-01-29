@@ -25,7 +25,7 @@ class CommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'content_id' => 'required',
+            // 'content_id' => 'required',
             'name' => 'required',
             'comment' => 'required'
         ];
@@ -33,7 +33,7 @@ class CommentRequest extends FormRequest
     public function messages()
     {
         return [
-            'content_id.required' => Lang::get('messages.enter content id'),
+            // 'content_id.required' => Lang::get('messages.enter content id'),
             'name.required' => Lang::get('messages.enter name'),
             'comment.required' => Lang::get('messages.enter comment')
         ];

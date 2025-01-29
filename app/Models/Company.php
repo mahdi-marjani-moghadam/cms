@@ -31,7 +31,7 @@ class Company extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'company_category', 'company_id', 'cat_id');
+        return $this->belongsToMany(Category::class, 'company_category', 'company_id', 'cat_id')->distinct();
     }
 
     public function user()
@@ -45,6 +45,13 @@ class Company extends Model
     public function gallery()
     {
         return $this->morphMany(Gallery::class, 'model');
+    }
+
+    public function comments()
+    {
+        $comments = $this->hasMany(Comment::class)->where('status', '=', '1')->orderBy('id', 'desc');
+
+        return $comments;
     }
 
     // this is a recommended way to declare event handlers

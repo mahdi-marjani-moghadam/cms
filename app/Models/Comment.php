@@ -12,12 +12,17 @@ class Comment extends Model
         'rate',
         'parent_id',
         'content_id',
+        'company_id',
         'status'
     ];
 
 
     public function content(){
         return $this->belongsTo(Content::class);
+    }
+
+    public function company(){
+        return $this->belongsTo(Company::class);
     }
 
 }

@@ -16,7 +16,8 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->integer('parent_id')->default(0);
-            $table->unsignedBigInteger('content_id')->default(0);
+            $table->unsignedBigInteger('content_id')->nullable();
+            $table->unsignedBigInteger('company_id')->nullable();
             $table->string('name')->nullable();
             $table->text('comment')->nullable();
             $table->string('rate')->default(0);
@@ -24,6 +25,10 @@ class CreateCommentsTable extends Migration
             $table->timestamps();
 
             $table->foreign('content_id')->references('id')->on('contents')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+
+            $table->foreign('company_id')->references('id')->on('companies')
             ->onDelete('cascade')
             ->onUpdate('cascade');
         });

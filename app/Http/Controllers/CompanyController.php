@@ -487,7 +487,7 @@ class CompanyController extends Controller
 
     function profileShow(Request $request, $id)
     {
-
+        $showcallnowbutton = false;
         $company = Company::find($id);
 
         if ($company == null || $company->status == 0) {
@@ -519,7 +519,7 @@ class CompanyController extends Controller
         $seo['meta_title'] = $company->name ?? 'Company';
         $seo['meta_description'] = $company->description ?? '';
         // dd($breadcrumb);
-        return view('auth.profileShow', compact('company', 'breadcrumb', 'seo'));
+        return view('auth.profileShow', compact('company', 'breadcrumb', 'seo','showcallnowbutton'));
     }
     public function clearInstagramUrl(string $var = null)
     {
