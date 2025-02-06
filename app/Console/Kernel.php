@@ -27,12 +27,15 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
 
         //eden
-        if(env('TEMPLATE_NAME') == 'eden'){
-            $schedule->call(function () {
-                getGoldPrice('online');
-            // })->everyTenMinutes();
-            })->everyMinute();
-        }
+        // if(env('TEMPLATE_NAME') == 'eden'){
+        //     $schedule->call(function () {
+        //         info('start ...');
+        //         getGoldPrice('online');
+        //     // })->everyTenMinutes();
+        //     })
+        //     ->everyMinute()
+        //     ->sendOutputTo(storage_path('logs/cron.log'));
+        // }
     }
 
     /**

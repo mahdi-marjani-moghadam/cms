@@ -24,7 +24,9 @@ class CmsController extends Controller
     public $breadcrumb;
 
 
-    public function showContent($seo, $detail, $breadcrumb, $table_of_content, $images, $editorModule) {}
+    public function showContent($seo, $detail, $breadcrumb, $table_of_content, $images, $editorModule)
+    {
+    }
 
     public function showCategory($seo, $detail, $breadcrumb, $table_of_content, $images, $editorModule, $request)
     {
@@ -121,7 +123,7 @@ class CmsController extends Controller
         ]);
     }
 
-    public function request(Request $request, $arg1 = False,  $arg2 = False)
+    public function request(Request $request, $arg1 = False, $arg2 = False)
     {
 
         $request = $request->all();
@@ -138,7 +140,7 @@ class CmsController extends Controller
         }
 
         // detail
-        $detail = Category::where('slug', '=',  $slug)
+        $detail = Category::where('slug', '=', $slug)
             ->where('publish_date', '<=', DB::raw('now()'))
             ->first();
 
@@ -270,7 +272,7 @@ class CmsController extends Controller
 
         $data = array();
 
-        foreach ((array)$attr as $var => $config) {
+        foreach ((array) $attr as $var => $config) {
 
             if (!isset($config['type'])) {
                 continue;
@@ -327,7 +329,7 @@ class CmsController extends Controller
 
                 // get children
                 if (isset($config['child']) && $config['child'] == 'true' && $data[$var]['data']->count() < (int) $config['count']) {
-                    $data[$var]['data'] = $this->getCatChildOfcontent($config, $data[$var]['data'],);
+                    $data[$var]['data'] = $this->getCatChildOfcontent($config, $data[$var]['data'], );
                 }
             }
             if (isset($config['background'])) {
@@ -342,7 +344,7 @@ class CmsController extends Controller
     {
 
         // Get category
-        $cat = Content::where([['parent_id', '=', (int)$config['parent_id']], ['type', '=', 1]])->get()->toArray();
+        $cat = Content::where([['parent_id', '=', (int) $config['parent_id']], ['type', '=', 1]])->get()->toArray();
         // dd($config['sort']);
         // Get post and product with parent id
 
@@ -364,7 +366,8 @@ class CmsController extends Controller
             }
         }
 
-        if ($attr_type != '') $content = $content->where('attr_type', '=', $attr_type);
+        if ($attr_type != '')
+            $content = $content->where('attr_type', '=', $attr_type);
 
         $content = $content->get();
 
@@ -385,7 +388,8 @@ class CmsController extends Controller
             foreach ($cat as $k => $v) {
                 $temp = $this->getCatChildOfcontent(['parent_id' => $v["id"]], $data, $attr_type);
 
-                if (isset($config['count']) && count($data) >= $config['count']) return $data->take($config['count']);
+                if (isset($config['count']) && count($data) >= $config['count'])
+                    return $data->take($config['count']);
             }
             return $temp;
         }
@@ -477,10 +481,10 @@ class CmsController extends Controller
             $list['list'][$count]['label'] = $label;
             $list['list'][$count]['anchor'] = $anchor;
             $table_of_content = '';
-            if(preg_match_all('|<a[^>]*>(.*?)</a>|', $val) == 0){
+            if (preg_match_all('|<a[^>]*>(.*?)</a>|', $val) == 0) {
                 $anchor = '<a id="' . str_replace(' ', '-', cleareText($val)) . '" href="#' . str_replace(' ', '-', cleareText($val)) . '">' . cleareText($val) . '</a>';
-            }else{
-                $anchor = $val.'<span id="' . str_replace(' ', '-', cleareText($val)) . '">' . ' ' . '</span>';
+            } else {
+                $anchor = $val . '<span id="' . str_replace(' ', '-', cleareText($val)) . '">' . ' ' . '</span>';
             }
 
             $anchor = str_replace($winners[1][$key], $anchor, $winners[0][$key]);

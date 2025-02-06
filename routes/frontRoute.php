@@ -7,22 +7,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SpiderController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
-
-// Route::get('/search', [InventoryController::class, 'index'])->name('inventory.show');
-// Route::post('/search', [InventoryController::class, 'index'])->name('inventory.search');
-
-
-
-Route::get('spider', [SpiderController::class, 'spider']);
-Route::get('/spider/reload', [SpiderController::class, 'reload']);
-Route::post('/spider/addToCms', [SpiderController::class, 'reloadAdd']);
-Route::get('spider/instagram/{id}/{count}', [SpiderController::class, 'instagram']);
-
-
-
 
 Route::group(['middleware' => 'HtmlMinifier'], function () {
 

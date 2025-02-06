@@ -899,9 +899,9 @@ if (!function_exists('uniqueSlug')) {
 
 /// eden
 if (!function_exists('getGoldPrice')) {
-    function getGoldPrice($offline = 'offline')
+    function getGoldPrice($offline = 'offline'): array
     {
-
+        $message = '';
         if ($offline == 'offline') {
 
             $goldPriceOld = WebsiteSetting::where('variable', '=', 'goldPrice')->first();
@@ -941,9 +941,9 @@ if (!function_exists('getGoldPrice')) {
 
                 if ($page === false) {
                     $time_end = microtime(true);
-                    echo ' time: ' . ($time_end - $time_start) / 60;
-                    echo curl_error($ch) . ' (' . curl_errno($ch) . ')' . PHP_EOL;
-                    dd('-');
+                    $message .= ' time: ' . ($time_end - $time_start). 's ';
+                    $message .= curl_error($ch) . ' (' . curl_errno($ch) . ')' . PHP_EOL;
+                    // dd('-');
                 }
 
 
@@ -953,7 +953,7 @@ if (!function_exists('getGoldPrice')) {
                 $doc->preserveWhiteSpace = false;
                 @$doc->loadHTML($page);
                 $time_end = microtime(true);
-                echo ' time: ' . (($time_end - $time_start) / 60) . 's<br>';
+                $message .= ' time: ' . round($time_end - $time_start,2) . 's ';
                 // dd($doc);
                 $selector = new DOMXPath($doc);
 
@@ -975,10 +975,9 @@ if (!function_exists('getGoldPrice')) {
 
                 if (!is_null($price)) {
                     $stringPrice = trim(str_replace('تومان', '', $price->nodeValue));
-                    echo $integerPrice = (int) str_replace(',', '', $stringPrice);
-                    echo ' - قیمت: ' . $stringPrice = number_format($integerPrice, 0, ',');
-                    echo '<br>';
-
+                    $integerPrice = (int) str_replace(',', '', $stringPrice);
+                    $message .= '- price: ' . $stringPrice = number_format($integerPrice, 0, ',');
+                    $message .= ' ';
 
                     WebsiteSetting::updateOrCreate(
                         ['variable' => 'goldPrice'],
@@ -990,7 +989,8 @@ if (!function_exists('getGoldPrice')) {
                             ]),
                         ],
                     );
-                    echo 'update database';
+                    $message .= '- update db';
+                    info($message);
                     return [
                         'price' => $stringPrice,
                         'priceToman' => $integerPrice,
