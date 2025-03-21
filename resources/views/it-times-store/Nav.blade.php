@@ -20,7 +20,7 @@
 
 
             <ul id="collapseMenu"
-                class=' lg:!flex lg:mr-10 lg:space-x-8 lg:space-x-reverse max-lg:space-y-2 max-lg:hidden max-lg:w-full max-lg:my-4'>
+                class=' lg:!flex lg:mr-10 lg:space-x-6 lg:space-x-reverse max-lg:space-y-2 max-lg:hidden max-lg:w-full max-lg:my-4'>
                 @foreach (App\Models\Menu::where('parent', '=', '0')->orderBy('sort')->get() as $menuItem)
                 <?php $subMenu = App\Models\Menu::where('menu', '=', '1')
                     ->where('parent', '=', $menuItem['id'])
@@ -35,7 +35,7 @@
 
 
                     <ul
-                        class="hidden submenu md:rounded-2xl md:shadow-xl border bg-gray-50 md:grid-cols-3 md:gap-2 md:p-4 md:w-[700px] lg:group-hover:block ">
+                        class="hidden submenu  md:rounded-2xl md:shadow-xl border bg-gray-50 md:grid-cols-3 md:gap-2 md:p-4 md:w-[600px] lg:group-hover:block ">
                         @foreach ($subMenu as $subMenuItem)
 
                         <?php $subMenu2 = App\Models\Menu::where('menu', '=', '1')
@@ -44,7 +44,7 @@
                             ->get(); ?>
                         @if (count($subMenu2))
                         <li class="parent2 relative  border-b last:border-b-0">
-                            <a class="lg:hover:text-yellow-600 border-b text-gray-600 block font-bold  py-2 pr-10 md:px-5"
+                            <a class="lg:hover:text-yellow-600 border-b text-gray-600 block   py-2 pr-10 md:px-5"
                                 href="{{ in_array($subMenuItem['type'], ['internal', 'external']) ? url($subMenuItem['link']) : '/#' . $subMenuItem['link'] }}">
 
                                 <i
@@ -82,7 +82,7 @@
                                 </li>
                                 @else
                                 <li class=" border-b last:border-b-0">
-                                    <a class="lg:hover:text-yellow-600 text-gray-600 block font-bold  py-2 pr-20 md:px-5"
+                                    <a class="lg:hover:text-yellow-600 text-gray-600 block   py-2 pr-20 md:px-5"
                                         href="{{ in_array($subMenuItem2['type'], ['internal', 'external']) ? url($subMenuItem2['link']) : '/#' . $subMenuItem2['link'] }}">
 
                                         {{ $subMenuItem2['label'] }}
@@ -100,7 +100,7 @@
                         </li>
                         @else
                         <li class=" relative  border-b last:border-b-0">
-                            <a class="lg:hover:text-yellow-600 text-gray-600 block font-bold  py-2 pr-10 md:px-5"
+                            <a class="lg:hover:text-yellow-600 text-gray-600 block  py-2 pr-10 md:px-2"
                                 href="{{ in_array($subMenuItem['type'], ['internal', 'external']) ? url($subMenuItem['link']) : '/#' . $subMenuItem['link'] }}">
                                 {{ $subMenuItem['label'] }}
                             </a>

@@ -62,8 +62,14 @@
     {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>--}}
 
     <script>
+
         $(function() {
             $('.datepicker').persianDatepicker({
+                calendar:{
+                    persian: {
+                    leapYearMode: 'astronomical'
+                    }
+                },
                 initialValue: true,
                 format: 'YYYY/MM/DD HH:m:ss',
                 autoClose: true,
