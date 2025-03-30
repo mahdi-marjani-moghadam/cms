@@ -120,6 +120,56 @@
         </section>
     @endif
 
+    <section class="index-items bg-gray2 my-0 ">
+        <div class="flex one">
+            <div>
+                <h1>{{ $detail->title ?? '' }}</h1>
+                @isset($relatedPost)
+                    <div class="flex one three-500 five-900   ">
+                        @foreach ($relatedPost as $content)
+                            <div>
+                                <a href="{{ $content->slug }}">
+                                    <article class="shadow2">
+                                        @if (isset($content->images['images']['medium']))
+                                            <figure class="image">
+                                                <img src="{{ image_or_placeholder($content->images['images']['medium']) }}" width="198"
+                                                    height="100" alt="{{ $content->title }}">
+                                            </figure>
+                                        @endif
+
+                                        <div class="title">{{ $content->title }}</div>
+                                        <div class="info">
+                                            {!! readMore($content->brief_description, 250) !!}
+                                        </div>
+                                        <div class="rate mt-1">
+                                            @if (count($content->comments))
+                                                @php
+                                                    $rateAvrage = $rateSum = 0;
+                                                @endphp
+                                                @foreach ($content->comments as $comment)
+                                                    @php
+                                                        $rateSum = $rateSum + $comment['rate'];
+                                                    @endphp
+                                                @endforeach
+                                                @for ($i = $rateSum / count($content->comments); $i >= 1; $i--)
+                                                    <img width="20" height="20"
+                                                        srcset="{{ asset('/img/star1x.png') }} , {{ asset('/img/star2x.png') }} 2x"
+                                                        src="{{ asset('/img/star1x.png') }}"
+                                                        alt="{{ 'star for rating' }}">
+                                                @endfor
+                                            @endif
+                                        </div>
+
+                                    </article>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                @endisset
+            </div>
+        </div>
+    </section>
+
     @if (count($subCategory))
         <section class="category-list category-section" id="index-best-view">
             <div class="flex one relative">
@@ -200,55 +250,7 @@
         </section>
     @endif
 
-    <section class="index-items bg-gray2 my-0 ">
-        <div class="flex one">
-            <div>
-                <h1>{{ $detail->title ?? '' }}</h1>
-                @isset($relatedPost)
-                    <div class="flex one three-500 five-900   ">
-                        @foreach ($relatedPost as $content)
-                            <div>
-                                <a href="{{ $content->slug }}">
-                                    <article class="shadow2">
-                                        @if (isset($content->images['images']['medium']))
-                                            <figure class="image">
-                                                <img src="{{ image_or_placeholder($content->images['images']['medium']) }}" width="198"
-                                                    height="100" alt="{{ $content->title }}">
-                                            </figure>
-                                        @endif
 
-                                        <div class="title">{{ $content->title }}</div>
-                                        <div class="info">
-                                            {!! readMore($content->brief_description, 250) !!}
-                                        </div>
-                                        <div class="rate mt-1">
-                                            @if (count($content->comments))
-                                                @php
-                                                    $rateAvrage = $rateSum = 0;
-                                                @endphp
-                                                @foreach ($content->comments as $comment)
-                                                    @php
-                                                        $rateSum = $rateSum + $comment['rate'];
-                                                    @endphp
-                                                @endforeach
-                                                @for ($i = $rateSum / count($content->comments); $i >= 1; $i--)
-                                                    <img width="20" height="20"
-                                                        srcset="{{ asset('/img/star1x.png') }} , {{ asset('/img/star2x.png') }} 2x"
-                                                        src="{{ asset('/img/star1x.png') }}"
-                                                        alt="{{ 'star for rating' }}">
-                                                @endfor
-                                            @endif
-                                        </div>
-
-                                    </article>
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-                @endisset
-            </div>
-        </div>
-    </section>
 
 
 
