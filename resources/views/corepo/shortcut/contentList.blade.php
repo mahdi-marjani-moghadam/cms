@@ -4,7 +4,7 @@
         @if (count($content_list))
             @foreach ($content_list as $content)
                 <a href="{{ url($content->slug) }}">
-                    <div class="shadow hover p-0 mb-2 ">
+                    <div class="border border-gray-100 rounded hover p-0 mb-2 h-full">
                         @if (isset($content->images['images']['small']))
                             <figure class="image ">
                                 @if (isset($content->attr['in-stock']) && $content->attr['in-stock'] == 0)
@@ -13,7 +13,7 @@
                                 <img src="{{ image_or_placeholder($content->images['images']['large']) }}" alt="{{ $content->title }}"
                                     title="{{ $content->title }}" loading="lazy" width="400" height="400">
                                 <figcaption>
-                                    <h3 class="px-0 m-0 text-center"> {{ $content->title }}</h3>
+                                    <h3 class="px-0 m-0 text-center text-sm"> {{ $content->title }}</h3>
                                     @if (env('SHOP'))
                                         <div class=" text-green font-09 ">
                                             @isset($content->attr['weight'])

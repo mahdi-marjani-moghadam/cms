@@ -265,7 +265,7 @@
     <section class="products" id="index-best-view">
         <div class="flex one ">
             <div>
-                <div class="shadow">
+                <div class="shadow rounded-xl">
                     <h2>مقاله های مرتبط {{ $detail->title }}</h2>
                     <div class="grid grid-cols-2 md:grid-cols-6">
                         @foreach ($relatedPost as $content)
