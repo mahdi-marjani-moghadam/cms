@@ -185,7 +185,7 @@ $append = '';
 </section>
 
 <section class="content-detail bg-gray  pt-6 my-0 " id="">
-    <div class="flex one ">
+    <div class="flex one [&_img]:my-4 ">
         <ul class="">
             @foreach ($table_of_content as $key => $item)
             <li class="toc1 ">

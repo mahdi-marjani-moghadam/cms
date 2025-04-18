@@ -140,8 +140,8 @@
             @isset($product['data'])
             @foreach ($product['data'] as $content)
             <div>
-                <a href="{{ $content->slug }}">
-                    <article class="shadow2">
+                <a class="h-full block" href="{{ $content->slug }}">
+                    <article class="shadow2 h-full">
                         @if (isset($content->images['images']['small']))
                         <figure class="image">
                             <img src="{{ image_or_placeholder($content->images['images']['small']) }}" alt="{{ $content->title }}"
@@ -251,8 +251,8 @@
             @isset($articles['data'])
             @foreach ($articles['data'] as $content)
             <div>
-                <a href="{{ $content->slug }}">
-                    <article class="shadow2">
+                <a class="block h-full" href="{{ $content->slug }}">
+                    <article class="shadow2 h-full">
                         @if (isset($content->images['images']['medium']))
                         <figure class="image">
                             <img src="{{ image_or_placeholder($content->images['images']['medium']) }}" width="198" height="100"

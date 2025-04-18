@@ -120,10 +120,10 @@
         </section>
     @endif
 
-    <section class="index-items bg-gray2 my-0 ">
+    <section class="index-items bg-[#f46900] my-0 ">
         <div class="flex one">
             <div>
-                <h1>{{ $detail->title ?? '' }}</h1>
+                <h1 class="text-white">{{ $detail->title ?? '' }}</h1>
                 @isset($relatedPost)
                     <div class="flex one three-500 five-900   ">
                         @foreach ($relatedPost as $content)

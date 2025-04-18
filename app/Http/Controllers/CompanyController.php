@@ -658,6 +658,8 @@ class CompanyController extends Controller
         }
 
         if ($company->exists) {
+            // todo: don't update password
+            // todo: update company didn't work
             $company->update($data);
             $user = User::where('id', '=', $company->user_id)->first();
 

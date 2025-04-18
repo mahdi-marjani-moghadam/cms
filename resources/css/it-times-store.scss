@@ -33,6 +33,7 @@ $button-bg-color: yellow;
 $font-family: IRANSans; // Vazir2
 
 @import "app.scss";
+@import "grid.scss";
 @import "nav.scss";
 // @import "font-icon.scss";
 
@@ -51,6 +52,10 @@ hr {
     * {
         width: 100%;
     }
+}
+
+img {
+    display: inline-block;
 }
 
 ////////////
@@ -159,7 +164,8 @@ article {
     }
     .title {
         color: #000;
-        font-weight: 700;
+        margin: 0 auto auto;
+        // font-weight: 700;
         display: block;
     }
 }
