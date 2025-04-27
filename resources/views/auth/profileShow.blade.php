@@ -1,5 +1,5 @@
 @extends(@env('TEMPLATE_NAME') . '.App')
-@section('twitter:title'){{ $company->name ?? 'comapny' }}@endsection
+@section(section: 'twitter:title'){{ $company->name ?? 'comapny' }}@endsection
 @section('twitter:description'){{ clearHtml($company->description) }}@endsection
 @section('og:type'){{ 'Comapny' }}@endsection
 @section('og:title'){{ $company->name ?? 'Company' }}@endsection

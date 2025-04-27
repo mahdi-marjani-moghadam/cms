@@ -516,7 +516,7 @@ class CompanyController extends Controller
         if ($company->category)
             $breadcrumb[1] = $company->category?->toArray();
 
-        $seo['meta_title'] = $company->name ?? 'Company';
+        $seo['meta_title'] = ($company->name ?? 'Company') . ' | کریپو' ;
         $seo['meta_description'] = $company->description ?? '';
         // dd($breadcrumb);
         return view('auth.profileShow', compact('company', 'breadcrumb', 'seo','showcallnowbutton'));
@@ -580,9 +580,28 @@ class CompanyController extends Controller
 
 
 
-    public function companyList()
+    public function companyList(Request $request)
     {
-        $companies = Company::orderBy('id', 'desc')->paginate(10);
+
+        $companies = new Company;
+
+        if (isset($request->qtitle)) {
+            $companies = $companies->where('name', 'like', '%' . $request->qtitle . '%');
+        }
+
+        if (isset($request->qslug)) {
+            $companies = $companies->where('slug', 'like', '%' . $request->qslug . '%');
+        }
+
+        if (isset($request->qsort)) {
+            $sort = explode(',', $request->qsort);
+        }else{
+            $sort = ['created_at','desc'];
+        }
+
+        $companies = $companies->orderBy($sort[0], $sort[1])->paginate(10);
+        // dd($companies->toSql());
+
 
         return view('admin.company.index', compact('companies'));
     }
@@ -660,6 +679,7 @@ class CompanyController extends Controller
         if ($company->exists) {
             // todo: don't update password
             // todo: update company didn't work
+            $company->categories()->detach();
             $company->update($data);
             $user = User::where('id', '=', $company->user_id)->first();
 

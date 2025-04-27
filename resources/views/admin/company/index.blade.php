@@ -4,6 +4,38 @@
         <ul class="breadcrumb">
             <li class="active">@lang('messages.companies')</li>
         </ul>
+
+        <form style="margin-bottom:1em; display:inline-flex;flex-wrap:wrap;gap:0 10px "
+            action="{{ route('admin.company.index', ) }}" method="get">
+
+            <div>
+
+                <label for="qtitle"> @lang('messages.title')</label>
+                <input id="qtitle" name="qtitle" value="{{ old('qtitle', app('request')->qtitle) }}" type="text">
+            </div>
+
+            <div>
+
+                <label for="qslug"> @lang('messages.url')</label>
+                <input id="qslug" name="qslug" dir="ltr" value="{{ old('qslug', app('request')->qslug) }}" type="text">
+            </div>
+
+            <div>
+                <label for="qsort"> براساس</label>
+                <select name="qsort" id="qsort">
+                    <option value=""></option>
+                    <option value="created_at,desc" {{ app('request')->qsort == 'created_at,desc' ? 'selected' : '' }}>
+                        تاریخ ساخت</option>
+                    <option value="updated_at,desc" {{ app('request')->qsort == 'updated_at,desc' ? 'selected' : '' }}>آخرین
+                        ویرایش</option>
+                    <option value="viewCount,desc" {{ app('request')->qsort == 'viewCount,desc' ? 'selected' : '' }}>بیشترین
+                        نمایش</option>
+                </select>
+            </div>
+
+            <button>فیلتر</button>
+        </form>
+
         <div>
             <a href="{{ route('admin.company.create') }}" class=" btn btn-success btn-icon  mat-button ">
                 <i class="fa fa-plus"></i>@lang('messages.add')
@@ -16,9 +48,9 @@
         <div class="panel panel-default pos-abs chat-panel bottom-0">
             <div class="panel-body full-height">
 
-           
 
-            @if (\Session::has('success'))
+
+                @if (\Session::has('success'))
                     <div class="alert alert-success">
                         <ul>
                             <li>{!! \Session::get('success') !!}</li>
@@ -60,21 +92,22 @@
                                     {{ $item->name ?? '' }}
                                     <br>
                                     <a
-                                        href="{{ route('contents.type.show', ['type' => 'product', 'companyId' => $item->id]) }}">@lang('messages.products') ({{ $item->contents()->where('type','=',2)->count() }})</a>
+                                        href="{{ route('contents.type.show', ['type' => 'product', 'companyId' => $item->id]) }}">@lang('messages.products')
+                                        ({{ $item->contents()->where('type', '=', 2)->count() }})</a>
 
-                                        <div>
-                                            <svg class="p-0" width="13" height="13" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12Z"
-                                                    fill="currentColor" />
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M12 3C6.40848 3 1.71018 6.82432 0.378052 12C1.71018 17.1757 6.40848 21 12 21C17.5915 21 22.2898 17.1757 23.6219 12C22.2898 6.82432 17.5915 3 12 3ZM16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z"
-                                                    fill="currentColor" />
-                                            </svg>
-                                            {{ $item->viewCount }}
-                                        </div>
-                                    </td>
+                                    <div>
+                                        <svg class="p-0" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12Z"
+                                                fill="currentColor" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M12 3C6.40848 3 1.71018 6.82432 0.378052 12C1.71018 17.1757 6.40848 21 12 21C17.5915 21 22.2898 17.1757 23.6219 12C22.2898 6.82432 17.5915 3 12 3ZM16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z"
+                                                fill="currentColor" />
+                                        </svg>
+                                        {{ $item->viewCount }}
+                                    </div>
+                                </td>
                                 <td class="">{{ $item->email ?? '' }}</td>
                                 <td class="">{{ $item->mobile ?? '' }}</td>
                                 <td class=""><img src="{{ $item->logo['small'] ?? '' }}" alt=""></td>
@@ -90,18 +123,18 @@
 
                                 </td>
 
-                                <td>{!! ($item->status==1)?'<i class="fa fa-check"></i>':'' !!}</td>
+                                <td>{!! ($item->status == 1) ? '<i class="fa fa-check"></i>' : '' !!}</td>
 
-                                <td class="">{{ convertGToJ($item->updated_at,$time=true) }}
+                                <td class="">{{ convertGToJ($item->updated_at, $time = true) }}
 
                                 </td>
-                                <td class="">{{ convertGToJ($item->created_at,true) }} </td>
+                                <td class="">{{ convertGToJ($item->created_at, true) }} </td>
 
                                 <td>
                                     <div class="">
                                         <div class="">
-                                            <form class="pull-right"
-                                                action="{{ route('admin.company.destroy', $item->id) }}" method="post">
+                                            <form class="pull-right" action="{{ route('admin.company.destroy', $item->id) }}"
+                                                method="post">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button onclick="return confirm('@lang('messages.Are you sure?')')"

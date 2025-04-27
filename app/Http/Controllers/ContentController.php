@@ -175,13 +175,12 @@ class ContentController extends Controller
                 $q->where('company_id', '=', $companyId);
             });
         }
-
         if (isset($request->qtitle)) {
-            $contents->where('title', 'like', '%' . $request->qtitle . '%');
+            $contents = $contents->where('title', 'like', '%' . $request->qtitle . '%');
         }
 
         if (isset($request->qslug)) {
-            $contents->where('slug', 'like', '%' . $request->qslug . '%');
+            $contents = $contents->where('slug', 'like', '%' . $request->qslug . '%');
         }
 
         if (isset($request->qsort)) {
