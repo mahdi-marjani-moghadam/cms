@@ -1,0 +1,261 @@
+$template: it-times-store;
+$body: #fff;
+$theme-color1: #f46900;
+$theme-color2: #00f438;
+$theme-color3: #fff;
+$theme-color1-text: #f46900;
+
+$a: #f46900;
+$a-hover: #1e2135;
+
+$menu-color: #282f39;
+$menu-bg-left: #fff;
+$menu-bg-right: #fff;
+$menu-shadow: 0 1px 0px rgba(0, 0, 0, 0.1);
+$p: #1e1e1e;
+
+$search-border: 1px solid #888;
+$search-bg: #888;
+$search-text: rgb(100, 100, 100);
+
+$pink: #e81e6c;
+
+$site-witdth: 1100px; // default:1200px;
+
+$h1-font-size: 2em;
+$h2-font-size: 1.5em; // default:;
+$h2-color: #d35400;; // default: $a
+$h3-color:#d35400;
+
+$button-color: black;
+$button-bg-color: yellow;
+
+$font-family: IRANSans; // Vazir2
+
+@import "app.scss";
+@import "grid.scss";
+@import "nav.scss";
+// @import "font-icon.scss";
+
+
+body {
+    font-size: 14px;
+}
+h2 {
+    display: inline-block;
+    border-bottom: 5px solid $theme-color2;
+}
+hr {
+    border-top: 1px solid #fff;
+}
+.banner {
+    * {
+        width: 100%;
+    }
+}
+
+img {
+    display: inline-block;
+}
+
+////////////
+////////////
+//  bread //
+////////////
+////////////
+
+.breadcrumb {
+    background: #f5f5f5;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+    a {
+        color: #333;
+        font-size: 0.7em;
+        text-overflow: ellipsis;
+        max-width: 50px;
+        overflow: hidden;
+    }
+    span {
+        color: #888;
+        font-size: 0.7em;
+    }
+}
+////////////////////
+//     customer menu     //
+////////////////////
+.customer-menu {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    background-color: #f4f4f4;
+    padding: 5px 1em;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 1em;
+    span {
+        cursor: pointer;
+    }
+    .login {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: white;
+        padding: 0 1em;
+    }
+}
+////////////////////////////////
+/// NAV
+/// ///////////////////////////////
+
+header {
+    .flex {
+        width: auto;
+    }
+    .arrow {
+        // border: solid $menu-color;
+        border-width: 0 2px 2px 0;
+        // display: inline-block;
+        padding: 3px;
+        // top: 38%;
+        margin-right: 5px;
+        position: absolute;
+    }
+
+    .down {
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+    }
+    // .parent:hover ul {
+    //     display: grid;
+    // }
+    .hover {
+        display: grid !important;
+        position: absolute;
+        top: 26px;
+        // padding: 0 30px;
+
+        // box-shadow: 2px 3px 2px #00000014;
+        white-space: nowrap;
+    }
+}
+article {
+    background: #fff;
+    color: #222;
+    padding: 1em;
+    text-align: center;
+    // border-radius: 5px;
+    border: 1px solid #eee;
+    // height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    footer {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    figure img {
+        border-radius: 5px;
+        width: auto;
+    }
+    .title {
+        color: #000;
+        margin: 0 auto auto;
+        // font-weight: 700;
+        display: block;
+    }
+}
+
+.category-section {
+    // position: relative;
+    a {
+        color: #333;
+    }
+    img {
+        height: 100px !important;
+        width: 100px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+    h3 {
+        font-size: 0.9em;
+    }
+    .next2,
+    .prev2 {
+        position: absolute;
+        width: auto;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 0 0.5em;
+        color: #717171;
+        font-size: 23px;
+        font-weight: 700;
+        cursor: pointer;
+        top: 20%;
+        user-select: none;
+    }
+    .next2 {
+        left: 0;
+        border-radius: 5px;
+    }
+    .prev2 {
+        right: 0;
+        border-radius: 5px;
+    }
+}
+
+.brands {
+    .next2,
+    .prev2 {
+        top: 20%;
+    }
+}
+.rate {
+    display: flex;
+}
+.home-feature {
+    .item {
+        display: flex;
+        // flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: center;
+        > :first-child {
+            flex: 0 1 auto;
+            margin: 1em;
+            img {
+                width: auto;
+            }
+        }
+        h3 {
+            color: $theme-color1;
+        }
+    }
+}
+
+.application article {
+    min-height: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    figure.image {
+        width: 70%;
+    }
+}
+
+.products {
+    figure {
+        margin: 0;
+    }
+}
+
+
+@media only screen and (max-width: 500px) {
+    .detail-side{display: none;}
+    img{height: auto;}
+}
