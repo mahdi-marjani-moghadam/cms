@@ -7,7 +7,8 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "it-times-store": "npx @tailwindcss/cli -i ./resources/css/it-times-store.css -o ./public/it-times-store/it-times-store.css --watch\n"
     },
     "devDependencies": {
         "autoprefixer": "^10.4.21",
@@ -17,17 +18,17 @@
         "laravel-mix": "^6.0.39",
         "lodash": "^4.17.21",
         "postcss": "^8.5.3",
+        "postcss-loader": "^8.1.1",
         "resolve-url-loader": "^5.0.0",
-        "sass": "^1.45.0",
-        "sass-loader": "^11.0.1",
-        "tailwindcss": "^4.1.4",
+        "sass": "^1.87.0",
+        "sass-loader": "^16.0.5",
+        "tailwindcss": "^4.1.5",
         "tailwindcss-rtl": "^0.9.0",
         "webpack-livereload-plugin": "^3.0.2"
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^6.2.1",
         "@tailwindcss/cli": "^4.1.4",
-        "@tailwindcss/postcss": "^4.1.4",
         "ckeditor5": "^44.0.0",
         "fortawesome": "^0.0.1-security",
         "laravel-file-manager": "^3.1.1"

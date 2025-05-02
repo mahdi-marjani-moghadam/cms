@@ -154,7 +154,7 @@
 <section class="index-items bg-pink mt-0 mb-0 pt-0">
 
     <div>
-        <h2 class="text-white">بازی و اپلیکیشن </h2>
+        <h2 class="!text-white">بازی و اپلیکیشن </h2>
     </div>
 
     <div class="flex  application  ">
