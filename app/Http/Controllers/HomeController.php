@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Content;
 use App\Models\Category;
 use App\Models\Company;
+use App\Models\Menu;
 use App\Models\Widget;
 use App\Models\WebsiteSetting;
 use Carbon\Carbon;
@@ -165,6 +166,11 @@ class HomeController extends Controller
         //$data['arrayContent']=$arrayContent;
         // dd($data);
         //dd(env("TEMPLATE_NAME"));
+
+
+
+        $data['mainMenu'] = menuTree();
+
 
         return view(env("TEMPLATE_NAME") . '.Home', $data);
     }

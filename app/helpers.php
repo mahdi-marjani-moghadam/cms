@@ -1101,3 +1101,24 @@ if (!function_exists('image_or_placeholder')) {
         return (file_exists(public_path($src)) && $src != '') ? $src : url(asset("img/placeholder-$type.png"));
     }
 }
+
+if (!function_exists('menuTree')) {
+    function menuTree()
+    {
+        $menus = Menu::where('menu', 1)->orderBy('sort')->get();
+        // تبدیل به ساختار تو در تو
+        $menuTree = $menus->where('parent', 0)->map(function ($mainItem) use ($menus) {
+            $subMenus = $menus->where('parent', $mainItem->id)->map(function ($subItem) use ($menus) {
+                $subSubMenus = $menus->where('parent', $subItem->id);
+                $subItem->children = $subSubMenus;
+                return $subItem;
+            });
+            $mainItem->children = $subMenus;
+            return $mainItem;
+        });
+
+        return $menuTree;
+    }
+}
+
+

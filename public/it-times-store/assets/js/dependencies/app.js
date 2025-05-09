@@ -69,14 +69,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         li.innerHTML = `
             <div class="flex items-center ps-3">
-                <input 
-                    id="${checkboxId}" 
-                    type="checkbox" 
+                <input
+                    id="${checkboxId}"
+                    type="checkbox"
                     ${isChecked ? 'checked' : ''}
                     class="city-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600"
                 >
-                <label 
-                    for="${checkboxId}" 
+                <label
+                    for="${checkboxId}"
                     class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                 >
                     ${city}
@@ -111,8 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
             tag.className = 'flex items-center bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full dark:bg-blue-900 dark:text-blue-200';
             tag.innerHTML = `
                 ${city}
-                <button 
-                    type="button" 
+                <button
+                    type="button"
                     class="ms-2 text-blue-600 cursor-pointer hover:text-blue-800 dark:text-blue-200 dark:hover:text-blue-400 remove-tag"
                     data-city="${city}"
                 >
@@ -463,7 +463,12 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!tabs.length || !contents.length) return;
 
     // Initialize first tab
-    activateTab(tabs[0], contents[0]);
+    if(window.location.hash === '#comment'){
+        resetTabs(tabs, contents);
+        activateTab(tabs[1], contents[1]);
+    }else{
+        activateTab(tabs[0], contents[0]);
+    }
 
     // Add click handlers
     tabs.forEach(tab => {
@@ -546,7 +551,7 @@ function toggleText() {
  */
 
 document.addEventListener("DOMContentLoaded", function () {
-    const stars = document.querySelectorAll('input[name="rating"]'); // Select all rating input elements
+    const stars = document.querySelectorAll('input[name="rate"]'); // Select all rating input elements
     const labels = document.querySelectorAll('label svg'); // Select all SVG elements within labels
 
     // Ensure both stars and labels are present before adding logic
@@ -617,8 +622,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             tag.innerHTML = `
                 <span>${text}</span>
-                <button 
-                    type="button" 
+                <button
+                    type="button"
                     class="mr-2 hover:text-red-600 transition-colors"
                     onclick="this.parentElement.remove()"
                 >

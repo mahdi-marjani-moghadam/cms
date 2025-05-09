@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 use PhpParser\Node\Expr\Cast\String_;
 
 class SearchController extends Controller
@@ -18,10 +19,10 @@ class SearchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
 
-        list($products, $posts, $companies) = $this->searchService($request, env('SEARCH_LIMIT',10));
+        list($products, $posts, $companies) = $this->searchService($request, env('SEARCH_LIMIT', 10));
 
         $query = $request->q;
 
@@ -36,9 +37,10 @@ class SearchController extends Controller
         $template = env('TEMPLATE_NAME') . '.Search';
 
         $breadcrumb[0]['title'] = 'جستجوی ' . $query;
-        $breadcrumb[0]['slug'] =  $detail->slug;
+        $breadcrumb[0]['slug'] = $detail->slug;
 
         return view($template, [
+            'mainMenu' => menuTree(),
             'detail' => $detail,
             'products' => $products,
             'posts' => $posts,
@@ -53,7 +55,7 @@ class SearchController extends Controller
         // all data fetch
         $productsObj = $this->getProducts()->limit($limit);
         $postsObj = $this->getPosts()->limit($limit);
-        $companiesObj = $this->getCompanies()->limit($limit)->orderBy('viewCount','desc');
+        $companiesObj = $this->getCompanies()->limit($limit)->orderBy('viewCount', 'desc');
         $query = '';
 
 
@@ -63,12 +65,12 @@ class SearchController extends Controller
 
             $productsObj->where('title', 'like', '%' . $query . '%');
             $postsObj->where('title', 'like', '%' . $query . '%');
-            $companiesObj->where('name', 'like', '%' . $query . '%')->orWhere('description','like','%' . $query . '%');
+            $companiesObj->where('name', 'like', '%' . $query . '%')->orWhere('description', 'like', '%' . $query . '%');
 
-            $words = explode(' ',$query);
+            $words = explode(' ', $query);
 
-            foreach($words as $word){
-                $companiesObj->orWhere('description','like','%' . $word . '%');
+            foreach ($words as $word) {
+                $companiesObj->orWhere('description', 'like', '%' . $word . '%');
             }
         }
 
@@ -90,7 +92,7 @@ class SearchController extends Controller
             ->limit(10);
     }
 
-    private  function getPosts()
+    private function getPosts()
     {
         return Content::where('type', '=', '2')
             ->where('attr_type', '=', 'article  ')
@@ -99,9 +101,9 @@ class SearchController extends Controller
             ->limit(10);
     }
 
-    private  function getCompanies()
+    private function getCompanies()
     {
-        return  Company::limit(10);
+        return Company::limit(10);
     }
 
     public function suggest(Request $request)

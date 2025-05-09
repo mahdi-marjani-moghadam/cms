@@ -15,9 +15,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/it-times-store/assets/images/favicon_io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/it-times-store/assets/images/favicon_io/favicon-16x16.png">
     <link rel="canonical" href="https://example.com/your-page-url">
+
     <link rel="stylesheet" href="/it-times-store/assets/js/plugin/story-player/styles.css">
     <link rel="stylesheet" href="/it-times-store/assets/js/plugin/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="/it-times-store/assets/css/app.css">
+
     <link rel="preload" href="/it-times-store/assets/fonts/payda/PeydaWebFaNum-Medium.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body class="bg-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark transition-colors duration-200">
@@ -1613,6 +1615,10 @@
 </section>
 <!-- ================= end slider section ================= -->
 
+
+
+
+
 <!-- ================= start feature section ================= -->
 <section class="py-5">
     <h2 class="sr-only">ویژگی های فروشگاه</h2>
@@ -1751,6 +1757,10 @@
     </div>
 </section>
 <!-- ================= end feature section ================= -->
+
+
+
+
 
 
 <!-- ================= start amazing section ================= -->
@@ -2351,6 +2361,10 @@
 </section>
 <!-- ================= end amazing section ================= -->
 
+
+
+
+
 <!-- ================= start category section ================= -->
 <section class="py-5">
     <div class="container">
@@ -2516,6 +2530,11 @@
 </section>
 <!-- ================= end category section ================= -->
 
+
+
+
+
+
 <!-- ================= start amazing section two ================= -->
 <section class="py-5" itemscope itemtype="https://schema.org/Product">
     <div class="container">
@@ -2601,6 +2620,9 @@
 </section>
 <!-- ================= end amazing section two ================= -->
 
+
+
+
 <!-- ================= start banner section ================= -->
 <section class="py-5" aria-label="تبلیغات ویژه"
          itemscope
@@ -2658,6 +2680,10 @@
     </div>
 </section>
 <!-- ================= end banner section ================= -->
+
+
+
+
 
 <!-- ================= start product section ================= -->
 <section class="py-5">
@@ -3294,6 +3320,8 @@
 </section>
 <!-- ================= end product section ================= -->
 
+
+
 <!-- ================= start product group section ================= -->
 <section class="py-5 mt-6" itemscope itemtype="https://schema.org/ItemList">
     <div class="container">
@@ -3528,6 +3556,10 @@
     </div>
 </section>
 <!-- ================= end product group section ================= -->
+
+
+
+
 
 <!-- ================= start product list section ================= -->
 <section class="py-5" itemscope itemtype="https://schema.org/ItemList">
@@ -3858,6 +3890,10 @@
     </div>
 </section>
 <!-- ================= end product list section ================= -->
+
+
+
+
 
 <!-- ================= start product section ================= -->
 <section class="py-5">
@@ -4494,6 +4530,9 @@
 </section>
 <!-- ================= end product section ================= -->
 
+
+
+
 <!-- ================= start brand section ================= -->
 <section class="py-5" itemscope itemtype="https://schema.org/ItemList">
     <div class="container">
@@ -4655,6 +4694,10 @@
 </section>
 <!-- ================= end brand section ================= -->
 
+
+
+
+
 <!-- ================= start banner section ================= -->
 <section class="py-5" aria-label="تبلیغات ویژه"
          itemscope
@@ -4688,6 +4731,10 @@
     </div>
 </section>
 <!-- ================= end banner section ================= -->
+
+
+
+
 
 <!-- ================= start blog section ================= -->
 <section class="py-5" itemscope itemtype="https://schema.org/ItemList">
@@ -4934,6 +4981,13 @@
 </section>
 <!-- ================= end blog section ================= -->
 
+
+
+
+
+
+
+
 <!-- ================= start footer section ================= -->
 <section class="py-5 dark:text-white dark:bg-background-dark bg-white drop-shadow-md border-t border-gray-200" itemscope itemtype="http://schema.org/WPFooter">
     <div class="container">
@@ -5100,6 +5154,8 @@
 </section>
 <!-- ================= end footer section ================= -->
 
+
+
 <!-- ================= start cart offcanvas ================= -->
 <!-- Offcanvas Cart -->
 <div id="offcanvas-left"
@@ -5198,6 +5254,11 @@
      aria-hidden="true"
 ></div>
 <!-- ================= end cart offcanvas ================= -->
+
+
+
+
+
 
 <!-- ================= start filter modal ================= -->
 <div id="filterModal"
@@ -5305,6 +5366,10 @@
     </div>
 </div>
 <!-- ================= end filter modal ================= -->
+
+
+
+
 
 <!-- ================= start responsive menu offcanvas ================= -->
 <div id="offcanvas-right"

@@ -46,8 +46,9 @@
 
     @yield('bootstrap')
 
-
-    <link rel="stylesheet" href="{{ mix('/'.env('TEMPLATE_NAME').'.css',env('TEMPLATE_NAME')) }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/plugin/swiper/swiper-bundle.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('/'.env('TEMPLATE_NAME').'.css') }}?v={{ filemtime(public_path('it-times-store/it-times-store.css')) }}">
+    <link rel="preload" href="{{ asset('/assets/fonts/payda/PeydaWebFaNum-Medium.woff2')}}" as="font" type="font/woff2" crossorigin>
     <link rel="icon" href="{{ url(env('TEMPLATE_NAME').'/img/fav.png') }}" type="image/png">
     <link rel="stylesheet" media="bogus">
 
@@ -77,7 +78,7 @@
 
 </head>
 
-<body>
+<body class="bg-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark transition-colors duration-200">
     @if (url('/') == 'https://it-times-store.com')
 
     @endif

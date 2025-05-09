@@ -1,4 +1,4 @@
-@extends(@env('TEMPLATE_NAME').'.App')
+@extends(@env('TEMPLATE_NAME') . '.App')
 
 @section('twitter:title', $detail->title)
 @section('twitter:description', clearHtml($detail->brief_description))
@@ -7,13 +7,13 @@
 @section('og:description', clearHtml($detail->brief_description))
 
 @if (isset($detail->images['images']['medium']))
-    @section('twitter:image', url($detail->images['images']['medium']))
+@section('twitter:image', url($detail->images['images']['medium']))
 
-    @section('og:image', url($detail->images['images']['medium']))
-    @section('og:image:type', 'image/jpeg')
-    @section('og:image:width', $detail->attr_type == 'product' ? env('PRODUCT_MEDIUM_W') : env('ARTICLE_MEDIUM_W'))
-    @section('og:image:height', $detail->attr_type == 'article' ? env('PRODUCT_MEDIUM_H') : env('ARTICLE_MEDIUM_H'))
-    @section('og:image:alt', $detail->title)
+@section('og:image', url($detail->images['images']['medium']))
+@section('og:image:type', 'image/jpeg')
+@section('og:image:width', $detail->attr_type == 'product' ? env('PRODUCT_MEDIUM_W') : env('ARTICLE_MEDIUM_W'))
+@section('og:image:height', $detail->attr_type == 'article' ? env('PRODUCT_MEDIUM_H') : env('ARTICLE_MEDIUM_H'))
+@section('og:image:alt', $detail->title)
 @endif
 
 
@@ -28,59 +28,14 @@
 
 
 @push('scripts')
-    <script src="{{ asset('/siema.min.js') }}"></script>
-    <script>
-        var w;
-        var perPageNumber;
 
-        function perPage() {
-            w = window.innerWidth;
-            if (w <= 500) {
-                perPageNumber = 1;
-            } else if (w <= 768) {
-                perPageNumber = 5;
-            } else if (w <= 1024) {
-                perPageNumber = 5;
-            } else {
-                perPageNumber = 6;
-            }
-        }
-
-
-        document.getElementsByTagName("BODY")[0].onresize = function() {
-            mySiema.destroy();
-            perPage();
-            mySiema.init();
-        };
-
-
-        perPage();
-        var mySiema = new Siema({
-            selector: '.siema',
-            duration: 200,
-            easing: 'ease-out',
-            perPage: perPageNumber,
-            startIndex: 0,
-            draggable: true,
-            multipleDrag: true,
-            threshold: 20,
-            loop: false,
-            rtl: true,
-            onInit: () => {},
-            onChange: () => {
-
-            },
-        });
-        document.querySelector('.prev2').addEventListener('click', () => mySiema.prev());
-        document.querySelector('.next2').addEventListener('click', () => mySiema.next());
-    </script>
 @endpush
 
 @section('footer')
     @auth
 
         @if (Auth::user()->id == 1)
-            <div class="btn btn-info edit-button"
+            <div class="fixed top-0 right-0 z-50 bg-blue-500 py-2 px-3 rounded-bl text-white"
                 onclick="window.open('{{ url('/admin/category/' . $detail->id . '/edit/') }}')">
                 ویرایش</div>
         @endif
@@ -90,8 +45,8 @@
 @section('Content')
 
     @php
-    $tableOfImages = tableOfImages($detail->description);
-    $append = '';
+        $tableOfImages = tableOfImages($detail->description);
+        $append = '';
     @endphp
 
     @if (count($relatedProduct))
@@ -105,159 +60,196 @@
         @include('jsonLdBreadcrumb')
     @endif
 
-    @if (count($breadcrumb))
-        <section class="breadcrumb my-0">
-            <div class="flex one  ">
-                <div class="p-0">
-                    <a href="/">خانه </a>
+
+
+
+
+
+    <!-- ================= start content section ================= -->
+    <section class="py-5">
+        <div class="container">
+            <!-- breadcrumb -->
+            <nav class="flex mt-2 mb-6" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse" itemscope
+                    itemtype="https://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a href="/"
+                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
+                            itemprop="item">
+                            <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                            </svg>
+                            <span itemprop="name">خانه</span>
+                        </a>
+                        <meta itemprop="position" content="1">
+                    </li>
+
                     @foreach ($breadcrumb as $key => $item)
-                        <span>></span>
-                        <a href="{{ $item['slug'] }}">{{ $item['title'] }}</a>
-                    @endforeach
-
-                </div>
-            </div>
-        </section>
-    @endif
-
-    <section class="index-items bg-[#f46900] my-0 ">
-        <div class="flex one">
-            <div>
-                <h1 class="text-white">{{ $detail->title ?? '' }}</h1>
-                @isset($relatedPost)
-                    <div class="flex one three-500 five-900   ">
-                        @foreach ($relatedPost as $content)
-                            <div>
-                                <a href="{{ $content->slug }}">
-                                    <article class="shadow2">
-                                        @if (isset($content->images['images']['medium']))
-                                            <figure class="image">
-                                                <img src="{{ image_or_placeholder($content->images['images']['medium']) }}" width="198"
-                                                    height="100" alt="{{ $content->title }}">
-                                            </figure>
-                                        @endif
-
-                                        <div class="title">{{ $content->title }}</div>
-                                        <div class="info">
-                                            {!! readMore($content->brief_description, 250) !!}
-                                        </div>
-                                        <div class="rate mt-1">
-                                            @if (count($content->comments))
-                                                @php
-                                                    $rateAvrage = $rateSum = 0;
-                                                @endphp
-                                                @foreach ($content->comments as $comment)
-                                                    @php
-                                                        $rateSum = $rateSum + $comment['rate'];
-                                                    @endphp
-                                                @endforeach
-                                                @for ($i = $rateSum / count($content->comments); $i >= 1; $i--)
-                                                    <img width="20" height="20"
-                                                        srcset="{{ asset('/img/star1x.png') }} , {{ asset('/img/star2x.png') }} 2x"
-                                                        src="{{ asset('/img/star1x.png') }}"
-                                                        alt="{{ 'star for rating' }}">
-                                                @endfor
-                                            @endif
-                                        </div>
-
-                                    </article>
+                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            <div class="flex items-center">
+                                <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="m1 9 4-4-4-4" />
+                                </svg>
+                                <a href="{{ $item['slug'] }}"
+                                    class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
+                                    itemprop="item">
+                                    <span itemprop="name">{{ $item['title'] }}</span>
                                 </a>
                             </div>
-                        @endforeach
-                    </div>
-                @endisset
-            </div>
-        </div>
-    </section>
-
-    @if (count($subCategory))
-        <section class="category-list category-section" id="index-best-view">
-            <div class="flex one relative">
-                <div class="siema p-0">
-                    @foreach ($subCategory as $content)
-                        <a href="{{ $content->slug }}">
-                            <div class="hover text-center">
-                                @if (isset($content->images['images']['small']))
-                                    <figure class="image">
-                                        <img src="{{ image_or_placeholder($content->images['images']['small']) }}" alt="{{ $content->title }}"
-                                            width="{{ env('CATEGORY_SMALL_W') }}" height="{{ env('CATEGORY_SMALL_H') }}"
-                                            srcset="
-                                {{ image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_SMALL_W') }}w,
-                                {{ image_or_placeholder($content->images['images']['medium']) ?? $content->images['images']['small'] }} {{ env('CATEGORY_MEDIUM_W') }}w,
-                                {{ image_or_placeholder($content->images['images']['large']) ?? $content->images['images']['small'] }} {{ env('CATEGORY_LARGE_W') }}w">
-                                        <figcaption>
-                                            <div class="p-0 m-0 text-center"> {{ $content->title }}</div>
-                                        </figcaption>
-                                    </figure>
-                                @else
-                                    <div class="p-0 m-0 text-center"> {{ $content->title }}</div>
-                                @endif
-
-                            </div>
-                        </a>
+                            <meta itemprop="position" content="2">
+                        </li>
                     @endforeach
 
-                </div>
-                <a class="prev2">&#10094;</a>
-                <a class="next2">&#10095;</a>
+
+                </ol>
+            </nav>
+            <!-- main -->
 
 
 
+
+
+            <!-- title -->
+            <div class="ps-15 my-10 section-heading sm:col-span-4 w-full col-span-6 relative space-y-3">
+                <h1 class="font-black text-3xl">
+                    <span class="text-primary font-bold">{{ $detail->title ?? '' }}</span>
+                </h1>
             </div>
-        </section>
-        <hr>
-    @endif
+
+            <!-- quick select category -->
+            <div class="mb-6">
+                <div class="swiper free-mode">
+                    <div class="swiper-wrapper" style="padding-bottom: 0 !important;">
 
 
-
-    @if (count($relatedProduct))
-        <section class="products" id="index-best-view">
-            <div class="flex one ">
-                <div>
-                    <div class="">
-                        <div class="flex two two-500 five-900 center ">
-                            @foreach ($relatedProduct as $content)
-                                    <article class="">
-                                        @if (isset($content->images['images']['small']))
-                                            <a href="{{ $content->slug }}">
-
-                                                <figure class="image">
-                                                    <img src="{{ image_or_placeholder($content->images['images']['small']) }}"
-                                                    sizes="(max-width:{{ env('ARTICLE_SMALL_W') }}px) 100vw {{ env('ARTICLE_SMALL_W') }}px {{ ENV('ARTICLE_MEDIUM_W') }}px"
-                                                    alt="{{ $content->title }}" width="100" height="100" srcset="
-                                                    {{ image_or_placeholder($content->images['images']['small']) }} {{ env('ARTICLE_SMALL_W') }}w,
-                                                    {{ image_or_placeholder($content->images['images']['medium']) }} 2x">
-                                                </figure>
-                                            </a>
-                                        @endif
-                                        <footer>
-                                            <div> {{ $content->title }}</div>
-                                            {{-- {!! $content->brief_description !!} --}}
-                                            <a class="btn btn-block bg-blue"
-                                                href="{{ $content->slug }}">@lang('messages.more')</a>
-
-                                        </footer>
-                                    </article>
+                        @if (count($subCategory))
+                            @foreach ($subCategory as $content)
+                                <div class="swiper-slide p-1 !w-auto">
+                                    <div
+                                        class="size-40 overflow-hidden rounded-lg border border-gray-200 flex flex-col justify-center items-center space-y-3 bg-white dark:bg-background-dark p-3 drop-shadow-sm">
+                                        <img src="{{ image_or_placeholder($content->images['images']['small'] ?? '') }}" alt="{{ $content->title }}"
+                                            width="50" height="50">
+                                        <p class="text-neutral-600 dark:text-white truncate w-full text-center">{{ $content->title }}</p>
+                                        <a href="{{ $content->slug }}"
+                                            class="bg-secondary-500 hover:bg-secondary-400 transition flex items-center space-x-1 rounded-3xl py-1 text-sm px-3">
+                                            <span class="inline-block text-white">مشاهده</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-4 text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
                             @endforeach
+                        @endif
 
-                        </div>
+
                     </div>
-
-                    {{ $relatedProduct->links('vendor.pagination.default') }}
-
+                    <div
+                        class="swiper-button-prev bg-white rounded-full dark:bg-zinc-800 dark:bg-zinc-800 border border-gray-200 !size-12 after:!text-xl px-3">
+                    </div>
+                    <div
+                        class="swiper-button-next bg-white rounded-full dark:bg-zinc-800 dark:bg-zinc-800 border border-gray-200 !size-12 after:!text-xl px-3ؤ">
+                    </div>
                 </div>
             </div>
-        </section>
-    @endif
+
+            <!-- filter and products -->
+            <div class="grid gap-4 grid-cols-4">
+
+
+                <!-- filter -->
+                <aside class="hidden lg:col-span-1 relative space-y-4 col-span-4 w-full">
+                    <section class="space-y-5 sticky top-0">
+                        <!-- search -->
+                        <section>
+                            <div
+                                class="dark:bg-background-dark dark:text-white bg-white rounded-lg drop-shadow-lg border-gray-300 border-1 p-4">
+                                <h2
+                                    class="font-bold text-lg mb-4 relative pb-4 before:absolute before:right-0 before:bottom-0 before:size-2 before:rounded-full before:bg-primary after:absolute after:w-40 after:h-2 after:bottom-0 after:right-4 after:bg-primary after:rounded-lg">
+                                    جستجوی محصولات</h2>
+                                <div class="relative flex items-center w-full">
+                                    <input type="search"
+                                        class="w-full appearance-none dark:text-white rounded-3xl  border border-gray-300 py-3 pr-12 px-3"
+                                        placeholder="اسم محصول را وارد کنید ....">
+                                    <button class="bg-primary-grad  p-2 text-white rounded-3xl absolute right-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-6 dark:text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                    </section>
+                </aside>
+
+
+                <!-- products -->
+                <section class="lg:col-span-4 col-span-4 w-full">
+                    <div class="grid grid-cols-12 gap-4 place-items-center">
+
+                    @if (count($relatedProduct))
+                    @foreach ($relatedProduct as $content)
+                        <div class="lg:col-span-3 md:col-span-6 col-span-12 w-full">
+                            <article
+                                class="bg-white product-box-item drop-shadow-md rounded-xl p-4 dark:bg-card-dark dark:border-white dark:border-1"
+                                itemscope itemtype="http://schema.org/Product">
+
+                                <figure class="flex image justify-center my-4">
+                                    <a href="{{ $content->slug }}" itemprop="url">
+                                        <img class="one-image" src="{{ image_or_placeholder($content->images['images']['small']) }}" loading="lazy"
+                                            alt="گوشی موبایل اپل آیفون 13 پرو مکس" itemprop="image">
+                                        @foreach ($content->gallery as $gallery)
+
+                                            <img class="two-image" src="{{ image_or_placeholder($gallery->images['images']['small']) }}" loading="lazy">
+                                        @endforeach
+                                    </a>
+                                </figure>
+                                <h3 class="text-base leading-8  line-clamp-2 mb-2">
+                                    <a href="{{ $content->slug }}" class="text-gray-800 dark:text-white"
+                                        itemprop="name">{{ $content->title }}</a>
+                                </h3>
+                                <footer itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                                    <link itemprop="availability" href="http://schema.org/InStock">
+                                    <meta itemprop="priceCurrency" content="IRR">
+
+                                </footer>
+                            </article>
+                        </div>
+                    @endforeach
+                    @endif
+
+
+                    </div>
+                </section>
+
+            </div>
+            @if (count($relatedProduct))
+            {{ $relatedProduct->links('it-times-store.pagination') }}
+            @endif
 
 
 
+            <!-- description category -->
 
-
-    <section class="category-content p-0 m-0" id="">
-        <div class="flex one ">
-            <div class="p-1">
-                @if (count($table_of_content))
+            <div
+                class="p-5 bg-white dark:bg-background-dark dark:text-white rounded-xl tab-content border border-gray-300 drop-shadow">
+                <div class="space-y-5">
+                    <h2
+                        class="text-2xl pb-3 font-black text-zinc-800 relative before:absolute before:bottom-0 before:right-0 before:h-1 before:w-22 before:bg-primary-500 before:rounded dark:text-white">
+                        دسته بندی {{ $detail->title }}
+                    </h2>
+                    <div class="text-neutral-700 leading-9 text-justify text-lg dark:text-white">
+                    @if (count($table_of_content))
                     <ul>
                         @foreach ($table_of_content as $key => $item)
                             <li class="toc1">
@@ -266,43 +258,22 @@
                         @endforeach
 
                     </ul>
+
                 @endif
-
                 @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
-            </div>
-        </div>
-    </section>
 
-
-
-
-
-    <section class=" bg-gray mb-0 pt-1">
-        <div>
-            <h2>مقالات</h2>
-            <div class="flex two five-500 center">
-                @foreach (\App\Models\Content::where('parent_id','=',80)->limit(5)->get() as $content)
-                <div>
-                    <a href="{{ $content->slug }}">
-                        <article class="shadow2">
-                            @if (isset($content->images['images']['medium']))
-                            <figure class="image">
-                                <img src="{{ image_or_placeholder($content->images['images']['medium']) }}"
-                                width="198" height="100" alt="{{ $content->title }}">
-                            </figure>
-                            @endif
-
-                            <div class="title">{{ $content->title }}</div>
-
-
-                            </article>
-                        </a>
                     </div>
-                    @endforeach
-
                 </div>
             </div>
+
+        </div>
     </section>
+    <!-- ================= end content section ================= -->
+
+
+
+
+
 
 
 @endsection

@@ -1,4 +1,4 @@
-@extends(@env('TEMPLATE_NAME').'.App')
+@extends(@env('TEMPLATE_NAME') . '.App')
 
 
 
@@ -14,13 +14,13 @@
 
 
 @if (isset($detail->images['images']['medium']))
-    @section('twitter:image', url($detail->images['images']['medium']))
+@section('twitter:image', url($detail->images['images']['medium']))
 
-    @section('og:image', url($detail->images['images']['medium']))
-    @section('og:image:type', 'image/jpeg')
-    @section('og:image:width', $detail->attr_type == 'product' ? env('PRODUCT_MEDIUM_W') : env('ARTICLE_MEDIUM_W'))
-    @section('og:image:height', $detail->attr_type == 'article' ? env('PRODUCT_MEDIUM_H') : env('ARTICLE_MEDIUM_H'))
-    @section('og:image:alt', $detail->title)
+@section('og:image', url($detail->images['images']['medium']))
+@section('og:image:type', 'image/jpeg')
+@section('og:image:width', $detail->attr_type == 'product' ? env('PRODUCT_MEDIUM_W') : env('ARTICLE_MEDIUM_W'))
+@section('og:image:height', $detail->attr_type == 'article' ? env('PRODUCT_MEDIUM_H') : env('ARTICLE_MEDIUM_H'))
+@section('og:image:alt', $detail->title)
 
 @endif
 
@@ -31,188 +31,180 @@
     @include('jsonLdWebsite')
 
 
+    <!-- ================= start content section ================= -->
+    <section class="py-5">
+        <div class="container">
+            <!-- breadcrumb -->
+            <nav class="flex mt-2 mb-6" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse" itemscope
+                    itemtype="https://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a href="/"
+                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
+                            itemprop="item">
+                            <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                            </svg>
+                            <span itemprop="name">خانه</span>
+                        </a>
+                        <meta itemprop="position" content="1">
+                    </li>
 
-
-
-    @if (count($breadcrumb))
-        <section class="breadcrumb my-0 py-0">
-            <div class="flex one  ">
-                <div class="p-0">
-                    <a href="/">خانه </a>
                     @foreach ($breadcrumb as $key => $item)
-                        <span>></span>
-                        <a title="{{ $item['title'] }}" href="{{ $item['slug'] }}">{{ $item['title'] }}</a>
+                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            <div class="flex items-center">
+                                <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="m1 9 4-4-4-4" />
+                                </svg>
+                                <a href="{{ $item['slug'] }}"
+                                    class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
+                                    itemprop="item">
+                                    <span itemprop="name">{{ $item['title'] }}</span>
+                                </a>
+                            </div>
+                            <meta itemprop="position" content="2">
+                        </li>
                     @endforeach
 
-                </div>
+
+                </ol>
+            </nav>
+            <!-- main -->
+
+
+
+
+
+            <!-- title -->
+            <div class="ps-15 my-10 section-heading sm:col-span-4 w-full col-span-6 relative space-y-3">
+                <h1 class="font-black text-3xl">
+                    <span class="text-primary font-bold">{{ $detail->title ?? '' }}</span>
+                </h1>
             </div>
-        </section>
-    @endif
-
-    <section class="search">
-        <div class="flex one two-500 three-800 center">
-
-            <form action="{{ route('search') }}" class="">
-
-                <input name="q" alt="جستجو" type="text" value="{{ app('request')->q }}"
-                    placeholder="جستجوی محصول / محتوا " required>
-
-                <button class=""><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24"
-                        viewBox="0 0 32 32" style=" fill:#000000;">
-                        <path
-                            d="M 19 3 C 13.488281 3 9 7.488281 9 13 C 9 15.394531 9.839844 17.589844 11.25 19.3125 L 3.28125 27.28125 L 4.71875 28.71875 L 12.6875 20.75 C 14.410156 22.160156 16.605469 23 19 23 C 24.511719 23 29 18.511719 29 13 C 29 7.488281 24.511719 3 19 3 Z M 19 5 C 23.429688 5 27 8.570313 27 13 C 27 17.429688 23.429688 21 19 21 C 14.570313 21 11 17.429688 11 13 C 11 8.570313 14.570313 5 19 5 Z">
-                        </path>
-                    </svg></button>
-            </form>
-        </div>
-    </section>
-
-    <section class="bg-gray search-items">
-        <div class="flex one ">
-            <h2>محصولات</h2>
-            <div>
-                @if (count($products))
-                    <div class="flex one two-500  ">
-
-                        {{-- $data['newPost'] --}}
-                        @foreach ($products as $content)
-                            <a href="{{ $content->slug }}" class="">
-                                <div class="shadow hover p-0 border-radius-5 search-item">
-                                    @if (isset($content->images['images']['small']) && file_exists(public_path($content->images['images']['small'])))
-                                        <img src="{{ $content->images['images']['large'] }}" alt="{{ $content->title }}"
-                                            title="{{ $content->title }}" width="50">
-
-                                    @endif
-                                    <div class="py-0 px-1 m-0 ">
-                                        <div>{{ $content->title }}</div>
-                                        <div>
 
 
-                                            <span class="rate ">
-                                                @if (count($content->comments))
-                                                    @php
-                                                        $rateAvrage = $rateSum = 0;
-                                                    @endphp
-                                                    @foreach ($content->comments as $comment)
-                                                        @php
-                                                            $rateSum = $rateSum + $comment['rate'];
-                                                        @endphp
-                                                    @endforeach
-                                                    @for ($i = $rateSum / count($content->comments); $i >= 1; $i--)
-                                                        <label></label>
-                                                    @endfor
-                                                    <span class="font-09 ml-2">({{ count($content->comments) }}
-                                                        نفر)</span>
-                                                @endif
-                                            </span>
-
-                                            <span class="">
-                                                <svg class="p-0  m-0" width="18" height="18" viewBox="0 0 24 18"
-                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M12 3C6.40848 3 1.71018 6.82432 0.378052 12C1.71018 17.1757 6.40848 21 12 21C17.5915 21 22.2898 17.1757 23.6219 12C22.2898 6.82432 17.5915 3 12 3ZM16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="">{{ $content->viewCount }}</span>
-                                            </span>
+            <!-- products -->
+            <div class="grid gap-4 grid-cols-4">
 
 
+                <!-- products -->
+                <section class="lg:col-span-4 col-span-4 w-full">
+                    <div class="grid grid-cols-12 gap-4 place-items-center">
 
-                                        </div>
-                                    </div>
+                        @if (count($products))
+                            @foreach ($products as $content)
+                                <div class="lg:col-span-3 md:col-span-6 col-span-12 w-full">
+                                    <article class="bg-white product-box-item drop-shadow-md rounded-xl p-4
+                                                                    dark:bg-card-dark dark:border-white dark:border-1">
 
-                                </div>
-                            </a>
-                        @endforeach
+                                        <figure class="flex image justify-center my-4">
+                                            <a href="{{ $content->slug }}" itemprop="url">
+                                                <img class="one-image"
+                                                    src="{{ image_or_placeholder($content->images['images']['small']) }}"
+                                                    loading="lazy" alt="گوشی موبایل اپل آیفون 13 پرو مکس" itemprop="image">
+                                                @foreach ($content->gallery as $gallery)
 
-
-                    </div>
-
-                @else
-                    موردی یافت نشد.
-                @endif
-            </div>
-        </div>
-    </section>
-
-    <section class="bg-gray search-items">
-        <div class="flex one ">
-            <h2>مقالات</h2>
-            <div>
-                @if (count($posts))
-                    <div class="flex one two-500   ">
-
-                        @foreach ($posts as $content)
-
-                            <a href="{{ $content->slug }}">
-                                <div class="shadow hover p-0 border-radius-5  search-item">
-
-                                    @if (isset($content->images['images']['small']) && file_exists(public_path($content->images['images']['small'])))
-                                        <figure class="image m-0" style="width: 70px">
-                                            <img src="{{ $content->images['images']['large'] }}"
-                                                alt="{{ $content->title }}" title="{{ $content->title }}" width="70"
-                                                height="70">
-
+                                                    <img class="two-image"
+                                                        src="{{ image_or_placeholder($gallery->images['images']['small']) }}"
+                                                        loading="lazy">
+                                                @endforeach
+                                            </a>
                                         </figure>
-                                    @endif
+                                        <h3 class="text-base leading-8  line-clamp-2 mb-2">
+                                            <a href="{{ $content->slug }}" class="text-gray-800 dark:text-white"
+                                                itemprop="name">{{ $content->title }}</a>
+                                        </h3>
 
-                                    <div class="py-0 px-1 m-0 ">
-                                        <div>{{ $content->title }}</div>
-                                        <div>
-
-
-                                            <span class="rate ">
-                                                @if (count($content->comments))
-                                                    @php
-                                                        $rateAvrage = $rateSum = 0;
-                                                    @endphp
-                                                    @foreach ($content->comments as $comment)
-                                                        @php
-                                                            $rateSum = $rateSum + $comment['rate'];
-                                                        @endphp
-                                                    @endforeach
-                                                    @for ($i = $rateSum / count($content->comments); $i >= 1; $i--)
-                                                        <label></label>
-                                                    @endfor
-                                                    <span class="font-09 ml-2">({{ count($content->comments) }}
-                                                        نفر)</span>
-                                                @endif
-                                            </span>
-
-                                            <span class="">
-                                                <svg class="p-0  m-0" width="18" height="18" viewBox="0 0 24 18"
-                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12Z"
-                                                        fill="currentColor" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M12 3C6.40848 3 1.71018 6.82432 0.378052 12C1.71018 17.1757 6.40848 21 12 21C17.5915 21 22.2898 17.1757 23.6219 12C22.2898 6.82432 17.5915 3 12 3ZM16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <span class="">{{ $content->viewCount }}</span>
-                                            </span>
-
-
-
-                                        </div>
-                                    </div>
-
+                                    </article>
                                 </div>
-                            </a>
-                        @endforeach
+                            @endforeach
+                        @endif
+
 
                     </div>
-                @else
-                    موردی یافت نشد.
-                @endif
+                </section>
+
             </div>
+
+
+
+
+
+
+
         </div>
     </section>
+    <!-- ================= end content section ================= -->
 
 
+
+
+    <div class="container !px-0 my-10">
+    <h2 class="text-2xl font-bold  dark:text-white mb-4">مقالات</h2>
+        <div class="flex flex-col xl:flex-row gap-4">
+            <!-- Articles -->
+            <div class="w-full">
+                <!-- article -->
+                <div class="grid grid-cols-1 xl:grid-cols-5 md:grid-cols-2 gap-4">
+
+                    @foreach ($posts as $content)
+                        <div class="space-y-3 px-1.5 py-2">
+                            <a href="{{ $content->slug }}" class="w-full block" itemprop="url">
+                                <article
+                                    class="p-4 space-y-3 rounded-xl hover:-translate-y-2 transition border border-gray-200 bg-white drop-shadow-md dark:bg-background-dark">
+                                    <figure class="text-center block py-4" itemprop="image" itemscope
+                                        itemtype="https://schema.org/ImageObject">
+                                        <img src="{{ image_or_placeholder($content->images['images']['large'] ?? '') }}"
+                                            class="h-50 rounded-xl w-full block mx-auto object-cover"
+                                            itemprop="contentUrl">
+                                    </figure>
+                                    <section class="space-y-5">
+                                        <div class="space-y-4">
+                                            <h4
+                                                class="relative before:right-0 before:z-[-1] before:rounded-lg before:bg-gray-300 before:absolute before:top-1/2 before:h-px before:w-full before:-translate-y-1/2">
+                                                <span class="bg-secondary text-sm rounded text-white px-3 dark:bg-secondary-300"
+                                                    itemprop="articleSection">{{ $content->category['title'] ?? '' }}</span>
+                                            </h4>
+                                            <h2 class="text-xl line-clamp-1 font-bold dark:text-white" itemprop="headline">{{ $content->title }}</h2>
+                                        </div>
+                                        <div class="flex mt-8 flex-wrap justify-between items-center">
+                                            <div class="flex items-center" itemprop="datePublished" content="2024-03-02">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="size-6 dark:text-white">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                </svg>
+                                                <time class="mr-2 dark:text-white">{{ convertGToJ($content->updated_at) }}</time>
+                                            </div>
+                                            <div class="flex items-center" itemprop="interactionStatistic" itemscope
+                                                itemtype="https://schema.org/InteractionCounter">
+                                                <meta itemprop="interactionType" content="https://schema.org/WatchAction">
+                                                <meta itemprop="userInteractionCount" content="128">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="size-6 dark:text-white">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                </svg>
+                                                <time class="mr-2 dark:text-white">{{ $content->viewCount }} بازدید</time>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </article>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 
 
 

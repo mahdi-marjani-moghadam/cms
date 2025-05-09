@@ -1,295 +1,927 @@
 @extends(@env('TEMPLATE_NAME') . '.App')
 
 @push('scripts')
-<script src="{{ asset('/siema.min.js') }}"></script>
-<script>
-    var w;
-    var perPageNumber;
 
-    function perPage() {
-        w = window.innerWidth;
-        if (w <= 500) {
-            perPageNumber = 1;
-        } else if (w <= 768) {
-            perPageNumber = 5;
-        } else if (w <= 1024) {
-            perPageNumber = 5;
-        } else {
-            perPageNumber = 6;
-        }
-    }
-
-
-    document.getElementsByTagName("BODY")[0].onresize = function() {
-        mySiema.destroy();
-        perPage();
-        mySiema.init();
-    };
-
-
-    perPage();
-    var mySiema = new Siema({
-        selector: '.siema',
-        duration: 200,
-        easing: 'ease-out',
-        perPage: perPageNumber,
-        startIndex: 0,
-        draggable: true,
-        multipleDrag: true,
-        threshold: 20,
-        loop: false,
-        rtl: true,
-        onInit: () => {},
-        onChange: () => {
-
-        },
-    });
-    document.querySelector('.prev2').addEventListener('click', () => mySiema.prev());
-    document.querySelector('.next2').addEventListener('click', () => mySiema.next());
-</script>
 @endpush
 
 @section('Content')
-<section class="banner wide p-0 m-0">
-    <div>
-        {{--images&label=banner&var=banners&count=1 --}}
-        @if (isset($banners) && isset($banners['images']))
-        @foreach ($banners['images'] as $content)
-        <img src="{{ image_or_placeholder($content) }}" alt="عصر آی تی">
-        @endforeach
-        @endisset
-    </div>
-</section>
 
 
 
 
-<section class=" shadowy-1 my-0 py-2 brands category-section max-h-[144px] overflow-hidden" onresize="onResize()">
-    <div class="flex one  relative">
-        <div class="siema p-0">
-            {{--category&label=cat&var=category&count=10 --}}
-            @isset($category['data'])
-            @foreach ($category['data'] as $content)
-            <a href="{{ $content->slug }}">
-                <div class="hover text-center">
-                    @if (isset($content->images['images']['small']))
-                    <figure class="image">
-                        <img src="{{ image_or_placeholder($content->images['images']['small']) }}" alt="{{ $content->title }}"
-                            width="" height=""
-                            srcset="{{ image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_SMALL_W') }}w,
-                                                {{ image_or_placeholder($content->images['images']['medium']) }} {{ env('CATEGORY_MEDIUM_W') }}w">
-                        <figcaption>
-                            <div class="p-0 m-0 text-center"> {{ $content->title }}</div>
-                        </figcaption>
-                    </figure>
-                    @else
-                    <div class="p-0 m-0 text-center"> {{ $content->title }}</div>
-                    @endif
+
+    <!-- ================= start slider section ================= -->
+    <section class="py-5">
+        <h2 class="sr-only">اسلایدر فروشگاه</h2>
+        <!-- for seo -->
+        <div class="w-full overflow-hidden">
+            <div class="swiper max-w-[1920px] mx-auto !relative default-carousel swiper-container"
+                aria-label="اسلایدر فروشگاه">
+                <div class="swiper-wrapper" style="padding-bottom: 0 !important;">
+
+
+                    {{--images&label=banner&var=banners&count=1 --}}
+                    @foreach ($banners['images'] as $content)
+                        <div class="swiper-slide max-w-[1920px]" role="group" aria-roledescription="slide">
+                            <a href="#" aria-label="تصویر 1 از اسلایدر فروشگاه">
+                                <div class="h-90 flex justify-center items-center">
+                                    <img src="{{ image_or_placeholder($content) }}"
+                                        class="h-full w-full object-cover rounded-lg" loading="lazy"
+                                        alt="تصویر تبلیغاتی اسلایدر فروشگاه - محصول ویژه 1">
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
 
                 </div>
-            </a>
-            @endforeach
-            @endisset
+                @if (isset($banners) && isset($banners['images']) && count($banners['images']) > 1)
+                    <div class="swiper-button-next bg-white rounded-full dark:bg-zinc-800 border border-gray-200 !size-12 after:!text-xl px-3 after:text-primary"
+                        aria-label="اسلاید بعدی"></div>
+                    <div class="swiper-button-prev bg-white rounded-full dark:bg-zinc-800 border border-gray-200 !size-12 after:!text-xl px-3 after:text-primary"
+                        aria-label="اسلاید قبلی"></div>
+
+                    <div class="swiper-pagination !z-30 !bottom-0" aria-label="صفحه بندی اسلایدر"></div>
+                    <div class="slider-pagination-bg absolute w-40 h-10 -translate-x-1/2 -mb-3 pt-1 left-1/2 bottom-0 z-10">
+                    </div>
+                @endif
+            </div>
         </div>
-        <a class="prev2">&#10094;</a>
-        <a class="next2">&#10095;</a>
-    </div>
-</section>
+    </section>
+    <!-- ================= end slider section ================= -->
 
 
-{{--categoryDetail&label=about&var=about&count=1 --}}
-@isset($about['data'])
-<section class="my-0 py-5 bg-gray">
-    <div class="md:grid md:grid-cols-3 gap-4 ">
-        <div class="md:col-span-2 middle flex">
-            <h2>فروشگاه عصر آی تی</h2>
-            {!! $about['data']->brief_description !!}
-        </div>
-        <div class="">
-            <img src="{{ image_or_placeholder($about['data']->images['images']['large']) }}" alt="">
-        </div>
-    </div>
-</section>
-@endisset
 
 
-<section>
-    <div>
-        <div class="flex  center">
-            <a href="/سیم-ها" class="">
-                <img src="{{ url(env('TEMPLATE_NAME') . '/img/سیم.jpg') }}" alt="سیم">
-            </a>
-            <a href="/کانکتور-و-تبدیل" class="">
-                <img src="{{ url(env('TEMPLATE_NAME') . '/img/کانکتور.jpg') }}" alt="کانکتور">
-            </a>
-            <a href="/کابل" class="">
-                <img src="{{ url(env('TEMPLATE_NAME') . '/img/کابل.jpg') }}" alt="کابل">
-            </a>
-            <a href="/تجهیزات-الکترونیک" class="">
-                <img src="{{ url(env('TEMPLATE_NAME') . '/img/تجهیزات-الکتریکی.jpg') }}" alt="تجهیزات-الکتریکی">
-            </a>
-        </div>
-    </div>
-</section>
 
-<section class="bg-gray-dark my-0 products">
-    <div>
-        <h2 class="mb-2">محصولات</h2>
-        <div class="flex one five-500">
-            {{--product&label=product&var=product&count=20 --}}
-            @isset($product['data'])
-            @foreach ($product['data'] as $content)
-            <div>
-                <a class="h-full block" href="{{ $content->slug }}">
-                    <article class="shadow2 h-full">
-                        @if (isset($content->images['images']['small']))
-                        <figure class="image">
-                            <img src="{{ image_or_placeholder($content->images['images']['small']) }}" alt="{{ $content->title }}"
-                                width="{{ env('ARTICLE_SMALL_W') }}" height="{{ env('ARTICLE_SMALL_H') }}">
-                        </figure>
-                        @endif
-
-                        <div class="title">{{ $content->title }}</div>
-                        @if (count($content->comments))
-                        <div class="rate mt-1">
-                            @php
-                            $rateAvrage = $rateSum = 0;
-                            @endphp
-                            @foreach ($content->comments as $comment)
-                            @php
-                            $rateSum = $rateSum + $comment['rate'];
-                            @endphp
-                            @endforeach
-                            @for ($i = $rateSum / count($content->comments); $i >= 1; $i--)
-                            <img width="18" height="18" src="{{ asset('/img/star1x.png') }}"
-                                alt="{{ 'star for rating' }}">
-                            @endfor
+    <!-- ================= start feature section ================= -->
+    <section class="py-5">
+        <h2 class="sr-only">ویژگی های فروشگاه</h2>
+        <!-- برای سئو -->
+        <div class="container">
+            <div class="grid grid-cols-4 gap-4 place-items-center">
+                <div class="xl:!col-span-1 col-span-4 w-full">
+                    <div class="flex justify-start flex-col items-start">
+                        <div class="flex items-center w-full justify-start">
+                            <div
+                                class="w-12 flex items-center justify-center h-10 dark:bg-secondary-300 dark:text-white dark:border-transparent bg-gray-200  text-gray-600 border border-gray-200 rounded-lg rounded-l-none">
+                                چرا
+                            </div>
+                            <div
+                                class="w-23 text-white flex items-center bg-primary-grad rounded-r-none justify-center rounded-lg h-10">
+                                عصر آی تی؟
+                            </div>
                         </div>
-                        @endif
+                        <p class="text-gray-600 text-start dark:text-white leading-9 mt-5">
+                            خرید مستقیم از تولید کننده داخلی </p>
+                    </div>
+                </div>
+                <div class="xl:!col-span-3 col-span-4 w-full">
+                    <div class="grid gap-x-4 lg:mt-0 mt-4 gap-y-4 grid-cols-6">
+                        <article itemscope itemtype="https://schema.org/Service" class="lg:col-span-1 col-span-3">
+                            <meta itemprop="name" content="ارسال سریع سفارشات">
+                            <meta itemprop="description" content="تحویل سفارشات در سریع‌ترین زمان ممکن">
+                            <div
+                                class="p-3 hover:drop-shadow-lg hover:-translate-y-2 dark:bg-background-dark cursor-pointer transition duration-300 border border-gray-200 flex bg-white shadow-md rounded-lg flex-col items-center justify-center">
+                                <div
+                                    class="size-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-600 dark:bg-background-dark dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6"
+                                        aria-label="ارسال سریع سفارشات">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                </div>
+                                <div class="space-y-1 text-center mt-4">
+                                    <h3 class="text-sm text-gray-600 font-bold dark:text-white">ارسال سریع سفارشات</h3>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">فردای ثبت سفارش</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article itemscope itemtype="https://schema.org/Service" class="lg:col-span-1 col-span-3">
+                            <meta itemprop="name" content="پرداخت در محل">
+                            <meta itemprop="description" content="پرداخت وجه پس از تحویل کالا">
+                            <div
+                                class="p-3 hover:drop-shadow-lg hover:-translate-y-2 dark:bg-background-dark cursor-pointer transition duration-300 border border-gray-200 flex bg-white shadow-md rounded-lg flex-col items-center justify-center">
+                                <div
+                                    class="size-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-600 dark:bg-background-dark dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6" aria-label="پرداخت در محل">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                    </svg>
+                                </div>
+                                <div class="space-y-1 text-center mt-4">
+                                    <h3 class="text-sm text-gray-600 font-bold dark:text-white">پرداخت در محل</h3>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">پس از تحویل کالا</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article itemscope itemtype="https://schema.org/Service" class="lg:col-span-1 col-span-3">
+                            <meta itemprop="name" content="تضمین کیفیت و اصالت">
+                            <meta itemprop="description" content="ضمانت مرجوعی کالا در صورت نارضایتی">
+                            <div
+                                class="p-3 hover:drop-shadow-lg hover:-translate-y-2 dark:bg-background-dark cursor-pointer transition duration-300 border border-gray-200 flex bg-white shadow-md rounded-lg flex-col items-center justify-center">
+                                <div
+                                    class="size-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-600 dark:bg-background-dark dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6"
+                                        aria-label="تضمین کیفیت و اصالت">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                                    </svg>
+                                </div>
+                                <div class="space-y-1 text-center mt-4">
+                                    <h3 class="text-sm text-gray-600 font-bold dark:text-white">تضمین کیفیت و اصالت</h3>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400"> ضمانت مرجوعی</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article itemscope itemtype="https://schema.org/Service" class="lg:col-span-1 col-span-3">
+                            <meta itemprop="name" content="پشتیبانی ۲۴ ساعته">
+                            <meta itemprop="description" content="پشتیبانی آنلاین و تلفنی در هر ساعت از شبانه‌روز">
+                            <div
+                                class="p-3 border border-gray-200 flex dark:bg-background-dark bg-white shadow-md rounded-lg flex-col items-center justify-center hover:shadow-lg hover:-translate-y-2 transition duration-300 cursor-pointer">
+                                <div
+                                    class="size-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-600 dark:bg-background-dark dark:text-white">
+                                    <svg aria-label="پشتیبانی ۲۴ ساعته" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                                    </svg>
+                                </div>
+                                <div class="space-y-1 text-center mt-4">
+                                    <h3 class="text-sm text-gray-600 font-bold dark:text-white">پشتیبانی ۲۴ ساعته</h3>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">پاسخگویی در هر زمان</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article itemscope itemtype="https://schema.org/Service" class="lg:col-span-1 col-span-3">
+                            <meta itemprop="name" content="خرید آسان و سریع">
+                            <meta itemprop="description" content="فرآیند خرید راحت و بی‌دردسر با چند کلیک">
+                            <div
+                                class="p-3 border border-gray-200 flex dark:bg-background-dark bg-white shadow-md rounded-lg flex-col items-center justify-center hover:shadow-lg hover:-translate-y-2 transition duration-300 cursor-pointer">
+                                <div
+                                    class="size-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-600 dark:bg-background-dark dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6"
+                                        aria-label="خرید آسان و سریع">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3.75 9h16.5m-8.25-6h-6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3h-6" />
+                                    </svg>
+                                </div>
+                                <div class="space-y-1 text-center mt-4">
+                                    <h3 class="text-sm text-gray-600 font-bold dark:text-white">خرید آسان و سریع</h3>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">چند کلیک تا خرید</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article itemscope itemtype="https://schema.org/DeliveryChargeSpecification"
+                            class="lg:col-span-1 col-span-3">
+                            <meta itemprop="name" content="ارسال به سراسر کشور">
+                            <meta itemprop="description" content="ارسال محصولات به تمام نقاط کشور با استفاده از پست پیشتاز">
+                            <meta itemprop="shippingMethod" content="پست پیشتاز">
+                            <meta itemprop="shippingDestination" content="تمام نقاط کشور">
+                            <div
+                                class="p-3 border border-gray-200 flex dark:bg-background-dark bg-white shadow-md rounded-lg flex-col items-center justify-center hover:shadow-lg hover:-translate-y-2 transition duration-300 cursor-pointer">
+                                <div
+                                    class="size-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-600 dark:bg-background-dark dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6"
+                                        aria-label="ارسال به سراسر کشور">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                                    </svg>
+                                </div>
+                                <div class="space-y-1 text-center mt-4">
+                                    <h3 class="text-sm text-gray-600 font-bold dark:text-white">ارسال به سراسر کشور</h3>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">با پست پیشتاز</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================= end feature section ================= -->
 
-                    </article>
+
+
+
+
+
+    <!-- ================= start amazing section ================= -->
+    <section class="py-5" itemscope itemtype="http://schema.org/ItemList">
+        <h2 class="sr-only" itemprop="name">محصولات شگفت انگیز</h2>
+        <div class="container">
+            <div class="bg-primary dark:bg-zinc-700 bg-contain bg-[url(../images/slider/patterns.png)] p-5 rounded-lg">
+                <div class="swiper amazing-carousel">
+                    <div class="swiper-wrapper items-center" style="padding-bottom: 0 !important;">
+                        <div class="swiper-slide !ml-0 !w-40 p-1">
+                            <article class="flex flex-col space-y-3 items-center justify-center">
+                                <img class="size-35" src="/it-times-store/assets/images/slider/Amazing.svg"
+                                    alt="آیکن محصولات شگفت انگیز" loading="lazy">
+                                <div class="flex text-white items-center" href="/products" aria-label="مشاهده همه محصولات">
+                                    محصولات جدید
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-4 ms-1" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                    </svg>
+                                </div>
+                            </article>
+                        </div>
+                        {{--product&label=product&var=product&count=20 --}}
+                        @isset($product['data'])
+                            @foreach ($product['data'] as $content)
+                                <div class="swiper-slide !w-auto p-1">
+                                    <article
+                                        class="bg-white w-75 product-box-item drop-shadow-lg shadow-lg rounded-xl p-4 dark:bg-background-dark dark:bg-background-dark dark:border-white dark:border-1"
+                                        itemscope itemtype="http://schema.org/Product">
+
+
+                                        <figure class="flex image justify-center my-4">
+                                            <a href="{{ $content->slug }}" itemprop="url">
+                                                <img class="one-image"
+                                                    src="{{ image_or_placeholder($content->images['images']['small']) }}"
+                                                    loading="lazy" alt="{{ $content->title }}" itemprop="image">
+                                                @if($content->gallery)
+                                                    @foreach ($content->gallery as $gallery)
+                                                        <img class="two-image"
+                                                            src="{{ image_or_placeholder($gallery->images['images']['small']) }}"
+                                                            loading="lazy" itemprop="image">
+                                                    @endforeach
+                                                @endif
+                                            </a>
+                                        </figure>
+                                        <h3 class="text-base leading-8  line-clamp-2 mb-2">
+                                            <a href="{{ $content->slug }}" class="text-gray-800 dark:text-white"
+                                                itemprop="name">{{ $content->title }}</a>
+                                        </h3>
+                                        <!-- <footer itemprop="offers" itemscope itemtype="http://schema.org/Offer"> -->
+                                        <!-- <link itemprop="availability" href="http://schema.org/InStock"> -->
+                                        <!-- <meta itemprop="priceCurrency" content="IRR"> -->
+
+                                        <!-- </footer> -->
+                                    </article>
+                                </div>
+                            @endforeach
+                        @endisset
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================= end amazing section ================= -->
+
+
+
+
+
+    <!-- ================= start category section ================= -->
+    <section class="py-5">
+        <div class="container">
+            <div class="mb-10">
+                <header class="grid place-items-center grid-cols-6 gap-y-10" itemscope
+                    itemtype="https://schema.org/CollectionPage">
+                    <div class="ps-15 section-heading sm:col-span-4 w-full col-span-6 relative space-y-3">
+                        <h2 class="font-black text-2xl">
+                            <span itemprop="name" class="dark:text-white">دسته بندی</span>
+                            <span class="text-primary font-bold">فروشگاه</span>
+                        </h2>
+                        <p class="text-neutral-600 dark:text-white" itemprop="description">پربازدیدترین دسته بندی ها</p>
+                    </div>
+
+                    <!-- Breadcrumbs (hidden from users but still available for search engines) -->
+                    <div itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList"
+                        style="display: none;">
+                        <meta itemprop="position" content="1">
+                        <span itemscope itemtype="https://schema.org/ListItem">
+                            <a itemprop="item" href="/">
+                                <span itemprop="name">خانه</span>
+                            </a>
+                            <meta itemprop="position" content="1">
+                        </span>
+                        &gt;
+                        <span itemscope itemtype="https://schema.org/ListItem">
+                            <a itemprop="item" href="/shop">
+                                <span itemprop="name">فروشگاه</span>
+                            </a>
+                            <meta itemprop="position" content="2">
+                        </span>
+                        &gt;
+                        <span itemscope itemtype="https://schema.org/ListItem">
+                            <a itemprop="item" href="/shop/categories">
+                                <span itemprop="name">دسته بندی ها</span>
+                            </a>
+                            <meta itemprop="position" content="3">
+                        </span>
+                    </div>
+                </header>
+            </div>
+            <div class="grid grid-cols-12 gap-4">
+
+                {{--category&label=cat&var=category&count=8 --}}
+                @isset($category['data'])
+                    @foreach ($category['data'] as $content)
+                        <a href="{{ $content->slug }}" class="lg:col-span-3 sm:col-span-6 col-span-12 w-full block">
+                            <article itemscope itemtype="https://schema.org/CategoryCode"
+                                class="flex py-2 px-3 rounded-xl border border-gray-200 bg-white drop-shadow-md items-center justify-between dark:bg-background-dark">
+                                <section class="space-y-2">
+                                    <h3 itemprop="name" class="text-lg font-bold dark:text-white">{{ $content->title }}</h3>
+                                    <span class="text-xs font-light text-neutral-500"
+                                        itemprop="description">{{ $content->category['title'] ?? ''}}</span>
+                                </section>
+                                <figure>
+                                    <img src="{{ image_or_placeholder($content->images['images']['small'] ?? '') }}" class="size-20"
+                                        loading="lazy" alt="{{ $content->title }}" itemprop="image">
+                                </figure>
+                            </article>
+                        </a>
+                    @endforeach
+                @endisset
+            </div>
+        </div>
+    </section>
+    <!-- ================= end category section ================= -->
+
+
+
+
+
+
+
+
+    <!-- ================= start banner section ================= -->
+    <section class="py-5" aria-label="تبلیغات ویژه" itemscope itemtype="https://schema.org/ItemList" id="advertisements">
+        <h2 class="sr-only" itemprop="name">تبلیغات و پیشنهادات ویژه</h2>
+        <div class="container">
+            <div class="grid grid-cols-2 gap-4 place-items-center">
+                <div class="lg:col-span-1 col-span-2" itemprop="itemListElement" itemscope
+                    itemtype="https://schema.org/Promotion" itemid="#summer-promo">
+                    <a href="https://example.com/offers/summer-sale" aria-label="مشاهده پیشنهادات تابستانی" itemprop="url">
+                        <img src="/it-times-store/assets/images/advert/banner-2.jpg"
+                            class="rounded-lg transition block duration-300 hover:-translate-y-2"
+                            alt="تابستانه ویژه - تا ۵۰% تخفیف روی محصولات منتخب" loading="lazy" itemprop="image">
+                        <meta itemprop="name" content="تخفیف تابستانی">
+                        <meta itemprop="description" content="تا ۵۰% تخفیف روی محصولات منتخب فصل تابستان">
+                        <div itemprop="validFrom" content="2024-06-01T00:00:00+03:30"></div>
+                        <div itemprop="validThrough" content="2024-09-22T23:59:59+03:30"></div>
+                        <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                            <meta itemprop="name" content="نام سایت شما">
+                            <meta itemprop="url" content="https://example.com">
+                        </div>
+                    </a>
+                </div>
+                <div class="lg:col-span-1 col-span-2" itemprop="itemListElement" itemscope
+                    itemtype="https://schema.org/Promotion" itemid="#autumn-promo">
+                    <a href="https://example.com/new-collection" aria-label="مشاهده مجموعه جدید" itemprop="url">
+                        <img src="/it-times-store/assets/images/advert/banner-1.jpg"
+                            class="rounded-lg transition block duration-300 hover:-translate-y-2"
+                            alt="مجموعه جدید پاییزه - آخرین مدل‌های روز دنیا" loading="lazy" itemprop="image">
+                        <meta itemprop="name" content="مجموعه پاییزه">
+                        <meta itemprop="description" content="آخرین مدل‌های روز دنیا برای فصل پاییز">
+                        <div itemprop="validFrom" content="2024-09-23T00:00:00+03:30"></div>
+                        <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                            <meta itemprop="name" content="نام سایت شما">
+                            <meta itemprop="url" content="https://example.com">
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================= end banner section ================= -->
+
+
+
+
+
+    <!-- ================= start product section ================= -->
+    <section class="py-5">
+        <div class="container">
+            <div class="mb-5">
+                <header class="grid place-items-center grid-cols-6 gap-y-10" itemscope
+                    itemtype="https://schema.org/CollectionPage">
+                    <div class="ps-15 section-heading sm:col-span-4 w-full col-span-6 relative space-y-3">
+                        <h2 class="font-black text-2xl">
+                            <span itemprop="name" class="dark:text-white">جدیدترین</span>
+                            <span class="text-primary font-bold">محصولات</span>
+                        </h2>
+                        <p class="text-neutral-600 dark:text-white" itemprop="description">پربازدیدترین محصولات</p>
+                    </div>
+
+                    <!-- Breadcrumbs (hidden from users but still available for search engines) -->
+                    <div itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList"
+                        style="display: none;">
+                        <meta itemprop="position" content="1">
+                        <span itemscope itemtype="https://schema.org/ListItem">
+                            <a itemprop="item" href="/">
+                                <span itemprop="name">خانه</span>
+                            </a>
+                            <meta itemprop="position" content="1">
+                        </span>
+                        &gt;
+                        <span itemscope itemtype="https://schema.org/ListItem">
+                            <a itemprop="item" href="/shop">
+                                <span itemprop="name">فروشگاه</span>
+                            </a>
+                            <meta itemprop="position" content="2">
+                        </span>
+                        &gt;
+                        <span itemscope itemtype="https://schema.org/ListItem">
+                            <a itemprop="item" href="/shop/categories">
+                                <span itemprop="name">دسته بندی ها</span>
+                            </a>
+                            <meta itemprop="position" content="3">
+                        </span>
+                    </div>
+                </header>
+            </div>
+        </div>
+        <div
+            class="relative before:absolute before:w-full before:top-20 before:h-[320px] before:bg-gradient-to-b before:from-secondary-500 before:to-transparent before:right-0 before:left-0">
+            <div class="container">
+                <div class="swiper !px-2.3 product-carousel">
+                    <div class="swiper-wrapper items-center" style="padding-bottom: 0 !important;">
+                        {{--product&label=product&var=product&count=10 --}}
+                        @isset($product['data'])
+                            @foreach ($product['data'] as $content)
+                                <div class="swiper-slide px-1.5 py-2">
+                                    <article
+                                        class="bg-white product-box-item drop-shadow-md rounded-xl p-4 dark:bg-card-dark dark:border-white dark:border-1"
+                                        itemscope itemtype="http://schema.org/Product">
+
+                                        <figure class="flex image justify-center my-4">
+                                            <a href="{{ $content->slug }}" itemprop="url">
+                                                <img class="one-image"
+                                                    src="{{ image_or_placeholder($content->images['images']['small']) }}"
+                                                    loading="lazy" alt="گوشی موبایل اپل آیفون 13 پرو مکس" itemprop="image">
+                                                @foreach ($content->gallery as $gallery)
+
+                                                    <img class="two-image"
+                                                        src="{{ image_or_placeholder($gallery->images['images']['small']) }}"
+                                                        loading="lazy">
+                                                @endforeach
+                                            </a>
+                                        </figure>
+                                        <h3 class="text-base leading-8  line-clamp-2 mb-2">
+                                            <a href="{{ $content->slug }}" class="text-gray-800 dark:text-white"
+                                                itemprop="name">{{ $content->title }}</a>
+                                        </h3>
+
+                                    </article>
+                                </div>
+                            @endforeach
+                        @endisset
+
+                    </div>
+                    <div class="swiper-button-next bg-white rounded-full dark:bg-zinc-800 border border-gray-200 !size-12 after:!text-xl px-3 after:text-primary"
+                        aria-label="اسلاید بعدی"></div>
+                    <div class="swiper-button-prev bg-white rounded-full dark:bg-zinc-800 border border-gray-200 !size-12 after:!text-xl px-3 after:text-primary"
+                        aria-label="اسلاید قبلی"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================= end product section ================= -->
+
+
+
+    <!-- ================= start product group section ================= -->
+    <section class="py-5 mt-6" itemscope itemtype="https://schema.org/ItemList">
+        <div class="container">
+            <div class="mb-5">
+                <header class="grid place-items-center grid-cols-6 gap-y-10">
+                    <div class="ps-15 section-heading sm:col-span-4 w-full col-span-6 relative space-y-3">
+                        <h2 class="font-black text-2xl">
+                            <span itemprop="name" class="dark:text-white">آخرین</span>
+                            <span class="text-primary font-bold">بازید ها</span>
+                        </h2>
+                        <p class="text-neutral-600 dark:text-white" itemprop="description">بر اساس آخرین فعالیت های شما</p>
+                    </div>
+
+                </header>
+            </div>
+        </div>
+        <div class="container">
+            <section>
+                <div class="grid grid-cols-12 gap-4 place-items-center">
+
+                    <section class="sm:col-span-6 xl:col-span-3 col-span-12 w-full" itemprop="itemListElement" itemscope
+                        itemtype="https://schema.org/ProductCategory">
+                        <div class="grid gap-4 grid-cols-2 place-items-center">
+                            <div
+                                class="col-span-1 border-gray-200 border h-42 space-y-2 text-center shadow-md w-full rounded-lg bg-gray-200 py-4 p-3 dark:bg-zinc-800">
+                                <h3 class="font-bold text-lg line-clamp-1 dark:text-white" itemprop="name">انواع سیم</h3>
+                                <p class="text-neutral-600 text-xs line-clamp-1 dark:text-neutral-400">بر اساس بازید های شما
+                                </p>
+                                <img src="/it-times-store/assets/images/product/انواع-سیم.png" class="size-20 block mx-auto"
+                                    alt=" انواع سیم" itemprop="image">
+                            </div>
+
+                            {{--product&label=sim&var=sim&count=3 --}}
+                            @isset($sim['data'])
+                                @foreach ($sim['data'] as $content)
+                                    <div
+                                        class="col-span-1 border-gray-200 border group relative flex items-center justify-center h-42 space-y-2 text-center shadow-md w-full rounded-lg bg-white py-4 p-3 dark:bg-background-dark">
+                                        <a href="{{ $content->slug }}" itemprop="url">
+                                            <img src="{{ image_or_placeholder($content->images['images']['small']) }}"
+                                                class="size-25 block mx-auto" alt="{{ $content->title }}" itemprop="image">
+                                            <span
+                                                class="absolute text-nowrap z-10 left-1/2 mr-2 -top-3 -translate-x-1/2
+                                                                                                                        hidden group-hover:block bg-gray-900 text-white text-sm py-1 px-2 rounded-md shadow-lg">
+                                                <span
+                                                    class="absolute left-1/2 -bottom-[10px] rotate-[90deg]
+                                                                                                                        -translate-y-1/2 w-0 h-0 border-y-4 border-y-transparent border-l-4
+                                                                                                                        border-l-gray-900"></span>
+                                                {{ $content->title }}
+                                            </span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            @endisset
+
+                            <div class="col-span-2 w-full">
+                                <a href="/سیم-ها"
+                                    class="flex items-center bg-white shadow-md p-3 rounded-lg justify-between w-full dark:bg-zinc-700"
+                                    itemprop="url">
+                                    <span class="dark:text-white">مشاهده همه</span>
+                                    <span class="bg-primary rounded-lg p-1 rounded-tl-3xl rounded-bl-3xl">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-5 text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="sm:col-span-6 xl:col-span-3 col-span-12 w-full" itemprop="itemListElement" itemscope
+                        itemtype="https://schema.org/ProductCategory">
+                        <div class="grid gap-4 grid-cols-2 place-items-center">
+                            <div
+                                class="col-span-1 border-gray-200 border h-42 space-y-2 text-center shadow-md w-full rounded-lg bg-gray-200 py-4 p-3 dark:bg-zinc-800">
+                                <h3 class="font-bold text-lg line-clamp-1 dark:text-white" itemprop="name">انواع کانکتور
+                                </h3>
+                                <p class="text-neutral-600 text-xs line-clamp-1 dark:text-neutral-400">بر اساس بازید های شما
+                                </p>
+                                <img src="/it-times-store/assets/images/product/انواع-کانکتور.png"
+                                    class="size-20 block mx-auto" alt="انواع کانکتور" itemprop="image">
+                            </div>
+                            {{--product&label=kanektor&var=kanektor&count=3 --}}
+                            @isset($kanektor['data'])
+                                @foreach ($kanektor['data'] as $content)
+                                    <div
+                                        class="col-span-1 border-gray-200 border group relative flex items-center justify-center h-42 space-y-2 text-center shadow-md w-full rounded-lg bg-white py-4 p-3 dark:bg-background-dark">
+                                        <a href="{{ $content->slug }}" itemprop="url">
+                                            <img src="{{ image_or_placeholder($content->images['images']['small']) }}"
+                                                class="size-25 block mx-auto" alt="{{ $content->title }}" itemprop="image">
+                                            <span
+                                                class="absolute text-nowrap z-10 left-1/2 mr-2 -top-3 -translate-x-1/2
+                                                                                                                        hidden group-hover:block bg-gray-900 text-white text-sm py-1 px-2 rounded-md shadow-lg">
+                                                <span
+                                                    class="absolute left-1/2 -bottom-[10px] rotate-[90deg]
+                                                                                                                        -translate-y-1/2 w-0 h-0 border-y-4 border-y-transparent border-l-4
+                                                                                                                        border-l-gray-900"></span>
+                                                {{ $content->title }}
+                                            </span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            @endisset
+                            <div class="col-span-2 w-full">
+                                <a href="/کانکتور-و-تبدیل"
+                                    class="flex items-center bg-white shadow-md p-3 rounded-lg justify-between w-full dark:bg-zinc-700"
+                                    itemprop="url">
+                                    <span class="dark:text-white">مشاهده همه</span>
+                                    <span class="bg-primary rounded-lg p-1 rounded-tl-3xl rounded-bl-3xl">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-5 text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="sm:col-span-6 xl:col-span-3 col-span-12 w-full" itemprop="itemListElement" itemscope
+                        itemtype="https://schema.org/ProductCategory">
+                        <div class="grid gap-4 grid-cols-2 place-items-center">
+                            <div
+                                class="col-span-1 border-gray-200 border h-42 space-y-2 text-center shadow-md w-full rounded-lg bg-gray-200 py-4 p-3 dark:bg-zinc-800">
+                                <h3 class="font-bold text-lg line-clamp-1 dark:text-white" itemprop="name">انواع کابل</h3>
+                                <p class="text-neutral-600 text-xs line-clamp-1 dark:text-neutral-400">بر اساس بازید های شما
+                                </p>
+                                <img src="/it-times-store/assets/images/product/انواع-کابل.png"
+                                    class="size-20 block mx-auto" alt=" انواع کابل" itemprop="image">
+                            </div>
+                            {{--product&label=cable&var=cable&count=3 --}}
+                            @isset($cable['data'])
+                                @foreach ($cable['data'] as $content)
+                                    <div
+                                        class="col-span-1 border-gray-200 border group relative flex items-center justify-center h-42 space-y-2 text-center shadow-md w-full rounded-lg bg-white py-4 p-3 dark:bg-background-dark">
+                                        <a href="{{ $content->slug }}" itemprop="url">
+                                            <img src="{{ image_or_placeholder($content->images['images']['small']) }}"
+                                                class="size-25 block mx-auto" alt="{{ $content->title }}" itemprop="image">
+                                            <span
+                                                class="absolute text-nowrap z-10 left-1/2 mr-2 -top-3 -translate-x-1/2
+                                                                                                                        hidden group-hover:block bg-gray-900 text-white text-sm py-1 px-2 rounded-md shadow-lg">
+                                                <span
+                                                    class="absolute left-1/2 -bottom-[10px] rotate-[90deg]
+                                                                                                                        -translate-y-1/2 w-0 h-0 border-y-4 border-y-transparent border-l-4
+                                                                                                                        border-l-gray-900"></span>
+                                                {{ $content->title }}
+                                            </span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            @endisset
+                            <div class="col-span-2 w-full">
+                                <a href="/کابل"
+                                    class="flex items-center bg-white shadow-md p-3 rounded-lg justify-between w-full dark:bg-zinc-700"
+                                    itemprop="url">
+                                    <span class="dark:text-white">مشاهده همه</span>
+                                    <span class="bg-primary rounded-lg p-1 rounded-tl-3xl rounded-bl-3xl">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-5 text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="sm:col-span-6 xl:col-span-3 col-span-12 w-full" itemprop="itemListElement" itemscope
+                        itemtype="https://schema.org/ProductCategory">
+                        <div class="grid gap-4 grid-cols-2 place-items-center">
+                            <div
+                                class="col-span-1 border-gray-200 border h-42 space-y-2 text-center shadow-md w-full rounded-lg bg-gray-200 py-4 p-3 dark:bg-zinc-800">
+                                <h3 class="font-bold text-lg line-clamp-1 dark:text-white" itemprop="name">تجهیزات
+                                    الکترونیکی</h3>
+                                <p class="text-neutral-600 text-xs line-clamp-1 dark:text-neutral-400">بر اساس بازید های شما
+                                </p>
+                                <img src="/it-times-store/assets/images/product/تجهیزات-الکترونیکی.png"
+                                    class="size-20 block mx-auto" alt="تجهیزات الکترونیکی " itemprop="image">
+                            </div>
+                            {{--product&label=electronic&var=electronic&count=3 --}}
+                            @isset($electronic['data'])
+                                @foreach ($electronic['data'] as $content)
+                                    <div
+                                        class="col-span-1 border-gray-200 border group relative flex items-center justify-center h-42 space-y-2 text-center shadow-md w-full rounded-lg bg-white py-4 p-3 dark:bg-background-dark">
+                                        <a href="{{ $content->slug }}" itemprop="url">
+                                            <img src="{{ image_or_placeholder($content->images['images']['small']) }}"
+                                                class="size-25 block mx-auto" alt="{{ $content->title }}" itemprop="image">
+                                            <span
+                                                class="absolute text-nowrap z-10 left-1/2 mr-2 -top-3 -translate-x-1/2
+                                                                                                                        hidden group-hover:block bg-gray-900 text-white text-sm py-1 px-2 rounded-md shadow-lg">
+                                                <span
+                                                    class="absolute left-1/2 -bottom-[10px] rotate-[90deg]
+                                                                                                                        -translate-y-1/2 w-0 h-0 border-y-4 border-y-transparent border-l-4
+                                                                                                                        border-l-gray-900"></span>
+                                                {{ $content->title }}
+                                            </span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            @endisset
+                            <div class="col-span-2 w-full">
+                                <a href="/تجهیزات-الکترونیک"
+                                    class="flex items-center bg-white shadow-md p-3 rounded-lg justify-between w-full dark:bg-zinc-700"
+                                    itemprop="url">
+                                    <span class="dark:text-white">مشاهده همه</span>
+                                    <span class="bg-primary rounded-lg p-1 rounded-tl-3xl rounded-bl-3xl">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-5 text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </section>
+    <!-- ================= end product group section ================= -->
+
+
+
+
+
+    <!-- ================= start product list section ================= -->
+    <section class="py-5" itemscope itemtype="https://schema.org/ItemList">
+        <div class="container">
+            <div class="mb-5">
+                <header class="grid place-items-center grid-cols-6 gap-y-10">
+                    <div class="ps-15 section-heading sm:col-span-4 w-full col-span-6 relative space-y-3">
+                        <h2 class="font-black text-2xl">
+                            <span itemprop="name" class="dark:text-white">پرپازدید ترین</span>
+                            <span class="text-primary font-bold">محصولات</span>
+                        </h2>
+                        <p class="text-neutral-600 dark:text-white" itemprop="description">آخرین محصولات پر بازدید هفته</p>
+                    </div>
+
+                </header>
+            </div>
+            <div class="swiper !px-2.3 product-list-carousel">
+                <div class="swiper-wrapper items-center" style="padding-bottom: 0 !important;">
+                    <div class="swiper-slide space-y-3 px-1.5 py-2" itemprop="itemListElement" itemscope
+                        itemtype="https://schema.org/Product">
+
+                        {{--product&label=popular&var=popular&count=15 --}}
+                        @isset($popular['data'])
+                            @foreach ($popular['data'] as $content)
+
+                                <a href="{{ $content->slug }}" class="w-full block" itemprop="url">
+                                    <article
+                                        class="flex py-2 px-3 rounded-xl hover:bg-gray-200 transition border border-gray-200 bg-white drop-shadow-md items-center justify-between dark:bg-background-dark dark:hover:bg-zinc-600">
+                                        <section class="w-1/6 border-l-2 border-gray-300">
+                                            <div class="text-center">
+                                                <span class="font-bold text-3xl text-primary ">{{ $content->viewCount }}</span>
+                                            </div>
+                                        </section>
+                                        <section class="w-3/6 space-y-2 pr-3">
+                                            <h3 itemprop="name"
+                                                class="font-bold leading-loose line-clamp-2 h-13 text-xs dark:text-white">{{ $content->title }}</h3>
+                                        </section>
+                                        <figure class="w-2/6" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                                            <div class="text-end flex justify-end">
+                                                <img src="{{ image_or_placeholder($content->images['images']['small']) }}" class="size-20"
+                                                    loading="lazy" alt="{{ $content->title }}"
+                                                    itemprop="contentUrl">
+                                                <meta itemprop="caption" content="{{ $content->title }}">
+                                            </div>
+                                        </figure>
+                                    </article>
+                                </a>
+
+                                @if($loop->iteration % 3 == 0 && !$loop->last)
+                                    </div>
+                                    <div class="swiper-slide space-y-3 px-1.5 py-2" itemprop="itemListElement" itemscope
+                                        itemtype="https://schema.org/Product">
+                                @endif
+                            @endforeach
+                        @endisset
+
+
+                </div>
+            </div>
+            <div class="swiper-button-next bg-white rounded-full dark:bg-zinc-800 border border-gray-200 !size-12 after:!text-xl px-3 after:text-primary"
+                aria-label="اسلاید بعدی"></div>
+            <div class="swiper-button-prev bg-white rounded-full dark:bg-zinc-800 border border-gray-200 !size-12 after:!text-xl px-3 after:text-primary"
+                aria-label="اسلاید قبلی"></div>
+        </div>
+        </div>
+    </section>
+    <!-- ================= end product list section ================= -->
+
+
+
+
+
+
+
+
+    <!-- ================= start banner section ================= -->
+    <section class="py-5" aria-label="تبلیغات ویژه" itemscope itemtype="https://schema.org/ItemList" id="advertisementsTwo">
+        <h2 class="sr-only" itemprop="name">تبلیغات و پیشنهادات ویژه</h2>
+        <div class="container">
+            <div class="lg:col-span-1 col-span-2" itemprop="itemListElement" itemscope
+                itemtype="https://schema.org/Promotion" itemid="#summer-promo">
+                <a href="https://it-times-store.com/" aria-label="مشاهده پیشنهادات تابستانی" itemprop="url">
+                    <img src="/it-times-store/assets/images/slider/slider-2-3.jpg"
+                        class="rounded-lg transition block duration-300 hover:-translate-y-2"
+                        alt="تابستانه ویژه - تا ۵۰% تخفیف روی محصولات منتخب" loading="lazy" itemprop="image">
+                    <meta itemprop="name" content="تخفیف تابستانی">
+                    <meta itemprop="description" content="تا ۵۰% تخفیف روی محصولات منتخب فصل تابستان">
+                    <div itemprop="validFrom" content="2024-06-01T00:00:00+03:30"></div>
+                    <div itemprop="validThrough" content="2024-09-22T23:59:59+03:30"></div>
+                    <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                        <meta itemprop="name" content="عصر آی تی">
+                        <meta itemprop="url" content="https://it-times-store.com">
+                    </div>
                 </a>
             </div>
-            @endforeach
-            @endisset
         </div>
-    </div>
-
-
-</section>
-
-
-<section class="home-feature my-5">
-    <div class="flex one two-700">
-        <div class="item">
-            <figure class="third-700">
-                <img width="128" height="" src="{{ asset('img/1470399662_Marketing.png') }}" alt="">
-            </figure>
-            <div class="two-third-700">
-                <h3>
-                    تنوع بالا محصولات
-                </h3>
-                <p>
-                    عصر آی تی امکان تولید و تامین و واردات محصولات خاص مورد نظر شما که در سایت موجود نمی باشد را دارد.
-                </p>
-            </div>
-        </div>
-
-        <div class="item">
-            <figure class="third-700">
-                <img width="128" height="" src="{{ asset('img/1470399674_App_Development.png') }}"
-                    alt="">
-            </figure>
-            <div class="two-third-700">
-
-                <h3>تضمین کیفیت</h3>
-                <p>
-                    تمامی محصولات عصر آی تی دارای QC و گارانتی اصالت‌و سلامت فیزیکی کالا ‌میباشد
-                </p>
-            </div>
-        </div>
-
-        <div class="item">
-            <figure class="third-700">
-                <img width="128" height="" src="{{ asset('img/1470399671_SEO.png') }}" alt="">
-            </figure>
-            <div class="two-third-700">
-
-                <h3>
-                    ارسال به سراسر ایران
-                </h3>
-                <p>
-                    ارسال به تمامی نقاط ایران با پست پیشتاز ،تیپاکس ،باربری و یا پیک صورت می پذیرد.
-                </p>
-            </div>
-        </div>
-
-        <div class="item">
-            <figure class="third-700">
-                <img width="128" height="" src="{{ asset('img/1470399667_Newsletter.png') }}" alt="">
-            </figure>
-            <div class="two-third-700">
-                <h3>
-                    مناسب ترین قیمت
-                </h3>
-                <p>
-                    با خرید از فروشگاه عصر آی تی بدون واسطه و مستقیم از تولید کننده و وارد کننده، کالای خود را تهیه
-                    فرمایید
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
+    <!-- ================= end banner section ================= -->
 
 
 
-<section class=" bg-gray mb-0 pt-1">
-    {{--post&label=articles&var=articles&count=5 --}}
-    <div>
-        <h2>مقالات</h2>
-        <div class="flex one five-500 center">
-            @isset($articles['data'])
-            @foreach ($articles['data'] as $content)
-            <div>
-                <a class="block h-full" href="{{ $content->slug }}">
-                    <article class="shadow2 h-full">
-                        @if (isset($content->images['images']['medium']))
-                        <figure class="image">
-                            <img src="{{ image_or_placeholder($content->images['images']['medium']) }}" width="198" height="100"
-                                alt="{{ $content->title }}">
-                        </figure>
-                        @endif
 
-                        <div class="title">{{ $content->title }}</div>
-                        <div class="info">
-                            {!! readMore($content->brief_description, 250) !!}
+
+    <!-- ================= start blog section ================= -->
+    <section class="py-5" itemscope itemtype="https://schema.org/ItemList">
+        <div class="container">
+            <div class="mb-5">
+                <header class="grid place-items-center grid-cols-6 gap-y-10">
+                    <div class="ps-15 section-heading sm:col-span-4 w-full col-span-6 relative space-y-3">
+                        <h2 class="font-black text-2xl">
+                            <span itemprop="name" class="dark:text-white">آخرین</span>
+                            <span class="text-primary font-bold">مقالات</span>
+                        </h2>
+                        <p class="text-neutral-600 dark:text-white" itemprop="description">پرفروش ترین برند ها را در پایین
+                            مشاهده میکنید</p>
+                    </div>
+                    <div class="w-full sm:col-span-2 col-span-6">
+                        <div class="sm:text-end text-start">
+                            <a href="/بلاگ"
+                                class="btn bg-transparent border-secondary border-2 hover:bg-secondary hover:text-white dark:text-white dark:border-white"
+                                title="مشاهده تمامی محصولات پر بازدید" itemprop="url">
+                                مشاهده همه
+                            </a>
                         </div>
-                        <div class="rate mt-1">
-                            @if (count($content->comments))
-                            @php
-                            $rateAvrage = $rateSum = 0;
-                            @endphp
-                            @foreach ($content->comments as $comment)
-                            @php
-                            $rateSum = $rateSum + $comment['rate'];
-                            @endphp
-                            @endforeach
-                            @for ($i = $rateSum / count($content->comments); $i >= 1; $i--)
-                            <img width="20" height="20"
-                                srcset="{{ asset('/img/star1x.png') }} , {{ asset('/img/star2x.png') }} 2x"
-                                src="{{ asset('/img/star1x.png') }}" alt="{{ 'star for rating' }}">
-                            @endfor
-                            @endif
-                        </div>
-
-                    </article>
-                </a>
+                    </div>
+                </header>
             </div>
-            @endforeach
-            @endisset
+            <div class="swiper !px-2.3 blog-carousel">
+                <div class="swiper-wrapper items-center" style="padding-bottom: 0 !important;">
+
+                    {{--post&label=articles&var=articles&count=5 --}}
+                    @isset($articles['data'])
+                        @foreach ($articles['data'] as $content)
+                            <div class="swiper-slide space-y-3 px-1.5 py-2" itemprop="itemListElement" itemscope
+                                itemtype="https://schema.org/BlogPosting">
+                                <a href="{{ $content->slug }}" class="w-full block" itemprop="url">
+                                    <article
+                                        class="p-4 space-y-3 rounded-xl hover:-translate-y-2 transition border border-gray-200 bg-white drop-shadow-md dark:bg-background-dark">
+                                        <figure class="text-center block py-4" itemprop="image" itemscope
+                                            itemtype="https://schema.org/ImageObject">
+                                            <img src="{{ image_or_placeholder($content->images['images']['medium']) }}"
+                                                class="h-50 rounded-xl w-full block mx-auto object-cover"
+                                                alt="تصویر راهنمای خرید موبایل" itemprop="contentUrl">
+                                            <meta itemprop="caption" content="تصویر راهنمای خرید موبایل">
+                                        </figure>
+                                        <section class="space-y-5">
+                                            <div class="space-y-4">
+                                                <h4
+                                                    class="relative before:right-0 before:z-[-1] before:rounded-lg before:bg-gray-300 before:absolute before:top-1/2 before:h-px before:w-full before:-translate-y-1/2">
+                                                    <span class="bg-secondary text-sm rounded text-white px-3 dark:bg-secondary-300"
+                                                        itemprop="articleSection">{{ $content->category['title'] }}</span>
+                                                </h4>
+                                                <h2 class="text-xl line-clamp-1 font-bold dark:text-white" itemprop="headline">
+                                                    {{ $content->title }}
+                                                </h2>
+                                            </div>
+                                            <div class="flex mt-8 flex-wrap justify-between items-center">
+                                                <div class="flex items-center" itemprop="datePublished" content="2024-03-02">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                        stroke-width="1.5" stroke="currentColor" class="size-6 dark:text-white">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                    </svg>
+                                                    <time
+                                                        class="mr-2 dark:text-white">{{ convertGToJ($content->updated_at) }}</time>
+                                                </div>
+                                                <div class="flex items-center" itemprop="interactionStatistic" itemscope
+                                                    itemtype="https://schema.org/InteractionCounter">
+                                                    <meta itemprop="interactionType" content="https://schema.org/WatchAction">
+                                                    <meta itemprop="userInteractionCount" content="128">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                        stroke-width="1.5" stroke="currentColor" class="size-6 dark:text-white">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                    </svg>
+                                                    <time class="mr-2 dark:text-white">{{ $content->viewCount }} بازدید</time>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </article>
+                                </a>
+                            </div>
+
+                        @endforeach
+                    @endisset
+                </div>
+                <div class="swiper-button-next bg-white rounded-full dark:bg-zinc-800 border border-gray-200 !size-12 after:!text-xl px-3 after:text-primary"
+                    aria-label="اسلاید بعدی"></div>
+                <div class="swiper-button-prev bg-white rounded-full dark:bg-zinc-800 border border-gray-200 !size-12 after:!text-xl px-3 after:text-primary"
+                    aria-label="اسلاید قبلی"></div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+    <!-- ================= end blog section ================= -->
+
+
+
+
 
 
 @endsection

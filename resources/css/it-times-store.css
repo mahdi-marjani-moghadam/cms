@@ -111,19 +111,19 @@
 @layer base {
     @font-face {
         font-family: "payda";
-        src: url("/fonts/payda/PeydaWebFaNum-Medium.woff2") format("woff2");
+        src: url("/it-times-store/fonts/payda/PeydaWebFaNum-Medium.woff2") format("woff2");
         font-weight: normal;
     }
 
     @font-face {
         font-family: "payda";
-        src: url("/fonts/payda/PeydaWebFaNum-Bold.woff2") format('woff2');
+        src: url("/it-times-store/fonts/payda/PeydaWebFaNum-Bold.woff2") format('woff2');
         font-weight: 700;
     }
 
     @font-face {
         font-family: "payda";
-        src: url("/fonts/payda/PeydaWebFaNum-Black.woff2") format('woff2');
+        src: url("/it-times-store/fonts/payda/PeydaWebFaNum-Black.woff2") format('woff2');
         font-weight: 900;
     }
 

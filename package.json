@@ -1,26 +1,25 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
+        "dev": "mix",
         "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production"
+        "prod": "mix --production",
+        "it": "npx tailwindcss -i ./resources/css/it-times-store.css -o ./public/it-times-store/it-times-store.css --watch"
     },
     "devDependencies": {
-        "autoprefixer": "^10.4.14",
+        "@tailwindcss/cli": "^4.1.5",
+        "autoprefixer": "^10.4.21",
         "axios": "^1.7.5",
         "cross-env": "^7.0",
         "dotenv": "^8.2.0",
         "laravel-mix": "^6.0.39",
         "lodash": "^4.17.21",
-        "postcss": "^8.4.23",
+        "postcss": "^8.5.3",
+        "postcss-loader": "^8.1.1",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.45.0",
         "sass-loader": "^11.0.1",
-        "tailwindcss": "^3.3.2",
+        "tailwindcss": "^4.1.5",
         "tailwindcss-rtl": "^0.9.0",
         "webpack-livereload-plugin": "^3.0.2"
     },

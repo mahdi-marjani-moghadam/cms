@@ -26,7 +26,7 @@
                     ->where('parent', '=', $menuItem['id'])
                     ->orderBy('sort')
                     ->get(); ?>
-                @if (count($subMenu))
+                @if (count(value: $subMenu))
                 <li class='max-lg:border-b max-lg:py-2 md:mb-0 relative parent group'>
                     <a href="{{ url($menuItem['link']) }}"
                         class='lg:hover:text-yellow-600 text-gray-600 block pr-5 font-bold  lg:group-hover:ul md:ml-5'>

@@ -78,9 +78,9 @@ class CmsController extends Controller
                     ->select(DB::raw("JSON_EXTRACT(attr,'$.weight') * $g  + $g * JSON_EXTRACT(attr,'$.weight') * 0.28 + JSON_EXTRACT(attr,'$.additionalprice') as p"))
                     ->havingRaw("p between $wMin and $wMax");
                 // dd($relatedProduct->paginate(15));
-                $relatedProduct = $relatedProduct->paginate(15)->withQueryString();
+                $relatedProduct = $relatedProduct->paginate(env('PAGE_SIZE_PRODUCT', 15))->withQueryString();
             } else {
-                $relatedProduct = $detail->products('power', 'desc', $request)->paginate(15)->withQueryString();
+                $relatedProduct = $detail->products('power', 'desc', $request)->paginate(env('PAGE_SIZE_PRODUCT', 15))->withQueryString();
             }
 
             $queries = DB::getQueryLog();
@@ -109,6 +109,7 @@ class CmsController extends Controller
         }
 
         return view($template, $widget, [
+            'mainMenu' => menuTree(),
             'detail' => $detail,
             'relatedProduct' => $relatedProduct,
             'relatedPost' => $relatedPost,
@@ -195,6 +196,10 @@ class CmsController extends Controller
         $relatedProduct = array();
         $editorModule = editorModule($detail->description);
 
+
+
+
+
         // category or detail
         if ($detail->type == 1) {
 
@@ -243,8 +248,9 @@ class CmsController extends Controller
 
 
             $showcallnowbutton = false;
-
+            $mainMenu = menuTree();
             return view($template, $widget, compact([
+                'mainMenu',
                 'detail',
                 'breadcrumb',
                 'relatedPost',
