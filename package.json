@@ -4,7 +4,8 @@
         "dev": "mix",
         "watch": "mix watch",
         "prod": "mix --production",
-        "it": "npx tailwindcss -i ./resources/css/it-times-store.css -o ./public/it-times-store/it-times-store.css --watch"
+        "it": "npx tailwindcss -i ./resources/css/it-times-store.css -o ./public/it-times-store/it-times-store.css --watch",
+        "it:prod": "npx tailwindcss -i ./resources/css/it-times-store.css -o ./public/it-times-store/it-times-store.css"
     },
     "devDependencies": {
         "@tailwindcss/cli": "^4.1.5",

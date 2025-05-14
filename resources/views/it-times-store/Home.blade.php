@@ -23,11 +23,10 @@
                     {{--images&label=banner&var=banners&count=1 --}}
                     @foreach ($banners['images'] as $content)
                         <div class="swiper-slide max-w-[1920px]" role="group" aria-roledescription="slide">
-                            <a href="#" aria-label="تصویر 1 از اسلایدر فروشگاه">
+                            <a href="#">
                                 <div class="h-90 flex justify-center items-center">
                                     <img src="{{ image_or_placeholder($content) }}"
-                                        class="h-full w-full object-cover rounded-lg" loading="lazy"
-                                        alt="تصویر تبلیغاتی اسلایدر فروشگاه - محصول ویژه 1">
+                                        class="h-full w-full object-cover rounded-lg" loading="lazy">
                                 </div>
                             </a>
                         </div>
@@ -81,7 +80,7 @@
                             <meta itemprop="name" content="ارسال سریع سفارشات">
                             <meta itemprop="description" content="تحویل سفارشات در سریع‌ترین زمان ممکن">
                             <div
-                                class="p-3 hover:drop-shadow-lg hover:-translate-y-2 dark:bg-background-dark cursor-pointer transition duration-300 border border-gray-200 flex bg-white shadow-md rounded-lg flex-col items-center justify-center">
+                                class="p-3 hover:drop-shadow-lg hover:-translate-y-2 dark:bg-background-dark  transition duration-300 border border-gray-200 flex bg-white shadow-md rounded-lg flex-col items-center justify-center">
                                 <div
                                     class="size-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-600 dark:bg-background-dark dark:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -101,7 +100,7 @@
                             <meta itemprop="name" content="پرداخت در محل">
                             <meta itemprop="description" content="پرداخت وجه پس از تحویل کالا">
                             <div
-                                class="p-3 hover:drop-shadow-lg hover:-translate-y-2 dark:bg-background-dark cursor-pointer transition duration-300 border border-gray-200 flex bg-white shadow-md rounded-lg flex-col items-center justify-center">
+                                class="p-3 hover:drop-shadow-lg hover:-translate-y-2 dark:bg-background-dark  transition duration-300 border border-gray-200 flex bg-white shadow-md rounded-lg flex-col items-center justify-center">
                                 <div
                                     class="size-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-600 dark:bg-background-dark dark:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -122,7 +121,7 @@
                             <meta itemprop="name" content="تضمین کیفیت و اصالت">
                             <meta itemprop="description" content="ضمانت مرجوعی کالا در صورت نارضایتی">
                             <div
-                                class="p-3 hover:drop-shadow-lg hover:-translate-y-2 dark:bg-background-dark cursor-pointer transition duration-300 border border-gray-200 flex bg-white shadow-md rounded-lg flex-col items-center justify-center">
+                                class="p-3 hover:drop-shadow-lg hover:-translate-y-2 dark:bg-background-dark  transition duration-300 border border-gray-200 flex bg-white shadow-md rounded-lg flex-col items-center justify-center">
                                 <div
                                     class="size-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-600 dark:bg-background-dark dark:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -142,7 +141,7 @@
                             <meta itemprop="name" content="پشتیبانی ۲۴ ساعته">
                             <meta itemprop="description" content="پشتیبانی آنلاین و تلفنی در هر ساعت از شبانه‌روز">
                             <div
-                                class="p-3 border border-gray-200 flex dark:bg-background-dark bg-white shadow-md rounded-lg flex-col items-center justify-center hover:shadow-lg hover:-translate-y-2 transition duration-300 cursor-pointer">
+                                class="p-3 border border-gray-200 flex dark:bg-background-dark bg-white shadow-md rounded-lg flex-col items-center justify-center hover:shadow-lg hover:-translate-y-2 transition duration-300 ">
                                 <div
                                     class="size-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-600 dark:bg-background-dark dark:text-white">
                                     <svg aria-label="پشتیبانی ۲۴ ساعته" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -161,7 +160,7 @@
                             <meta itemprop="name" content="خرید آسان و سریع">
                             <meta itemprop="description" content="فرآیند خرید راحت و بی‌دردسر با چند کلیک">
                             <div
-                                class="p-3 border border-gray-200 flex dark:bg-background-dark bg-white shadow-md rounded-lg flex-col items-center justify-center hover:shadow-lg hover:-translate-y-2 transition duration-300 cursor-pointer">
+                                class="p-3 border border-gray-200 flex dark:bg-background-dark bg-white shadow-md rounded-lg flex-col items-center justify-center hover:shadow-lg hover:-translate-y-2 transition duration-300 ">
                                 <div
                                     class="size-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-600 dark:bg-background-dark dark:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -184,7 +183,7 @@
                             <meta itemprop="shippingMethod" content="پست پیشتاز">
                             <meta itemprop="shippingDestination" content="تمام نقاط کشور">
                             <div
-                                class="p-3 border border-gray-200 flex dark:bg-background-dark bg-white shadow-md rounded-lg flex-col items-center justify-center hover:shadow-lg hover:-translate-y-2 transition duration-300 cursor-pointer">
+                                class="p-3 border border-gray-200 flex dark:bg-background-dark bg-white shadow-md rounded-lg flex-col items-center justify-center hover:shadow-lg hover:-translate-y-2 transition duration-300 ">
                                 <div
                                     class="size-10 flex items-center justify-center rounded-lg bg-gray-200 text-gray-600 dark:bg-background-dark dark:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -247,12 +246,16 @@
                                                 <img class="one-image"
                                                     src="{{ image_or_placeholder($content->images['images']['small']) }}"
                                                     loading="lazy" alt="{{ $content->title }}" itemprop="image">
-                                                @if($content->gallery)
+                                                @if(count($content->gallery)>0)
                                                     @foreach ($content->gallery as $gallery)
                                                         <img class="two-image"
                                                             src="{{ image_or_placeholder($gallery->images['images']['small']) }}"
                                                             loading="lazy" itemprop="image">
                                                     @endforeach
+                                                @else
+                                                <img class="two-image"
+                                                    src="{{ image_or_placeholder($content->images['images']['small']) }}"
+                                                    loading="lazy" alt="{{ $content->title }}" itemprop="image">
                                                 @endif
                                             </a>
                                         </figure>
@@ -291,7 +294,7 @@
                             <span itemprop="name" class="dark:text-white">دسته بندی</span>
                             <span class="text-primary font-bold">فروشگاه</span>
                         </h2>
-                        <p class="text-neutral-600 dark:text-white" itemprop="description">پربازدیدترین دسته بندی ها</p>
+                        <p class="text-neutral-600 dark:text-white" itemprop="description">محصولات عمده</p>
                     </div>
 
                     <!-- Breadcrumbs (hidden from users but still available for search engines) -->
@@ -361,7 +364,7 @@
             <div class="grid grid-cols-2 gap-4 place-items-center">
                 <div class="lg:col-span-1 col-span-2" itemprop="itemListElement" itemscope
                     itemtype="https://schema.org/Promotion" itemid="#summer-promo">
-                    <a href="https://example.com/offers/summer-sale" aria-label="مشاهده پیشنهادات تابستانی" itemprop="url">
+                    <a href="/سیم-ها" aria-label="مشاهده پیشنهادات تابستانی" itemprop="url">
                         <img src="/it-times-store/assets/images/advert/banner-2.jpg"
                             class="rounded-lg transition block duration-300 hover:-translate-y-2"
                             alt="تابستانه ویژه - تا ۵۰% تخفیف روی محصولات منتخب" loading="lazy" itemprop="image">
@@ -377,7 +380,7 @@
                 </div>
                 <div class="lg:col-span-1 col-span-2" itemprop="itemListElement" itemscope
                     itemtype="https://schema.org/Promotion" itemid="#autumn-promo">
-                    <a href="https://example.com/new-collection" aria-label="مشاهده مجموعه جدید" itemprop="url">
+                    <a href="/کانکتور-و-تبدیل" aria-label="مشاهده مجموعه جدید" itemprop="url">
                         <img src="/it-times-store/assets/images/advert/banner-1.jpg"
                             class="rounded-lg transition block duration-300 hover:-translate-y-2"
                             alt="مجموعه جدید پاییزه - آخرین مدل‌های روز دنیا" loading="lazy" itemprop="image">

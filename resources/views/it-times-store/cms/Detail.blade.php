@@ -17,7 +17,9 @@
 @section('og:image:alt', $detail->title)
 @endif
 
-
+@section('bootstrap')
+    <link rel="stylesheet" href="{{ asset('bootstrap.css')}}">
+@endsection
 
 @section('footer')
     @auth
@@ -387,7 +389,7 @@
                 <!-- Intro -->
                 <div id="Intro"
                     class="p-5 bg-white dark:bg-zinc-800 dark:text-white rounded-xl hidden tab-content border border-gray-300 drop-shadow tab-content">
-                    <div class="space-y-5">
+                    <div class="space-y-5 overflow-x-auto">
                         <h2
                             class="text-2xl pb-3 font-black text-zinc-800 relative before:absolute before:bottom-0 before:right-0 before:h-1 before:w-22 before:bg-primary-500 before:rounded dark:text-white">
                             معرفی محصول</h2>
