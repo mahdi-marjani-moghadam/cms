@@ -22,9 +22,7 @@
 
     }
 
-    svg {
-        width: 100%;
-    }
+
 
     main #errorText {
         font-size: 22px;
@@ -243,6 +241,9 @@
             </g>
         </g>
     </svg>
+
+
+    
     <p id="errorText">چنین صفحه ای یافت نشد.</p>
 
 </main>

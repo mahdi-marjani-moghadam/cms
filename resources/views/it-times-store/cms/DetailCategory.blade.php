@@ -70,24 +70,22 @@
         <div class="container">
             <!-- breadcrumb -->
             <nav class="flex mt-2 mb-6" aria-label="Breadcrumb">
-                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse" itemscope
-                    itemtype="https://schema.org/BreadcrumbList">
-                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse"            >
+                    <li >
                         <a href="/"
                             class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
-                            itemprop="item">
+                            >
                             <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 20 20">
                                 <path
                                     d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
                             </svg>
-                            <span itemprop="name">خانه</span>
+                            <span >خانه</span>
                         </a>
-                        <meta itemprop="position" content="1">
                     </li>
 
                     @foreach ($breadcrumb as $key => $item)
-                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <li >
                             <div class="flex items-center">
                                 <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -96,11 +94,10 @@
                                 </svg>
                                 <a href="{{ $item['slug'] }}"
                                     class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
-                                    itemprop="item">
-                                    <span itemprop="name">{{ $item['title'] }}</span>
+                                    >
+                                    <span >{{ $item['title'] }}</span>
                                 </a>
                             </div>
-                            <meta itemprop="position" content="2">
                         </li>
                     @endforeach
 
@@ -202,12 +199,12 @@
                         <div class="lg:col-span-3 md:col-span-6 col-span-12 w-full">
                             <article
                                 class="bg-white product-box-item drop-shadow-md rounded-xl p-4 dark:bg-card-dark dark:border-white dark:border-1"
-                                itemscope itemtype="http://schema.org/Product">
+                                >
 
                                 <figure class="flex image justify-center my-4">
-                                    <a href="{{ $content->slug }}" itemprop="url">
+                                    <a href="{{ $content->slug }}" >
                                         <img class="one-image" src="{{ image_or_placeholder($content->images['images']['small']) }}" loading="lazy"
-                                            alt="گوشی موبایل اپل آیفون 13 پرو مکس" itemprop="image">
+                                            alt="{{ $content->title }}" >
                                         @foreach ($content->gallery as $gallery)
 
                                             <img class="two-image" src="{{ image_or_placeholder($gallery->images['images']['small']) }}" loading="lazy">
@@ -215,14 +212,9 @@
                                     </a>
                                 </figure>
                                 <h3 class="text-base leading-8  line-clamp-2 mb-2">
-                                    <a href="{{ $content->slug }}" class="text-gray-800 dark:text-white"
-                                        itemprop="name">{{ $content->title }}</a>
+                                    <a href="{{ $content->slug }}" class="text-gray-800 dark:text-white">{{ $content->title }}</a>
                                 </h3>
-                                <footer itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                                    <link itemprop="availability" href="http://schema.org/InStock">
-                                    <meta itemprop="priceCurrency" content="IRR">
 
-                                </footer>
                             </article>
                         </div>
                     @endforeach

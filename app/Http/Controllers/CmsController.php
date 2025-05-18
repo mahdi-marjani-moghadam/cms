@@ -150,6 +150,7 @@ class CmsController extends Controller
 
             $data['title'] = '404';
             $data['name'] = 'Page not found';
+            $data['mainMenu'] = menuTree();
             return response()
                 ->view(env('TEMPLATE_NAME') . '.NotFound', $data, 404);
         }

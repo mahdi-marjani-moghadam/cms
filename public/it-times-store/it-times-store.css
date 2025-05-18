@@ -2177,6 +2177,9 @@
   .bg-\[url\(\.\.\/images\/slider\/patterns\.png\)\] {
     background-image: url(../images/slider/patterns.png);
   }
+  .bg-\[url\(\/it-times-store\/assets\/images\/slider\/patterns\.png\)\] {
+    background-image: url(/it-times-store/assets/images/slider/patterns.png);
+  }
   .from-primary-500 {
     --tw-gradient-from: var(--color-primary-500);
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
@@ -5092,6 +5095,11 @@
     &>li {
       --tw-leading: 1;
       line-height: 1;
+    }
+  }
+  .\[\&\>ul\>li\]\:mt-3 {
+    &>ul>li {
+      margin-top: calc(var(--spacing) * 3);
     }
   }
 }

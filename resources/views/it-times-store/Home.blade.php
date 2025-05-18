@@ -215,14 +215,14 @@
     <section class="py-5" itemscope itemtype="http://schema.org/ItemList">
         <h2 class="sr-only" itemprop="name">محصولات شگفت انگیز</h2>
         <div class="container">
-            <div class="bg-primary dark:bg-zinc-700 bg-contain bg-[url(../images/slider/patterns.png)] p-5 rounded-lg">
+            <div class="bg-primary dark:bg-zinc-700 bg-contain bg-[url(/it-times-store/assets/images/slider/patterns.png)] p-5 rounded-lg">
                 <div class="swiper amazing-carousel">
                     <div class="swiper-wrapper items-center" style="padding-bottom: 0 !important;">
                         <div class="swiper-slide !ml-0 !w-40 p-1">
                             <article class="flex flex-col space-y-3 items-center justify-center">
                                 <img class="size-35" src="/it-times-store/assets/images/slider/Amazing.svg"
                                     alt="آیکن محصولات شگفت انگیز" loading="lazy">
-                                <div class="flex text-white items-center" href="/products" aria-label="مشاهده همه محصولات">
+                                <div class="flex text-white items-center" aria-label="مشاهده همه محصولات">
                                     محصولات جدید
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-4 ms-1" aria-hidden="true">
@@ -238,36 +238,32 @@
                                 <div class="swiper-slide !w-auto p-1">
                                     <article
                                         class="bg-white w-75 product-box-item drop-shadow-lg shadow-lg rounded-xl p-4 dark:bg-background-dark dark:bg-background-dark dark:border-white dark:border-1"
-                                        itemscope itemtype="http://schema.org/Product">
+                                        >
 
 
                                         <figure class="flex image justify-center my-4">
                                             <a href="{{ $content->slug }}" itemprop="url">
                                                 <img class="one-image"
                                                     src="{{ image_or_placeholder($content->images['images']['small']) }}"
-                                                    loading="lazy" alt="{{ $content->title }}" itemprop="image">
+                                                    loading="lazy" alt="{{ $content->title }}" >
                                                 @if(count($content->gallery)>0)
                                                     @foreach ($content->gallery as $gallery)
                                                         <img class="two-image"
                                                             src="{{ image_or_placeholder($gallery->images['images']['small']) }}"
-                                                            loading="lazy" itemprop="image">
+                                                            loading="lazy" >
                                                     @endforeach
                                                 @else
                                                 <img class="two-image"
                                                     src="{{ image_or_placeholder($content->images['images']['small']) }}"
-                                                    loading="lazy" alt="{{ $content->title }}" itemprop="image">
+                                                    loading="lazy" alt="{{ $content->title }}">
                                                 @endif
                                             </a>
                                         </figure>
                                         <h3 class="text-base leading-8  line-clamp-2 mb-2">
                                             <a href="{{ $content->slug }}" class="text-gray-800 dark:text-white"
-                                                itemprop="name">{{ $content->title }}</a>
+                                                >{{ $content->title }}</a>
                                         </h3>
-                                        <!-- <footer itemprop="offers" itemscope itemtype="http://schema.org/Offer"> -->
-                                        <!-- <link itemprop="availability" href="http://schema.org/InStock"> -->
-                                        <!-- <meta itemprop="priceCurrency" content="IRR"> -->
 
-                                        <!-- </footer> -->
                                     </article>
                                 </div>
                             @endforeach
@@ -297,31 +293,7 @@
                         <p class="text-neutral-600 dark:text-white" itemprop="description">محصولات عمده</p>
                     </div>
 
-                    <!-- Breadcrumbs (hidden from users but still available for search engines) -->
-                    <div itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList"
-                        style="display: none;">
-                        <meta itemprop="position" content="1">
-                        <span itemscope itemtype="https://schema.org/ListItem">
-                            <a itemprop="item" href="/">
-                                <span itemprop="name">خانه</span>
-                            </a>
-                            <meta itemprop="position" content="1">
-                        </span>
-                        &gt;
-                        <span itemscope itemtype="https://schema.org/ListItem">
-                            <a itemprop="item" href="/shop">
-                                <span itemprop="name">فروشگاه</span>
-                            </a>
-                            <meta itemprop="position" content="2">
-                        </span>
-                        &gt;
-                        <span itemscope itemtype="https://schema.org/ListItem">
-                            <a itemprop="item" href="/shop/categories">
-                                <span itemprop="name">دسته بندی ها</span>
-                            </a>
-                            <meta itemprop="position" content="3">
-                        </span>
-                    </div>
+
                 </header>
             </div>
             <div class="grid grid-cols-12 gap-4">
@@ -416,31 +388,7 @@
                         <p class="text-neutral-600 dark:text-white" itemprop="description">پربازدیدترین محصولات</p>
                     </div>
 
-                    <!-- Breadcrumbs (hidden from users but still available for search engines) -->
-                    <div itemprop="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList"
-                        style="display: none;">
-                        <meta itemprop="position" content="1">
-                        <span itemscope itemtype="https://schema.org/ListItem">
-                            <a itemprop="item" href="/">
-                                <span itemprop="name">خانه</span>
-                            </a>
-                            <meta itemprop="position" content="1">
-                        </span>
-                        &gt;
-                        <span itemscope itemtype="https://schema.org/ListItem">
-                            <a itemprop="item" href="/shop">
-                                <span itemprop="name">فروشگاه</span>
-                            </a>
-                            <meta itemprop="position" content="2">
-                        </span>
-                        &gt;
-                        <span itemscope itemtype="https://schema.org/ListItem">
-                            <a itemprop="item" href="/shop/categories">
-                                <span itemprop="name">دسته بندی ها</span>
-                            </a>
-                            <meta itemprop="position" content="3">
-                        </span>
-                    </div>
+
                 </header>
             </div>
         </div>
@@ -455,13 +403,13 @@
                                 <div class="swiper-slide px-1.5 py-2">
                                     <article
                                         class="bg-white product-box-item drop-shadow-md rounded-xl p-4 dark:bg-card-dark dark:border-white dark:border-1"
-                                        itemscope itemtype="http://schema.org/Product">
+                                        >
 
                                         <figure class="flex image justify-center my-4">
-                                            <a href="{{ $content->slug }}" itemprop="url">
+                                            <a href="{{ $content->slug }}" >
                                                 <img class="one-image"
                                                     src="{{ image_or_placeholder($content->images['images']['small']) }}"
-                                                    loading="lazy" alt="گوشی موبایل اپل آیفون 13 پرو مکس" itemprop="image">
+                                                    loading="lazy" alt="{{ $content->title }}" >
                                                 @foreach ($content->gallery as $gallery)
 
                                                     <img class="two-image"
@@ -471,8 +419,7 @@
                                             </a>
                                         </figure>
                                         <h3 class="text-base leading-8  line-clamp-2 mb-2">
-                                            <a href="{{ $content->slug }}" class="text-gray-800 dark:text-white"
-                                                itemprop="name">{{ $content->title }}</a>
+                                            <a href="{{ $content->slug }}" class="text-gray-800 dark:text-white"  >{{ $content->title }}</a>
                                         </h3>
 
                                     </article>
@@ -743,14 +690,13 @@
             </div>
             <div class="swiper !px-2.3 product-list-carousel">
                 <div class="swiper-wrapper items-center" style="padding-bottom: 0 !important;">
-                    <div class="swiper-slide space-y-3 px-1.5 py-2" itemprop="itemListElement" itemscope
-                        itemtype="https://schema.org/Product">
+                    <div class="swiper-slide space-y-3 px-1.5 py-2" >
 
                         {{--product&label=popular&var=popular&count=15 --}}
                         @isset($popular['data'])
                             @foreach ($popular['data'] as $content)
 
-                                <a href="{{ $content->slug }}" class="w-full block" itemprop="url">
+                                <a href="{{ $content->slug }}" class="w-full block" >
                                     <article
                                         class="flex py-2 px-3 rounded-xl hover:bg-gray-200 transition border border-gray-200 bg-white drop-shadow-md items-center justify-between dark:bg-background-dark dark:hover:bg-zinc-600">
                                         <section class="w-1/6 border-l-2 border-gray-300">
@@ -759,15 +705,15 @@
                                             </div>
                                         </section>
                                         <section class="w-3/6 space-y-2 pr-3">
-                                            <h3 itemprop="name"
+                                            <h3
                                                 class="font-bold leading-loose line-clamp-2 h-13 text-xs dark:text-white">{{ $content->title }}</h3>
                                         </section>
-                                        <figure class="w-2/6" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                                        <figure class="w-2/6"  itemscope itemtype="https://schema.org/ImageObject">
                                             <div class="text-end flex justify-end">
                                                 <img src="{{ image_or_placeholder($content->images['images']['small']) }}" class="size-20"
                                                     loading="lazy" alt="{{ $content->title }}"
-                                                    itemprop="contentUrl">
-                                                <meta itemprop="caption" content="{{ $content->title }}">
+                                                    >
+                                                <meta content="{{ $content->title }}">
                                             </div>
                                         </figure>
                                     </article>
@@ -775,8 +721,7 @@
 
                                 @if($loop->iteration % 3 == 0 && !$loop->last)
                                     </div>
-                                    <div class="swiper-slide space-y-3 px-1.5 py-2" itemprop="itemListElement" itemscope
-                                        itemtype="https://schema.org/Product">
+                                    <div class="swiper-slide space-y-3 px-1.5 py-2" >
                                 @endif
                             @endforeach
                         @endisset
@@ -802,21 +747,14 @@
 
     <!-- ================= start banner section ================= -->
     <section class="py-5" aria-label="تبلیغات ویژه" itemscope itemtype="https://schema.org/ItemList" id="advertisementsTwo">
-        <h2 class="sr-only" itemprop="name">تبلیغات و پیشنهادات ویژه</h2>
+        <h2 class="sr-only" >تبلیغات و پیشنهادات ویژه</h2>
         <div class="container">
-            <div class="lg:col-span-1 col-span-2" itemprop="itemListElement" itemscope
+            <div class="lg:col-span-1 col-span-2"  itemscope
                 itemtype="https://schema.org/Promotion" itemid="#summer-promo">
-                <a href="https://it-times-store.com/" aria-label="مشاهده پیشنهادات تابستانی" itemprop="url">
+                <a href="https://it-times-store.com/" aria-label="مشاهده پیشنهادات تابستانی" >
                     <img src="/it-times-store/assets/images/slider/slider-2-3.jpg"
                         class="rounded-lg transition block duration-300 hover:-translate-y-2"
-                        alt="تابستانه ویژه - تا ۵۰% تخفیف روی محصولات منتخب" loading="lazy" itemprop="image">
-                    <meta itemprop="name" content="تخفیف تابستانی">
-                    <meta itemprop="description" content="تا ۵۰% تخفیف روی محصولات منتخب فصل تابستان">
-                    <div itemprop="validFrom" content="2024-06-01T00:00:00+03:30"></div>
-                    <div itemprop="validThrough" content="2024-09-22T23:59:59+03:30"></div>
-                    <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
-                        <meta itemprop="name" content="عصر آی تی">
-                        <meta itemprop="url" content="https://it-times-store.com">
+                        alt="تابستانه ویژه - تا ۵۰% تخفیف روی محصولات منتخب" loading="lazy" >
                     </div>
                 </a>
             </div>

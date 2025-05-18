@@ -56,28 +56,26 @@
 
 
     <!-- ================= start content section ================= -->
-    <section class="py-5" itemscope itemtype="https://schema.org/Product">
+    <section class="py-5"  >
         <div class="container">
             <!-- breadcrumb -->
             <nav class="flex mt-2 mb-6" aria-label="Breadcrumb">
-                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse" itemscope
-                    itemtype="https://schema.org/BreadcrumbList">
-                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse" >
+                    <li  >
                         <a href="/"
                             class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
-                            itemprop="item">
+                            >
                             <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 20 20">
                                 <path
                                     d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
                             </svg>
-                            <span itemprop="name">خانه</span>
+                            <span >خانه</span>
                         </a>
-                        <meta itemprop="position" content="1">
                     </li>
 
                     @foreach ($breadcrumb as $key => $item)
-                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <li  >
                             <div class="flex items-center">
                                 <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -86,11 +84,10 @@
                                 </svg>
                                 <a href="{{ $item['slug'] }}"
                                     class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
-                                    itemprop="item">
-                                    <span itemprop="name">{{ $item['title'] }}</span>
+                                    >
+                                    <span >{{ $item['title'] }}</span>
                                 </a>
                             </div>
-                            <meta itemprop="position" content="2">
                         </li>
                     @endforeach
 
@@ -102,28 +99,25 @@
                 class="dark:bg-background-dark dark:text-white bg-white rounded-lg drop-shadow-lg border-gray-300 border-1 p-4">
                 <div class="grid grid-cols-4 gap-4 place-items-start">
                     <!-- gallery -->
-                    <section class="lg:col-span-1 my-7 col-span-4 w-full" itemprop="image" itemscope
-                        itemtype="https://schema.org/ImageGallery">
+                    <section class="lg:col-span-1 my-7 col-span-4 w-full" >
 
                         <div class="swiper" id="productGalleryTwo">
                             <div class="swiper-wrapper" style="padding-bottom: 20px !important;">
 
 
 
-                                <div class="swiper-slide !pl-1" itemprop="image" itemscope
-                                    itemtype="https://schema.org/ImageObject">
+                                <div class="swiper-slide !pl-1" >
                                     <img src="{{ image_or_placeholder($detail->images['images']['large']) }}"
                                         alt="{{ $detail->title }}" class="rounded-lg border border-gray-300 p-2"
-                                        itemprop="contentUrl">
-                                    <meta itemprop="caption" content="{{ $detail->title }}">
+                                        >
+                                    <meta  content="{{ $detail->title }}">
                                 </div>
 
                                 @foreach ($detail->gallery as $item)
-                                    <div class="swiper-slide !pl-1" itemprop="image" itemscope
-                                        itemtype="https://schema.org/ImageObject">
+                                    <div class="swiper-slide !pl-1" >
                                         <img src="{{ $item->images['images']['small'] }}"
-                                            class="rounded-lg border border-gray-300 p-2" itemprop="contentUrl">
-                                        <meta itemprop="caption" content="{{ $detail->title }} - گالری">
+                                            class="rounded-lg border border-gray-300 p-2" >
+                                        <meta  content="{{ $detail->title }} - گالری">
                                     </div>
                                 @endforeach
 
@@ -138,21 +132,19 @@
 
 
 
-                                <div class="swiper-slide !pl-1" itemprop="image" itemscope
-                                    itemtype="https://schema.org/ImageObject">
+                                <div class="swiper-slide !pl-1">
                                     <img src="{{ image_or_placeholder($detail->images['images']['large']) }}"
-                                        alt="گوشی موبایل اپل مدل iPhone 13 Pro Max"
-                                        class="rounded-lg cursor-pointer border border-gray-300 p-2" itemprop="contentUrl">
-                                    <meta itemprop="caption" content="گوشی موبایل اپل مدل iPhone 13 Pro Max">
+
+                                        class="rounded-lg cursor-pointer border border-gray-300 p-2" >
+                                    <meta  >
                                 </div>
 
                                 @foreach ($detail->gallery as $item)
-                                    <div class="swiper-slide !pl-1" itemprop="image" itemscope
-                                        itemtype="https://schema.org/ImageObject">
+                                    <div class="swiper-slide !pl-1" >
                                         <img src="{{ image_or_placeholder($item->images['images']['small']) }}"
-                                            alt="گوشی موبایل اپل مدل iPhone 13 Pro Max"
-                                            class="rounded-lg cursor-pointer border border-gray-300 p-2" itemprop="contentUrl">
-                                        <meta itemprop="caption" content="گوشی موبایل اپل مدل iPhone 13 Pro Max">
+
+                                            class="rounded-lg cursor-pointer border border-gray-300 p-2" >
+                                        <meta >
                                     </div>
 
                                 @endforeach
@@ -168,14 +160,12 @@
                     <section class="lg:col-span-3 col-span-4 w-full my-7">
                         <!-- title -->
                         <div class="space-y-5 border-b border-b-gray-300 pb-3">
-                            <h1 class="font-bold text-xl" itemprop="name">{{ $detail->title }}</h1>
+                            <h1 class="font-bold text-xl" >{{ $detail->title }}</h1>
                             <div class="flex items-center space-x-7 w-full">
-                                <h2 class="text-zinc-500 text-base" itemprop="model">{{ $detail->viewCount }} بازدید</h2>
+                                <h2 class="text-zinc-500 text-base" >{{ $detail->viewCount }} بازدید</h2>
 
-                                <div class="flex items-center" itemprop="aggregateRating" itemscope
-                                    itemtype="https://schema.org/AggregateRating">
-                                    <!-- <meta itemprop="ratingValue" content="3">
-                                                                                <meta itemprop="reviewCount" content="128"> -->
+                                <div class="flex items-center" >
+
                                     <div class="flex items-center">
                                         @php
                                             $rateAvrage = $rateSum = $gold = 0;
@@ -211,7 +201,7 @@
                             </div>
                         </div>
                         <!-- feature -->
-                        <div class="space-y-5 mt-4 border-gray-300 border-b pb-3">
+                        <div class="space-y-5 mt-4 border-gray-300 border-b pb-3 [&>ul>li]:mt-3 ">
                             {!! $detail->brief_description !!}
                         </div>
 
@@ -359,7 +349,7 @@
     <section class="py-5">
         <div class="container">
             <!-- navbar -->
-            <nav class="px-5 rounded-xl dark:bg-zinc-800 bg-gray-300" itemscope itemtype="https://schema.org/Product">
+            <nav class="px-5 rounded-xl dark:bg-zinc-800 bg-gray-300">
                 <ul class="flex space-x-1 md:overflow-x-auto overflow-x-scroll text-nowrap py-4" role="tablist">
                     <li role="presentation">
                         <button
@@ -373,11 +363,10 @@
                     <li role="presentation">
                         <button
                             class="bg-white tab-button px-15 py-5 rounded-xl transition-colors tab-button dark:bg-zinc-400"
-                            role="tab" data-tab="Comments" aria-controls="reviews" itemprop="aggregateRating" itemscope
-                            itemtype="https://schema.org/AggregateRating">
+                            role="tab" data-tab="Comments" aria-controls="reviews" >
                             نظرات <span
                                 class="bg-secondary-500 size-5 text-sm text-center inline-block rounded text-white ms-1"
-                                itemprop="reviewCount">{{ count($detail->comments) }}</span>
+                                >{{ count(value: $detail->comments) }}</span>
                         </button>
                     </li>
 
@@ -396,13 +385,16 @@
                         <p class="text-neutral-700 leading-9 text-justify text-lg dark:text-white">
                         <ul class="">
                             @foreach ($table_of_content as $key => $item)
-                                <li class="toc1 ">
+                                <li class="toc1 mt-2">
                                     <a class="" id="test" href="#{{ $item['anchor'] }}">✅ {{ $item['label'] }}</a>
                                 </li>
                             @endforeach
 
                         </ul>
-                        @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
+                        <div class="leading-9">
+
+                            @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
+                        </div>
                         </p>
                     </div>
                 </div>

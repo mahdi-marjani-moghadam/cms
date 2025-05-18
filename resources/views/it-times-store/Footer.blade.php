@@ -46,7 +46,10 @@
         <div class="grid gap-4 grid-cols-4 place-items-start">
             <div class="lg:col-span-1 sm:col-span-2 col-span-4 w-full">
                 <h4 class="font-bold text-lg mb-5" aria-label="فروشگاه ">فروشگاه</h4>
-
+                <ul class="space-y-4 mt-1" role="menu">
+                    <li role="menuitem"><a href="/سیم-نسوز">سیم نسوز </a></li>
+                    <li role="menuitem"><a href="/سیم-سیلیکونی">سیم سیلیکونی </a></li>
+                </ul>
             </div>
             <div class="lg:col-span-1 sm:col-span-2 col-span-4 w-full">
                 <ul class="space-y-4 mt-1" role="menu">
@@ -64,9 +67,15 @@
                 </ul>
             </div>
             <div class="lg:col-span-1 sm:col-span-2 col-span-4 w-full">
-            <ul class="space-y-4 mt-1" role="menu">
-                    <li role="menuitem"><a href="/سیم-نسوز">سیم نسوز </a></li>
-                    <li role="menuitem"><a href="/سیم-سیلیکونی">سیم سیلیکونی </a></li>
+                <h4 class="font-bold text-lg mb-5" aria-label="شبکه‌های اجتماعی">رسانه های خبری ما</h4>
+                <ul class="flex items-center space-x-4" role="list">
+                    <li role="listitem"><a href="https://instagram.com/it_times_store" itemprop="sameAs"><img
+                                src="{{ asset('assets/images/social/instagram.svg') }}" alt="اینستاگرام"
+                                class="size-7"></a></li>
+                    <li role="listitem"><a href="https://wa.me/qr/EUCOPSQ2AOEYH1" itemprop="sameAs"><img
+                                src="{{ asset('assets/images/social/whatsapp.svg') }}" alt="آپارات" class="size-7"></a>
+                    </li>
+
                 </ul>
             </div>
         </div>
@@ -118,84 +127,6 @@
     </div>
 </section>
 <!-- ================= end footer section ================= -->
-
-
-
-<!-- ================= start cart offcanvas ================= -->
-<!-- Offcanvas Cart -->
-<div id="offcanvas-left"
-    class="offcanvas invisible dark:bg-background-dark dark:text-white fixed top-0 left-0 sm:w-100 w-[80%] h-full bg-white shadow-lg transform -translate-x-full transition-transform opacity-0 z-50"
-    role="dialog" aria-labelledby="cart-title" aria-modal="true">
-    <!-- Header -->
-    <header class="border-b p-3 flex items-center justify-between border-gray-400">
-        <h2 id="cart-title" class="font-bold text-base">سبد خرید شما</h2>
-        <button onclick="closeOffcanvas()" class="cursor-pointer" aria-label="بستن سبد خرید">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="size-8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-            </svg>
-        </button>
-    </header>
-    <!-- Cart Items -->
-    <main class="relative space-y-4 divide-y divide-gray-200 p-3 overflow-y-scroll h-full">
-        <!-- Product 1 -->
-        <div class="py-3 last:mb-35" itemscope itemtype="http://schema.org/Product">
-            <div class="flex flex-wrap items-center">
-                <div class="text-right w-1/3">
-                    <img class="max-w-full" src="/it-times-store/assets/images/product/wach-1.png"
-                        alt="ساعت مچی عقربه‌ای مردانه اینویکتا مدل Automatico Ghost Reserve" itemprop="image"
-                        loading="lazy">
-                </div>
-                <div class="w-2/3 space-y-4">
-                    <h3 class="font-bold leading-7" itemprop="name">
-                        ساعت مچی عقربه‌ای مردانه اینویکتا مدل Automatico Ghost Reserve
-                    </h3>
-                    <div class="flex items-center justify-between">
-                        <del class="text-rose-600 dark:text-white line-through" itemprop="priceCurrency" content="IRR">
-                            <span itemprop="highPrice">5,000,000</span>
-                        </del>
-                        <ins class="no-underline text-xl text-green-600 font-bold" itemprop="price" content="2500000">
-                            2,500,000 <span class="text-sm font-normal text-gray-700 dark:text-white">تومان</span>
-                        </ins>
-                    </div>
-                    <div class="flex items-end justify-between">
-                        <span itemprop="quantity">تعداد: 3</span>
-                        <a href="#"
-                            class="bg-red-100 dark:border dark:bg-transparent dark:text-white text-red-950 p-2 rounded-lg"
-                            role="button" aria-label="حذف محصول از سبد خرید">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="size-4">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-    <!-- Footer -->
-    <footer
-        class="p-2 absolute bottom-0 right-0 left-0 bg-white dark:border-0  dark:bg-background-dark border border-gray-400">
-        <div class="flex items-center justify-between">
-            <div class="space-y-2">
-                <span class="inline-block text-lg">جمع کل</span>
-                <h3 class="font-bold text-xl" itemprop="totalPrice" content="11000000">
-                    11,000,000 تومان
-                </h3>
-            </div>
-            <div class="text-end">
-                <a href="/checkout" class="bg-primary-grad hover:bg-primary-600 text-white py-2 px-4 rounded-lg"
-                    role="button" aria-label="تکمیل فرایند خرید">
-                    تکمیل خرید
-                </a>
-            </div>
-        </div>
-    </footer>
-</div>
-<!-- Overlay -->
-<div class="overlay transition fixed inset-0 z-40 bg-black/70 hidden" onclick="closeOffcanvas()" role="presentation"
-    aria-hidden="true"></div>
-<!-- ================= end cart offcanvas ================= -->
 
 
 
@@ -299,72 +230,73 @@
             </li>
 
 
-
-
             <!-- 1 -->
-            @foreach ($mainMenu as $menuItem)
-                <li class="bg-ul-f7 border border-gray-100 dark:bg-zinc-800 dark:text-white p-2" itemscope
-                    itemtype="http://schema.org/SiteNavigationElement">
+            @if (isset($mainMenu))
+
+
+                @foreach ($mainMenu as $menuItem)
+                    <li class="bg-ul-f7 border border-gray-100 dark:bg-zinc-800 dark:text-white p-2" itemscope
+                        itemtype="http://schema.org/SiteNavigationElement">
 
 
 
-                    <button class="flex justify-between w-full text-right" aria-expanded="false" aria-controls="menu1"
-                        id="menu{{ $loop->index }}-button" onclick="toggleDropdown('menu{{ $loop->index }}')">
-                        <span itemprop="name">
-                            <a href="{{ $menuItem['link'] }}">{{ $menuItem['label'] }}</a>
-                        </span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                            id="icon-menu{{ $loop->index }}" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </button>
+                        <button class="flex justify-between w-full text-right" aria-expanded="false" aria-controls="menu1"
+                            id="menu{{ $loop->index }}-button" onclick="toggleDropdown('menu{{ $loop->index }}')">
+                            <span itemprop="name">
+                                <a href="{{ $menuItem['link'] }}">{{ $menuItem['label'] }}</a>
+                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                                id="icon-menu{{ $loop->index }}" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
 
 
 
 
-                    <ul id="menu{{ $loop->index }}" class="hidden bg-gray-200 dark:bg-background-dark dark:text-white"
-                        role="menu" aria-labelledby="menu{{ $loop->index }}-button">
+                        <ul id="menu{{ $loop->index }}" class="hidden bg-gray-200 dark:bg-background-dark dark:text-white"
+                            role="menu" aria-labelledby="menu{{ $loop->index }}-button">
 
 
-                        <!-- 2 -->
-                        @foreach ($menuItem->children as $menuItem2)
-                            <li class="border-b border-gray-300" itemscope itemtype="http://schema.org/SiteNavigationElement">
-                                <button class="flex justify-between w-full px-6 py-2 text-right" aria-expanded="false"
-                                    aria-controls="submenu{{ $loop->index }}" id="submenu{{ $loop->index }}-button"
-                                    onclick="toggleDropdown('submenu{{ $loop->index }}')">
-                                    <span itemprop="name">
-                                        <a href="{{ $menuItem2['link'] }}">{{ $menuItem2['label'] }}</a>
+                            <!-- 2 -->
+                            @foreach ($menuItem->children as $menuItem2)
+                                <li class="border-b border-gray-300" itemscope itemtype="http://schema.org/SiteNavigationElement">
+                                    <button class="flex justify-between w-full px-6 py-2 text-right" aria-expanded="false"
+                                        aria-controls="submenu{{ $loop->index }}" id="submenu{{ $loop->index }}-button"
+                                        onclick="toggleDropdown('submenu{{ $loop->index }}')">
+                                        <span itemprop="name">
+                                            <a href="{{ $menuItem2['link'] }}">{{ $menuItem2['label'] }}</a>
 
-                                    </span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                                        id="icon-submenu{{ $loop->index }}" viewBox="0 0 20 20" fill="currentColor"
-                                        aria-hidden="true">
-                                        <path fill-rule="evenodd"
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                                <ul id="submenu{{ $loop->index }}"
-                                    class="hidden bg-gray-100 dark:bg-zinc-500 dark:text-gray-200" role="menu"
-                                    aria-labelledby="submenu{{ $loop->index }}-button" itemscope
-                                    itemtype="http://schema.org/Brand">
+                                        </span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                                            id="icon-submenu{{ $loop->index }}" viewBox="0 0 20 20" fill="currentColor"
+                                            aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                    <ul id="submenu{{ $loop->index }}"
+                                        class="hidden bg-gray-100 dark:bg-zinc-500 dark:text-gray-200" role="menu"
+                                        aria-labelledby="submenu{{ $loop->index }}-button" itemscope
+                                        itemtype="http://schema.org/Brand">
 
-                                    <!-- 3 -->
-                                    @foreach ($menuItem2->children as $menuItem3)
-                                        <li class="px-8 py-2 border-b border-gray-200" itemprop="name">
-                                            <a href="{{ $menuItem3['link'] }}">{{ $menuItem3['label'] }}</a>
-                                        </li>
-                                    @endforeach
+                                        <!-- 3 -->
+                                        @foreach ($menuItem2->children as $menuItem3)
+                                            <li class="px-8 py-2 border-b border-gray-200" itemprop="name">
+                                                <a href="{{ $menuItem3['link'] }}">{{ $menuItem3['label'] }}</a>
+                                            </li>
+                                        @endforeach
 
-                                </ul>
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
-            @endforeach
-
+                                    </ul>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @endforeach
+            @endif
 
 
         </ul>
@@ -377,9 +309,9 @@
 <!-- ================= start nav mobile menu ================= -->
 <nav
     class="fixed shadow-xl border-t-zinc-300 dark:border-0 bottom-0 z-20 lg:hidden left-0 right-0 dark:bg-background-dark dark:text-white bg-white border-t border-gray-200">
-    <div class="flex justify-around items-center flex-row-reverse py-3 px-4">
+    <div class="flex justify-around items-center flex-row py-3 px-4">
         <!-- Home -->
-        <a href="#" class="flex flex-col items-center text-primary space-y-2">
+        <a href="/" class="flex flex-col items-center text-primary space-y-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6 dark:text-primary">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -388,22 +320,34 @@
             <span class="text-xs font-bold">خانه</span>
         </a>
         <!-- cart -->
-        <a href="#" class="flex flex-col items-center text-gray-500 hover:text-gray-700 space-y-2">
+        <a href="/بلاگ" class="flex flex-col items-center text-gray-500 hover:text-gray-700 space-y-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6 dark:text-white">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                    d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z">
+                </path>
             </svg>
-            <span class="text-xs dark:text-white">سبد خرید</span>
+            <span class="text-xs dark:text-white">بلاگ</span>
         </a>
         <!-- Profile -->
-        <a href="#" class="flex flex-col items-center text-gray-500 hover:text-gray-700 space-y-2">
+        <a href="/درباره-ما" class="flex flex-col items-center text-gray-500 hover:text-gray-700 space-y-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-6 dark:text-white">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z">
+                </path>
             </svg>
-            <span class="text-xs dark:text-white">پنل کاربری</span>
+            <span class="text-xs dark:text-white">درباره ما</span>
+        </a>
+        <!-- Profile -->
+        <a href="/تماس-با-ما" class="flex flex-col items-center text-gray-500 hover:text-gray-700 space-y-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6 dark:text-white">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z">
+                </path>
+            </svg>
+            <span class="text-xs dark:text-white">تماس با ما</span>
         </a>
         <!-- Top -->
         <a href="#" class="flex flex-col items-center text-gray-500 hover:text-gray-700 space-y-2">

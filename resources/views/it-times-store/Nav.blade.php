@@ -101,77 +101,83 @@
 
 
                                             <!-- main menu -->
-                                            @foreach ($mainMenu as $menuItem)
+                                            @if (isset($mainMenu))
 
-                                                <li data-mega-id="{{ $loop->index + 1 }}"
-                                                    class="px-4 w-full hover:bg-opacity-70 border-opacity-0 hover:border-opacity-100 rounded-lg dark:hover:text-zinc-950 mega-menu-li">
-                                                    <a href="{{ url($menuItem['link']) }}"
-                                                        class="flex items-center justify-between py-3">
-                                                        <div class="flex items-center">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                                                viewBox="0 0 20 20" fill="currentColor">
-                                                                <path fill-rule="evenodd"
-                                                                    d="M3 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm11 1H6v8l4-2 4 2V6z"
-                                                                    clip-rule="evenodd" />
-                                                            </svg>
-                                                            <div class="mr-1">
-                                                                <p class="text-xs">{{ $menuItem['label'] }}</p>
+                                                @foreach ($mainMenu as $menuItem)
+
+                                                    <li data-mega-id="{{ $loop->index + 1 }}"
+                                                        class="px-4 w-full hover:bg-opacity-70 border-opacity-0 hover:border-opacity-100 rounded-lg dark:hover:text-zinc-950 mega-menu-li">
+                                                        <a href="{{ url($menuItem['link']) }}"
+                                                            class="flex items-center justify-between py-3">
+                                                            <div class="flex items-center">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
+                                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                                    <path fill-rule="evenodd"
+                                                                        d="M3 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm11 1H6v8l4-2 4 2V6z"
+                                                                        clip-rule="evenodd" />
+                                                                </svg>
+                                                                <div class="mr-1">
+                                                                    <p class="text-xs">{{ $menuItem['label'] }}</p>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                            class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24"
-                                                            stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M15 19l-7-7 7-7" />
-                                                        </svg>
-                                                    </a>
-                                                </li>
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24"
+                                                                stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2" d="M15 19l-7-7 7-7" />
+                                                            </svg>
+                                                        </a>
+                                                    </li>
 
-                                            @endforeach
-                                            <!-- end main menu -->
-
+                                                @endforeach
+                                                <!-- end main menu -->
+                                            @endif
                                         </ul>
                                     </div>
                                     <div class="col-span-10 bg-white dark:bg-background-dark">
 
                                         <!-- main menu -->
-                                        @foreach ($mainMenu as $menuItem)
-                                            <div data-mega-target="{{ $loop->index + 1 }}"
-                                                class="grid {{ ($loop->first) ? '' : 'hidden' }} h-[400px] overflow-y-scroll grid-cols-8 gap-10 m-3">
-
-                                                <!-- sub menu 1 -->
-                                                @foreach ($menuItem->children as $subMenuItem)
-
-                                                    <div class="col-span-2">
-                                                        <div class="mb-4">
-                                                            <p class="text-sm font-bold">
-                                                                <a
-                                                                    href="{{ in_array($subMenuItem['type'], ['internal', 'external']) ? url($subMenuItem['link']) : '/#' . $subMenuItem['link'] }}">{{ $subMenuItem['label'] }}</a>
-                                                            </p>
+                                        @if (isset($mainMenu))
 
 
-                                                            <div class="mt-3 space-y-4">
+                                            @foreach ($mainMenu as $menuItem)
+                                                <div data-mega-target="{{ $loop->index + 1 }}"
+                                                    class="grid {{ ($loop->first) ? '' : 'hidden' }} h-[400px] overflow-y-scroll grid-cols-8 gap-10 m-3">
 
-                                                                <!-- sub menu 2 -->
-                                                                @foreach ($subMenuItem->children as $subMenuItem2)
-                                                                    <a href="{{ $subMenuItem2['link'] }}"
-                                                                        class="text-xs text-gray-600 block hover:text-primary dark:text-gray-300">
-                                                                        {{ $subMenuItem2['label'] }}</a>
-                                                                @endforeach
-                                                                <!-- end sub menu 2 -->
+                                                    <!-- sub menu 1 -->
+                                                    @foreach ($menuItem->children as $subMenuItem)
 
+                                                        <div class="col-span-2">
+                                                            <div class="mb-4">
+                                                                <p class="text-sm font-bold">
+                                                                    <a
+                                                                        href="{{ in_array($subMenuItem['type'], ['internal', 'external']) ? url($subMenuItem['link']) : '/#' . $subMenuItem['link'] }}">{{ $subMenuItem['label'] }}</a>
+                                                                </p>
+
+
+                                                                <div class="mt-3 space-y-4">
+
+                                                                    <!-- sub menu 2 -->
+                                                                    @foreach ($subMenuItem->children as $subMenuItem2)
+                                                                        <a href="{{ $subMenuItem2['link'] }}"
+                                                                            class="text-xs text-gray-600 block hover:text-primary dark:text-gray-300">
+                                                                            {{ $subMenuItem2['label'] }}</a>
+                                                                    @endforeach
+                                                                    <!-- end sub menu 2 -->
+
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
 
 
 
 
-                                                @endforeach
-                                                <!-- end sub menu 1 -->
-                                            </div>
-                                        @endforeach
+                                                    @endforeach
+                                                    <!-- end sub menu 1 -->
+                                                </div>
+                                            @endforeach
+                                        @endif
                                         <!-- end main menu -->
 
 
