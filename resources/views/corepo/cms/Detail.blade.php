@@ -223,14 +223,7 @@
     </div>
 </section>
 
-<section class="content-detail">
-    <div class="lg:w-1/2 m-auto">
-        <a href="https://dxbestate.net" target="blank" rel="nofollow">
 
-            <img src="{{asset('img/banner-bottom-article1.gif')}}" alt="">
-        </a>
-    </div>
-</section>
 
 @if (count($relatedProduct))
     <section class="products bg-gray m-0 pt-1 pb-1" id="index-best-view">

@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/admin')->middleware(['auth', 'role:super admin'])->group(function () {
 
+
+
+
     Route::get('/', [AdminController::class, 'index'])->name('admin');
     Route::get('contents/{type}', [ContentController::class, 'index'])->name('contents.type.show');
     //Route::get('contents/{type}/{company?}/{companyId?}', [ContentController::class, 'index'])->name('contents.type.show');
@@ -47,6 +50,7 @@ Route::prefix('/admin')->middleware(['auth', 'role:super admin'])->group(functio
         'clients'   => 'ClientsController',
         'users' => 'UserController',
         'contact' => 'ContactController',
+        'chat' => 'ChatController',
         'comment' => 'CommentController',
         'role' => 'RoleController',
         'category' => 'CategoryController',

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalcController;
 use App\Http\Controllers\CmsController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CompanyController;
@@ -16,6 +17,9 @@ Route::group(['middleware' => 'HtmlMinifier'], function () {
     Route::post('search/suggest', [SearchController::class,'suggest'])->name('search.suggest');
 
     Route::get('/', [HomeController::class, 'index']);
+
+    Route::get('/calc', [CalcController::class,'index'])->name('calc');
+    Route::post('/calc', action: [CalcController::class, 'calculate'])->name('calculate');
 
     Route::get('/reload', [ContentController::class, 'reload']);
 

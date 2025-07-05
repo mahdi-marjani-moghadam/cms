@@ -482,6 +482,7 @@ class CmsController extends Controller
             $item = str_replace(' ', '-', $val);
             $label = cleareText($val);
             $anchor = cleareText($item);
+
             if (strlen($anchor) == 0) {
                 continue;
             }
@@ -497,7 +498,6 @@ class CmsController extends Controller
             $anchor = str_replace($winners[1][$key], $anchor, $winners[0][$key]);
             // echo ($anchor);die();
             //<h2 id="meet-laravel"><a href="#meet-laravel">Meet Laravel</a></h2>
-            //"<h2 style="text-align:justify"><a name="آشنایی-با-درب-ضد-سرقت">آشنایی با درب ضد سرقت</a></h2>"
             $content = str_replace($winners[0][$key], $anchor, $content);
 
             $count++;

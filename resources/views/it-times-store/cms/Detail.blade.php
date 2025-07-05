@@ -40,7 +40,7 @@
     @endphp
 
     @if ($detail->attr_type == 'product')
-        @include('jsonLdProduct')
+        @include('it-times-store.jsonLdProduct')
     @endif
     @include('jsonLdFaq')
 
@@ -382,7 +382,7 @@
                         <h2
                             class="text-2xl pb-3 font-black text-zinc-800 relative before:absolute before:bottom-0 before:right-0 before:h-1 before:w-22 before:bg-primary-500 before:rounded dark:text-white">
                             معرفی محصول</h2>
-                        <p class="text-neutral-700 leading-9 text-justify text-lg dark:text-white">
+                        <p class="text-neutral-700 leading-10 text-justify text-lg dark:text-white">
                         <ul class="">
                             @foreach ($table_of_content as $key => $item)
                                 <li class="toc1 mt-2">
@@ -391,7 +391,7 @@
                             @endforeach
 
                         </ul>
-                        <div class="leading-9">
+                        <div class="leading-10 [&_h2]:text-[#d35400] [&_h2]:text-2xl/15">
 
                             @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
                         </div>

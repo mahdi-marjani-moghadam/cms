@@ -908,6 +908,7 @@ if (!function_exists('getGoldPrice')) {
             if ($goldPriceOld) {
                 $goldPriceOld = $goldPriceOld->value;
                 $goldPriceOld = json_decode($goldPriceOld);
+
                 return [
                     'price' => (int) $goldPriceOld->price,
                     'priceToman' => (int) $goldPriceOld->priceToman,
@@ -924,7 +925,8 @@ if (!function_exists('getGoldPrice')) {
                 // $pageAddress = 'https://www.tgju.org/profile/geram18';
                 // $pageAddress = 'https://donya-e-eqtesad.com/tags/%D9%82%DB%8C%D9%85%D8%AA_%D8%B7%D9%84%D8%A7';
                 // $pageAddress = 'https://www.arshehonline.com/%D8%A8%D8%AE%D8%B4-%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF-121/44481-%D9%82%DB%8C%D9%85%D8%AA-%D8%B1%D9%88%D8%B2-%D8%B7%D9%84%D8%A7-%D8%B3%DA%A9%D9%87-%D8%A7%D8%B1%D8%B2-%D8%AF%D9%84%D8%A7%D8%B1';
-                $pageAddress = "https://donya-e-eqtesad.com/tags/%D9%82%DB%8C%D9%85%D8%AA_%D8%B7%D9%84%D8%A7";
+                // $pageAddress = "https://donya-e-eqtesad.com/tags/%D9%82%DB%8C%D9%85%D8%AA_%D8%B7%D9%84%D8%A7";
+                $pageAddress = "https://milli.gold/api/v1/public/milli-price/external";
 
                 $time_start = microtime(true);
                 $ch = curl_init();
@@ -941,21 +943,44 @@ if (!function_exists('getGoldPrice')) {
 
                 if ($page === false) {
                     $time_end = microtime(true);
-                    $message .= ' time: ' . ($time_end - $time_start). 's ';
+                    $message .= ' time: ' . ($time_end - $time_start) . 's ';
                     $message .= curl_error($ch) . ' (' . curl_errno($ch) . ')' . PHP_EOL;
                     // dd('-');
                 }
 
 
-                // dd($page);
 
-                @$doc = new DOMDocument();
-                $doc->preserveWhiteSpace = false;
-                @$doc->loadHTML($page);
-                $time_end = microtime(true);
-                $message .= ' time: ' . round($time_end - $time_start,2) . 's ';
-                // dd($doc);
-                $selector = new DOMXPath($doc);
+                // milli
+                $priceArr = json_decode($page, true);
+                $integerPrice = $priceArr['price18'] * 100;
+
+                if (!is_null($integerPrice)) {
+                    $stringPrice = number_format($integerPrice, 0);
+                    WebsiteSetting::updateOrCreate(
+                        ['variable' => 'goldPrice'],
+                        [
+                            'variable' => 'goldPrice',
+                            'value' => json_encode([
+                                'price' => $stringPrice,
+                                'priceToman' => $integerPrice,
+                            ]),
+                        ],
+                    );
+
+                    return [
+                        'price' => $stringPrice,
+                        'priceToman' => $integerPrice,
+                    ];
+                } else {
+                    return [
+                        'price' => 0,
+                        'priceToman' => 0,
+                    ];
+                }
+                dd(number_format($integerPrice, 0));
+                // dd($price);
+
+
 
                 // $price = $selector->query("//*[@data-col='info.last_trade.PDrCotVal']")->item(0);
                 // $changePercent = $selector->query("//*[@data-col='info.last_trade.last_change_percentage']")->item(0);
@@ -964,7 +989,7 @@ if (!function_exists('getGoldPrice')) {
                 // $nodes = $doc->getElementsByTagName("//*[@data-col='info.last_trade.PDrCotVal']");
 
 
-                $price = $selector->query("//*[contains(@class, 'textcenter')]")->item(2);
+                // dd($price->nodeValue);
                 // $price = $selector->query("//*[@class=\"info-price\"]")->item(0);
 
                 // dd($doc->getElementById("g_ayar18")->item(1));
@@ -972,9 +997,17 @@ if (!function_exists('getGoldPrice')) {
                 // dd($price->nodeValue);
 
                 // dd($price);
+                @$doc = new DOMDocument();
+                $doc->preserveWhiteSpace = false;
+                @$doc->loadHTML($page);
+                $time_end = microtime(true);
+                $message .= ' time: ' . round($time_end - $time_start, 2) . 's ';
+                // dd($doc);
+                $selector = new DOMXPath($doc);
+                $priceNode = $selector->query("//*[contains(@class, 'textcenter')]")->item(2); // donyaye e eghtesad
 
-                if (!is_null($price)) {
-                    $stringPrice = trim(str_replace('تومان', '', $price->nodeValue));
+                if (!is_null($priceNode)) {
+                    $stringPrice = trim(str_replace('ریال', '', $priceNode->nodeValue));
                     $integerPrice = (int) str_replace(',', '', $stringPrice);
                     $message .= '- price: ' . $stringPrice = number_format($integerPrice, 0, ',');
                     $message .= ' ';

@@ -2492,6 +2492,14 @@
     --tw-leading: calc(var(--spacing) * 9);
     line-height: calc(var(--spacing) * 9);
   }
+  .leading-10 {
+    --tw-leading: calc(var(--spacing) * 10);
+    line-height: calc(var(--spacing) * 10);
+  }
+  .leading-11 {
+    --tw-leading: calc(var(--spacing) * 11);
+    line-height: calc(var(--spacing) * 11);
+  }
   .leading-loose {
     --tw-leading: var(--leading-loose);
     line-height: var(--leading-loose);
@@ -4349,6 +4357,11 @@
       height: calc(var(--spacing) * 8);
     }
   }
+  .lg\:h-90 {
+    @media (width >= 64rem) {
+      height: calc(var(--spacing) * 90);
+    }
+  }
   .lg\:w-1\/2 {
     @media (width >= 64rem) {
       width: calc(1/2 * 100%);
@@ -4969,6 +4982,17 @@
       padding-inline: calc(var(--spacing) * 0);
     }
   }
+  .\[\&_h2\]\:text-2xl\/15 {
+    & h2 {
+      font-size: var(--text-2xl);
+      line-height: calc(var(--spacing) * 15);
+    }
+  }
+  .\[\&_h2\]\:text-\[\#d35400\] {
+    & h2 {
+      color: #d35400;
+    }
+  }
   .\[\&_img\]\:my-4 {
     & img {
       margin-block: calc(var(--spacing) * 4);
@@ -5234,7 +5258,7 @@
   .article-content h2, .article-content h3, .article-content h4 {
     margin: 2rem 0 1rem;
     font-weight: bold;
-    color: #222;
+    color: #d35400;
   }
   .article-content h2 {
     font-size: 1.8rem;

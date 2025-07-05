@@ -2,7 +2,7 @@
 @section('content')
     <div class="content-control">
         <ul class="breadcrumb">
-            <li class="active">@lang('messages.Dashboard')</li>
+            <li class="active"><a class="btn btn-success" style="color:white; font-weight: bold;" href="{{ route('chat.index') }}">chat</a></li>
         </ul>
 
     </div>

@@ -24,7 +24,7 @@
                     @foreach ($banners['images'] as $content)
                         <div class="swiper-slide max-w-[1920px]" role="group" aria-roledescription="slide">
                             <a href="#">
-                                <div class="h-90 flex justify-center items-center">
+                                <div class="lg:h-90 flex justify-center items-center">
                                     <img src="{{ image_or_placeholder($content) }}"
                                         class="h-full w-full object-cover rounded-lg" loading="lazy">
                                 </div>
