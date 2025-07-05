@@ -3,6 +3,8 @@ module.exports = {
     content: [
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
+        './resources/**/*.scss',
+        './resources/**/*.html',
     ],
     theme: {
         extend: {
@@ -11,7 +13,7 @@ module.exports = {
               },
         },
     },
-    plugins: [
-        require('tailwindcss-rtl'),
-    ],
+    // plugins: [
+    //     require('tailwindcss-rtl'),
+    // ],
 }
