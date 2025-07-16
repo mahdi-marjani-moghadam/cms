@@ -10,7 +10,7 @@ module.exports = {
         extend: {
             colors: {
                 'corepoColor': '#ea6413',
-              },
+            },
         },
     },
     // plugins: [

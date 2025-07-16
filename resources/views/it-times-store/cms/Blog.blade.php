@@ -119,7 +119,7 @@
                                                                 d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                         </svg>
                                                         <time
-                                                            class="mr-2 dark:text-white">{{ convertGToJ($content->updated_at) }}</time>
+                                                            class="mr-2 dark:text-white">{{ convertGToJ($content->publish_date) }}</time>
                                                     </div>
                                                     <div class="flex items-center" itemprop="interactionStatistic" itemscope
                                                         itemtype="https://schema.org/InteractionCounter">

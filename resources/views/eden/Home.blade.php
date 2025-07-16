@@ -190,7 +190,7 @@
                                             alt="{{ $content->title }}" width="61" height="79"
                                             srcset="
                                                                                         {{ image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_SMALL_W') }}w,
-                                                                                        {{ $content->images['images']['medium'] ?? $content->images['images']['small'] }} {{ env('CATEGORY_MEDIUM_W') }}w">
+                                                                                        {{ image_or_placeholder($content->images['images']['medium']) }} {{ env('CATEGORY_MEDIUM_W') }}w">
                                         <figcaption>
                                             <h2 class="p-0 m-0 text-center font-08 font-normal"> {{ $content->title }}</h2>
                                         </figcaption>

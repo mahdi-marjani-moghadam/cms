@@ -224,7 +224,7 @@ $price = $detail->GoldPrice();
 
                         </div>
                         <div class="  w-full  lg:w-1/3 p-5 lg:p-10">
-                            <div class="bg-gray border p-2 border-radius-5">
+                            <div class="bg-gray border  p-2 border-radius-5">
 
 
                                 @isset($detail->attr['weight'])

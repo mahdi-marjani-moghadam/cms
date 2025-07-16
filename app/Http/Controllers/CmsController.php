@@ -24,10 +24,6 @@ class CmsController extends Controller
     public $breadcrumb;
 
 
-    public function showContent($seo, $detail, $breadcrumb, $table_of_content, $images, $editorModule)
-    {
-    }
-
     public function showCategory($seo, $detail, $breadcrumb, $table_of_content, $images, $editorModule, $request)
     {
 
@@ -36,13 +32,12 @@ class CmsController extends Controller
                 ->where('attr_type', '=', 'article')
                 ->where('parent_id', '=', $detail->id)
                 ->where('publish_date', '<=', DB::raw('now()'))
+                // ->orderBy('publish_date', 'desc')
                 ->get();
-
             $relatedPost = $this->getCatChildOfcontent($detail['id'], $relatedPost, 'article');
         } else {
             $relatedPost = $detail->posts()->paginate(env('PAGE_SIZE_ARTICLE', 20));
         }
-
 
 
         //        dd($relatedProduct);
@@ -126,7 +121,6 @@ class CmsController extends Controller
 
     public function request(Request $request, $arg1 = False, $arg2 = False)
     {
-
         $request = $request->all();
         $slug = (isset($arg2) && $arg2 != '') ? $arg1 . '/' . $arg2 : $arg1;
 
@@ -212,12 +206,13 @@ class CmsController extends Controller
             $detail = Content::find($detail->id);
 
             // related post
+
             $relatedPost = Content::where('type', '=', '2')
                 ->where('parent_id', '=', $detail->parent_id)
                 ->where('id', '<>', $detail->id)
                 ->where('attr_type', '=', 'article')
                 ->where('publish_date', '<=', DB::raw('now()'))
-                ->inRandomOrder()
+                ->orderBy('publish_date', 'desc')
                 ->limit(env('RELATED_POST_COUNT', 4))->get();
 
 
@@ -239,7 +234,11 @@ class CmsController extends Controller
 
 
             // template name
-            $template = env('TEMPLATE_NAME') . '.cms.Detail';
+            if ($detail->attr_type == 'article') {
+                $template = env('TEMPLATE_NAME') . '.cms.ArticlesDetail';
+            } else {
+                $template = env('TEMPLATE_NAME') . '.cms.Detail';
+            }
             $widget = $this->getWidget('Detail');
 
             if (isset($detail->attr['template_name'])) {
@@ -489,15 +488,15 @@ class CmsController extends Controller
             $list['list'][$count]['label'] = $label;
             $list['list'][$count]['anchor'] = $anchor;
             $table_of_content = '';
-            if (preg_match_all('|<a[^>]*>(.*?)</a>|', $val) == 0) {
-                $anchor = '<a id="' . str_replace(' ', '-', cleareText($val)) . '" href="#' . str_replace(' ', '-', cleareText($val)) . '">' . cleareText($val) . '</a>';
-            } else {
-                $anchor = $val . '<span id="' . str_replace(' ', '-', cleareText($val)) . '">' . ' ' . '</span>';
-            }
+            // if (preg_match_all('|<a[^>]*>(.*?)</a>|', $val) == 0) {
+            //     $anchor = '<a href="#' . str_replace(' ', '-', cleareText($val)) . '">' . cleareText($val) . '</a>';
+            // } else {
+            //     $anchor = $val . '<span id="' . str_replace(' ', '-', cleareText(val: $val)) . '">' . ' ' . '</span>';
+            // }
+            $anchor =  '<h2 id="' . str_replace(' ', '-', cleareText(val: $val)) . '">' . $val . '</h2>';
 
-            $anchor = str_replace($winners[1][$key], $anchor, $winners[0][$key]);
-            // echo ($anchor);die();
-            //<h2 id="meet-laravel"><a href="#meet-laravel">Meet Laravel</a></h2>
+            // $anchor = str_replace($winners[1][$key], $anchor, $winners[0][$key]);
+
             $content = str_replace($winners[0][$key], $anchor, $content);
 
             $count++;

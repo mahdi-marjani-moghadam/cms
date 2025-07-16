@@ -48,12 +48,11 @@
     </div>
 
 
-    <header class='border-b py-1 px-1 lg:px-5  bg-white font-sans min-h-[70px] '>
+    <header class='border-b py-1 px-1 lg:px-5  bg-white font-sans  '>
         <div class='flex flex-wrap items-center lg:gap-y-2 gap-y-4 gap-x-4'>
             <a href="/" class="">
-                <img height="60" width="44" alt=" ایدن لوگو" class="inline-block"
-                    srcset="{{ url(env('TEMPLATE_NAME') . '/img/logo1x.png') }} 1x, {{ url(env('TEMPLATE_NAME') . '/img/logo2x.png') }} 2x"
-                    src="{{ url(env('TEMPLATE_NAME') . '/img/logo1x.png') }}" />
+                <img height="80" width="60" alt=" ایدن لوگو" class="inline-block"
+                    src="{{ url(env('TEMPLATE_NAME') . '/img/logo2x.png') }}" />
             </a>
             <div class='flex items-center mr-auto lg:order-1'>
 
@@ -80,7 +79,7 @@
                     </a>
 
 
-                <button id="toggle" class='lg:hidden mr-7'>
+                <button id="toggle" class='lg:!hidden mr-7'>
                     <svg class="w-7 h-7" fill="#333" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
@@ -89,7 +88,7 @@
                 </button>
             </div>
             <ul id="collapseMenu"
-                class='lg:!flex lg:mr-10 lg:space-x-8 lg:space-x-reverse max-lg:space-y-2 max-lg:hidden max-lg:w-full max-lg:my-4'>
+                class='lg:!flex lg:mr-10 lg:gap-x-8 max-lg:gap-y-2 max-lg:hidden max-lg:w-full max-lg:my-4'>
                 @foreach (App\Models\Menu::where('parent', '=', '0')->orderBy('sort')->get() as $menuItem)
                     <?php $subMenu = App\Models\Menu::where('menu', '=', '1')
                         ->where('parent', '=', $menuItem['id'])

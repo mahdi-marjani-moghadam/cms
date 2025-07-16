@@ -54,12 +54,12 @@
         <form action="{{ route('calc') }}" class=" " method="post">
             <h1 class="text-center">{{ $calculate }} تومان</h1>
             @csrf
-            <div class="one gap-2 grid grid-cols-1 m-auto" style="max-width: 500px;" >
+            <div class="one gap-2 grid grid-cols-[80px_1fr] text-left [&>div]:text-right m-auto" style="max-width: 500px;" >
 
                 <label for="">
-                    قیمت روز طلا
+                    قیمت طلا
                 </label>
-                <div>
+                <div class="">
                     <input name="tala" type="text" class="p-2" value="{{ getGoldPrice()['priceToman'] }}">
                     تومان
                 </div>
@@ -68,21 +68,21 @@
                 </label>
                 <div>
                     <input name="weight" style="border-color: red;" type="text" class="p-2" value="{{ old('weight') }}">
-                    گرم
+                    گرم  = ({{ number_format($gold,0).' تومان' ?? ''}})
                 </div>
                 <label for="">
                     اجرت
                 </label>
                 <div>
-                    <input name="ojrat" type="text" class="p-2" value="{{ old('ojrat', 10) }}">
-                    درصد
+                    <input name="ojrat" type="text" class="p-2" value="{{ old('ojrat', 18) }}">
+                    درصد = ({{ number_format($ojrat,0).' تومان' ?? ''}})
                 </div>
                 <label for="">
                     سود
                 </label>
                 <div>
                     <input name="sood" type="text" class="p-2" value="{{ old('sood', 7) }}">
-                    درصد
+                    درصد  = ({{ number_format($sood,0).' تومان' ?? ''}})
                 </div>
                 <label for="">
                     خرج کار
@@ -96,10 +96,10 @@
                 </label>
                 <div>
                     <input name="tax" type="text" class="p-2" value="{{ old('tax', 9) }}">
-                    درصد
+                    درصد = ({{ number_format($tax,0).' تومان' ?? ''}})
                 </div>
-
-                <button class="bg-lime-700  text-white  p-3 rounded-md  m-auto">محاسبه</button>
+                <br>
+                <button class="bg-lime-700  !text-white  p-3 rounded-md  m-auto">محاسبه</button>
             </div>
 
         </form>

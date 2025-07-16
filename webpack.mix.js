@@ -2,9 +2,11 @@ const path = require("path");
 const dotenv = require('dotenv').config({ path: path.join(__dirname, '.env') });
 var template = dotenv.parsed.TEMPLATE_NAME;
 let mix = require('laravel-mix');
+var LiveReloadPlugin = require('webpack-livereload-plugin');
 
 if (template == 'it-times-store') {
-    var LiveReloadPlugin = require('webpack-livereload-plugin');
+    console.log('it-times');
+
     const tailwindcss = require('tailwindcss');
 
     mix.options({
@@ -17,16 +19,10 @@ if (template == 'it-times-store') {
         stats: { children: true }
     });
 } else {
-
-    mix.options({
-        processCssUrls: false,
-        postCss: [
-            require('postcss-nesting'),
-            require('@tailwindcss/postcss')({ config: './tailwind.config.js' })
-        ],
-    });
+    console.log('===================== ' + template);
 
     mix.webpackConfig({
+        plugins: [new LiveReloadPlugin()],
         watchOptions: {
             ignored: /node_modules|public|storage/,
         },
@@ -35,7 +31,14 @@ if (template == 'it-times-store') {
 
 
     mix.setPublicPath('public/' + template + '/')
-        .sass('resources/css/' + template + '.scss', '/', {
+        .options({
+            processCssUrls: false,
+            postCss: [
+                require('postcss-nesting'),
+                require('@tailwindcss/postcss')({ config: './tailwind.config.js' })
+            ],
+        })
+        .sass('resources/css/' + template + '.scss', template + '.css', {
             sassOptions: { strictMath: true }
         })
         .copy('resources/fonts', 'public/' + template + '/fonts')

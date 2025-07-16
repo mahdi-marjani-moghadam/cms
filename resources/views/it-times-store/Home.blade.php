@@ -776,8 +776,7 @@
                             <span itemprop="name" class="dark:text-white">آخرین</span>
                             <span class="text-primary font-bold">مقالات</span>
                         </h2>
-                        <p class="text-neutral-600 dark:text-white" itemprop="description">پرفروش ترین برند ها را در پایین
-                            مشاهده میکنید</p>
+
                     </div>
                     <div class="w-full sm:col-span-2 col-span-6">
                         <div class="sm:text-end text-start">
@@ -827,7 +826,7 @@
                                                             d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                     </svg>
                                                     <time
-                                                        class="mr-2 dark:text-white">{{ convertGToJ($content->updated_at) }}</time>
+                                                        class="mr-2 dark:text-white">{{ convertGToJ($content->publish_date) }}</time>
                                                 </div>
                                                 <div class="flex items-center" itemprop="interactionStatistic" itemscope
                                                     itemtype="https://schema.org/InteractionCounter">

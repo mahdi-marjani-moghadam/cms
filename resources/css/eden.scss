@@ -1,4 +1,4 @@
-@use 'sass:math';
+@use "sass:math";
 
 $template: eden;
 $body: #f8f8f8;
@@ -33,6 +33,7 @@ $button-color: black;
 $button-bg-color: yellow;
 
 $font-family: IRANSans; // Vazir2
+
 
 @import "app.scss";
 @import "grid.scss";

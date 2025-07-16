@@ -240,7 +240,7 @@
                         class="text-2xl pb-3 font-black text-zinc-800 relative before:absolute before:bottom-0 before:right-0 before:h-1 before:w-22 before:bg-primary-500 before:rounded dark:text-white">
                         دسته بندی {{ $detail->title }}
                     </h2>
-                    <div class="text-neutral-700 leading-11 [&_h2]:text-[#d35400] [&_h2]:text-2xl/15 overflow-auto text-justify text-lg dark:text-white">
+                    <div class="text-neutral-700 leading-11 [&_h2]:text-[#d35400] [&_h2]:text-2xl/15 [&_a]:text-[#d35400] overflow-auto text-justify text-lg dark:text-white">
                     @if (count($table_of_content))
                     <ul>
                         @foreach ($table_of_content as $key => $item)
@@ -251,8 +251,8 @@
 
                     </ul>
 
-                @endif
-                @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
+                    @endif
+                    @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
 
                     </div>
                 </div>

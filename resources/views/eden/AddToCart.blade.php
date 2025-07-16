@@ -18,7 +18,7 @@
         @endif
 
         <input type="hidden" name="id" value="{{ $detail->id }}">
-        <button class="bg-lime-700 text-white  p-3 rounded-md w-full">
+        <button class="bg-lime-700 !text-white   p-3 rounded-md !w-full">
             <i class="fa fa-plus"></i>
             ثبت سفارش
         </button>

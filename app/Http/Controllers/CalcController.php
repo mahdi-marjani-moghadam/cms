@@ -27,6 +27,10 @@ class CalcController extends Controller
 
         return view($template, [
             'calculate' => $request->calculate,
+            'sood' => $request->sood,
+            'ojrat' => $request->ojrat  ,
+            'tax' => $request->tax  ,
+            'gold' => $request->gold  ,
             // 'mainMenu' => menuTree(),
             'detail' => $detail,
             'breadcrumb' => $breadcrumb
@@ -49,10 +53,16 @@ class CalcController extends Controller
         $tax = ($sood + $ojrat) * $tax;
 
         $calculate = (int) floor(($gold + $sood + $ojrat + $tax + $additionalPrice) / 1000) * 1000;
-        $calculate = number_format($calculate,0);
-        // dd($weight);
+        $calculate = number_format($calculate, 0);
 
-        return redirect()->route('calc', ['calculate' => $calculate])->withInput();
+
+        return redirect()->route('calc', [
+            'calculate' => $calculate,
+            'sood' => $sood,
+            'ojrat' => $ojrat,
+            'tax' => $tax,
+            'gold' => $gold
+        ])->withInput();
     }
 
 }
