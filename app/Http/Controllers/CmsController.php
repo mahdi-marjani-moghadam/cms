@@ -121,6 +121,7 @@ class CmsController extends Controller
 
     public function request(Request $request, $arg1 = False, $arg2 = False)
     {
+
         $request = $request->all();
         $slug = (isset($arg2) && $arg2 != '') ? $arg1 . '/' . $arg2 : $arg1;
 
@@ -134,14 +135,16 @@ class CmsController extends Controller
             // exit();
         }
 
+
         // detail
         $detail = Category::where('slug', '=', $slug)
             ->where('publish_date', '<=', DB::raw('now()'))
             ->first();
 
+
+        // dd($detail);
         // 404
         if ($detail === null) {
-
             $data['title'] = '404';
             $data['name'] = 'Page not found';
             $data['mainMenu'] = menuTree();

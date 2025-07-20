@@ -33,7 +33,6 @@ class HomeController extends Controller
         $data['seo'] = WebsiteSetting::all()->keyBy('variable')->map(function ($name) {
             return strtoupper($name['value']);
         });
-
         $attr = Widget::where('file_name', '=', 'Home')->first();
         if (is_object($attr)) {
             $attr = $attr->attr;

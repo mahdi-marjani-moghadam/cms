@@ -12,13 +12,12 @@ use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'HtmlMinifier'], function () {
-
-    Route::get('search', [SearchController::class,'index'])->name('search');
-    Route::post('search/suggest', [SearchController::class,'suggest'])->name('search.suggest');
-
+    Route::get('search', [SearchController::class, 'index'])->name('search');
+    Route::post('search/suggest', [SearchController::class, 'suggest'])->name('search.suggest');
     Route::get('/', [HomeController::class, 'index']);
 
-    Route::get('/calc', [CalcController::class,'index'])->name('calc');
+
+    Route::get('/calc', [CalcController::class, 'index'])->name('calc');
     Route::post('/calc', action: [CalcController::class, 'calculate'])->name('calculate');
 
     Route::get('/reload', [ContentController::class, 'reload']);
@@ -33,6 +32,8 @@ Route::group(['middleware' => 'HtmlMinifier'], function () {
 
     Route::get('/{category?}/{slug?}/{b?}', [CmsController::class, 'request']);
     Route::get('/{slug?}/{b?}', [CmsController::class, 'request']);
+
+
 
     Route::post('/comment', [CommentController::class, 'store'])->name('comment.client.store');
     Route::post('/contact', [ContactController::class, 'store'])->name('contact.client.store');
