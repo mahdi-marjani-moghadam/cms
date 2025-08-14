@@ -83,7 +83,7 @@
 
 
                             <!--Content of the article-->
-                            <div class="article-content text-gray-700 dark:text-gray-300 [&_a]:text-primary-600">
+                            <div class="article-content text-gray-700 dark:text-gray-300 [&_a]:text-primary-600 [&_img]:inline-block [&_table]:mx-auto">
                                 <ul class="">
                                     @foreach ($table_of_content as $key => $item)
                                         <li class="toc1 ">

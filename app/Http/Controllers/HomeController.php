@@ -69,7 +69,7 @@ class HomeController extends Controller
                     $module = $module->orderby($sort[0], $sort[1]);
 
                     $module = $module
-                        ->where('publish_date', '<=', DB::raw('now()'))
+                        ->where('publish_date', '<=', Carbon::now())
                         ->limit($config['count']);
 
                     $data[$var]['data'] = $module->get();
@@ -90,7 +90,12 @@ class HomeController extends Controller
 
                 if ($config['parent_id'] == 0) {
                     // dd(Carbon::now());
-                    $data[$var]['data'] = Content::where('publish_date', '<=', Carbon::now())->where('status', '=', 1)->where('attr_type', '=', 'product')->orderBy('publish_date', 'desc')->limit($config['count'])->get();
+                    $data[$var]['data'] = Content::where('publish_date', '<=', Carbon::now())
+                        ->where('status', '=', 1)
+                        ->where('attr_type', '=', 'product')
+                        ->orderBy('publish_date', 'desc')
+                        ->limit($config['count'])
+                        ->get();
                     // dd($data[$var]['data']);
                     continue;
                 }
@@ -154,7 +159,7 @@ class HomeController extends Controller
             }
         }
 
-        $data['companies'] = Company::limit(6)->where('companies.status','=',1)->orderBy('id','desc')->get();
+        $data['companies'] = Company::limit(6)->where('companies.status', '=', 1)->orderBy('id', 'desc')->get();
         // dd($data['companies']);
 
         // $queries = DB::getQueryLog();
@@ -177,12 +182,13 @@ class HomeController extends Controller
     function getCatChildOfcontent($parentId, $temp, $config)
     {
 
-        if (count($temp) >= $config['count']) return $temp;
+        if (count($temp) >= $config['count'])
+            return $temp;
 
-        $cat =  Content::where([['parent_id', '=', $parentId], ['type', '=', 1]])->get()->toArray();
+        $cat = Content::where([['parent_id', '=', $parentId], ['type', '=', 1]])->get()->toArray();
 
 
-        $content =  Content::where([['parent_id', '=', $parentId], ['type', '=', 2]])
+        $content = Content::where([['parent_id', '=', $parentId], ['type', '=', 2]])
             ->where('publish_date', '<=', DB::raw('now()'))->get();
         $temp = $temp->merge($content);
 
@@ -190,7 +196,7 @@ class HomeController extends Controller
             return $temp;
         } else {
             foreach ($cat as $k => $v) {
-                $temp =  $this->getCatChildOfcontent($v["id"], $temp, $config);
+                $temp = $this->getCatChildOfcontent($v["id"], $temp, $config);
             }
             return $temp;
         }

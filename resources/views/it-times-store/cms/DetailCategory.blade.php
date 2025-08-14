@@ -203,15 +203,14 @@
 
                                 <figure class="flex image justify-center my-4">
                                     <a href="{{ $content->slug }}" >
-                                        <img class="one-image" src="{{ image_or_placeholder($content->images['images']['small']) }}" loading="lazy"
+                                        <img class="{{ $content->gallery->count() ? 'one-image' : '' }} " src="{{ image_or_placeholder($content->images['images']['small']) }}" loading="lazy"
                                             alt="{{ $content->title }}" >
                                         @foreach ($content->gallery as $gallery)
-
                                             <img class="two-image" src="{{ image_or_placeholder($gallery->images['images']['small']) }}" loading="lazy">
                                         @endforeach
                                     </a>
                                 </figure>
-                                <h3 class="text-base leading-8  line-clamp-2 mb-2">
+                                <h3 class="text-base leading-8  line-clamp-2 mb-2 text-center">
                                     <a href="{{ $content->slug }}" class="text-gray-800 dark:text-white">{{ $content->title }}</a>
                                 </h3>
 

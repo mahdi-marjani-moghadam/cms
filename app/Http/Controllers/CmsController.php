@@ -31,7 +31,7 @@ class CmsController extends Controller
             $relatedPost = Content::where('type', '=', '2')
                 ->where('attr_type', '=', 'article')
                 ->where('parent_id', '=', $detail->id)
-                ->where('publish_date', '<=', DB::raw('now()'))
+                ->where('publish_date', '<=', Carbon::now())
                 // ->orderBy('publish_date', 'desc')
                 ->get();
             $relatedPost = $this->getCatChildOfcontent($detail['id'], $relatedPost, 'article');
@@ -53,14 +53,14 @@ class CmsController extends Controller
             $relatedProduct = Content::where('type', '=', '2')
                 ->where('attr_type', '=', 'product')
                 ->where('parent_id', '=', $detail->id)
-                ->where('publish_date', '<=', DB::raw('now()'))
+                ->where('publish_date', '<=', Carbon::now())
                 ->paginate(env('PAGE_SIZE_PRODUCT', 15));
             $relatedProduct = $this->getCatChildOfcontent($detail['id'], $relatedProduct, 'product');
         } else {
 
             $contentTypeIdList = $detail->getContentTypeid($request)->pluck('content_type_id');
             $filterList = Attribute::generatefilterList($request, $contentTypeIdList);
-            //dd($filterList);
+            // dd($filterList);
             // $detail->id;
             DB::connection()->enableQueryLog();
 
@@ -75,7 +75,9 @@ class CmsController extends Controller
                 // dd($relatedProduct->paginate(15));
                 $relatedProduct = $relatedProduct->paginate(env('PAGE_SIZE_PRODUCT', 15))->withQueryString();
             } else {
-                $relatedProduct = $detail->products('power', 'desc', $request)->paginate(env('PAGE_SIZE_PRODUCT', 15))->withQueryString();
+                $relatedProduct = $detail->products('power', 'desc', $request)
+                ->paginate(env('PAGE_SIZE_PRODUCT', 15))
+                ->withQueryString();
             }
 
             $queries = DB::getQueryLog();
@@ -87,7 +89,7 @@ class CmsController extends Controller
         //dd($relatedPost);
         $subCategory = Content::where('type', '=', '1')
             ->where('parent_id', '=', $detail->id)
-            ->where('publish_date', '<=', DB::raw('now()'))
+            ->where('publish_date', '<=', Carbon::now())
             ->get();
 
         $relatedCompany = $detail->companiesCategory()->paginate(20, ['*'], 'companyPage');
@@ -138,7 +140,7 @@ class CmsController extends Controller
 
         // detail
         $detail = Category::where('slug', '=', $slug)
-            ->where('publish_date', '<=', DB::raw('now()'))
+            ->where('publish_date', '<=', Carbon::now())
             ->first();
 
 
@@ -196,8 +198,6 @@ class CmsController extends Controller
 
 
 
-
-
         // category or detail
         if ($detail->type == 1) {
 
@@ -209,12 +209,11 @@ class CmsController extends Controller
             $detail = Content::find($detail->id);
 
             // related post
-
             $relatedPost = Content::where('type', '=', '2')
                 ->where('parent_id', '=', $detail->parent_id)
                 ->where('id', '<>', $detail->id)
                 ->where('attr_type', '=', 'article')
-                ->where('publish_date', '<=', DB::raw('now()'))
+                ->where('publish_date', '<=', Carbon::now())
                 ->orderBy('publish_date', 'desc')
                 ->limit(env('RELATED_POST_COUNT', 4))->get();
 
@@ -302,7 +301,7 @@ class CmsController extends Controller
 
             $module = new Content();
 
-            $filter[] = ['publish_date', '<=', DB::raw('now()')];
+            $filter[] = ['publish_date', '<=', Carbon::now()];
 
             if ($config['type'] == 'post') {
                 $filter[] = ['type', '=', '2'];
@@ -362,7 +361,7 @@ class CmsController extends Controller
             ['parent_id', '=', $config['parent_id']],
             ['type', '=', 2],
             // ['attr_type', '=', $attr_type],
-            ['publish_date', '<=', DB::raw('now()')]
+            ['publish_date', '<=', Carbon::now()]
         ]);
         if (isset($config['count'])) {
             $content = $content->limit($config['count']);

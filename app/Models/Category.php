@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -62,7 +63,7 @@ class Category extends Model
         $object = $this->belongsToMany(Content::class, 'contents_category', 'cat_id', 'content_id')
             ->where('contents.type', '=', '2')
             ->where('contents.attr_type', '=', 'product')
-            ->where('contents.publish_date', '<=', DB::raw('now()'))
+            ->where('contents.publish_date', '<=', Carbon::now())
             ->where('status','=',1);
         //dd($filter);
         if (isset($filter['attribute'])) {

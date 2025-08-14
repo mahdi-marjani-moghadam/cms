@@ -56,26 +56,25 @@
 
 
     <!-- ================= start content section ================= -->
-    <section class="py-5"  >
+    <section class="py-5">
         <div class="container">
             <!-- breadcrumb -->
             <nav class="flex mt-2 mb-6" aria-label="Breadcrumb">
-                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse" >
-                    <li  >
+                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    <li>
                         <a href="/"
-                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
-                            >
+                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
                             <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 20 20">
                                 <path
                                     d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
                             </svg>
-                            <span >خانه</span>
+                            <span>خانه</span>
                         </a>
                     </li>
 
                     @foreach ($breadcrumb as $key => $item)
-                        <li  >
+                        <li>
                             <div class="flex items-center">
                                 <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -83,9 +82,8 @@
                                         d="m1 9 4-4-4-4" />
                                 </svg>
                                 <a href="{{ $item['slug'] }}"
-                                    class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white"
-                                    >
-                                    <span >{{ $item['title'] }}</span>
+                                    class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">
+                                    <span>{{ $item['title'] }}</span>
                                 </a>
                             </div>
                         </li>
@@ -99,25 +97,24 @@
                 class="dark:bg-background-dark dark:text-white bg-white rounded-lg drop-shadow-lg border-gray-300 border-1 p-4">
                 <div class="grid grid-cols-4 gap-4 place-items-start">
                     <!-- gallery -->
-                    <section class="lg:col-span-1 my-7 col-span-4 w-full" >
+                    <section class="lg:col-span-1 my-7 col-span-4 w-full">
 
                         <div class="swiper" id="productGalleryTwo">
                             <div class="swiper-wrapper" style="padding-bottom: 20px !important;">
 
 
 
-                                <div class="swiper-slide !pl-1" >
+                                <div class="swiper-slide !pl-1">
                                     <img src="{{ image_or_placeholder($detail->images['images']['large']) }}"
-                                        alt="{{ $detail->title }}" class="rounded-lg border border-gray-300 p-2"
-                                        >
-                                    <meta  content="{{ $detail->title }}">
+                                        alt="{{ $detail->title }}" class="rounded-lg border border-gray-300 p-2">
+                                    <meta content="{{ $detail->title }}">
                                 </div>
 
                                 @foreach ($detail->gallery as $item)
-                                    <div class="swiper-slide !pl-1" >
+                                    <div class="swiper-slide !pl-1">
                                         <img src="{{ $item->images['images']['small'] }}"
-                                            class="rounded-lg border border-gray-300 p-2" >
-                                        <meta  content="{{ $detail->title }} - گالری">
+                                            class="rounded-lg border border-gray-300 p-2">
+                                        <meta content="{{ $detail->title }} - گالری">
                                     </div>
                                 @endforeach
 
@@ -134,17 +131,15 @@
 
                                 <div class="swiper-slide !pl-1">
                                     <img src="{{ image_or_placeholder($detail->images['images']['large']) }}"
-
-                                        class="rounded-lg cursor-pointer border border-gray-300 p-2" >
-                                    <meta  >
+                                        class="rounded-lg cursor-pointer border border-gray-300 p-2">
+                                    <meta>
                                 </div>
 
                                 @foreach ($detail->gallery as $item)
-                                    <div class="swiper-slide !pl-1" >
+                                    <div class="swiper-slide !pl-1">
                                         <img src="{{ image_or_placeholder($item->images['images']['small']) }}"
-
-                                            class="rounded-lg cursor-pointer border border-gray-300 p-2" >
-                                        <meta >
+                                            class="rounded-lg cursor-pointer border border-gray-300 p-2">
+                                        <meta>
                                     </div>
 
                                 @endforeach
@@ -160,11 +155,11 @@
                     <section class="lg:col-span-3 col-span-4 w-full my-7">
                         <!-- title -->
                         <div class="space-y-5 border-b border-b-gray-300 pb-3">
-                            <h1 class="font-bold text-xl" >{{ $detail->title }}</h1>
+                            <h1 class="font-bold text-xl">{{ $detail->title }}</h1>
                             <div class="flex items-center space-x-7 w-full">
-                                <h2 class="text-zinc-500 text-base" >{{ $detail->viewCount }} بازدید</h2>
+                                <h2 class="text-zinc-500 text-base">{{ $detail->viewCount }} بازدید</h2>
 
-                                <div class="flex items-center" >
+                                <div class="flex items-center">
 
                                     <div class="flex items-center">
                                         @php
@@ -363,10 +358,9 @@
                     <li role="presentation">
                         <button
                             class="bg-white tab-button px-15 py-5 rounded-xl transition-colors tab-button dark:bg-zinc-400"
-                            role="tab" data-tab="Comments" aria-controls="reviews" >
+                            role="tab" data-tab="Comments" aria-controls="reviews">
                             نظرات <span
-                                class="bg-secondary-500 size-5 text-sm text-center inline-block rounded text-white ms-1"
-                                >{{ count(value: $detail->comments) }}</span>
+                                class="bg-secondary-500 size-5 text-sm text-center inline-block rounded text-white ms-1">{{ count(value: $detail->comments) }}</span>
                         </button>
                     </li>
 
@@ -391,7 +385,8 @@
                             @endforeach
 
                         </ul>
-                        <div class="leading-10 [&_h2]:text-[#d35400] [&_h2]:text-2xl/15">
+                        <div
+                            class="leading-10 [&_h2]:text-[#d35400] [&_h2]:text-2xl/15 [&_img]:inline-block [&_table]:mx-auto">
 
                             @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
                         </div>
@@ -553,7 +548,9 @@
                                     </div>
                                     <div class="md:col-span-1 col-span-4">
                                         <div class="md:text-left">
-                                            <span class="text-neutral-600 text-sm dark:text-white">{{ $detail->comments->filter(fn($c) => $c->name && $c->comment)->count() }} نظر تایید شده</span>
+                                            <span
+                                                class="text-neutral-600 text-sm dark:text-white">{{ $detail->comments->filter(fn($c) => $c->name && $c->comment)->count() }}
+                                                نظر تایید شده</span>
                                         </div>
                                     </div>
                                 </div>
@@ -599,6 +596,43 @@
     </section>
     <!-- ================= end section product review ================= -->
 
+    <div class="container mb-5">
+        <h4 class="text-2xl pb-3 mb-4 font-black text-zinc-800 relative
+        before:absolute before:bottom-0 before:right-0 before:h-1 before:w-22
+        before:bg-primary-500 before:rounded dark:text-white">محصولات مرتبط</h4>
+        <section class="lg:col-span-4 col-span-4 w-full">
+            <div class=" grid grid-cols-12 gap-4 place-items-center">
+
+                @if (count($relatedProduct))
+                    @foreach ($relatedProduct as $content)
+                        <div class="lg:col-span-3 md:col-span-6 col-span-12 w-full">
+                            <article class="bg-white product-box-item drop-shadow-md rounded-xl p-4 dark:bg-card-dark
+                                        dark:border-white dark:border-1">
+
+                                <figure class="flex image justify-center my-4">
+                                    <a href="{{ $content->slug }}">
+                                        <img class="{{ $content->gallery->count() ? 'one-image' : '' }} "
+                                            src="{{ image_or_placeholder($content->images['images']['small']) }}" loading="lazy"
+                                            alt="{{ $content->title }}">
+                                        @foreach ($content->gallery as $gallery)
+                                            <img class="two-image" src="{{ image_or_placeholder($gallery->images['images']['small']) }}"
+                                                loading="lazy">
+                                        @endforeach
+                                    </a>
+                                </figure>
+                                <h3 class="text-base leading-8  line-clamp-2 mb-2 text-center">
+                                    <a href="{{ $content->slug }}" class="text-gray-800  dark:text-white">{{ $content->title }}</a>
+                                </h3>
+
+                            </article>
+                        </div>
+                    @endforeach
+                @endif
 
 
+            </div>
+        </section>
+
+
+    </div>
 @endsection

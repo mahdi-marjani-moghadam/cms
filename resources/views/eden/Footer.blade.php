@@ -1,21 +1,24 @@
-<footer class="wide @if(in_array(Route::currentRouteName(), ['customer.order.detail','customer.cart.list'])) hidden @endif" id="footer">
+<footer
+    class="wide @if(in_array(Route::currentRouteName(), ['customer.order.detail', 'customer.cart.list'])) hidden @endif"
+    id="footer">
     <div class=" grid md:grid-cols-3 gap-x-5 md:py-10 max-md:px-5 md:px-[10px]">
         <div class=" pt-1 ">
-            <div class="font-bold border-b-2 border-[#ca8a04] md:inline-block mb-3 pl-20">اطلاعات تماس <span class="hidden max-sm:invisible">+</span></div>
+            <div class="font-bold border-b-2 border-[#ca8a04] md:inline-block mb-3 pl-20">اطلاعات تماس <span
+                    class="hidden max-sm:invisible">+</span></div>
             <div class="text-gray-500 ">
                 <div>
                     <a class=" block" href="/درباره-ما">درباره ما</a>
                     <a class=" block" href="/تماس-با-ما">تماس با ما</a>
                 </div>
 
-                <div>ساعت کاری:
-                    <div class="text-gray-900">شنبه تا چهارشنبه ۹:۳۰ تا ۱۸</div>
-                    <div class="text-gray-900">پنجشنبه ۹:۳۰ تا ۱۳</div>
-                </div>
                 <div>شماره تماس:
                     <div><a href="">۰۹۳۷۴۵۹۹۸۴۰</a></div>
                 </div>
-                <div class="">آدرس کارگاه:
+                <div class=""> فروشگاه (شنبه تا پنجشنبه ۱۷ تا ۲۱):
+                    <div class=""></div>
+                    <div class="text-gray-900">خیابان رسالت، پاساژ دنیای نور، طبقه منفی یک، واحد ۳۵</div>
+                </div>
+                <div class="">کارگاه (شنبه تا پنجشنبه ۹ تا ۱۷):
                     <div class="text-gray-900">بازار بزرگ، ناصر خسرو، بن بست خادم</div>
                 </div>
 
@@ -42,7 +45,10 @@
                     <div><a href="/مقالات">مجله ایدن</a></div>
                     <div><a href="/مجوزها"> مجوزها</a></div>
                     <a href="https://www.instagram.com/eden.gold.gallery/" target="_blank" rel="noopener">
-                        <svg class="hover:fill-purple-900" width="20pt" height="20pt" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                        <svg class="hover:fill-purple-900" width="20pt" height="20pt" version="1.1" id="Capa_1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                            y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"
+                            xml:space="preserve">
                             <g>
                                 <g>
                                     <path d="M363.273,0H148.728C66.719,0,0,66.719,0,148.728v214.544C0,445.281,66.719,512,148.728,512h214.544
@@ -71,13 +77,15 @@
 
                 <div>
                     <a class="certificate" href="/مجوزها">
-                        <img class="rounded m-1 border border-gray-500" width="100" src="{{ url('eden/img/certificate.jpg') }}" alt="">
+                        <img class="rounded m-1 border border-gray-500" width="100"
+                            src="{{ url('eden/img/certificate.jpg') }}" alt="">
                     </a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="text-center text-sm border-t text-gray-400 border-gray-300 py-5 "> &copy; تمامی حقوق سایت متعلق به ایدن می باشد. ساخته شده توسط <a target="_blank" rel="noopener" href="https://dingweb.ir">دینگ وب</a></div>
+    <div class="text-center text-sm border-t text-gray-400 border-gray-300 py-5 "> &copy; تمامی حقوق سایت متعلق به ایدن
+        می باشد. ساخته شده توسط <a target="_blank" rel="noopener" href="https://dingweb.ir">دینگ وب</a></div>
 
 </footer>
 
@@ -107,16 +115,18 @@
     // }
 </script>
 
-{{-- <script>
+{{--
+<script>
     var TEMPLATE_NAME = `{{ env('TEMPLATE_NAME') }}`;
 </script>
 <script src="{{ url('/main.js') }}"></script> --}}
 @if (WebsiteSetting::where('variable', '=', 'phone')->first())
-<a href="tel:{{ WebsiteSetting::where('variable', '=', 'phone')->first()->value }}" id="callnowbutton">phone</a>
+    <a href="tel:{{ WebsiteSetting::where('variable', '=', 'phone')->first()->value }}" id="callnowbutton">phone</a>
 @endif
 
 
-<a href="https://api.whatsapp.com/send?phone=989374599840&text=سلام.%20میخواستم%20سفارش%20ثبت%20کنم" class="whatsappbutton" target="_blank">
+<a href="https://api.whatsapp.com/send?phone=989374599840&text=سلام.%20میخواستم%20سفارش%20ثبت%20کنم"
+    class="whatsappbutton" target="_blank">
     <i class="fab fa-whatsapp my-float"></i>
 </a>
 

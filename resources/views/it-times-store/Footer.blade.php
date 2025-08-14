@@ -375,7 +375,7 @@
 {{--
 <script src="{{ url('/main.js') }}"></script> --}}
 @if (WebsiteSetting::where('variable', '=', 'phone')->first()?->value != '')
-    <a href="tel:{{ WebsiteSetting::where('variable', '=', 'phone')->first()->value }}" id="callnowbutton"></a>
+    <a href="tel:{{ WebsiteSetting::where('variable', '=', 'phone')->first()->value }}" class="lg:hidden" id="callnowbutton"></a>
     <script>
         document.getElementById('callnowbutton').addEventListener('click', function () {
             gtag('event', 'call_button', {

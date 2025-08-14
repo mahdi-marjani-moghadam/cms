@@ -25,6 +25,7 @@ class SearchController extends Controller
         list($products, $posts, $companies) = $this->searchService($request, env('SEARCH_LIMIT', 10));
 
         $query = $request->q;
+        $in_stock = $request->in_stock;
 
 
         // search page detail
@@ -38,7 +39,6 @@ class SearchController extends Controller
 
         $breadcrumb[0]['title'] = 'جستجوی ' . $query;
         $breadcrumb[0]['slug'] = $detail->slug;
-
         return view($template, [
             'mainMenu' => menuTree(),
             'detail' => $detail,
@@ -52,6 +52,7 @@ class SearchController extends Controller
 
     private function searchService($request, $limit = 10)
     {
+
         // all data fetch
         $productsObj = $this->getProducts()->limit($limit);
         $postsObj = $this->getPosts()->limit($limit);
@@ -74,9 +75,14 @@ class SearchController extends Controller
             }
         }
 
+        if(isset($request->in_stock)){
+            $inStock = $request->in_stock == 'on' ? 1 : 0;
+            $productsObj->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(`attr`, '$.\"in-stock\"')) = '".$inStock."'");
+        }
+
 
         // filling array
-        $products = $productsObj->get();
+        $products = $productsObj->paginate($limit);
         $posts = $postsObj->get();
         $companies = $companiesObj->get();
 
