@@ -135,7 +135,7 @@
                                     <div class="shadow hover p-0 ">
                                         @if (isset($content->images['images']['small']))
                                             <figure class="image ">
-                                                <img src="{{ $content->images['images']['large'] }}"
+                                                <img src="{{ image_or_placeholder($content->images['images']['large']) }}"
                                                     alt="{{ $content->title }}" title="{{ $content->title }}"
                                                     width="400" height="400">
                                                 <figcaption>

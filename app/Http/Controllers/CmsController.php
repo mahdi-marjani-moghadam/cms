@@ -66,18 +66,23 @@ class CmsController extends Controller
 
             if (isset($request['max_price'])) {
                 $g = getGoldPrice()['priceToman'];
-                $wMin = (int) $request['min_price'];
-                $wMax = (int) $request['max_price'];
+                $wMin = ((int) $request['min_price']) * 1000000;
+                $wMax = ((int) $request['max_price']) * 1000000;
 
-                $relatedProduct = $detail->products('power', 'desc', $request)
+                $relatedProduct = $detail->products(filter: $request)
                     ->select(DB::raw("JSON_EXTRACT(attr,'$.weight') * $g  + $g * JSON_EXTRACT(attr,'$.weight') * 0.28 + JSON_EXTRACT(attr,'$.additionalprice') as p"))
                     ->havingRaw("p between $wMin and $wMax");
-                // dd($relatedProduct->paginate(15));
+
+
+
+                if (isset($request['q'])) {
+                    $relatedProduct = $relatedProduct->where('title', 'like', '%' . $request['q'] . '%');
+                }
                 $relatedProduct = $relatedProduct->paginate(env('PAGE_SIZE_PRODUCT', 15))->withQueryString();
             } else {
-                $relatedProduct = $detail->products('power', 'desc', $request)
-                ->paginate(env('PAGE_SIZE_PRODUCT', 15))
-                ->withQueryString();
+                $relatedProduct = $detail->products(filter: $request)
+                    ->paginate(env('PAGE_SIZE_PRODUCT', 15))
+                    ->withQueryString();
             }
 
             $queries = DB::getQueryLog();
@@ -495,7 +500,7 @@ class CmsController extends Controller
             // } else {
             //     $anchor = $val . '<span id="' . str_replace(' ', '-', cleareText(val: $val)) . '">' . ' ' . '</span>';
             // }
-            $anchor =  '<h2 id="' . str_replace(' ', '-', cleareText(val: $val)) . '">' . $val . '</h2>';
+            $anchor = '<h2 id="' . str_replace(' ', '-', cleareText(val: $val)) . '">' . $val . '</h2>';
 
             // $anchor = str_replace($winners[1][$key], $anchor, $winners[0][$key]);
 

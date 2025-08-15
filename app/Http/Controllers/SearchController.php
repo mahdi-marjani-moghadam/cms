@@ -65,6 +65,7 @@ class SearchController extends Controller
             $query = $request->q;
 
             $productsObj->where('title', 'like', '%' . $query . '%');
+            $productsObj->orWhere('slug', 'like', '%' . $query . '%');
             $postsObj->where('title', 'like', '%' . $query . '%');
             $companiesObj->where('name', 'like', '%' . $query . '%')->orWhere('description', 'like', '%' . $query . '%');
 
