@@ -54,13 +54,14 @@
         <form action="{{ route('calc') }}" class=" " method="post">
             <h1 class="text-center">{{ $calculate }} تومان</h1>
             @csrf
-            <div class="one gap-2 grid grid-cols-[80px_1fr] text-left [&>div]:text-right m-auto" style="max-width: 500px;" >
+            <div class="one gap-2 grid grid-cols-[80px_1fr] [&_input]:w-20 text-left [&>div]:text-right m-auto" style="max-width: 500px;" >
 
                 <label for="">
                     قیمت طلا
                 </label>
                 <div class="">
-                    <input name="tala" type="text" class="p-2" value="{{ getGoldPrice()['priceToman'] }}">
+                    {{ getGoldPrice()['priceToman'] }}
+                    <input name="tala" type="hidden" class="p-2" value="{{ getGoldPrice()['priceToman'] }}">
                     تومان
                 </div>
                 <label for="">
@@ -74,7 +75,7 @@
                     اجرت
                 </label>
                 <div>
-                    <input name="ojrat" type="text" class="p-2" value="{{ old('ojrat', 18) }}">
+                    <input name="ojrat" type="text" class="p-2" value="{{ old('ojrat', 12) }}">
                     درصد = ({{ number_format($ojrat,0).' تومان' ?? ''}})
                 </div>
                 <label for="">
@@ -95,7 +96,7 @@
                     مالیات
                 </label>
                 <div>
-                    <input name="tax" type="text" class="p-2" value="{{ old('tax', 9) }}">
+                    <input name="tax" type="text" class="p-2" value="{{ old('tax', 10) }}">
                     درصد = ({{ number_format($tax,0).' تومان' ?? ''}})
                 </div>
                 <br>

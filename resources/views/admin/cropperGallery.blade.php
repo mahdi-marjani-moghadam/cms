@@ -156,8 +156,8 @@
 
         canvas = galleryCropper.getCroppedCanvas({
             fillColor: '#ffffff',
-            width: {{ env(Str::upper($content->attr_type ?? $attr_type) . '_LARGE_W') }},
-            height: {{ env(Str::upper($content->attr_type ?? $attr_type) . '_LARGE_H') }},
+            width: {{ env(Str::upper($content->attr_type ?? $attr_type) . '_XLARGE_W') }},
+            height: {{ env(Str::upper($content->attr_type ?? $attr_type) . '_XLARGE_H') }},
             imageSmoothingEnabled: true,
             imageSmoothingQuality: 'high',
         });
