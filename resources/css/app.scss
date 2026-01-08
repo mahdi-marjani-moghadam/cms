@@ -3420,7 +3420,7 @@ section.extra-link {
             margin-top: 0 !important;
             border-bottom: 1px solid #ccc;
         }
-        .filter-items-list {
+        .filter-items-list:not(:first) {
             display: none;
             a {
                 padding: 10px;

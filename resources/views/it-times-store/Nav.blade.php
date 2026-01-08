@@ -24,7 +24,7 @@
                 </a>
             </div>
             <!-- search and filter -->
-            <div class="lg:col-span-6 lg:block lg:order-2 order-4 hidden col-span-4 w-full">
+            <div class=" lg:col-span-6 lg:block lg:order-2 order-4  col-span-12 w-full">
                 <div class="flex items-center">
                     <!-- search -->
                     <form action="{{ route('search') }}" class="relative flex items-center w-full">

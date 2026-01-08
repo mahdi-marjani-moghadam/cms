@@ -144,7 +144,7 @@
 
 
                                     @foreach ($content->categories as $it)
-                                        @if ($it->id == $content->category->id)
+                                        @if ($it->id == $content->category?->id)
                                             <i class="fa fa-check"></i>
                                         @endif
                                         {{ $it->title ?? '' }}
@@ -173,7 +173,7 @@
                                 </td>
                                 <td>
                                     @isset($content->images['images']['small'])
-                                        <img height="30" src="{{ $content->images['images']['small'] }}" />
+                                        <img height="100" src="{{ $content->images['images']['small'] }}" />
                                     @endisset
                                 </td>
                                 <td>

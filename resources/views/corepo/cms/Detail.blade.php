@@ -182,13 +182,13 @@
             <div class="">
 
 
-                {{--images&label=adv&var=adv&count=3 --}}
+                {{--images&label=adv&var=adv&count=6 --}}
                 @if (isset($adv) && isset($adv['images']))
                 <div class="text-center shadow rounded-xl !p-0">
                     @foreach ($adv['images'] as $k => $content)
                         <a class="text-center block" target="_blanck" href="{{ $adv['url'][$k] }}" @if (!isset($adv['follow'][$k])) rel="nofollow" @endif>
                             <img class="inline object-cover w-full" width="200px" height="200px" src="{{ image_or_placeholder($content) }}"
-                                alt="محل تبلیغ کریپو">
+                                alt="{{ $adv['name'][$k] }}">
                         </a>
                     @endforeach
                 </div>

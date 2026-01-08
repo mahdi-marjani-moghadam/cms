@@ -161,6 +161,45 @@
 @endsection
 
 @section('Content')
+<script  type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "JewelryStore",
+        "name": "گالری طلا ایدن",
+        "image": "{{ url(env('TEMPLATE_NAME') . '/img/logo2x.png') }}",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "تهران، رسالت، پاساژ دنیای نور، طبقه -۱، واحد ۳۵",
+            "addressLocality": "تهران",
+            "addressRegion": "تهران",
+            "postalCode": "۱۷۴۴۹",
+            "addressCountry": "IR"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "35.738822",
+            "longitude": "51.477618"
+        },
+        "url": "https://edengoldgallery.ir/",
+        "telephone": "+989374599840",
+        "priceRange": "IRR",
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                "Saturday",
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday"
+                ],
+                "opens": "17:30",
+                "closes": "20:30"
+            }
+        ]
+    }
+</script>
 
 
     <section class="banner my-0 py-0">

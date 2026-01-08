@@ -23,7 +23,7 @@
         "offers":
         {
             "@type": "Offer",
-            "url": "{{ url()->current().$content->slug }}",
+            "url": "{{ url('/') . '/' . $content->slug }}",
             "priceCurrency": "IRR",
             "price": "{{ $content->attr['price'] ?? 0}}",
             "priceValidUntil": "2021-08-09",

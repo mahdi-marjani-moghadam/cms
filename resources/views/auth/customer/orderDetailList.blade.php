@@ -100,9 +100,9 @@
                         <h2 class="mt-4 w-full">روش پرداخت کارت به کارت</h2>
                         <div class="w-full mb-4">
                             <p class="border bg-yellow-100 rounded-md p-1 text-xs">بعد از پرداخت کارت به کارت تصویر فیش خود را آپلود نماید تا تیم فروش مراحل خرید شما را پیگیری نمایند.</p>
-                            <p class="border bg-white rounded-md p-1 mt-1 text-center ">شماره کارت به نام حمیده اخضری
+                            <p class="border bg-white rounded-md p-1 mt-1 text-center ">شماره کارت به نام مهدی مرجانی مقدم
                                 <br>
-                                <span class="font-bold text-lg ltr ">6037-9915-2686-9023 <a href="#" class="text-sm ring-1  rounded-full px-3" id="copy-card"> کپی</a> </span>
+                                <span class="font-bold text-lg ltr ">6037-9973-2634-9918 <a href="#" class="text-sm ring-1  rounded-full px-3" id="copy-card"> کپی</a> </span>
                             </p>
                         </div>
 
@@ -130,7 +130,7 @@
                         </div>
                         @endif
 
-                        <button class="rounded-full border bg-blue-500 text-white p-1 px-3 font-normal">ثبت مشخصات و فیش</button>
+                        <button class="rounded-full border bg-blue-500 !text-white p-1 px-3 font-normal">ثبت مشخصات و فیش</button>
                     </form>
 
 

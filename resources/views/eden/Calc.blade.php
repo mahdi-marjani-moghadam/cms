@@ -60,22 +60,22 @@
                     قیمت طلا
                 </label>
                 <div class="">
-                    {{ getGoldPrice()['priceToman'] }}
-                    <input name="tala" type="hidden" class="p-2" value="{{ getGoldPrice()['priceToman'] }}">
-                    تومان
+                    <!-- {{ getGoldPrice()['priceToman'] }} -->
+                    <input name="tala" type="" class="p-2" value="{{ old('tala',(getGoldPrice()['priceToman'] / 1000)) }}">
+                    میلیون تومان
                 </div>
                 <label for="">
                     وزن
                 </label>
                 <div>
-                    <input name="weight" style="border-color: red;" type="text" class="p-2" value="{{ old('weight') }}">
+                    <input name="weight" style="border-color: red;" type="text" class="p-2" value="{{ old('weight',1) }}">
                     گرم  = ({{ number_format($gold,0).' تومان' ?? ''}})
                 </div>
                 <label for="">
                     اجرت
                 </label>
                 <div>
-                    <input name="ojrat" type="text" class="p-2" value="{{ old('ojrat', 12) }}">
+                    <input name="ojrat" type="text" class="p-2" value="{{ old('ojrat', 5) }}">
                     درصد = ({{ number_format($ojrat,0).' تومان' ?? ''}})
                 </div>
                 <label for="">

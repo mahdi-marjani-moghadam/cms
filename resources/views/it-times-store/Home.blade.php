@@ -802,7 +802,7 @@
                                         class="p-4 space-y-3 rounded-xl hover:-translate-y-2 transition border border-gray-200 bg-white drop-shadow-md dark:bg-background-dark">
                                         <figure class="text-center block py-4" itemprop="image" itemscope
                                             itemtype="https://schema.org/ImageObject">
-                                            <img src="{{ image_or_placeholder($content->images['images']['medium']) }}"
+                                            <img src="{{ image_or_placeholder($content->images['images']['medium']??"") }}"
                                                 class="h-50 rounded-xl w-full block mx-auto object-cover"
                                                 alt="تصویر راهنمای خرید موبایل" itemprop="contentUrl">
                                             <meta itemprop="caption" content="تصویر راهنمای خرید موبایل">

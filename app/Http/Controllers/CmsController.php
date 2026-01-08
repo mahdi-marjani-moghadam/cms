@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use App\Models\RedirectUrl;
 use App\Models\Widget;
@@ -18,6 +19,7 @@ use Hamcrest\Arrays\IsArray;
 use Illuminate\Database\Eloquent\Collection;
 use PDF;
 use PhpParser\ErrorHandler\Collecting;
+
 
 class CmsController extends Controller
 {
@@ -109,7 +111,6 @@ class CmsController extends Controller
         } else {
             $widget = $this->getWidget('DetailCategory');
         }
-
         return view($template, $widget, [
             'mainMenu' => menuTree(),
             'detail' => $detail,
@@ -129,17 +130,33 @@ class CmsController extends Controller
     public function request(Request $request, $arg1 = False, $arg2 = False)
     {
 
-        $request = $request->all();
+
         $slug = (isset($arg2) && $arg2 != '') ? $arg1 . '/' . $arg2 : $arg1;
 
         // redirect url
-
-        $spesifiedUrl = RedirectUrl::where('url', 'like', '/' . rawurldecode($slug))->orWhere('url', 'like', '/' . rawurlencode($slug));
-
+        $domain = $request->getScheme() . '://' . $request->getHost();
+        $spesifiedUrl = RedirectUrl::where('url', 'like', Str::replace($domain, '', rawurldecode($request->fullUrl())))
+            ->orWhere('url', 'like', '/' . rawurlencode($slug));
+        $requestData = $request->all();
         if ($spesifiedUrl->exists()) {
             return Redirect::to(url($spesifiedUrl->first()->redirect_to), 301);
-            // header("Location: " . url($spesifiedUrl->first()->redirect_to), true, 301);
-            // exit();
+        }
+        // dd($request->fullUrl());
+        if (env('TEMPLATE_NAME') == 'eden' && $request->has('attribute')) {
+            $queries = $request->query();
+
+            // پارامتر attribute رو حذف کن
+            unset($queries['attribute']);
+
+            // آدرس فعلی رو بدون query بگیر
+            $url = $request->url();
+
+            // آدرس جدید با queryهای باقی‌مانده
+            $newUrl = $url . (count($queries) ? '?' . http_build_query($queries) : '');
+
+            // ریدایرکت دائمی یا موقت (به انتخاب خودت)
+            return redirect($newUrl, 301);
+            // return Redirect::to($domain, 301);
         }
 
 
@@ -206,7 +223,7 @@ class CmsController extends Controller
         // category or detail
         if ($detail->type == 1) {
 
-            return $this->showCategory($seo, $detail, $breadcrumb, $table_of_content, $images, $editorModule, $request);
+            return $this->showCategory($seo, $detail, $breadcrumb, $table_of_content, $images, $editorModule, $requestData);
         } else {
 
 

@@ -45,6 +45,7 @@
     <meta property="og:image:alt" content="@yield('og:image:alt',$seo['meta_title']??'')" />
     @yield('head')
     @stack('head')
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 </head>
 <body>
     @if (url('/') == 'https://corepo.ir')

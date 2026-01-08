@@ -82,7 +82,7 @@ class ContentController extends Controller
             }
         }
 
-        if (isset($request->watermark)) {
+        if (isset($request->watermark) and isset($url['images'])) {
             foreach ($url['images'] as $size => $image) {
 
                 if (in_array($size, ['crop'])) {

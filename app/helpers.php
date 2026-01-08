@@ -923,7 +923,6 @@ if (!function_exists('getGoldPrice')) {
 
             try {
                 // $pageAddress = 'https://www.tgju.org/profile/geram18';
-                // $pageAddress = 'https://donya-e-eqtesad.com/tags/%D9%82%DB%8C%D9%85%D8%AA_%D8%B7%D9%84%D8%A7';
                 // $pageAddress = 'https://www.arshehonline.com/%D8%A8%D8%AE%D8%B4-%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF-121/44481-%D9%82%DB%8C%D9%85%D8%AA-%D8%B1%D9%88%D8%B2-%D8%B7%D9%84%D8%A7-%D8%B3%DA%A9%D9%87-%D8%A7%D8%B1%D8%B2-%D8%AF%D9%84%D8%A7%D8%B1';
                 // $pageAddress = "https://donya-e-eqtesad.com/tags/%D9%82%DB%8C%D9%85%D8%AA_%D8%B7%D9%84%D8%A7";
                 $pageAddress = "https://milli.gold/api/v1/public/milli-price/external";
@@ -952,7 +951,7 @@ if (!function_exists('getGoldPrice')) {
 
                 // milli
                 $priceArr = json_decode($page, true);
-                $integerPrice = $priceArr['price18'] * 100;
+                $integerPrice = $priceArr['data']['price18'] * 100;
 
                 if (!is_null($integerPrice)) {
                     $stringPrice = number_format($integerPrice, 0);
@@ -1052,8 +1051,8 @@ if (!function_exists('calcuteGoldPrice')) {
         $additionalPrice = (int) $additionalPrice;
 
         $goldPrice = isset($str['priceToman']) ? $str['priceToman'] : 0;
-
         $gold = $goldPrice * $weight;
+        // dd($ojrat);
         $ojrat = $gold * $ojrat / 100;
         $Sood = ($gold + $ojrat) * 0.07;
         $tax = ($Sood + $ojrat) * 0.1;

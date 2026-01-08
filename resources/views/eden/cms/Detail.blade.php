@@ -31,7 +31,7 @@
             zoomer.style.backgroundPosition = x + '% ' + y + '%';
         }
 
-        function myFunction(imgs) {
+        function clickOnGallery(imgs) {
             var Img = document.getElementById("main-image");
             var figure = document.getElementById("figure-main-image");
 
@@ -48,22 +48,22 @@
             var zoomer = e.currentTarget;
 
 
-            $('.zoom').css({
-                position: 'absolute',
-                top: '1em',
-                left: '1em',
-                'background-color': 'white',
-            })
-            $('.zoom').click(function () {
+            // $('.zoom').css({
+            //     position: 'absolute',
+            //     top: '1em',
+            //     left: '1em',
+            //     'background-color': 'white',
+            // })
 
-                xlarge = $('#main-image').data('xlarge')
-                console.log(xlarge);
-                $('#main-image').attr('src', xlarge)
-                $('#main-image').toggleClass('zoom2x')
+            // $('.zoom').click(function () {
 
-                $(this).toggleClass('fa-magnifying-glass-plus')
-                $(this).toggleClass('fa-magnifying-glass-minus')
-            })
+            //     xlarge = $('#main-image').data('xlarge')
+            //     $('#main-image').attr('src', xlarge)
+            //     $('#main-image').toggleClass('zoom2x')
+
+            //     // $(this).toggleClass('fa-magnifying-glass-plus')
+            //     // $(this).toggleClass('fa-magnifying-glass-minus')
+            // })
 
 
         });
@@ -100,7 +100,6 @@
 
 @section('Content')
 
-    <script></script>
     @php
         $tableOfImages = tableOfImages($detail->description);
         $append = '';
@@ -143,6 +142,9 @@
                     <div>
                         <div class="flex  ">
 
+
+
+
                             <div id="product-image" class=" w-full sm:w-1/2 lg:w-1/3  p-5  relative">
                                 @if (isset($detail->images['images']['large']))
 
@@ -153,15 +155,11 @@
                                             <div class="not-in-stock">قابل سفارش</div>
                                             @endif --}}
                                             <div class="overflow-hidden">
-                                                <img id="main-image" loading="lazy" class=""
-                                                    data-xlarge="{{ $detail->images['images']['xlarge'] ?? $detail->images['images']['large'] }}"
-                                                    src="{{ image_or_placeholder($detail->images['images']['large']) }}"
+                                                <img id="main-image" loading="lazy" class="zoom-img touch-pan-y select-none transition-transform duration-150 ease-out"
+                                                    src="{{ image_or_placeholder($detail->images['images']['xlarge'] ?? $detail->images['images']['large']) }}"
                                                     alt="{{ $detail->title }}"
                                                     width="{{ env(Str::upper($detail->attr_type) . '_LARGE_W') }}"
                                                     height="{{ env(Str::upper($detail->attr_type) . '_LARGE_H') }}">
-
-                                                <i
-                                                    class="fa-solid hidden-500 fa-magnifying-glass-plus font-15 zoom p-3 border-radius-5"></i>
                                             </div>
 
                                         </figure>
@@ -169,13 +167,13 @@
 
                                     @if ($detail->gallery->count())
                                         <div class="gallery">
-                                            <img onclick="myFunction(this);" class="m-1 max-h-24"
+                                            <img onclick="clickOnGallery(this);" class="m-1 max-h-24"
                                                 data-large="{{ $detail->images['images']['large'] }}"
                                                 data-xlarge="{{ $detail->images['images']['xlarge'] ?? $detail->images['images']['large'] }}"
                                                 src="{{ image_or_placeholder($detail->images['images']['small']) }}" height="100">
                                             @foreach ($detail->gallery as $item)
-                                                <img onclick="myFunction(this);" class="m-1 max-h-24"
-                                                    data-large="{{ $item->images['images']['large'] }}"
+                                                <img onclick="clickOnGallery(this);" class="m-1 max-h-24"
+                                                    data-large="{{  $item->images['images']['large'] }}"
                                                     data-xlarge="{{ $item->images['images']['xlarge'] ?? $item->images['images']['large'] }}"
                                                     src="{{ image_or_placeholder($item->images['images']['small']) }}" height="100">
                                             @endforeach
@@ -188,6 +186,9 @@
                                     </picture>
                                 @endif
                             </div>
+
+
+
 
                             <div class="  !w-full sm:!w-1/2 lg:!w-1/3 p-0 flex">
                                 <div>

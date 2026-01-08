@@ -27,7 +27,7 @@
             </form>
             <form class="mr-4 !p-0 !m-0 flex items-center !w-auto" target="__blank" action="/calc" method="post">
                 @csrf
-                <input name="tala" type="hidden" value="{{ getGoldPrice()['priceToman'] }}">
+                <input name="tala" type="hidden" value="{{ (getGoldPrice()['priceToman'] / 1000) }}">
                 <input name="weight" type="hidden" value="{{ $detail->attr['weight'] ?? 0 }}">
                 <input name="ojrat" type="hidden" value="{{ $detail->attr['ojrat'] ?? 0 }}">
                 <input name="sood" type="hidden" value="7">

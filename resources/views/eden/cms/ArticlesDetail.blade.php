@@ -122,7 +122,7 @@
                                                 </figcaption>
                                             </figure>
                                         @else
-                                            <h3 class="px-0 m-0 text-center"> {{ $content->title }}</h3>
+                                            <h3 class="px-0 m-0 text-center "> {{ $content->title }}</h3>
                                         @endif
 
                                     </div>
@@ -137,5 +137,15 @@
         </section>
     @endif
 
+
+    <section class="comments bg-gray mt-0 mb-0">
+        <div class="flex one">
+            <div>
+
+                @include('eden.Comment')
+
+            </div>
+        </div>
+    </section>
 
 @endsection

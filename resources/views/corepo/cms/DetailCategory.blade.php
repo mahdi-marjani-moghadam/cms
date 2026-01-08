@@ -28,7 +28,7 @@
     <link rel="next" href="{{ json_decode($relatedProduct->toJson())->next_page_url }}">
 @endif
 
-<link href="{{$seo['url']}}" rel="canonical" />
+<link href="{{ request()->fullUrl() }}" rel="canonical" />
 
 @endsection
 
@@ -232,11 +232,13 @@
                     @endisset
                 </div>
             @endif
-
+            @php
+                use Illuminate\Support\Str;
+            @endphp
             @if (isset($relatedCompany) && $relatedCompany->count())
                 <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 mb-5">
                     @foreach ($relatedCompany as $content)
-                        <a class="shadow rounded-lg block text-center" href="{{ url('profile/' . $content->id) }}">
+                        <a class="shadow rounded-lg block text-center" href="{{ url('profile/' . Str::slug($content->name,'-',null)) }}">
 
                             <img alt="{{ $content->name ?? '' }}" class="rounded" width="{{ env('COMPANY_LARGE_W') }}"
                                 height="{{ env('COMPANY_LARGE_H') }}"
@@ -253,23 +255,24 @@
                 {{ $relatedCompany->links('pagination::default') }}
             @endif
 
-
-            @if ($detail->description != '')
-                <div class="!rounded-lg mt-4 shadow" id="">
-                    <div class="flex one ">
-                        <div class="overflow-auto ">
-                            <ul>
-                                @foreach ($table_of_content as $key => $item)
-                                    <li class="toc1">
-                                        - <a href="#{{ $item['anchor'] }}">{{ $item['label'] }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            <hr>
-                            @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
+            @if (!Request::get('page'))
+                @if ($detail->description != '')
+                    <div class="!rounded-lg mt-4 shadow" id="">
+                        <div class="flex one ">
+                            <div class="overflow-auto ">
+                                <ul>
+                                    @foreach ($table_of_content as $key => $item)
+                                        <li class="toc1">
+                                            - <a href="#{{ $item['anchor'] }}">{{ $item['label'] }}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <hr>
+                                @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
             @endif
 
             <div class="mt-4">

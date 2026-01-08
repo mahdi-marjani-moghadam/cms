@@ -23,16 +23,25 @@
 </script>
 
 
-@if (count($filterList['filter']))
-    <a href="javascript:void(0);" rel="nofollow" class="filter-menu mb-3">
-        <span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </span>
-        لیست فیلتر ها
-    </a>
-@endif
+<a href="javascript:void(0);" rel="nofollow" class="filter-menu !py-2  mb-3 font-09 ">
+    <span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </span>
+فیلتر
+
+    @if (request()->min_price || request()->max_price)
+    <span class="ring px-2 rounded-full mr-5 font-09 text-gray-500">حدود قیمت
+         @if (request()->min_price > 0)
+             از {{ request()->min_price }}
+         @endif
+          تا {{ request()->max_price }} میلیون تومان</span>
+    @else
+    قیمت
+          @endif
+</a>
+@php /*
 @if (count($filterList['removeFilter']))
     <div class="px-3 mb-2">
         <div class="  filter-remote-link ">
@@ -43,7 +52,7 @@
         </div>
     </div>
 @endif
-
+*/ @endphp
 
 
 
@@ -53,7 +62,7 @@
 
     <div class="toc1 shadow ">
         <a class="filter-header p-3" href="#جستجو">جستجو</a>
-        <div class="filter-items-list pt-5 pb-4">
+        <div class="filter-items-list  pt-5 pb-4">
             <form method="GET" action="" class="flex items-center justify-center">
                 <input type="hidden" name="min_price" value="{{ request()->min_price }}">
                 <input type="hidden" name="max_price" value="{{ request()->max_price }}">
@@ -71,25 +80,28 @@
         </div>
     </div>
 
-    @if (count($filterList['filter']))
-        @foreach ($filterList['filter'] as $key => $filterItem)
-            <div class="toc1 shadow mt-1 ">
-                <a class="filter-header p-3" href="#{{ $filterItem->label }}">{{ $filterItem->label }}</a>
-                <div class="filter-items-list">
+    @php /*
+   @if (count($filterList['filter']))
+       @foreach ($filterList['filter'] as $key => $filterItem)
+           <div class="toc1 shadow mt-1 ">
+               <a class="filter-header p-3" href="#{{ $filterItem->label }}">{{ $filterItem->label }}</a>
+               <div class="filter-items-list">
 
-                    @foreach ($filterItem->ComboFields as $key2 => $filterOption)
+                   @foreach ($filterItem->ComboFields as $key2 => $filterOption)
 
-                        <div class="toc1 px-2">
-                            @if ($filterOption->check == 'checked')
-                                <a href="{{ $filterOption->url }}">🮱 {{ $filterOption->name }}</a>
-                            @else
-                                <a class="block" href="{{ $filterOption->url }}"> ⬜ {{ $filterOption->name }}</a>
-                            @endif
-                            {{-- <input type="checkbox" name="vehicle3" value="Boat" {{ $filterOption['check'] }}> --}}
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        @endforeach
-    @endif
+                       <div class="toc1 px-2">
+                           @if ($filterOption->check == 'checked')
+                               <a href="{{ $filterOption->url }}">🮱 {{ $filterOption->name }}</a>
+                           @else
+                               <a class="block" href="{{ $filterOption->url }}"> ⬜ {{ $filterOption->name }}</a>
+                           @endif
+                           {{-- <input type="checkbox" name="vehicle3" value="Boat" {{ $filterOption['check'] }}> --}}
+                       </div>
+                   @endforeach
+               </div>
+           </div>
+       @endforeach
+   @endif
+   */ @endphp
+
 </div>

@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\File;
 
 
 
-
 class CompanyController extends Controller
 {
 
@@ -485,10 +484,17 @@ class CompanyController extends Controller
         return redirect(route('company.products.powerUp', ['content' => $content->id]))->with('success', __('messages.pay success'));
     }
 
-    function profileShow(Request $request, $id)
+    function profileShow(Request $request,$slug)
     {
         $showcallnowbutton = false;
-        $company = Company::find($id);
+        $name = str_replace('-', ' ', $slug);
+
+        if (is_numeric($slug)){
+            $company = Company::find($name);
+            return redirect(url('profile/'.Str::slug($company->name,'-',null)),301);
+        }
+        $company = Company::where('name',$name)->first();
+        // dd($company->id);
 
         if ($company == null || $company->status == 0) {
             return redirect('/', 301);

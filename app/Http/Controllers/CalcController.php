@@ -31,6 +31,7 @@ class CalcController extends Controller
             'ojrat' => $request->ojrat  ,
             'tax' => $request->tax  ,
             'gold' => $request->gold  ,
+            'weight' => $request->weight  ,
             // 'mainMenu' => menuTree(),
             'detail' => $detail,
             'breadcrumb' => $breadcrumb
@@ -40,6 +41,7 @@ class CalcController extends Controller
     function calculate(Request $request)
     {
 
+        $request->tala =  str_replace(',','',$request->tala ) * 1000;
         $goldPrice = (int) $request->tala;
         $weight = (float) $request->weight;
         $additionalPrice = (int) $request->additionalPrice;
@@ -61,7 +63,8 @@ class CalcController extends Controller
             'sood' => $sood,
             'ojrat' => $ojrat,
             'tax' => $tax,
-            'gold' => $gold
+            'gold' => $gold,
+            'weight' => $weight
         ])->withInput();
     }
 

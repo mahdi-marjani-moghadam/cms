@@ -1,7 +1,8 @@
-@extends(@env('TEMPLATE_NAME').'.App')
+@extends(@env('TEMPLATE_NAME') . '.App')
 
 @section('head')
-    {{-- <meta property="og:image" content="{{ url($detail->images['images']['medium'] ?? '') }}" />
+    {{--
+    <meta property="og:image" content="{{ url($detail->images['images']['medium'] ?? '') }}" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width"
         content="{{ $detail->attr_type == 'product' ? env('PRODUCT_MEDIUM_W') : env('ARTICLE_MEDIUM_W') }}" />
@@ -10,16 +11,17 @@
     <meta property="og:image:alt" content="{{ $detail->title }}" /> --}}
 @endsection
 @section('footer')
-@auth
-    @if ((Auth::user()->id) == 1)
-        <div class="btn btn-info edit-button" onclick="window.open('{{ url('/admin/category/'.$detail->id.'/edit/') }}')">ویرایش</div>
-    @endif
+    @auth
+        @if ((Auth::user()->id) == 1)
+            <div class="btn btn-info edit-button" onclick="window.open('{{ url('/admin/category/' . $detail->id . '/edit/') }}')">ویرایش
+            </div>
+        @endif
     @endauth
 @endsection
 @section('Content')
     @php
-    $tableOfImages = tableOfImages($detail->description);
-    $append = '';
+        $tableOfImages = tableOfImages($detail->description);
+        $append = '';
     @endphp
     @if (count($relatedProduct))
         @include('jsonLdRelatedProduct')
@@ -46,6 +48,9 @@
             <div class="w-1/2 ">
                 <h1 class="p-0 m-0">تماس با گالری طلای ایدن</h1>
 
+                <div class="mb-4 p-0">
+                    @include(@env('TEMPLATE_NAME') . '.DescriptionModule')
+                </div>
 
                 <div class="contact-form">
                     <form action="{{ route('contact.store') }}#contact" method="post" class="" id="" novalidate="">
@@ -69,15 +74,16 @@
                         <fieldset>
                             <div class="row mt-1">
                                 <div class="control">
-                                    <input type="text" class="w-full p-1" value="{{ old('name') }}" placeholder="نام" name="name"
-                                        title="Name">
+                                    <input type="text" class="w-full p-1" value="{{ old('name') }}" placeholder="نام"
+                                        name="name" title="Name">
                                 </div>
                                 <div class="control">
-                                    <input type="text"  class="w-full p-1" value="{{ old('lastname') }}" placeholder="نام خانوادگی "
-                                        name="lastname" title="نام خانوادگی">
+                                    <input type="text" class="w-full p-1" value="{{ old('lastname') }}"
+                                        placeholder="نام خانوادگی " name="lastname" title="نام خانوادگی">
                                 </div>
                                 <div class="control">
-                                    <textarea name="comment"  placeholder="پیام" class="w-full p-1" title="" data-autosize-on="true"
+                                    <textarea name="comment" placeholder="پیام" class="w-full p-1" title=""
+                                        data-autosize-on="true"
                                         style="overflow: hidden; overflow-wrap: break-word; height: 98px;">{{ old('comment') }}</textarea>
                                 </div>
                                 <div class="control">

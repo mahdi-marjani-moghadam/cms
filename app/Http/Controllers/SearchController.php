@@ -64,8 +64,13 @@ class SearchController extends Controller
         if (isset($request->q)) {
             $query = $request->q;
 
-            $productsObj->where('title', 'like', '%' . $query . '%');
-            $productsObj->orWhere('slug', 'like', '%' . $query . '%');
+            // $productsObj->where('title', 'like', '%' . $query . '%');
+            // $productsObj->orWhere('slug', 'like', '%' . $query . '%');
+            $productsObj->where(function ($q) use ($query) {
+                $q->where('title', 'like', '%' . $query . '%')
+                    ->orWhere('slug', 'like', '%' . $query . '%');
+            });
+
             $postsObj->where('title', 'like', '%' . $query . '%');
             $companiesObj->where('name', 'like', '%' . $query . '%')->orWhere('description', 'like', '%' . $query . '%');
 
@@ -76,9 +81,9 @@ class SearchController extends Controller
             }
         }
 
-        if(isset($request->in_stock)){
+        if (isset($request->in_stock)) {
             $inStock = $request->in_stock == 'on' ? 1 : 0;
-            $productsObj->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(`attr`, '$.\"in-stock\"')) = '".$inStock."'");
+            $productsObj->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(`attr`, '$.\"in-stock\"')) = '" . $inStock . "'");
         }
 
 

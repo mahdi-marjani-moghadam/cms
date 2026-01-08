@@ -200,10 +200,13 @@
                                                     alt="{{ $content->title }}" title="{{ $content->title }}"
                                                     loading="lazy" width="400" height="400">
                                                 <figcaption>
-                                                    <h3 class="px-0 m-0 text-center"> {{ $content->title }}</h3>
-                                                    <div class=" text-green font-09 ">
+                                                    <h3 class="px-0 m-0 text-center truncate"> {{ $content->title }}</h3>
+                                                    <div class="flex justify-around gap-x-5">
                                                         @isset($content->attr['weight'])
-                                                            @convertCurrency($content->GoldPrice()['totalPrice']) تومان
+                                                            <span class="text-green">
+                                                                @convertCurrency($content->GoldPrice()['totalPrice']) تومان
+                                                            </span>
+                                                            <span class="font-09"> {{ $content->attr['weight'] }} گرم</span>
                                                         @else
                                                             تماس گرفته شود
                                                         @endisset
@@ -211,7 +214,7 @@
                                                 </figcaption>
                                             </figure>
                                         @else
-                                            <h3 class="px-0 m-0 text-center"> {{ $content->title }}</h3>
+                                            <h3 class="px-0 m-0 text-center truncate"> {{ $content->title }}</h3>
                                         @endif
 
                                     </div>
