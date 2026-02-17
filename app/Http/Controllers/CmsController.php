@@ -39,7 +39,7 @@ class CmsController extends Controller
             $relatedPost = $this->getCatChildOfcontent($detail['id'], $relatedPost, 'article');
         } else {
             $relatedPost = $detail->posts()->paginate(env('PAGE_SIZE_ARTICLE', 20));
-            
+
         }
 
 
@@ -143,7 +143,7 @@ class CmsController extends Controller
             return Redirect::to(url($spesifiedUrl->first()->redirect_to), 301);
         }
         // dd($request->fullUrl());
-        if (env('TEMPLATE_NAME') == 'eden' && $request->has('attribute')) {
+        if (env('TEMPLATE_NAME') == 'ding' && $request->has('attribute')) {
             $queries = $request->query();
 
             // پارامتر attribute رو حذف کن

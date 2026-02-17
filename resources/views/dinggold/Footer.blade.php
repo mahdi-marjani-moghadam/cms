@@ -42,9 +42,9 @@
             <div class="">
                 <div class="max-sm:grid max-sm:grid-cols-2">
                     <div><a href="/تماس-با-ما">نحوه پیگیری سفارش</a></div>
-                    <div><a href="/مقالات">مجله ایدن</a></div>
+                    <div><a href="/مقالات">مجله دینگ</a></div>
                     <div><a href="/مجوزها"> مجوزها</a></div>
-                    <a href="https://www.instagram.com/eden.gold.gallery/" target="_blank" rel="noopener">
+                    <a href="https://www.instagram.com/ding_gold_gallery/" target="_blank" rel="noopener">
                         <svg class="hover:fill-purple-900" width="20pt" height="20pt" version="1.1" id="Capa_1"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                             y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"
@@ -84,7 +84,7 @@
             </div>
         </div>
     </div>
-    <div class="text-center text-sm border-t text-gray-400 border-gray-300 py-5 "> &copy; تمامی حقوق سایت متعلق به ایدن
+    <div class="text-center text-sm border-t text-gray-400 border-gray-300 py-5 "> &copy; تمامی حقوق سایت متعلق به دینگ
         می باشد. ساخته شده توسط <a target="_blank" rel="noopener" href="https://dingweb.ir">دینگ وب</a></div>
 
 </footer>

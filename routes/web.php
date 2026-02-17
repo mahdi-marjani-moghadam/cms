@@ -22,7 +22,7 @@ Route::get('/runcronjob', function () {
     // echo Artisan::call('schedule:work'); // local
     // echo '<br>'.Artisan::call('schedule:run');
     // echo '<br>'.Artisan::call('schedule:list');
-    if (env('TEMPLATE_NAME') == 'eden') {
+    if (env('TEMPLATE_NAME') == 'dinggold') {
         return getGoldPrice('online');
     }
 

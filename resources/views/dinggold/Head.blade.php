@@ -2,7 +2,7 @@
 <html dir="rtl" lang="fa">
 
 <head>
-    @if (url('/') == 'https://edengoldgallery.ir')
+    @if (url('/') == 'https://dinggold.ir')
         <!-- <meta name="enamad" content="431585"/> -->
         <meta name="enamad" content="undefined"/>
 
@@ -35,7 +35,7 @@
     <meta name="theme-color" content="#ffffff" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#ffffff">
-    <meta name="apple-mobile-web-app-title" content="eden">
+    <meta name="apple-mobile-web-app-title" content="dinggold">
     <link rel="apple-touch-icon" href="{{ url(env('TEMPLATE_NAME') . '/img/logo-96-96.png') }}">
     <link rel="apple-touch-icon" sizes="96x96" href="{{ url(env('TEMPLATE_NAME') . '/img/logo-152-152.png') }}">
     <link rel="apple-touch-icon" sizes="152x152" href="{{ url(env('TEMPLATE_NAME') . '/img/logo-152-152.png') }}">
@@ -88,7 +88,7 @@
 </head>
 
 <body>
-    @if (url('/') == 'https://edengoldgallery.ir')
+    @if (url('/') == 'https://dinggold.ir')
         <!-- Google Tag Manager (noscript) -->
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5NKMWQ4" height="0" width="0"
                 style="display:none;visibility:hidden"></iframe></noscript>

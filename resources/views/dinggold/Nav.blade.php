@@ -52,7 +52,7 @@
     <header class='border-b py-1 px-1 lg:px-5  bg-white font-sans  '>
         <div class='flex flex-wrap items-center lg:gap-y-2 gap-y-4 gap-x-4'>
             <a href="/" class="">
-                <img height="80" width="60" alt=" ایدن لوگو" class="inline-block"
+                <img height="80" width="60" alt=" دینگ لوگو" class="inline-block"
                     src="{{ url(env('TEMPLATE_NAME') . '/img/logo2x.png') }}" />
             </a>
             <div class='flex items-center mr-auto lg:order-1'>
@@ -62,7 +62,7 @@
                             </path>
                         </svg></a>
 
-                <a class="mr-6 " href="https://www.instagram.com/eden.gold.gallery/">
+                <a class="mr-6 " href="https://www.instagram.com/ding_gold_gallery/">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30px" class="cursor-pointer " viewBox="0 0 24 24">
                         <linearGradient id="a" x1="-37.106" x2="-26.555" y1="-72.705" y2="-84.047"
                             gradientTransform="matrix(0 -1.98 -1.84 0 -132.522 -51.077)" gradientUnits="userSpaceOnUse">
