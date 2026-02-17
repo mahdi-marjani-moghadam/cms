@@ -39,3 +39,4 @@ Route::prefix('/customer')->group(function () {
 Route::get('login', [CustomerController::class, 'showLoginForm'])->name('customer.login');
 Route::get('register', [CustomerController::class, 'showRegisterForm'])->name('customer.register');
 Route::get('forgot', [CustomerController::class, 'showPasswordForgotForm'])->name('customer.forgot.request');
+Route::post('forgot', [CustomerController::class, 'showPasswordForgotSend'])->name('customer.forgot.send');

@@ -42,6 +42,8 @@
                     @enderror
                 </div>
 
+                @include(env('TEMPLATE_NAME').'.widget.captcha')
+
 
                 <div class="form-group">
                     <button type="submit"

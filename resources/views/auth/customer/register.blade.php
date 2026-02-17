@@ -8,57 +8,6 @@
         {{-- recaptcha --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <script type="text/javascript">
-            function callbackThen(response) {
-                document.getElementById('loading').style.display = 'none';
-                    document.getElementById('btn-loading').style.display = 'block';
-
-
-                // read HTTP status
-                console.log(response.status);
-
-                // read Promise object
-                response.json().then(function(data) {
-                    console.log(data);
-                });
-            }
-
-            function callbackCatch(error) {
-                console.error('Error:', error);
-                alert('صفحه را مجدد بارگذاری نمایید.')
-            }
-        </script>
-        {!! htmlScriptTagJsApi([
-    'action' => 'register' ,
-    'callback_then' => 'callbackThen',
-    'callback_catch' => 'callbackCatch',
-]) !!}
-
-<style>
-    #loading {
-        border: 10px solid #f3f3f3;
-        /* Light grey */
-        border-top: 10px solid #3498db;
-        /* Blue */
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        animation: spin 2s linear infinite;
-        margin: auto
-    }
-
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-</style>
-
     @endpush
     @push('scripts')
         <script>
@@ -170,8 +119,8 @@
 
             <div class="form-group row mb-0 mt-1">
                 <div class="col-md-12 pull-right">
-                    <div id="loading" ></div>
-                    <button type="submit" id="btn-loading" style="display: none" class="btn bg-blue-700 text-white  btn-block  ">
+
+                    <button type="submit" id="btn-loading"  class="btn bg-blue-700 text-white!  btn-block  ">
                         @lang('messages.register')
                     </button>
 

@@ -39,6 +39,7 @@ class CmsController extends Controller
             $relatedPost = $this->getCatChildOfcontent($detail['id'], $relatedPost, 'article');
         } else {
             $relatedPost = $detail->posts()->paginate(env('PAGE_SIZE_ARTICLE', 20));
+            
         }
 
 

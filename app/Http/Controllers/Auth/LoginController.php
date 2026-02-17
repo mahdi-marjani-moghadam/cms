@@ -24,7 +24,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers{
+    use AuthenticatesUsers {
         login as traitLogin;
     }
 
@@ -71,37 +71,81 @@ class LoginController extends Controller
     public function login(httpRequest $request)
     {
 
-        $d = $request->validate([
+        $credentials = $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
+            'captcha' => 'required|captcha',
+        ],[
+            'captcha.captcha' => 'کد امنیتی نادرست است',
+            'captcha.required' => 'وارد کردن کد امنیتی الزامی است',
         ]);
-        $user = User::where('mobile','=',$d['mobile'])->first();
-        if($user instanceof User){
-            return $this->traitLogin($request);
+
+        // فقط mobile و password برای auth
+        $loginData = [
+            'mobile' => $credentials['mobile'],
+            'password' => $credentials['password'],
+        ];
+
+        // اگر لاگین موفق بود
+        if ($this->attemptLogin($request)) {
+            return $this->sendLoginResponse($request);
         }
 
-        if (!$this->attemptLogin($request) && $request->header('referer') != url('admin/login')) {
+        // اگر کاربر وجود ندارد → ثبت‌نام خودکار (در صورت نیاز)
+        $user = User::where('mobile', $credentials['mobile'])->first();
 
+        if (!$user && $request->header('referer') != url('admin/login')) {
 
+            $user = User::create([
+                'mobile' => $credentials['mobile'],
+                'password' => Hash::make($credentials['password']),
+            ]);
 
-                $user = User::create([
-                    'mobile' => $d['mobile'],
-                    'pass' => $d['password'],
-                    'password' => Hash::make($d['password']),
-                ]);
+            Customer::create([
+                'user_id' => $user->id,
+                'mobile' => $user->mobile,
+            ]);
 
-                Customer::create([
-                    'user_id'=> $user->id,
-                    'mobile' => $user->mobile,
-                    // 'parent_id' => $request->parent_id
-                ]);
+            $user->assignRole('customer');
 
-                $user->assignRole('customer');
-
-
+            Auth::login($user);
+            return $this->sendLoginResponse($request);
         }
 
-        return $this->traitLogin($request);
+        // لاگین ناموفق
+        return $this->sendFailedLoginResponse($request);
+
+        // $d = $request->validate([
+        //     $this->username() => 'required|string',
+        //     'password' => 'required|string',
+        //     'captcha' => 'required|captcha'
+        // ]);
+
+        // $user = User::where('mobile','=',$d['mobile'])->first();
+        // if($user instanceof User){
+        //     return $this->traitLogin($request);
+        // }
+
+        // if (!$this->attemptLogin($request) && $request->header('referer') != url('admin/login')) {
+
+        //         $user = User::create([
+        //             'mobile' => $d['mobile'],
+        //             'pass' => $d['password'],
+        //             'password' => Hash::make($d['password']),
+        //         ]);
+
+        //         Customer::create([
+        //             'user_id'=> $user->id,
+        //             'mobile' => $user->mobile,
+        //             // 'parent_id' => $request->parent_id
+        //         ]);
+
+        //         $user->assignRole('customer');
+
+
+        // }
+
+        // return $this->traitLogin($request);
     }
 
     protected function redirectTo()

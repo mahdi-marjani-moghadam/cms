@@ -162,8 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Biscolab\ReCaptcha\ReCaptchaServiceProvider::class,
-
+        Mews\Captcha\CaptchaServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -235,11 +234,10 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Image' => Intervention\Image\Facades\Image::class,
-        'ReCaptcha' => Biscolab\ReCaptcha\Facades\ReCaptcha::class,
 
-        'WebsiteSetting'=> App\Models\WebsiteSetting::class,
-        'Cart' => Darryldecode\Cart\Facades\CartFacade::class
-
+        'WebsiteSetting' => App\Models\WebsiteSetting::class,
+        'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
     ],
 
 ];

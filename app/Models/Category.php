@@ -57,14 +57,16 @@ class Category extends Model
         return $this->belongsToMany(Content::class, 'contents_category', 'cat_id', 'content_id');
     }
 
-    public function products($sortField = 'publish_date', $sortValue = 'desc', $filter = array())
+    public function products($sortField = 'publish_date', $sortValue = 'desc', array $filter = [])
     {
 
         $object = $this->belongsToMany(Content::class, 'contents_category', 'cat_id', 'content_id')
+            ->select('contents.*')
             ->where('contents.type', '=', '2')
             ->where('contents.attr_type', '=', 'product')
             ->where('contents.publish_date', '<=', Carbon::now())
-            ->where('status','=',1);
+            ->where('status', '=', 1)
+            ->distinct();
         //dd($filter);
         if (isset($filter['attribute'])) {
             /* $object->where(function ($query) use ($filter) {
@@ -103,10 +105,10 @@ class Category extends Model
 
 
         // ->groupBy('contents_category.content_id')
-        if($sortField == 'publish_date'){
-            $object->orderBy('attr->in-stock','desc')->orderBy($sortField, $sortValue);
-        }else{
-            $object->orderBy('attr->in-stock','desc')->orderBy($sortField, $sortValue)->orderBy('publish_date','desc');
+        if ($sortField == 'publish_date') {
+            $object->orderBy('attr->in-stock', 'desc')->orderBy($sortField, $sortValue);
+        } else {
+            $object->orderBy('attr->in-stock', 'desc')->orderBy($sortField, $sortValue)->orderBy('publish_date', 'desc');
         }
 
         return $object;
@@ -134,6 +136,8 @@ class Category extends Model
     {
 
         return $this->belongsToMany(Content::class, 'contents_category', 'cat_id', 'content_id')
+            ->select('contents.*') // ← مهم برای paginate
+            ->distinct()           // ← جلوگیری از duplicate
             ->where('type', '=', '2')
             ->where('attr_type', '=', 'article  ')
             ->where('publish_date', '<=', Carbon::now())
@@ -147,7 +151,7 @@ class Category extends Model
     }
     public function childCategory()
     {
-        return $this->hasMany(Category::class, 'parent_id', 'id')->where('attr_type','=','category');
+        return $this->hasMany(Category::class, 'parent_id', 'id')->where('attr_type', '=', 'category');
     }
 
     /**
@@ -167,7 +171,7 @@ class Category extends Model
             $images = $content->images['images'] ?? '';
 
             if (is_array($images)) {
-                $images =  array_map(function ($item) {
+                $images = array_map(function ($item) {
                     return trim($item, '/');
                 }, array_values($images));
 

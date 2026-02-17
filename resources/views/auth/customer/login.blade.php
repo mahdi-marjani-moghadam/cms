@@ -5,58 +5,8 @@
 
 
 @push('head')
-    {{-- recaptcha --}}
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <script type="text/javascript">
-        function callbackThen(response) {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('btn-loading').style.display = 'block';
-
-            // read HTTP status
-            console.log(response.status);
-
-            // read Promise object
-            response.json().then(function(data) {
-                console.log(data);
-            });
-        }
-
-        function callbackCatch(error) {
-            console.error('Error:', error);
-            alert('صفحه را مجدد بارگذاری نمایید.')
-        }
-    </script>
-    {!! htmlScriptTagJsApi([
-        'action' => 'login',
-        'callback_then' => 'callbackThen',
-        'callback_catch' => 'callbackCatch',
-    ]) !!}
-
-
-    <style>
-        #loading {
-            border: 10px solid #f3f3f3;
-            /* Light grey */
-            border-top: 10px solid #3498db;
-            /* Blue */
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 2s linear infinite;
-            margin: auto
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
 
 
     <link rel="stylesheet" href="{{ mix('panel/panel.css', env('TEMPLATE_NAME')) }}">
@@ -122,10 +72,13 @@
             }
         }
     </script>
+
+
+
 @endpush
 @section('Content')
 
-    <section class="login max-w-sm">
+    <section class="login max-w-sm max-sm:mt-1!">
 
 
         @if (session('success'))
@@ -133,7 +86,7 @@
                 {{ session('success') }}
             </div>
         @endif
-        <h1>@lang('messages.login')</h1>
+        <h1 class="max-sm:p-0!">@lang('messages.login')</h1>
 
         <form method="POST" action="/login" id="login-form">
             @csrf
@@ -177,7 +130,7 @@
                     </span>
                 @enderror
 
-
+                @include(env('TEMPLATE_NAME').'.widget.captcha')
 
             </div>
             <div class="form-group mb-2">
@@ -188,9 +141,7 @@
 
             <div class="form-group ">
 
-                <div id="loading" style="display:block"></div>
-
-                <button type="submit" style="display: none" id="btn-loading" class="btn bg-blue-700 text-white  btn-block">
+                <button type="submit"  id="btn-loading" class="btn bg-blue-700 !text-white  btn-block">
                     <i class="fa fa-lock"></i> @lang('messages.login')
                 </button>
 
