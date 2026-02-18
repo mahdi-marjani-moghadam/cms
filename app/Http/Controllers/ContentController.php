@@ -660,11 +660,11 @@ class ContentController extends Controller
             ->setLocFieldName('slug')
             ->setLastModFieldName('updated_at')
 
-            ->setDefultPriority('1')
+            ->setDefultPriority('0.9')
             ->setDefultChangefreq('weekly')
             ->addByCollection($category)
 
-            ->setDefultPriority('0.9')
+            ->setDefultPriority('0.6')
             ->setDefultChangefreq('weekly')
             ->addByCollection($post)
 

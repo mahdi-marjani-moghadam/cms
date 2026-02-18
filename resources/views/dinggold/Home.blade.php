@@ -165,7 +165,7 @@
     {
         "@context": "https://schema.org",
         "@type": "JewelryStore",
-        "name": "گالری طلا ایدن",
+        "name": "گالری طلا دینگ",
         "image": "{{ url(env('TEMPLATE_NAME') . '/img/logo2x.png') }}",
         "address": {
             "@type": "PostalAddress",
@@ -180,7 +180,7 @@
             "latitude": "35.738822",
             "longitude": "51.477618"
         },
-        "url": "https://edengoldgallery.ir/",
+        "url": "https://dinggold.ir/",
         "telephone": "+989374599840",
         "priceRange": "IRR",
         "openingHoursSpecification": [
@@ -205,8 +205,8 @@
     <section class="banner my-0 py-0">
         <div class="flex one max-w-max" >
             <img class="h-auto p-0"
-                srcset="{{ url('eden/img/banner-mob.jpg') }} 800w, {{ url('eden/img/banner.jpg') }} 1200w, {{ url('eden/img/banner.jpg') }} 1800w"
-                src="{{ url('eden/img/banner-mob.jpg') }}" alt="طلای ایدن" title="طلای ایدن" width="1200" height="344">
+                srcset="{{ url('dinggold/img/banner-mob.jpg') }} 800w, {{ url('dinggold/img/banner.jpg') }} 1200w, {{ url('dinggold/img/banner.jpg') }} 1800w"
+                src="{{ url('dinggold/img/banner-mob.jpg') }}" alt="طلای ایدن" title="طلای ایدن" width="1200" height="344">
 
         </div>
     </section>
@@ -428,7 +428,7 @@
 
             <div class="flex two six-500 p-0 ">
                 <a class="  p-0 bg-gray-dark cat1-home" href="/انگشتر-طلا-زنانه"
-                    style=" background-image:url({{ url('eden/img/دسته-بندی-انگشتر-طلا.jpg') }}) ">
+                    style=" background-image:url({{ url('dinggold/img/دسته-بندی-انگشتر-طلا.jpg') }}) ">
                     <div class="h-full">
                         <h2 class="p-0">انگشتر</h2>
                     </div>
@@ -673,8 +673,8 @@
             <div style="flex:0 0 auto" class="text-center">
 
                 <video style="max-width: 100%" width="400" height="400" preload="none" onclick="this.paused ? this.play() : this.pause()"
-                    controlslist="nodownload nofullscreen " poster="{{ url('eden/video/cover.jpg') }}" controls="">
-                    <source src="{{ url('eden/video/edengoldgallery.mp4') }}" type="video/mp4">
+                    controlslist="nodownload nofullscreen " poster="{{ url('dinggold/video/cover.jpg') }}" controls="">
+                    <source src="{{ url('dinggold/video/edengoldgallery.mp4') }}" type="video/mp4">
                     {{ -- <source src="movie.ogg" type="video/ogg"> --} }
                     Your browser does not support the video tag.
                 </video>

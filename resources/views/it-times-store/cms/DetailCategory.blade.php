@@ -25,7 +25,7 @@
         <link rel="next" href="{{ json_decode($relatedProduct->toJson())->next_page_url }}">
     @endif
 
-    <link href="{{ request()->fullUrl() }}" rel="canonical" />
+    <link href="{{ request()->url() }}" rel="canonical" />
 @endpush
 
 

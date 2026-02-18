@@ -8,10 +8,6 @@
 @section('og:title', $detail->title)
 @section('og:description', clearHtml($detail->meta_description))
 
-@if ($relatedProduct->hasPages() || json_decode($relatedProduct->toJson())->current_page == 1)
-    @section('canonical', url()->full())
-@endif
-
 @if (isset($detail->images['images']['medium']))
     @section('twitter:image', url($detail->images['images']['medium']))
 
@@ -23,22 +19,21 @@
 @endif
 
 
-@section('head')
-
-    {{-- <link rel="stylesheet" href="{{ asset('/detail.category.css') }}"> --}}
-
-    {{-- @if (json_decode($relatedProduct->toJson())->prev_page_url != null)
+@push('head')
+    @if (json_decode($relatedProduct->toJson())->prev_page_url != null)
         <link rel="prev" href="{{ json_decode($relatedProduct->toJson())->prev_page_url }}">
     @endif
     @if (json_decode($relatedProduct->toJson())->next_page_url != null)
         <link rel="next" href="{{ json_decode($relatedProduct->toJson())->next_page_url }}">
-    @endif --}}
-@endsection
+    @endif
+
+    <link href="{{ request()->url() }}" rel="canonical" />
+@endpush
 
 
 @push('scripts')
 
-    <script src="{{ '/eden/siema.min.js' }}"></script>
+    <script src="{{ '/dinggold/siema.min.js' }}"></script>
     <script>
         if($('.siema').length)
         {
