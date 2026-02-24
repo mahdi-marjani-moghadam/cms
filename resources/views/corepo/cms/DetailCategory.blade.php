@@ -28,7 +28,7 @@
     <link rel="next" href="{{ json_decode($relatedPost->toJson())->next_page_url }}">
 @endif
 
-<link href="{{ request()->url() }}" rel="canonical" />
+<link href="{{ request()->fullUrl() }}" rel="canonical" />
 
 @endsection
 

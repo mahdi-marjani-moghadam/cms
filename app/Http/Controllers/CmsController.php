@@ -143,7 +143,7 @@ class CmsController extends Controller
             return Redirect::to(url($spesifiedUrl->first()->redirect_to), 301);
         }
         // dd($request->fullUrl());
-        if (env('TEMPLATE_NAME') == 'ding' && $request->has('attribute')) {
+        if (env('TEMPLATE_NAME') == 'dinggold' && $request->has('attribute')) {
             $queries = $request->query();
 
             // پارامتر attribute رو حذف کن

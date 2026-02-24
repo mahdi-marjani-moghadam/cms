@@ -136,7 +136,7 @@
             </div>
 
             <div class="grid gap-1 grid-cols-1 sm:grid-cols-2">
-                <a class="block" href="https://edengoldgallery.ir/?ref=corepo" target="__blunk"><img height=""
+                <a class="block" href="https://dinggold.ir/?ref=corepo" target="__blunk"><img height=""
                         class="w-full border-radius-10 " src="{{ asset('/img/eden-70.jpg') }}" alt=""></a>
                 <a class="block" href="https://it-times-store.com/?ref=corepo" target="__blunk"><img height=""
                         class="w-full border-radius-10 " src="{{ asset('/img/it-70.jpg') }}" alt=""></a>

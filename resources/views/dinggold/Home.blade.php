@@ -206,7 +206,7 @@
         <div class="flex one max-w-max" >
             <img class="h-auto p-0"
                 srcset="{{ url('dinggold/img/banner-mob.jpg') }} 800w, {{ url('dinggold/img/banner.jpg') }} 1200w, {{ url('dinggold/img/banner.jpg') }} 1800w"
-                src="{{ url('dinggold/img/banner-mob.jpg') }}" alt="طلای ایدن" title="طلای ایدن" width="1200" height="344">
+                src="{{ url('dinggold/img/banner-mob.jpg') }}" alt="طلای دینگ" title="طلای دینگ" width="1200" height="344">
 
         </div>
     </section>
@@ -333,7 +333,7 @@
         <div>
             <div class="flex one three-500 p-0">
                 <div class="third-500 p-0">
-                    <h2 class="text-center ">چرا گالری طلا ایدن را انتخاب نماییم؟</h2>
+                    <h2 class="text-center ">چرا گالری طلا دینگ را انتخاب نماییم؟</h2>
                 </div>
                 <div class="two-third-500 p-0 ">
                     <div class="flex on three-500  h-full p-0 text-center  home-items">
@@ -663,42 +663,4 @@
     </section>
 
 
-
-
-
-
-
-    {{--<section class="mt-4">
-        <div class="flex one two-500 three-900  ">
-            <div style="flex:0 0 auto" class="text-center">
-
-                <video style="max-width: 100%" width="400" height="400" preload="none" onclick="this.paused ? this.play() : this.pause()"
-                    controlslist="nodownload nofullscreen " poster="{{ url('dinggold/video/cover.jpg') }}" controls="">
-                    <source src="{{ url('dinggold/video/edengoldgallery.mp4') }}" type="video/mp4">
-                    {{ -- <source src="movie.ogg" type="video/ogg"> --} }
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            <div class="two-third-900">
-
-                <div class="flex h-full justify-content-center flex-column ">
-                    <h1> خرید آنلاین طلا از فروشگاه اینترنتی ایدن</h1>
-                    <div>کارگاه طلاسازی ایدن از سال ۱۴۰۰ فعالیت خود را در زمینه طراحی و تولید زیورآلات طلا آغاز کرد </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
-
-
-    {{--<section>
-        <div class="">
-            <div class="flex one">
-                @php
-                    $gold = getGoldPrice();
-
-                @endphp
-                <div>قیمت روز طلا: {{ $gold['price'] }} تومان </div>
-            </div>
-        </div>
-    </section> --}}
 @endsection

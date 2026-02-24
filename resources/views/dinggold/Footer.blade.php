@@ -75,7 +75,7 @@
                 <div>
                     <a class="certificate" href="/مجوزها">
                         <img class="rounded m-1 border border-gray-500" width="100"
-                            src="{{ url('eden/img/certificate.jpg') }}" alt="">
+                            src="{{ url('dinggold/img/certificate.jpg') }}" alt="">
                     </a>
                 </div>
             </div>
@@ -93,7 +93,7 @@
 
 <script>
     // if (screen && screen.width <= 768) {
-    //     document.write('<script type="text/javascript" src="{{ url('/eden/pullToRefresh.umd.min.js ') }}"><\/script>');
+    //     document.write('<script type="text/javascript" src="{{ url('/dinggold/pullToRefresh.umd.min.js ') }}"><\/script>');
 
     //     setTimeout(() => {
     //         PullToRefresh.init({
@@ -127,7 +127,7 @@
     <i class="fab fa-whatsapp my-float"></i>
 </a>
 
-@if (url('/') == 'https://edengoldgallery.ir')
+@if (url('/') == 'https://dinggold.ir')
 @endif
 </body>
 

@@ -19,7 +19,7 @@
                     "position": {{ count($breadcrumb) - ($index-1) }},
                     "item": {
                         "@type":"WebPage",
-                        "@id": "{{ url($item['slug']) }}",
+                        "@id": "{{ url(rawurlencode($item['slug'])) }}",
                         "name": "{{ $item['title'] }}"
                     }
                 } @if ($index != array_key_last($breadcrumb)) , @endif

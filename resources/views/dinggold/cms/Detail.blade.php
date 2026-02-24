@@ -329,7 +329,7 @@
                                                         <span class="text-xs">تومان</span></span>
                                                 </div>
                                                 <div class="flex border-t px-3 py-2 justify-between"><span
-                                                        class="text-slate-500 text-sm items-center flex !w-auto">سود ایدن
+                                                        class="text-slate-500 text-sm items-center flex !w-auto">سود دینگ
                                                         (7٪):</span><span class="text-left">
                                                         @convertCurrency($detail->GoldPrice()['sood']) <span class="text-xs">تومان</span></span></div>
                                                 <div class="flex border-t px-3 py-2 justify-between"><span
@@ -352,7 +352,7 @@
                                         </div>
                                     @endisset
 
-                                    @include('eden.AddToCart')
+                                    @include('dinggold.AddToCart')
                                 </div>
 
                             </div>
@@ -426,7 +426,7 @@
         <div class="flex one">
             <div>
 
-                @include('eden.Comment')
+                @include('dinggold.Comment')
 
             </div>
         </div>

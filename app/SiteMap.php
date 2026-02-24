@@ -47,7 +47,7 @@ class SiteMap
             if ($this->locFieldName != '') {
 
                 $loc = $this->locFieldName;
-                $property['loc'] = $object->$loc;
+                $property['loc'] = rawurlencode($object->$loc);
             }
 
             if ($this->lastModFieldName != '') {

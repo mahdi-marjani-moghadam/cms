@@ -25,7 +25,7 @@
         <link rel="next" href="{{ json_decode($relatedProduct->toJson())->next_page_url }}">
     @endif
 
-    <link href="{{ request()->url() }}" rel="canonical" />
+    <link href="{{ request()->fullUrl() }}" rel="canonical" />
 @endpush
 
 
@@ -199,24 +199,28 @@
                     @if (count($relatedProduct))
                     @foreach ($relatedProduct as $content)
                         <div class="lg:col-span-3 md:col-span-6 col-span-12 w-full">
-                            <article
-                                class="bg-white product-box-item drop-shadow-md rounded-xl p-4 dark:bg-card-dark dark:border-white dark:border-1"
-                                >
+                            <a href="{{ $content->slug }}" >
 
-                                <figure class="flex image justify-center my-4">
-                                    <a href="{{ $content->slug }}" >
-                                        <img class="{{ $content->gallery->count() ? 'one-image' : '' }} " src="{{ image_or_placeholder($content->images['images']['small']) }}" loading="lazy"
-                                            alt="{{ $content->title }}" >
-                                        @foreach ($content->gallery as $gallery)
-                                            <img class="two-image" src="{{ image_or_placeholder($gallery->images['images']['small']) }}" loading="lazy">
-                                        @endforeach
-                                    </a>
-                                </figure>
-                                <h3 class="text-base leading-8  line-clamp-2 mb-2 text-center">
-                                    <a href="{{ $content->slug }}" class="text-gray-800 dark:text-white">{{ $content->title }}</a>
-                                </h3>
+                                <article
+                                    class="bg-white product-box-item drop-shadow-md rounded-xl p-4 dark:bg-card-dark dark:border-white dark:border-1"
+                                    >
 
-                            </article>
+                                    <figure class="flex image justify-center my-4">
+
+                                            <img class="{{ $content->gallery->count() ? 'one-image' : '' }} " src="{{ image_or_placeholder($content->images['images']['small']) }}" loading="lazy"
+                                                alt="{{ $content->title }}" >
+                                            @foreach ($content->gallery as $gallery)
+                                                <img class="two-image" src="{{ image_or_placeholder($gallery->images['images']['small']) }}" loading="lazy">
+                                            @endforeach
+
+                                    </figure>
+                                    <h3 class="text-base leading-8  line-clamp-2 mb-2 text-center">
+                                        <div  class="text-gray-800 dark:text-white">{{ $content->title }}</div>
+                                    </h3>
+
+                                </article>
+
+                            </a>
                         </div>
                     @endforeach
                     @endif

@@ -18,12 +18,14 @@
 
 
 @push('head')
-    @if (json_decode($relatedProduct->toJson())->prev_page_url != null)
-        <link rel="prev" href="{{ json_decode($relatedProduct->toJson())->prev_page_url }}">
+    @if (json_decode($relatedPost->toJson())->prev_page_url != null)
+        <link rel="prev" href="{{ json_decode($relatedPost->toJson())->prev_page_url }}">
     @endif
-    @if (json_decode($relatedProduct->toJson())->next_page_url != null)
-        <link rel="next" href="{{ json_decode($relatedProduct->toJson())->next_page_url }}">
+    @if (json_decode($relatedPost->toJson())->next_page_url != null)
+        <link rel="next" href="{{ json_decode($relatedPost->toJson())->next_page_url }}">
     @endif
+
+    <link href="{{ request()->url() }}" rel="canonical" />
 @endpush
 
 
