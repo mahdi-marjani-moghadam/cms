@@ -193,8 +193,8 @@
                             @foreach ($relatedPost as $content)
                                 <div>
                                     <a href="{{ $content->slug }}">
-                                        <article class="shadow !rounded-xl grid grid-cols-6 gap-x-2 ">
-                                        <div class="title col-span-6 pb-2">{{ $content->title }}</div>
+                                        <article class="shadow !rounded-xl !grid grid-cols-6 gap-x-2 ">
+                                            <div class="title col-span-6 pb-2">{{ $content->title }}</div>
                                             @if (isset($content->images['images']['small']))
                                                 <figure class="image col-span-2 sm:col-span-1">
                                                     <img loading="lazy"

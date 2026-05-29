@@ -217,7 +217,7 @@
                 <div class="shadow full-height border-radius-10 ">
                     {{--categoryDetail&label=categoryDetail&var=categoryDetail&count=1 --}}
                     @isset($categoryDetail['data'])
-                        <div class="flex four-800 align-items-center px-0 py-0  ">
+                        <div class="flex align-items-center px-0 py-0  ">
                             <div
                                 class="full  [&_div]:px-0 [&_a]:bg-slate-50 [&_a]:text-sm [&_a]:border [&_a]:block text-center  [&_a]:p-2 [&_p]:mb-4 [&_a]:rounded">
                                 <div class="font-bold text-[#e81e6c]  text-lg mb-4">لینک های مفید</div>
