@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Lang;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Facades\File;
 
 
@@ -326,17 +327,19 @@ class CompanyController extends Controller
             'large' => @env(Str::upper($type) . '_LARGE_W')
         );
 
+        $manager = new ImageManager(new Driver());
+
         $images['crop'] = $imagePath . $fileNameAndType;
+
         foreach ($sizes as $name => $size) {
             $images[$name] = $imagePath . $fileName . "-{$name}." . $fileType;
 
-            // dd($path);
-            $img = Image::make(public_path($path));
-            // dd($path);
-            $img->resize($size, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save(public_path($images[$name]), 75);
+
+            $image = $manager->read(public_path($path));
+            $image->scale(width: $size)
+                ->toJpeg(75)
+                ->save(public_path($images[$name]));
+
         }
 
 
@@ -484,16 +487,16 @@ class CompanyController extends Controller
         return redirect(route('company.products.powerUp', ['content' => $content->id]))->with('success', __('messages.pay success'));
     }
 
-    function profileShow(Request $request,$slug)
+    function profileShow(Request $request, $slug)
     {
         $showcallnowbutton = false;
         $name = str_replace('-', ' ', $slug);
 
-        if (is_numeric($slug)){
+        if (is_numeric($slug)) {
             $company = Company::find($name);
-            return redirect(url('profile/'.Str::slug($company->name,'-',null)),301);
+            return redirect(url('profile/' . Str::slug($company->name, '-', null)), 301);
         }
-        $company = Company::where('name',$name)->first();
+        $company = Company::where('name', $name)->first();
         // dd($company->id);
 
         if ($company == null || $company->status == 0) {
@@ -522,10 +525,10 @@ class CompanyController extends Controller
         if ($company->category)
             $breadcrumb[1] = $company->category?->toArray();
 
-        $seo['meta_title'] = ($company->name ?? 'Company') . ' | کریپو' ;
+        $seo['meta_title'] = ($company->name ?? 'Company') . ' | کریپو';
         $seo['meta_description'] = $company->description ?? '';
         // dd($breadcrumb);
-        return view('auth.profileShow', compact('company', 'breadcrumb', 'seo','showcallnowbutton'));
+        return view('auth.profileShow', compact('company', 'breadcrumb', 'seo', 'showcallnowbutton'));
     }
     public function clearInstagramUrl(string $var = null)
     {
@@ -601,8 +604,8 @@ class CompanyController extends Controller
 
         if (isset($request->qsort)) {
             $sort = explode(',', $request->qsort);
-        }else{
-            $sort = ['created_at','desc'];
+        } else {
+            $sort = ['created_at', 'desc'];
         }
 
         $companies = $companies->orderBy($sort[0], $sort[1])->paginate(10);
@@ -702,7 +705,7 @@ class CompanyController extends Controller
         }
 
         $user->assignRole('company');
-        if($company->parent_id != null){
+        if ($company->parent_id != null) {
             $company->categories()->attach($data['parent_id_hide']);
         }
 

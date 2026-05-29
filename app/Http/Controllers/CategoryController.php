@@ -7,7 +7,9 @@ use App\Models\Content;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+
 use PDF;
 use Illuminate\Support\Str;
 use App\Models\RedirectUrl;
@@ -17,15 +19,10 @@ use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    public $categoryCombo = array();
-    public $listCat;
+    public $categoryCombo = [];
+    public array $listCat;
     public $level = 0;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request): View
     {
 
@@ -53,7 +50,7 @@ class CategoryController extends Controller
     }
 
 
-    protected function uploadImages($request, $type = 'category')
+    protected function uploadImages(Request $request, $type = 'category') : array
     {
 
         $file = $request->imageJson;
@@ -88,31 +85,27 @@ class CategoryController extends Controller
         return $url;
     }
 
-    private function resize($path, $type, $imagePath, $fileNameAndType, $fileName, $fileType)
+    private function resize(string $path, string $type, string $imagePath, string $fileNameAndType, string $fileName, string $fileType)
     {
-        $sizes = array(
+        $sizes = [
             "small" => env(Str::upper($type) . '_SMALL_W'),
             'medium' => env(Str::upper($type) . '_MEDIUM_W'),
             'large' => env(Str::upper($type) . '_LARGE_W')
-        );
+        ];
 
-        $images['crop'] = $imagePath . $fileNameAndType;
+        $images['crop'] = "{$imagePath}{$fileNameAndType}";
 
-        // $images['original'] = $imagePath . $filename;
+        $manager = new ImageManager(new Driver());
 
         foreach ($sizes as $name => $size) {
 
-            // $images[$name] = $imagePath . "{$name}_" . $filename;
             $images[$name] = $imagePath . $fileName . "-{$name}." . $fileType;
 
-            $img = Image::make(public_path($path));
-            $img->resize($size, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save(public_path($images[$name]), 100);
-            // Image::make($path)->resize($size, null, function ($constraint) {
-            //     $constraint->aspectRatio();
-            // })->save(public_path($images[$name]));
+            $img = $manager->read(public_path($path));
+            $img->scale(width: (int) $size)
+                ->toJpeg(90)
+                ->save(public_path($images[$name]));
+
         }
 
         return $images;
@@ -128,7 +121,7 @@ class CategoryController extends Controller
         return view('admin.category.CreateOrEdit', compact(['category', 'attr_type']));
     }
 
-    public function convertTemplateSelect1($listCat, $_input = array(), $start = '|-', $befor = '', $after = '', $level = 0)
+    public function convertTemplateSelect1(array $listCat, $_input = [], $start = '|-', $befor = '', $after = '', $level = 0)
     {
         static $mainMenu = array();
         if (!count($_input) and count($listCat)) {
@@ -151,7 +144,7 @@ class CategoryController extends Controller
         return $mainMenu;
     }
 
-    public function convertTemplateTable1($listCat, $_input = array(), $start = '|-', $befor = '', $after = '', $level = 0)
+    public function convertTemplateTable1(array $listCat, $_input = [], $start = '|-', $befor = '', $after = '', $level = 0)
     {
         static $mainMenu = [];
         //echo $this->level;
@@ -197,22 +190,15 @@ class CategoryController extends Controller
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-
 
     public function store(Request $request)
     {
-        $this->validate($request, array(
+        $this->validate($request, [
             'title' => 'required|max:250',
             //'description' => 'required',
             //'body' => 'required',
             //'images' => 'required|mimes:jpeg,png,bmp',
-        ));
+        ]);
 
 
         $data = $request->all();
@@ -232,34 +218,24 @@ class CategoryController extends Controller
         return redirect('admin/category')->with('success', 'Greate! Content created successfully.');
     }
 
-    public function categoryStoreService($data): Category
+    public function categoryStoreService(array $data): Category
     {
         $data['slug'] = uniqueSlug(Content::class, (($data['slug'] ?? '') != '') ? $data['slug'] : $data['title']);
         //Content::create(array_merge($request->all(), ['images' => $imagesUrl]));
         return Category::create($data);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    public function edit(int $id)
     {
         $attr_type = 'CATEGORY';
-        $where = array('id' => $id);
+        $where = ['id' => $id];
         $content = Category::where($where)->first();
 
 
@@ -268,18 +244,18 @@ class CategoryController extends Controller
             ['id', '<>', $id]
 
         ];*/
-        $searchmap = array();
+        $searchmap = [];
         $result = $this->tree_set($searchmap);
 
         $category = $this->convertTemplateSelect1($result);
         $filter[$id] = '';
-        foreach ($category as $id => $obj) {
-            if (isset($filter[$id])) {
-                unset($category[$id]);
+        foreach ($category as $catid => $obj) {
+            if (isset($filter[$catid])) {
+                unset($category[$catid]);
             }
             if (isset($filter[$obj->parent_id])) {
-                $filter[$id] = '';
-                unset($category[$id]);
+                $filter[$catid] = '';
+                unset($category[$catid]);
             }
         }
         $content->prefix = (strpos($content->slug, 'category/') !== false) ? 'category/' : '';
@@ -289,14 +265,8 @@ class CategoryController extends Controller
         return view('admin.category.CreateOrEdit', compact(['content', 'category', 'attr_type']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update(Request $request, int $id)
     {
 
         /* $this->validate($request, [
@@ -368,13 +338,8 @@ class CategoryController extends Controller
         return redirect('admin/category')->with('success', 'Update! Content created successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy(int $id)
     {
         $crud = Category::find($id);
         $images = $crud->images['images'] ?? '';
@@ -390,7 +355,7 @@ class CategoryController extends Controller
         }
 
 
-        return redirect('admin/category?type=' . $attr_type);
+        return redirect("admin/category?type={$attr_type}");
     }
 
     public function subcategory()
@@ -519,7 +484,7 @@ class CategoryController extends Controller
         return $html;
     }
 
-    public function toUL($arr, $pass = 0)
+    public function toUL(array $arr, $pass = 0)
     {
         $html = '<ul>' . PHP_EOL;
         foreach ($arr as $v) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,40 +11,57 @@ use App\Models\Company;
 use App\Models\Content;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
-use Intervention\Image\Facades\Image;
+use App\Services\ImageResizeService;
 
 
 
 class AdminController extends Controller
 {
+    protected ImageResizeService $imageResizeService;
+
+    public function __construct(ImageResizeService $imageResizeService)
+    {
+        $this->imageResizeService = $imageResizeService;
+    }
     protected function uploadImages($file)
-    {
-        $year = Carbon::now()->year;
-        $imagePath = "/upload/images/{$year}/";
-        $filename = $file->getClientOriginalName();
+{
+    $year = Carbon::now()->year;
+    $imagePath = "/upload/images/{$year}/";
 
-        $file = $file->move(public_path($imagePath), $filename);
+    // ORIGINAL NAME
+    $originalName = $file->getClientOriginalName();
 
-        $sizes = ["300", "600", "900"];
-        $url['images'] = $this->resize($file->getRealPath(), $sizes, $imagePath, $filename);
-        // $url['thumb'] = $url['images'][$sizes[0]];
+    // SAFE filename
+    $name = pathinfo($originalName, PATHINFO_FILENAME);
+    $extension = strtolower($file->getClientOriginalExtension());
 
-        return $url;
-    }
+    // sanitize filename
+    $fileName = Str::slug($name);
 
-    private function resize($path, $sizes, $imagePath, $filename)
-    {
-        $images['original'] = $imagePath . $filename;
-        foreach ($sizes as $size) {
-            $images[$size] = $imagePath . "{$size}_" . $filename;
+    // final stored name
+    $finalFileName = $fileName . '.' . $extension;
 
-            Image::make($path)->resize($size, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save(public_path($images[$size]));
-        }
+    // move file
+    $file->move(public_path($imagePath), $finalFileName);
 
-        return $images;
-    }
+    // full path for intervention
+    $fullPath = public_path($imagePath . $finalFileName);
+
+    // resize
+    $url['images'] = $this->imageResizeService->resize(
+        fullPath: $fullPath,
+        type: 'content',
+        outputDir: $imagePath,
+        fileName: $fileName,
+        extension: $extension,
+        convertToJpeg: true,
+        quality: 80
+    );
+
+    return $url;
+}
+
+
 
     public function index()
     {
@@ -60,10 +78,8 @@ class AdminController extends Controller
 
         $data['companiesCount'] = Company::count();
 
-        $data['customersCount'] = Role::where('name','=','customer')->first()->users->count();
-        
+        $data['customersCount'] = Role::where('name', '=', 'customer')->first()->users->count();
 
-        // dd($data);
 
         return view('admin.index', compact('data'));
     }

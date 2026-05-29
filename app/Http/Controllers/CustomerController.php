@@ -20,16 +20,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Lang;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
+// use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use App\Services\ImageResizeService;
 
 
 class CustomerController extends Controller
 {
 
-    public $breadcrumb;
+    public array $breadcrumb;
+    protected ImageResizeService $imageResizeService;
 
-
+    public function __construct(ImageResizeService $imageResizeService)
+    {
+        $this->imageResizeService = $imageResizeService;
+    }
 
     public function showLoginForm()
     {
@@ -78,7 +85,7 @@ class CustomerController extends Controller
             redirect()->back();
         }
 
-        $Product = (new Content)->where('id', '=',  $request->id)->where('type', '=', 2)->first();
+        $Product = (new Content)->where('id', '=', $request->id)->where('type', '=', 2)->first();
 
         // $cookieUser = $request->cookie('cart'); // the user ID to bind the cart contents
         $cookieUser = getSession('cart');
@@ -160,11 +167,12 @@ class CustomerController extends Controller
 
                 $pN .= $v['name'];
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
             dd($e);
         }
 
-        $name = (!is_null($user->customer) && $user->customer['name'] != '')? $user->customer['name'] . '-': '';
+        $name = (!is_null($user->customer) && $user->customer['name'] != '') ? $user->customer['name'] . '-' : '';
         $message = "{$name} {$user->mobile} \n {$pN}\nمبلغ: {$order->total_price}";
 
         // if (env('SMS_PURCHASE', false)) {
@@ -183,7 +191,8 @@ class CustomerController extends Controller
     }
     public function orderDetail(Order $order)
     {
-        if (!$order) return redirect()->route('customer.order.list')->with('message', __('messages.not found'));
+        if (!$order)
+            return redirect()->route('customer.order.list')->with('message', __('messages.not found'));
         $user = Auth()->user();
         $orderDetail = $user->orders($order->id)->orderDetail;
 
@@ -464,39 +473,23 @@ class CustomerController extends Controller
         file_put_contents(public_path() . $imagePath . $fileNameAndType, $image_base64); // croped
 
         // dd($file->getRealPath());
-        // $url['images'] = $this->resize($file->getRealPath(), $type, $imagePath, $filename);
-        $url['images'] = $this->resize($imagePath . $fileNameAndType, $type, $imagePath, $fileNameAndType, $fileName, $fileType);
+
+        $url['images'] = $this->imageResizeService->resize(
+            path: "{$imagePath}{$fileNameAndType}",
+            type: $type,
+            outputDir: $imagePath,
+            fileName: $fileName,
+            extension: $fileType,
+            convertToJpeg: true
+        );
+
         // $url['thumb'] = $url['images']['small'];
         // $url = $imagePath . $fileNameAndType;
         // dd($url);
         return $url;
     }
 
-    private function resize($path, $type, $imagePath, $fileNameAndType, $fileName, $fileType)
-    {
-
-        $sizes = array(
-            "small" => @env(Str::upper($type) . '_SMALL_W'),
-            'medium' => @env(Str::upper($type) . '_MEDIUM_W'),
-            'large' => @env(Str::upper($type) . '_LARGE_W')
-        );
-
-        $images['crop'] = $imagePath . $fileNameAndType;
-        foreach ($sizes as $name => $size) {
-            $images[$name] = $imagePath  . $fileName . "-{$name}." . $fileType;
-
-            // dd($path);
-            $img = Image::make(public_path($path));
-            // dd($path);
-            $img->resize($size, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save(public_path($images[$name]), 75);
-        }
-
-
-        return $images;
-    }
+    
 
     public function productPowerUp(Request $request, Content $content)
     {
@@ -537,7 +530,7 @@ class CustomerController extends Controller
             'title' => $content->title,
             'count' => $count,
             'price' => $totalPrice,
-            'description' =>  '',
+            'description' => '',
             'transactionable_type' => Content::class,
             'transactionable_id' => $content->id,
             'message' => Lang::get('messages.invoice created'),
@@ -601,14 +594,15 @@ class CustomerController extends Controller
 
 
         // check file
-        if (!$bills) return redirect()->back()->with('error', 'لطفا فایل را آپلود نمایید');
+        if (!$bills)
+            return redirect()->back()->with('error', 'لطفا فایل را آپلود نمایید');
         $imagePath = '/upload/images/customer/bill/';
         $fileNames = '';
         foreach ($bills as $bill) {
             // upload file on server
 
             $uniq = Carbon::now();
-            $fileName =  $user->id . '(' . $user->mobile . ')-' . $order->id . '-' . $uniq . '.' . $bill->extension();
+            $fileName = $user->id . '(' . $user->mobile . ')-' . $order->id . '-' . $uniq . '.' . $bill->extension();
             $fileNames .= ',' . $imagePath . $fileName;
             $bill->move(public_path($imagePath), $fileName);
         }
@@ -765,7 +759,7 @@ class CustomerController extends Controller
         // dd($breadcrumb);
         return view('auth.profileShow', compact('customer', 'breadcrumb', 'seo'));
     }
-    public function clearInstagramUrl(String $var = null)
+    public function clearInstagramUrl(string $var = null)
     {
         // $var = 'https://instagram.com/ads/f#adsf@instagram';
         if (str_contains($var, 'instagram.com')) {

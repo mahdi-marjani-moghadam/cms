@@ -13,7 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+
 use Illuminate\Support\Str;
 use App\Models\RedirectUrl;
 use Exception;
@@ -89,7 +91,8 @@ class ContentController extends Controller
                     $size = 'large';
                 }
 
-                $imgFile = Image::make(public_path($image));
+                $manager = new ImageManager(new Driver());
+                $imgFile = $manager->read(public_path($image));
 
                 $imgFile->text($request->watermark, env(Str::upper($type) . '_' . Str::upper($size) . '_W') / 2, env(Str::upper($type) . '_' . Str::upper($size) . '_H') / 2,  function ($font) use ($size, $type) {
                     $font->file(public_path('/adminAssets/fonts/IRANSans/ttf/IRANSansWeb.ttf'));
@@ -100,7 +103,7 @@ class ContentController extends Controller
                     $font->angle(45);
                 });
 
-                $imgFile->save(public_path($image), 90, 'jpg');
+                $imgFile->toJpeg(90)->save(public_path($image));
 
                 // echo "<img src='".url($image)."'>";
             }
@@ -129,20 +132,15 @@ class ContentController extends Controller
             );
         }
 
-        // dd($sizes);
         $images['crop'] = $imagePath . $fileNameAndType;
+        $manager = new ImageManager(new Driver());
+
         foreach ($sizes as $name => $size) {
             $images[$name] = $imagePath  . $fileName . "-{$name}." . $fileType;
 
-            // dd($path);
-            $img = Image::make(public_path($path));
-            // dd($path);
-            $img->resize($size, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save(public_path($images[$name]), 90, 'jpg');
-
-            // echo "<img src='".url($images[$name])."'>";
+            $img = $manager->read(public_path($path));
+            $img->scale(width: $size);
+            $img->toJpeg(90)->save(public_path($images[$name]));
 
         }
 

@@ -12,7 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use App\Models\RedirectUrl;
 use App\Models\Widget;
 use Hamcrest\Arrays\IsArray;
@@ -558,26 +559,25 @@ class CmsController extends Controller
         return $url;
     }
 
-    private function resize($path, $sizes, $imagePath, $filename)
+    private function resize(string $path, array $sizes, string $imagePath, string $filename) : array
     {
-        $images['original'] = $imagePath . $filename;
+        $images['original'] = "{$imagePath}{$filename}";
+
+        $manager = new ImageManager(new Driver());
+
         foreach ($sizes as $size) {
+
             $images[$size] = $imagePath . "{$size}_" . $filename;
 
-            Image::make($path)->resize($size, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save(public_path($images[$size]));
+            $image = $manager->read($path);
+            $image->scale(width: $size)
+                ->save(public_path($images[$size]));
+
         }
 
         return $images;
     }
 
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function index()
     {

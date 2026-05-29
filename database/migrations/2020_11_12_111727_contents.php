@@ -28,7 +28,7 @@ class Contents extends Migration
             $table->integer('viewCount')->default('0');
             $table->integer('commentCount')->default('0');
             $table->string('attr_type')->default(NULL)->nullable();
-            $table->text('attr')->nullable();
+            $table->json('attr')->nullable();
             $table->dateTime('publish_date')->nullable();
             $table->integer('status')->default(0);
             $table->integer('power')->default(0);

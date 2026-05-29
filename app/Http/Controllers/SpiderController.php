@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Category;
 use App\Models\Content;
 use Illuminate\Http\Request;
@@ -13,18 +14,12 @@ use Phpfastcache\Helper\Psr16Adapter;
 use GuzzleHttp;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Http\JsonResponse;
 
 class SpiderController extends Controller
 {
-
-    public function __construct()
-    {
-        //$this->middleware('auth');
-        //Auth::loginUsingId(1);
-        //$this->middleware('auth');
-    }
 
 
     public function index()
@@ -32,7 +27,8 @@ class SpiderController extends Controller
         return view('admin.index');
     }
 
-    public function tolidatScraping(SpiderService $sp, $page) : JsonResponse {
+    public function tolidatScraping(SpiderService $sp, int $page): JsonResponse
+    {
         $sp->tolidat($page);
         return response()->json('Hello, World!');
     }
@@ -49,7 +45,7 @@ class SpiderController extends Controller
     {
         return $sp::addToCms($request);
     }
-    public function instagram($id, $count)
+    public function instagram(int $id, int $count)
     {
 
 
@@ -69,7 +65,7 @@ class SpiderController extends Controller
         // echo $nonPrivateAccountMedias[0]->getLink();
         // dd(1);
 
-        $instagram  = Instagram::withCredentials(new \GuzzleHttp\Client(), 'marjani.mahdi', '66008190', new Psr16Adapter('Files'));
+        $instagram = Instagram::withCredentials(new \GuzzleHttp\Client(), 'marjani.mahdi', '66008190', new Psr16Adapter('Files'));
         $instagram->login();
         $instagram->saveSession();
         // dd($instagram->getAccountById(3));
@@ -114,7 +110,7 @@ class SpiderController extends Controller
             if (Content::where('title', '=', $item['title'])->first() == null) {
 
                 //category
-                $categories =  $this->getCategories($item['caption']);
+                $categories = $this->getCategories($item['caption']);
                 // dd($categories->first()->id);
 
                 $item['parent_id'] = $categories->first()->id;
@@ -129,7 +125,7 @@ class SpiderController extends Controller
                 $content->save();
                 $i++;
 
-                echo  "✅";
+                echo "✅";
 
                 // $sizes = array('small','medium','large','org');
                 $year = Carbon::now()->year;
@@ -153,7 +149,7 @@ class SpiderController extends Controller
         dd('Finished, added ' . $i . ' Product');
     }
 
-    private function resize($path, $type, $imagePath, $fileNameAndType, $fileName, $fileType)
+    private function resize(string $path, string $type, string $imagePath, string $fileNameAndType, string $fileName, string $fileType)
     {
 
         $sizes = array(
@@ -161,41 +157,41 @@ class SpiderController extends Controller
             'medium' => env(Str::upper($type) . '_MEDIUM_W'),
             'large' => env(Str::upper($type) . '_LARGE_W')
         );
-        // dd($sizes);
+
         $images['crop'] = $imagePath . $fileNameAndType;
+
+        $manager = new ImageManager(new Driver());
+        $original = $manager->read(public_path($path));
+
         foreach ($sizes as $name => $size) {
-            $images[$name] = $imagePath  . $fileName . "-{$name}." . $fileType;
 
-            // dd($path);
-            $img = Image::make(public_path($path));
-            // dd($path);
-            $img->resize($size, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $img->save(public_path($images[$name]), 60, 'jpg');
+            $images[$name] = $imagePath . $fileName . "-{$name}." . $fileType;
 
-            // echo "<img src='".url($images[$name])."'>";
+            $img = clone $original;
+
+            $img->scale(width: (int) $size);
+
+            $img->toJpeg(60)->save(public_path($images[$name]));
 
         }
 
-        // dd(1);
         return $images;
     }
 
-    private function getCategories($caption)
+    private function getCategories(string $caption)
     {
-        $categories = Category::where('type', '=', 1)->select('title', 'id')->get()->filter(function ($value, $key) use ($caption) {
-            // echo ($value->title).'<br>';
-            // echo (Str::contains($caption,$value->title));
-            // return $value->title == 'گوشواره';
-            return Str::contains($caption, $value->title);
-        });
+        $categories = Category::where('type', '=', 1)
+            ->select('title', 'id')
+            ->get()
+            ->filter(function ($value, $key) use ($caption) {
+                return Str::contains($caption, $value->title);
+            });
 
 
-        if ($categories->count() == 0)  $categories = new Collection(array(Category::where('type', '=', 1)->Where('title', '=', 'محصولات')->first()));
-
-        // dd(new Category(array('title'=>3)));
-        // dd($categories);
+        if ($categories->count() == 0)
+            $categories = new Collection([
+                Category::where('type', '=', 1)->Where('title', '=', 'محصولات')->first()
+            ]);
 
         return $categories;
     }

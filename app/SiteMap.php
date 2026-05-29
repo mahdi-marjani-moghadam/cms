@@ -4,11 +4,7 @@ namespace App;
 use App\SiteMapIndex;
 use App\SiteMapEntity;
 
-/**
- * @method  setLastMod(string $date)
- * @method  setLoc(string $url)
- * @method setPriority(float $priority)
- */
+
 class SiteMap
 {
 
@@ -23,9 +19,6 @@ class SiteMap
     private $defultPriority;
     private $defultChangefreq;
 
-    /**
-     * @param $comp_id
-     */
 
     public static function create()
     {
