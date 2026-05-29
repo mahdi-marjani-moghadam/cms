@@ -24,8 +24,7 @@
         "phpfastcache/phpfastcache": "^8.1",
         "raiym/instagram-php-scraper": "^0.12.5",
         "spatie/laravel-permission": "^6.10",
-        "thunderer/shortcode": "^0.7.5",
-        "yajra/laravel-datatables-oracle": "^11.1"
+        "thunderer/shortcode": "^0.7.5"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^2.0",
