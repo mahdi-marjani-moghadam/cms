@@ -163,22 +163,22 @@
 @section('Content')
 <script  type="application/ld+json">
     {
-        "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@type": "JewelryStore",
         "name": "گالری طلا دینگ",
         "image": "{{ url(env('TEMPLATE_NAME') . '/img/logo2x.png') }}",
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "تهران، رسالت، پاساژ دنیای نور، طبقه -۱، واحد ۳۵",
+            "streetAddress": "تهران، رسالت، پاساژ پالمیرا، طبقه اول واحد ۱۱۴",
             "addressLocality": "تهران",
             "addressRegion": "تهران",
-            "postalCode": "۱۷۴۴۹",
+            "postalCode": "۱۷۴۴۵۴",
             "addressCountry": "IR"
         },
         "geo": {
             "@type": "GeoCoordinates",
-            "latitude": "35.738822",
-            "longitude": "51.477618"
+            "latitude": "35.726810",
+            "longitude": "51.476914"
         },
         "url": "https://dinggold.ir/",
         "telephone": "+989374599840",

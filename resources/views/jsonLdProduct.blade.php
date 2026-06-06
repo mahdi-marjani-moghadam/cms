@@ -3,7 +3,7 @@
 @endphp
 <script type="application/ld+json">
     {
-        "@context": "https://schema.org/",
+        "@@context": "https://schema.org/",
         "@type": "Product",
         "name": "{{ $detail->title }}",
 @if (isset($detail->images['images']['large']))

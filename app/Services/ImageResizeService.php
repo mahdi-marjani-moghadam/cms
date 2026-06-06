@@ -22,8 +22,8 @@ class ImageResizeService
         string $outputDir,
         string $fileName,
         string $extension,
-        bool $convertToJpeg = false,
-        int $quality = 80
+        int $quality = 80,
+        ?string $watermark = null
     ): array {
 
         $image = $this->manager->read($fullPath);
@@ -32,21 +32,30 @@ class ImageResizeService
 
         $results = [];
 
-        foreach ($sizes as $name => $width) {
+        foreach ($sizes as $size_name => $width) {
 
             $ext = $this->resolveExtension($extension, $convertToJpeg);
 
-            $outputPath = $outputDir . $fileName . "-{$name}.{$ext}";
+            $outputPath = $outputDir . $fileName . "-{$size_name}.{$ext}";
 
             $processed = $image->scale(width: (int) $width);
 
             $this->saveImage($processed, public_path($outputPath), $ext, $quality);
+            // ✅ watermark applied AFTER save (safe & consistent)
+            if ($watermark) {
+                $this->applyWatermark(
+                    $outputPath,
+                    $type,
+                    $size_name,
+                    $watermark
+                );
+            }
 
-            $results[$name] = $outputPath;
+            $results[$size_name] = $outputPath;
         }
 
         // ORIGINAL (safe)
-        $originalExt = $this->resolveExtension($extension, $convertToJpeg);
+        $originalExt = $this->resolveExtension($extension);
         $originalPath = $outputDir . $fileName . ".{$originalExt}";
 
         $this->saveImage($image, public_path($originalPath), $originalExt, $quality);
@@ -64,9 +73,9 @@ class ImageResizeService
         $type = Str::upper($type);
 
         $sizes = [
-            'small'  => (int) env("{$type}_SMALL_W", 300),
+            'small' => (int) env("{$type}_SMALL_W", 300),
             'medium' => (int) env("{$type}_MEDIUM_W", 600),
-            'large'  => (int) env("{$type}_LARGE_W", 1200),
+            'large' => (int) env("{$type}_LARGE_W", 1200),
         ];
 
         if (env("{$type}_XLARGE_W")) {
@@ -79,15 +88,9 @@ class ImageResizeService
     /**
      * Smart extension resolver
      */
-    private function resolveExtension(string $ext, bool $convertToJpeg): string
+    private function resolveExtension(string $ext): string
     {
-        $ext = strtolower($ext);
-
-        if ($convertToJpeg) {
-            return 'jpg';
-        }
-
-        return \in_array($ext, ['png', 'webp', 'gif']) ? $ext : 'jpg';
+        return  strtolower($ext);
     }
 
     /**
@@ -95,11 +98,42 @@ class ImageResizeService
      */
     private function saveImage(ImageInterface $image, string $path, string $ext, int $quality): void
     {
-        if ($ext === 'png') {
-            $image->save($path);
-            return;
-        }
+        $ext = strtolower($ext);
 
-        $image->toJpeg($quality)->save($path);
+        match ($ext) {
+            'jpg', 'jpeg' => $image->toJpeg($quality)->save($path),
+            'png' => $image->save($path), // keep PNG native
+            'webp' => method_exists($image, 'toWebp')
+            ? $image->toWebp($quality)->save($path)
+            : $image->save($path),
+            default => $image->save($path),
+        };
+    }
+
+    private function applyWatermark(
+        string $imagePath,
+        string $type,
+        string $size,
+        string $text
+    ): void {
+
+        $manager = new ImageManager(new Driver());
+        $image = $manager->read($imagePath);
+
+        $sizeKey = Str::upper($size);
+
+        $w = env(Str::upper($type) . '_' . $sizeKey . '_W', 800);
+        $h = env(Str::upper($type) . '_' . $sizeKey . '_H', 600);
+
+        $image->text($text, $w / 2, $h / 2, function ($font) use ($w) {
+            $font->file(public_path('/adminAssets/fonts/IRANSans/ttf/IRANSansWeb.ttf'));
+            $font->size($w / 10);
+            $font->color('rgba(0,0,0,0.2)');
+            $font->align('center');
+            $font->valign('bottom');
+            $font->angle(45);
+        });
+
+        $image->save($imagePath);
     }
 }

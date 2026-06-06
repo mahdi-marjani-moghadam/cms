@@ -487,17 +487,22 @@ class CompanyController extends Controller
         return redirect(route('company.products.powerUp', ['content' => $content->id]))->with('success', __('messages.pay success'));
     }
 
-    function profileShow(Request $request, $slug)
+    function profileShow(Request $request, int|string $slug)
     {
         $showcallnowbutton = false;
-        $name = str_replace('-', ' ', $slug);
+        // $name = str_replace('-', ' ', $slug);
+
+
 
         if (is_numeric($slug)) {
-            $company = Company::find($name);
+            $company = Company::find((int) $slug);
             return redirect(url('profile/' . Str::slug($company->name, '-', null)), 301);
         }
-        $company = Company::where('name', $name)->first();
-        // dd($company->id);
+
+
+        $company = Company::where('slug', $slug)->first();
+
+        // dd($company->name);
 
         if ($company == null || $company->status == 0) {
             return redirect('/', 301);

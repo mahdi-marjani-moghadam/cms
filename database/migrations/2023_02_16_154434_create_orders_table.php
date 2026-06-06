@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->default(0);
-            $table->integer('total_price')->default(0)->unsigned();
+            $table->unsignedBigInteger('total_price')->default(0);
 
             // $table->morphs('orderable'); // Adds unsigned INTEGER order_id and STRING order_type
 

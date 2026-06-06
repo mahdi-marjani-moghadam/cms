@@ -18,16 +18,23 @@ use Intervention\Image\Drivers\Gd\Driver;
 
 use Illuminate\Support\Str;
 use App\Models\RedirectUrl;
+use App\Services\ImageResizeService;
 use Exception;
 
 class ContentController extends Controller
 {
-    protected function uploadImages($request, $type = 'article', $mainImage = true)
+    protected ImageResizeService $imageResizeService;
+
+    public function __construct(ImageResizeService $imageResizeService)
+    {
+        $this->imageResizeService = $imageResizeService;
+    }
+    protected function uploadImages(Request $request, $type = 'article', $mainImage = true)
     {
 
         $year = Carbon::now()->year;
         $imagePath = "/upload/images/{$year}/";
-
+        $fullDir = public_path($imagePath);
 
         if ($mainImage) {
             $file = $request->imageJson;
@@ -52,15 +59,35 @@ class ContentController extends Controller
 
             $file = $fileOrg->move(public_path($imagePath), $fileName . '-org.' . $fileType); // original
 
-            try{
+            try {
                 file_put_contents(public_path() . $imagePath . $fileNameAndType, $image_base64); // croped
             }
-            catch (Exception $e){
+            catch (Exception $e) {
                 dd($e);
             }
 
+            $url['images'] = $this->imageResizeService->resize(
+                fullPath: $imagePath . $fileNameAndType,
+                type: $type,
+                outputDir: $imagePath,
+                fileName: $fileName,
+                extension: $image_type,
+                quality: 80
+            );
 
-            $url['images'] = $this->resize($imagePath . $fileNameAndType, $type, $imagePath, $fileNameAndType, $fileName, $fileType);
+
+            // $url['images'] = $this->resize(
+            //     $imagePath . $fileNameAndType,
+            //     $type,
+            //     $imagePath,
+            //     $fileNameAndType,
+            //     $fileName,
+            //     $fileType
+            // );
+
+
+
+
             // $url['thumb'] = $url['images']['small'];
             $url['images']['org'] = $imagePath . $fileName . '-org.' . $fileType;
         } else {
@@ -80,7 +107,24 @@ class ContentController extends Controller
                 file_put_contents(public_path() . $imagePath . $fileNameAndType, $image_base64); // croped
 
 
-                $url[]['images'] = $this->resize($imagePath . $fileNameAndType, $type, $imagePath, $fileNameAndType, $fileName, $fileType);
+                $url[]['images'] = $this->imageResizeService->resize(
+                    fullPath: $imagePath . $fileNameAndType,
+                    type: $type,
+                    outputDir: $imagePath,
+                    fileName: $fileName,
+                    extension: $fileType,
+                    quality: 80,
+                    watermark: $request->watermark
+                );
+
+                // $url[]['images'] = $this->resize(
+                //     $imagePath . $fileNameAndType,
+                //     $type,
+                //     $imagePath,
+                //     $fileNameAndType,
+                //     $fileName,
+                //     $fileType
+                // );
             }
         }
 
@@ -94,7 +138,7 @@ class ContentController extends Controller
                 $manager = new ImageManager(new Driver());
                 $imgFile = $manager->read(public_path($image));
 
-                $imgFile->text($request->watermark, env(Str::upper($type) . '_' . Str::upper($size) . '_W') / 2, env(Str::upper($type) . '_' . Str::upper($size) . '_H') / 2,  function ($font) use ($size, $type) {
+                $imgFile->text($request->watermark, env(Str::upper($type) . '_' . Str::upper($size) . '_W') / 2, env(Str::upper($type) . '_' . Str::upper($size) . '_H') / 2, function ($font) use ($size, $type) {
                     $font->file(public_path('/adminAssets/fonts/IRANSans/ttf/IRANSansWeb.ttf'));
                     $font->size(env(Str::upper($type) . '_' . Str::upper($size) . '_W') / 10);
                     $font->color('rgba(0,0,0,0.2)');
@@ -103,7 +147,7 @@ class ContentController extends Controller
                     $font->angle(45);
                 });
 
-                $imgFile->toJpeg(90)->save(public_path($image));
+                $imgFile->save(public_path($image));
 
                 // echo "<img src='".url($image)."'>";
             }
@@ -112,47 +156,43 @@ class ContentController extends Controller
         return $url;
     }
 
-    private function resize($path, $type, $imagePath, $fileNameAndType, $fileName, $fileType)
-    {
+    // private function resize($path, $type, $imagePath, $fileNameAndType, $fileName, $fileType)
+    // {
 
 
 
-        if (env(Str::upper($type) . '_XLARGE_W')) {
-            $sizes = array(
-                "small" => env(Str::upper($type) . '_SMALL_W'),
-                'medium' => env(Str::upper($type) . '_MEDIUM_W'),
-                'large' => env(Str::upper($type) . '_LARGE_W'),
-                'xlarge' => env(Str::upper($type) . '_XLARGE_W')
-            );
-        } else {
-            $sizes = array(
-                "small" => env(Str::upper($type) . '_SMALL_W'),
-                'medium' => env(Str::upper($type) . '_MEDIUM_W'),
-                'large' => env(Str::upper($type) . '_LARGE_W')
-            );
-        }
+    //     if (env(Str::upper($type) . '_XLARGE_W')) {
+    //         $sizes = array(
+    //             "small" => env(Str::upper($type) . '_SMALL_W'),
+    //             'medium' => env(Str::upper($type) . '_MEDIUM_W'),
+    //             'large' => env(Str::upper($type) . '_LARGE_W'),
+    //             'xlarge' => env(Str::upper($type) . '_XLARGE_W')
+    //         );
+    //     } else {
+    //         $sizes = array(
+    //             "small" => env(Str::upper($type) . '_SMALL_W'),
+    //             'medium' => env(Str::upper($type) . '_MEDIUM_W'),
+    //             'large' => env(Str::upper($type) . '_LARGE_W')
+    //         );
+    //     }
 
-        $images['crop'] = $imagePath . $fileNameAndType;
-        $manager = new ImageManager(new Driver());
+    //     $images['crop'] = $imagePath . $fileNameAndType;
+    //     $manager = new ImageManager(new Driver());
 
-        foreach ($sizes as $name => $size) {
-            $images[$name] = $imagePath  . $fileName . "-{$name}." . $fileType;
+    //     foreach ($sizes as $name => $size) {
+    //         $images[$name] = $imagePath . $fileName . "-{$name}." . $fileType;
 
-            $img = $manager->read(public_path($path));
-            $img->scale(width: $size);
-            $img->toJpeg(90)->save(public_path($images[$name]));
+    //         $img = $manager->read(public_path($path));
+    //         $img->scale(width: $size);
+    //         $img->toJpeg(90)->save(public_path($images[$name]));
 
-        }
+    //     }
 
-        // dd(1);
-        return $images;
-    }
+    //     // dd(1);
+    //     return $images;
+    // }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request, $type = 'article')
     {
 
@@ -183,8 +223,8 @@ class ContentController extends Controller
 
         if (isset($request->qsort)) {
             $sort = explode(',', $request->qsort);
-        }else{
-            $sort = ['publish_date','desc'];
+        } else {
+            $sort = ['publish_date', 'desc'];
         }
 
         $contents = $contents->orderBy($sort[0], $sort[1])->paginate(10);
@@ -458,7 +498,7 @@ class ContentController extends Controller
             // dd($file);
             $images = $crud->images['images'] ?? '';
             if (is_array($images)) {
-                $images =  array_map(function ($item) {
+                $images = array_map(function ($item) {
                     return trim($item, '/');
                 }, array_values($images));
 

@@ -71,6 +71,7 @@
                         <tr>
                             <th></th>
                             <th>@lang('messages.name')</th>
+
                             <th>@lang('messages.email')</th>
                             <th>@lang('messages.mobile')</th>
                             <th>@lang('messages.logo')</th>
@@ -87,13 +88,15 @@
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td class="">
-                                    <a href="{{ route('profile.index', $item->id) }}" target="__blank"> <i
-                                            class="fa fa-external-link"></i></a>
-                                    {{ $item->name ?? '' }}
+                                    <strong>{{ $item->name ?? '' }}</strong>
                                     <br>
-                                    <a
-                                        href="{{ route('contents.type.show', ['type' => 'product', 'companyId' => $item->id]) }}">@lang('messages.products')
-                                        ({{ $item->contents()->where('type', '=', 2)->count() }})</a>
+                                    <a href="{{ route('profile.index', Str::slug($item->name,'-',null)) }}" target="__blank"> {{ $item->slug ?? '' }}
+                                        <i
+                                            class="fa fa-external-link"></i>
+                                        </a>
+
+                                    <br>
+
 
                                     <div>
                                         <svg class="p-0" width="13" height="13" viewBox="0 0 24 24" fill="none"
@@ -106,8 +109,12 @@
                                                 fill="currentColor" />
                                         </svg>
                                         {{ $item->viewCount }}
+
+                                        - <a class="btn btn-info btn-sm" href="{{ route('contents.type.show', ['type' => 'product', 'companyId' => $item->id]) }}">@lang('messages.products')
+                                        ({{ $item->contents()->where('type', '=', 2)->count() }})</a>
                                     </div>
                                 </td>
+
                                 <td class="">{{ $item->email ?? '' }}</td>
                                 <td class="">{{ $item->mobile ?? '' }}</td>
                                 <td class=""><img src="{{ $item->logo['small'] ?? '' }}" alt=""></td>
@@ -125,10 +132,8 @@
 
                                 <td>{!! ($item->status == 1) ? '<i class="fa fa-check"></i>' : '' !!}</td>
 
-                                <td class="">{{ convertGToJ($item->updated_at, $time = true) }}
-
-                                </td>
-                                <td class="">{{ convertGToJ($item->created_at, true) }} </td>
+                                <td class="">{{ convertGToJ($item->updated_at, true, format: '%d %B %Y') }}</td>
+                                <td class="">{{ convertGToJ($item->created_at, true , '%d %B %Y') }} </td>
 
                                 <td>
                                     <div class="">

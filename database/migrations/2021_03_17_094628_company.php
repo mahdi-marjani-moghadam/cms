@@ -63,3 +63,30 @@ class Company extends Migration
 
     }
 }
+
+
+
+// فیلد slug
+/*
+ALTER TABLE companies ADD COLUMN slug VARCHAR(255) AFTER name;
+
+ALTER TABLE companies ADD UNIQUE (slug);
+
+
+بعد فیلد رواپیدت کردم
+SET @slug := '';
+SET @rn := 0;
+
+UPDATE companies c
+JOIN (
+    SELECT
+        id,
+        slug,
+        @rn := IF(@slug = slug, @rn + 1, 0) AS rn,
+        @slug := slug
+    FROM companies
+    ORDER BY slug, id
+) x ON c.id = x.id
+SET c.slug = IF(x.rn = 0, x.slug, CONCAT(x.slug, '-', x.rn));
+
+*/
