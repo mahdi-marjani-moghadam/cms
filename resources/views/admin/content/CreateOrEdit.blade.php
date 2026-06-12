@@ -272,8 +272,8 @@
                     </div>
 
                 </div>
-                <div class="form-group row">
-                    <div class="col-md-12">
+                <div class="form-group row bg-white ">
+                    <div class="col-md-12  ">
                         <label for="name" class=" col-form-label text-md-left">@lang('messages.description')
                             :</label>
                         <span class="text-danger">{{ $errors->first('description') }}</span>
@@ -286,7 +286,7 @@
                 </div>
 
 
-                <div class="form-group row">
+                <div class="form-group row ">
                     <div class="col-6 col-md-6">
                         <label for="name">@lang('messages.category'):</label>
                         <select id="parent_id" class="js-example-basic-multiple" name="parent_id[]" multiple="multiple">
@@ -316,15 +316,12 @@
 
 
 
-                <div class="form-group row">
-                    <div class="col-6 col-sm-6">
+                <div class="form-group row bg-white margin-b-full" style="margin: 0px;border-radius:5px;">
+                    <div class="col-6 col-sm-6 ">
                         <label for="images" class="control-label">@lang('messages.image')
-                            <br>
-                            (@lang('messages.content') w:{{ env('ARTICLE_LARGE_W') }}px
-                            h:{{ env('ARTICLE_LARGE_H') }}px)
-                            <br>
-                            (@lang('messages.product') w:{{ env('PRODUCT_LARGE_W') }}px
-                            h:{{ env('PRODUCT_LARGE_H') }}px)</label>
+                            (@lang('messages.content') w:{{ env('ARTICLE_XLARGE_W') }}px h:{{ env('ARTICLE_XLARGE_H') }}px)
+                            (@lang('messages.product') w:{{ env('PRODUCT_XLARGE_W') }}px h:{{ env('PRODUCT_XLARGE_H') }}px)
+                        </label>
                         <input type="file" class="form-control" name="images" id="images"
                             placeholder="@lang('messages.select image')" value="{{ old('imageUrl') }}">
 
@@ -340,34 +337,28 @@
                             type="text" name="watermark">
                     </div>
 
-                </div>
 
-                <div class="form-group row ">
-                    <div class="col-sm-12" style="display: flex">
+                    <div class="col-sm-12 w-full" style="display: flex; margin-top:1em ">
                         @if (is_array($content->images ?? ''))
 
                             @foreach ($content->images['images'] ?? [] as $key => $image)
-                                <div class="col-sm-2">
+                                <div class="" style="flex: 1 1 auto">
                                     <label class="control-label">
                                         {{ $key }}
-
-                                        <a href="{{ $image }}" target="_blank"><img src="{{ $image }}"
-                                                width="{{ (env(Str::upper($attr_type) . '_' . Str::upper($key) . '_W') ?? env(Str::upper($attr_type) . '_LARGE_W')) / 4 }}"></a>
+                                        <a href="{{ $image }}" target="_blank"><img src="{{ $image }}" width="50"></a>
                                     </label>
                                 </div>
                             @endforeach
                         @endif
 
                     </div>
-                </div>
 
 
 
-                <div style="background: #ddd; padding:1em;border-radius:5px;" class="form-group row">
-                    <div class="col-md-12">
-                        <label for="meta_title">@lang('messages.gallery')</label>
+                    <div class="col-sm-12 w-full " style="border:1px solid #ccc; background-color:azure; margin-top:1em; border-radius:0 0 5px 5px ;  padding-top:1em; padding-bottom: 1em; ">
+                        <label for="">@lang('messages.gallery')</label>
 
-                        <div class="gallery">
+                        <div class="gallery flex">
                             @foreach ($content->gallery ?? [] as $item)
                                 <div>
                                     <img src="{{ $item->images['images']['small'] }}" data-id="{{ $item->id }}"
@@ -385,16 +376,23 @@
 
 
                     </div>
+
+
                 </div>
 
 
-                <div class="row"
-                    style="background: #ddd; border-radius:5px; padding:1em; margin-bottom:1em; display:block">
+
+
+
+
+
+
+                <div class="row">
                     @include('admin.attribute.CreateOrEdit')
                 </div>
 
 
-                <div class="form-group row">
+                <div class="form-group row bg-white margin-b-full" style="margin: 0px;border-radius:5px; padding:1em ">
                     <div class="col-md-6 col-6">
                         <label for="meta_title">Meta Title</label>
                         <input type="text" class="form-control" name="meta_title"
@@ -406,24 +404,22 @@
                         <input id="meta_keywords" type="text" name="meta_keywords"
                             value="{{ old('meta_keywords', $content->meta_keywords ?? '') }}" />
                     </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 col-12">
                         <label for="meta_description" class=" col-form-label text-md-left">meta
                             Description:</label>
                         <textarea class="form-control" id="meta_description"
                             name="meta_description">{{ old('meta_description', $content->meta_description ?? '') }}</textarea>
                     </div>
-
                 </div>
+
 
 
 
                 @if ($attr_type == 'product')
 
                     <div class="form-group row">
-                        <div class="col-4 col-md-4">
+
+                        <div class="col-2 col-md-4">
                             <label for="in-stock"
                                 class=" col-form-label  text-left">@lang('messages.in-stock'):</label>
                             <select class="form-control" name="attr[in-stock]" id="attr[in-stock]">
@@ -435,38 +431,40 @@
 
                         <div class="col-2 col-md-2">
                             <label for="weight"
-                                class=" col-form-label  text-left">@lang('messages.weight'):</label>
+                                class=" col-form-label  text-left">@lang('messages.weight'): گرم</label>
                             <input  class="form-control ltr" name="attr[weight]"
                                 value="{{ old('attr[weight]', $content->attr['weight'] ?? '') }}" />
                         </div>
                         <div class="col-2 col-md-2">
                             <label for="weight"
-                                class=" col-form-label  text-left">@lang('messages.ojrat'):</label>
+                                class=" col-form-label  text-left">@lang('messages.ojrat'): درصد</label>
                             <input  class="form-control ltr" name="attr[ojrat]"
                                 value="{{ old('attr[ojrat]', $content->attr['ojrat'] ?? '') }}" />
                         </div>
 
-                        <div class="col-4 col-md-4">
+                        <div class="col-2 col-md-4">
                             <label for="additionalprice"
-                                class=" col-form-label text-left">@lang('messages.additionalprice'):@lang('messages.toman')</label>
+                                class=" col-form-label text-left">@lang('messages.additionalprice'): @lang('messages.toman')</label>
                             <input type="number" class="form-control ltr" name="attr[additionalprice]"
                                 value="{{ old('attr[additionalprice]', $content->attr['additionalprice'] ?? '') }}" />
                         </div>
-
-                        <div class="col-4 col-md-4">
-                            <label for="price"
-                                class=" col-form-label text-md-left">@lang('messages.price'):@lang('messages.toman')</label>
-                            <input type="number" class="form-control ltr" name="attr[price]"
-                                value="{{ old('attr[price]', $content->attr['price'] ?? '') }}" />
-                        </div>
-
-                        <div class="col-6 col-md-6">
+                        <div class="col-2 col-md-6">
                             <label for="offer_price"
                                 class=" col-form-label text-md-left">@lang('messages.discount'):</label>
 
                             <input type="text" class="form-control" name="attr[offer_price]"
                                 value="{{ old('attr[offer_price]', $content->attr['offer_price'] ?? '') }}" />
                         </div>
+
+
+                        <div class="col-2 col-md-4">
+                            <label for="price"
+                                class=" col-form-label text-md-left">@lang('messages.price'): @lang('messages.toman')</label>
+                            <input type="number" class="form-control ltr" name="attr[price]"
+                                value="{{ old('attr[price]', $content->attr['price'] ?? '') }}" />
+                        </div>
+
+
 
                         <div class="col-6 col-md-6">
                             <label for="brand" class=" col-form-label text-md-left">@lang('messages.brand'):</label>

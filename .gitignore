@@ -10,6 +10,7 @@
 /public/upload/images/2023/*
 /public/upload/images/2024/*
 /public/upload/images/2025/*
+/public/upload/images/2026/*
 /public/upload/images/modules/*
 /public/upload/_thumbs/Images/*
 
@@ -37,10 +38,3 @@ public/*.xml
 # .vscode/sftp.json
 .vscode/*
 # public/upload/images/
-public/upload/images/2026/6/پلاک-کودک-طرح-پاتریک-کد-T404-7252-crop.jpg
-public/upload/images/2026/6/پلاک-کودک-طرح-پاتریک-کد-T404-7252-large.jpeg
-public/upload/images/2026/6/پلاک-کودک-طرح-پاتریک-کد-T404-7252-medium.jpeg
-public/upload/images/2026/6/پلاک-کودک-طرح-پاتریک-کد-T404-7252-org.jpg
-public/upload/images/2026/6/پلاک-کودک-طرح-پاتریک-کد-T404-7252-small.jpeg
-public/upload/images/2026/6/پلاک-کودک-طرح-پاتریک-کد-T404-7252-xlarge.jpeg
-public/upload/images/2026/6/پلاک-کودک-طرح-پاتریک-کد-T404-7252.jpeg

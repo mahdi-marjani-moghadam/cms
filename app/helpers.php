@@ -685,14 +685,15 @@ if (!function_exists('convert_entity')) {
     }
 }
 if (!function_exists('convertJToG')) {
-    function convertJToG($date)
+    function convertJToG(string $date)
     {
         if (env('SITE_LANG') != 'fa') {
             return $date;
         }
 
         $convertFaToEn = CalendarUtils::convertNumbers($date, true); // 1402/12/19 3:30:0
-        $convertDate = CalendarUtils::createCarbonFromFormat('Y/m/d H:i:s', $convertFaToEn)->format('Y-m-d H:i:s'); //2016-05-8 3:30:0
+        $convertDate = CalendarUtils::createCarbonFromFormat('Y/m/d H:i:s', $convertFaToEn)
+            ->format('Y-m-d H:i:s'); //2016-05-8 3:30:0
 
         return $convertDate;
     }

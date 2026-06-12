@@ -17,7 +17,7 @@ class ImageResizeService
     }
 
     public function resize(
-        string $fullPath,  //  public_path('/upload/images/2026/5/T403.5052.jpg')
+        string $fullPath,  //  public_path('/upload/images/2026/5/T403.5052-crop.jpg')
         string $type,
         string $outputDir, //  /upload/images/{$year}/{$month}/
         string $fileName,
@@ -25,8 +25,6 @@ class ImageResizeService
         int $quality = 80,
         ?string $watermark = null
     ): array {
-
-
 
         $originalImage = $this->manager->read($fullPath);
 
@@ -49,24 +47,25 @@ class ImageResizeService
             // ✅ watermark applied AFTER save (safe & consistent)
             if ($watermark) {
                 $this->applyWatermark(
-                    $outputPath,
-                    $type,
-                    $size_name,
-                    $watermark
+                    image: $processed,
+                    path: public_path($outputPath),
+                    type: $type,
+                    size: $size_name,
+                    text: $watermark,
                 );
             }
 
             $results[$size_name] = $outputPath;
         }
-    
+
 
         // ORIGINAL (safe)
         $originalExt = $this->resolveExtension($extension);
         $originalPath = "{$outputDir}{$fileName}.{$originalExt}";
 
-        $this->saveImage($image, public_path($originalPath), $originalExt, 100);
+        $this->saveImage($originalImage, public_path($originalPath), $originalExt, 100);
 
-        $results['original'] = $originalPath;
+        $results['crop'] = $originalPath;
 
         return $results;
     }
@@ -117,14 +116,13 @@ class ImageResizeService
     }
 
     private function applyWatermark(
-        string $imagePath,
+        ImageInterface $image,
+        string $path,
         string $type,
         string $size,
         string $text
     ): void {
 
-        $manager = new ImageManager(new Driver());
-        $image = $manager->read($imagePath);
 
         $sizeKey = Str::upper($size);
 
@@ -140,6 +138,6 @@ class ImageResizeService
             $font->angle(45);
         });
 
-        $image->save($imagePath);
+        $image->save($path);
     }
 }

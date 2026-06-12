@@ -58,9 +58,12 @@ class ContentController extends Controller
 
 
 
-            // $file = $fileOrg->move($imagePublicPath, "{$fileName}-org.{$fileType}"); // original
+            $file = $fileOrg->move($imagePublicPath, "{$fileName}-org.{$fileType}"); // original
             try {
                 $crop_path = "{$imagePublicPath}{$fileName}-crop.{$fileType}";
+                if (!file_exists($imagePublicPath)) {
+                    mkdir($imagePublicPath, 0775, true);
+                }
                 file_put_contents($crop_path, $image_base64); // croped
             }
             catch (Exception $e) {
@@ -73,7 +76,8 @@ class ContentController extends Controller
                 outputDir: $imagePath,
                 fileName: $fileName,
                 extension: $image_type,
-                quality: 80
+                quality: 80,
+                watermark: (isset($request->watermark)) ? $request->watermark : null
             );
 
 
@@ -105,7 +109,7 @@ class ContentController extends Controller
                     fileName: $fileName,
                     extension: $fileType,
                     quality: 80,
-                    watermark: $request->watermark
+                    watermark: (isset($request->watermark)) ? $request->watermark : null
                 );
 
                 // $url[]['images'] = $this->resize(
@@ -119,30 +123,30 @@ class ContentController extends Controller
             }
         }
 
-        if (isset($request->watermark) and isset($url['images'])) {
-            foreach ($url['images'] as $size => $image) {
+        // if (isset($request->watermark) and isset($url['images'])) {
+        //     foreach ($url['images'] as $size => $image) {
 
-                if (in_array($size, ['crop'])) {
-                    $size = 'large';
-                }
+        //         if (in_array($size, ['crop'])) {
+        //             $size = 'large';
+        //         }
 
-                $manager = new ImageManager(new Driver());
-                $imgFile = $manager->read(public_path($image));
+        //         $manager = new ImageManager(new Driver());
+        //         $imgFile = $manager->read(public_path($image));
 
-                $imgFile->text($request->watermark, env(Str::upper($type) . '_' . Str::upper($size) . '_W') / 2, env(Str::upper($type) . '_' . Str::upper($size) . '_H') / 2, function ($font) use ($size, $type) {
-                    $font->file(public_path('/adminAssets/fonts/IRANSans/ttf/IRANSansWeb.ttf'));
-                    $font->size(env(Str::upper($type) . '_' . Str::upper($size) . '_W') / 10);
-                    $font->color('rgba(0,0,0,0.2)');
-                    $font->align('center');
-                    $font->valign('bottom');
-                    $font->angle(45);
-                });
+        //         $imgFile->text($request->watermark, env(Str::upper($type) . '_' . Str::upper($size) . '_W') / 2, env(Str::upper($type) . '_' . Str::upper($size) . '_H') / 2, function ($font) use ($size, $type) {
+        //             $font->file(public_path('/adminAssets/fonts/IRANSans/ttf/IRANSansWeb.ttf'));
+        //             $font->size(env(Str::upper($type) . '_' . Str::upper($size) . '_W') / 10);
+        //             $font->color('rgba(0,0,0,0.2)');
+        //             $font->align('center');
+        //             $font->valign('bottom');
+        //             $font->angle(45);
+        //         });
 
-                $imgFile->save(public_path($image));
+        //         $imgFile->save(public_path($image));
 
-                // echo "<img src='".url($image)."'>";
-            }
-        }
+        //         // echo "<img src='".url($image)."'>";
+        //     }
+        // }
         // dd(1);
         return $url;
     }

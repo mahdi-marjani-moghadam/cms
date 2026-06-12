@@ -6,15 +6,22 @@
             <div class="font-bold border-b-2 border-[#ca8a04] md:inline-block mb-3 pl-20">اطلاعات تماس <span
                     class="hidden max-sm:invisible">+</span></div>
             <div class="text-gray-500 ">
-                <div>
-                    <a class=" block" href="/درباره-ما">درباره ما</a>
-                    <a class=" block" href="/تماس-با-ما">تماس با ما</a>
+                <div class="flex">
+                    <a class="pl-4 block" href="/درباره-ما">درباره ما</a> -
+                    <a class="px-4 block" href="/تماس-با-ما">تماس با ما</a>
                 </div>
 
                 <div>شماره تماس:
-                    <div><a href="">۰۹۳۷۴۵۹۹۸۴۰</a></div>
+                    <div><a href="tel:09374599840">۰۹۳۷۴۵۹۹۸۴۰</a></div>
+                    <div><a href="tel:09194594052">۰۹۱۹۴۵۹۴۰۵۲</a></div>
+                    <div><a href="tel:09196866187">۰۹۱۹۶۸۶۶۱۸۷</a></div>
                 </div>
-                <div class=""> فروشگاه آنلاین (شنبه تا پنجشنبه ۹ تا ۲۱)
+
+                <div class=""> فروشگاه حضوری (شنبه تا پنجشنبه ۱۱ تا ۲۰:۳۰)
+                    <div class="text-gray-900">مدنی شمالی، پاساژ پالمیرا، طبقه اول، واحد ۱۱۴</div>
+                </div>
+
+                <div class=""> فروشگاه آنلاین (شنبه تا جمعه ۲۴ ساعته)
                     <div class=""></div>
                     <div class="text-gray-900">ارسال فوری و مطمئن</div>
                 </div>
