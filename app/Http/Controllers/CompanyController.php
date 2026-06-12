@@ -496,7 +496,7 @@ class CompanyController extends Controller
 
         if (is_numeric($slug)) {
             $company = Company::find((int) $slug);
-            return redirect(url('profile/' . Str::slug($company->name, '-', null)), 301);
+            return redirect(url('profile/' . $company->slug), 301);
         }
 
 
@@ -653,7 +653,6 @@ class CompanyController extends Controller
         $data = $request->all();
         $data['password'] = Hash::make(123456);
 
-
         $this->companyStoreService($data, new Company);
 
         return redirect()->route('admin.company.index')->with('success', Lang::get('messages.Greate! Company created successfully.'));
@@ -670,6 +669,9 @@ class CompanyController extends Controller
         ));
 
         $data = $request->all();
+        // dd(($request->slug != '') ? $request->slug : $request->name);
+
+        $data['slug'] = uniqueSlug(model: Company::class, slugOrModel: $company, slug: ($request->slug != '') ? $request->slug : $request->name);
 
         $this->companyStoreService($data, $company);
 
@@ -678,7 +680,7 @@ class CompanyController extends Controller
 
 
 
-    public function companyStoreService($data, $company): Company
+    public function companyStoreService(array $data, Company $company): Company
     {
 
         $parent_id_hide = $data['parent_id_hide'];

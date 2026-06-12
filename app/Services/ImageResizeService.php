@@ -17,16 +17,18 @@ class ImageResizeService
     }
 
     public function resize(
-        string $fullPath,
+        string $fullPath,  //  public_path('/upload/images/2026/5/T403.5052.jpg')
         string $type,
-        string $outputDir,
+        string $outputDir, //  /upload/images/{$year}/{$month}/
         string $fileName,
         string $extension,
         int $quality = 80,
         ?string $watermark = null
     ): array {
 
-        $image = $this->manager->read($fullPath);
+
+
+        $originalImage = $this->manager->read($fullPath);
 
         $sizes = $this->getSizes($type);
 
@@ -34,13 +36,16 @@ class ImageResizeService
 
         foreach ($sizes as $size_name => $width) {
 
-            $ext = $this->resolveExtension($extension, $convertToJpeg);
+            $image = clone $originalImage;
 
-            $outputPath = $outputDir . $fileName . "-{$size_name}.{$ext}";
+            $ext = $this->resolveExtension($extension);
+
+            $outputPath = "{$outputDir}{$fileName}-{$size_name}.{$ext}";
 
             $processed = $image->scale(width: (int) $width);
 
             $this->saveImage($processed, public_path($outputPath), $ext, $quality);
+
             // ✅ watermark applied AFTER save (safe & consistent)
             if ($watermark) {
                 $this->applyWatermark(
@@ -53,12 +58,13 @@ class ImageResizeService
 
             $results[$size_name] = $outputPath;
         }
+    
 
         // ORIGINAL (safe)
         $originalExt = $this->resolveExtension($extension);
-        $originalPath = $outputDir . $fileName . ".{$originalExt}";
+        $originalPath = "{$outputDir}{$fileName}.{$originalExt}";
 
-        $this->saveImage($image, public_path($originalPath), $originalExt, $quality);
+        $this->saveImage($image, public_path($originalPath), $originalExt, 100);
 
         $results['original'] = $originalPath;
 
@@ -90,7 +96,7 @@ class ImageResizeService
      */
     private function resolveExtension(string $ext): string
     {
-        return  strtolower($ext);
+        return strtolower($ext);
     }
 
     /**

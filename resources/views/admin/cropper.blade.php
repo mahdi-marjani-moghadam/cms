@@ -60,7 +60,7 @@
             <div class="modal-body">
                 <div class="row">
 
-                    <div class="col-md-8 col-xs-12" style="">
+                    <div class="" >
                         <img id="image" src="">
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary" data-method="move" data-option="-1"
@@ -109,7 +109,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-md-4 col-xs-12 hidden-xs" style="display: flex;">
+                    <div class="" style="display: flex;">
                         <div>
                             jpeg
                             <div class="preview"></div>

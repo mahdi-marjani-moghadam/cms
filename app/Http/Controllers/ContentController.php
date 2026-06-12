@@ -33,8 +33,9 @@ class ContentController extends Controller
     {
 
         $year = Carbon::now()->year;
-        $imagePath = "/upload/images/{$year}/";
-        $fullDir = public_path($imagePath);
+        $month = Carbon::now()->month;
+        $imagePath = "/upload/images/{$year}/{$month}/";
+        $imagePublicPath = public_path($imagePath);
 
         if ($mainImage) {
             $file = $request->imageJson;
@@ -54,36 +55,26 @@ class ContentController extends Controller
 
 
             $fileType = ($image_type == 'jpeg') ? 'jpg' : $image_type;
-            $fileNameAndType = $fileName . '.' . $fileType;
 
 
-            $file = $fileOrg->move(public_path($imagePath), $fileName . '-org.' . $fileType); // original
 
+            // $file = $fileOrg->move($imagePublicPath, "{$fileName}-org.{$fileType}"); // original
             try {
-                file_put_contents(public_path() . $imagePath . $fileNameAndType, $image_base64); // croped
+                $crop_path = "{$imagePublicPath}{$fileName}-crop.{$fileType}";
+                file_put_contents($crop_path, $image_base64); // croped
             }
             catch (Exception $e) {
                 dd($e);
             }
 
             $url['images'] = $this->imageResizeService->resize(
-                fullPath: $imagePath . $fileNameAndType,
+                fullPath: $crop_path,
                 type: $type,
                 outputDir: $imagePath,
                 fileName: $fileName,
                 extension: $image_type,
                 quality: 80
             );
-
-
-            // $url['images'] = $this->resize(
-            //     $imagePath . $fileNameAndType,
-            //     $type,
-            //     $imagePath,
-            //     $fileNameAndType,
-            //     $fileName,
-            //     $fileType
-            // );
 
 
 

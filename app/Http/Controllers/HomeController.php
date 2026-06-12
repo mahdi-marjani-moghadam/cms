@@ -63,6 +63,7 @@ class HomeController extends Controller
                     $module = new Content();
 
                     $module = $module->where('type', '=', '2');
+                    $module = $module->where('attr_type', '=', 'article');
 
                     $sort = explode(' ', $config['sort']);
 
@@ -111,6 +112,7 @@ class HomeController extends Controller
                     $data[$var]['data'] = $category->products($sort[0], $sort[1])->limit($config['count'])->get();
                 continue;
             }
+            // dd($data);
             $type = '';
             //$data[$var] =new Content();
             $module = new Content();
@@ -144,6 +146,7 @@ class HomeController extends Controller
             if ($config['type'] == 'categoryDetail') {
                 $data[$var]['data'] = $module->first();
             } else {
+
                 $data[$var]['data'] = $module->get();
                 // if ($var == 'topViewPost') {
                 //     echo $config['type'];

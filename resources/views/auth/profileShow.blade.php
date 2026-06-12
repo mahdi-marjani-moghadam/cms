@@ -35,12 +35,12 @@
             </div>
         </div>
     </section>
-    <section class="profile-show">
+    <section class="profile-show mt-0 pt-0">
         <div class=" ">
-            <h1 class="full">{{ $company->name ?? '' }}</h1>
+            <h1 class="">{{ $company->name ?? '' }}</h1>
 
             @if ($company->description != '')
-                <div class="shadow rounded-lg mb-4 w-full">
+                <div class="shadow rounded mb-4 p-4 w-full">
                     <div class="bold">
                         @lang('messages.description')
                     </div>

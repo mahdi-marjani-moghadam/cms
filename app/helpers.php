@@ -13,6 +13,7 @@ use App\Models\WebsiteSetting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use Morilog\Jalali\CalendarUtils;
 use Morilog\Jalali\Jalalian;
 
@@ -842,26 +843,9 @@ if (!function_exists('sendSms')) {
 }
 
 if (!function_exists('uniqueSlug')) {
-    function uniqueSlug($model = Content::class, $slugOrModel = '', string $slug = '', string|int $i = '')
+    function uniqueSlug($model = Content::class, string|Model $slugOrModel = '', string $slug = '', string|int $i = '')
     {
 
-        // $slug = ($model == Category::class) ? 'category/' . $slug : $slug;
-        // echo '<pre>';
-
-        // $slug = 'کابل-رشته-ای شیلددار-22AWG';
-        // echo $slug;
-        // $slug = preg_replace('/\s+/', '-', $slug);
-        $slug = str_replace(' ', '-', $slug);
-        // $slug = str_replace(' ', '-', $slug);
-        // $slug = str_replace(' ', '-', $slug);
-        // echo $slug;
-        $slug = str_replace('--', '-', $slug);
-        $slug = str_replace('--', '-', $slug);
-        $slug = str_replace('--', '-', $slug);
-        $slug = trim($slug, ' ');
-        $slug = trim($slug, '-');
-
-        // dd($slug);
         // update model
         if ($slugOrModel instanceof Model) {
             if ($slugOrModel->getOriginal('slug') == $slug) {
@@ -872,19 +856,13 @@ if (!function_exists('uniqueSlug')) {
             $slug = $slugOrModel;
         }
 
-        $slug = preg_replace('/\s+/', '-', $slug);
-        $slug = str_replace('--', '-', $slug);
-        $slug = str_replace('--', '-', $slug);
-        $slug = str_replace('--', '-', $slug);
-        $slug = trim($slug, ' ');
+        $slug = preg_replace('/[\s\/()]+/u', '-', trim($slug));
+        $slug = preg_replace('/-+/', '-', $slug);
         $slug = trim($slug, '-');
 
-        // $oldSlug = $ownModel->slug;
 
         //check exist new slug
-        $obj = $model::whereSlug($slug . $i)->exists();
-        // dd($obj);
-
+        $obj = $model::whereSlug("{$slug}{$i}")->exists();
         if ($obj) {
             if ($i == '') {
                 $i = 1;
@@ -893,7 +871,7 @@ if (!function_exists('uniqueSlug')) {
             return uniqueSlug($model, $slugOrModel, $slug, ++$i);
         }
 
-        return $slug . $i;
+        return "{$slug}{$i}";
     }
 }
 

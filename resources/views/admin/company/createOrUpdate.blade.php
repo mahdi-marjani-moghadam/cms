@@ -81,6 +81,25 @@
                     </div>
 
                     <div class="row">
+
+                    <div class="col-md-3  col-sm-3 form-group">
+                            @lang('messages.store name'):
+                            <input class="form-control" name="name" type="text"
+                                value="{{ old('name', $company->name ?? '') }}" >
+                            <span class="text-danger">{{ $errors->first('name') }}</span>
+                        </div>
+                        <div class="col-md-3  col-sm-3 form-group">
+                            slug:
+                            <input class="form-control" name="slug" type="text"
+                                value="{{ old('slug', $company->slug ?? '') }}" >
+                            <span class="text-danger">{{ $errors->first('slug') }}</span>
+                        </div>
+ <div class="col-md-3  col-sm-3 form-group">@lang('messages.mobile'):
+                            <input class="form-control" name="mobile" type="text"
+                                value="{{ old('mobile', $company->mobile ?? '') }}" required>
+                            <span class="text-danger">{{ $errors->first('mobile') }}</span>
+                        </div>
+
                         <div class="col-md-6 col-sm-6 form-group">
                             <label for="name">@lang('messages.category'):</label>
                             <select id="parent_id" name="parent_id[]" multiple required>
@@ -109,18 +128,8 @@
 
                     <div class="row">
 
-                        <div class="col-md-3  col-sm-3 form-group">@lang('messages.mobile'):
-                            <input class="form-control" name="mobile" type="text"
-                                value="{{ old('mobile', $company->mobile ?? '') }}" required>
-                            <span class="text-danger">{{ $errors->first('mobile') }}</span>
-                        </div>
 
-                        <div class="col-md-3  col-sm-3 form-group">
-                            @lang('messages.store name'):
-                            <input class="form-control" name="name" type="text"
-                                value="{{ old('name', $company->name ?? '') }}" >
-                            <span class="text-danger">{{ $errors->first('name') }}</span>
-                        </div>
+
 
                         <div class="col-md-3  col-sm-3 form-group">
                             @lang('messages.manager'):

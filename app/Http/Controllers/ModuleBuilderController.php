@@ -13,11 +13,6 @@ class ModuleBuilderController extends Controller
 {
 
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $tree = $this->tree_set();
@@ -26,12 +21,7 @@ class ModuleBuilderController extends Controller
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function getSinglePagePoint($content)
     {
         // {{--#anchor news--}}
@@ -49,12 +39,6 @@ class ModuleBuilderController extends Controller
         return $imagePath . $filename;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Menu $menu
-     * @return \Illuminate\Http\Response
-     */
     public function edit($fileName)
     {
 
@@ -224,14 +208,5 @@ class ModuleBuilderController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Menu $menu
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Menu $menu)
-    {
-        //
-    }
+
 }
