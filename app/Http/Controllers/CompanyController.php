@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\File;
 class CompanyController extends Controller
 {
 
-    public $breadcrumb;
+    public array $breadcrumb;
 
     public function showLoginForm()
     {
@@ -559,7 +559,7 @@ class CompanyController extends Controller
 
 
 
-    public function get_parent($id)
+    public function get_parent(int $id)
     {
         global $conn;
         $tree_rs = Content::where('id', '=', $id)->first();
@@ -747,36 +747,6 @@ class CompanyController extends Controller
 
 
 
-    public function orderList()
-    {
-        $list = Order::orderBy('id', 'desc')->get();
-        return view('admin.order.index', compact('list'));
-    }
-    public function orderDetail(Order $order)
-    {
-        $list = $order->orderDetail;
-        $transactions = $order->transactions;
-        return view('admin.order.detail', compact('list', 'order', 'transactions'));
-    }
-    public function orderEdit(Request $request, Order $order)
-    {
-        $order->update(['status' => $request->status]);
-        $orderDetail = $order->orderDetail;
-        foreach ($orderDetail as $detail) {
-            $product = (new Content)->find((int) $detail->attributes['product_id']);
-            if ($product instanceof Content && $request->status == 1) {
-                $attr = $product->attr;
-                $attr['in-stock'] = '0';
-                $product->update(['attr' => $attr]);
-            }
-        }
-        return redirect()->back()->with('success', Lang::get('messages.updated'));
-    }
-    public function orderDestroy(Order $order)
-    {
-        $order->delete();
-        return redirect()->route('admin.order.index')->with('success', Lang::get('messages.deleted'));
-    }
 
 
 

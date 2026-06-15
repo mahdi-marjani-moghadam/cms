@@ -52,7 +52,7 @@
     <header class='border-b py-1 px-1 lg:px-5  bg-white font-sans  '>
         <div class='flex flex-wrap items-center lg:gap-y-2 gap-y-4 gap-x-4'>
             <a href="/" class="">
-                <img height="80" width="60" alt=" دینگ لوگو" class="inline-block"
+                <img height="53" width="150" alt=" دینگ لوگو" class="inline-block"
                     src="{{ url(env('TEMPLATE_NAME') . '/img/logo2x.png') }}" />
             </a>
             <div class='flex items-center mr-auto lg:order-1'>

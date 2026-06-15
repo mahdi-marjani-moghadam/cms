@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Content;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
 class OrderController extends Controller
 {
-    // public function index()
-    // {
-    //     $data = Contact::all();
 
-    //     return view('admin.contact.index', compact('data'));
-    // }
-
+    // front route
     public function store(Request $request)
     {
         $valid = $request->validate([
@@ -22,45 +18,61 @@ class OrderController extends Controller
             'comment' => 'required'
         ]);
 
-
         Order::create($request->all());
 
         return redirect()->back()->with('success', __('messages.Contact-send-success'));
     }
 
-    // public function edit(Contact $Contact)
-    // {
 
-    //     $data = $Contact;
 
-    //     return view('admin.contact.edit', compact('data'));
-    // }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Contact  $Contact
-     * @return \Illuminate\Http\Response
-     */
-    // public function update(Request $request, Contact $Contact)
-    // {
-    //     $data = $Contact;
-    //     $data->update($request->all());
+    // admin panel
+    public function orderList()
+    {
+        $list = Order::orderBy('id', 'desc')->get();
+        return view('admin.order.index', compact('list'));
+    }
+    public function orderDetail(Order $order)
+    {
+        $list = $order->orderDetail;
+        $transactions = $order->transactions;
+        return view('admin.order.detail', compact('list', 'order', 'transactions'));
+    }
+    public function orderEdit(Request $request, Order $order)
+    {
+        $order->update(['status' => $request->status]);
+        $orderDetail = $order->orderDetail;
+        foreach ($orderDetail as $detail) {
+            $product = (new Content)->find((int) $detail->attributes['product_id']);
+            if ($product instanceof Content && $request->status == 1) {
+                $attr = $product->attr;
+                $attr['in-stock'] = '0';
+                $product->update(['attr' => $attr]);
+            }
+        }
+        return redirect()->back()->with('success', Lang::get('messages.updated'));
+    }
 
-    //     return redirect()->route('contact.index')->with('success',$data->Contact  . ' '. Lang::get('messages.edited'));
-    // }
+    public function orderCreate(Request $request, Order $order)
+    {
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Contact  $Contact
-     * @return \Illuminate\Http\Response
-     */
-    // public function destroy(Contact $Contact)
-    // {
-    //     $Contact->delete();
+        $products = Content::where('status', '=', '1')
+        ->where('type','=',2)
+        ->orderBy('id', 'desc')
+        ->get();
 
-    //     return redirect()->route('contact.index')->with('success', Lang::get('messages.deleted'));
-    // }
+
+
+        // dd($products);
+
+        return view('admin.order.create', compact(
+            'products',
+            'order'
+        ));
+    }
+    public function orderDestroy(Order $order)
+    {
+        $order->delete();
+        return redirect()->route('admin.order.index')->with('success', Lang::get('messages.deleted'));
+    }
 }

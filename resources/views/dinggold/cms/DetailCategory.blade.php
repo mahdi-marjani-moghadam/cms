@@ -113,8 +113,8 @@
 
 
     @if (count($subCategory))
-        <section class=" category-section bg-white mt-0" id="index-best-view">
-            <div class="p-2 relative">
+        <section class=" category-section  bg-white mt-0" id="index-best-view">
+            <div class="p-2 relative max-w-6xl">
                 <div class="siema p-0">
                     @foreach ($subCategory as $content)
                         <a href="{{ url($content->slug) }}">
@@ -180,7 +180,7 @@
             <div class="three-fourth-800 p-0">
                 <div class="">
 
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2 ">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 ">
                         @if (count($relatedProduct))
 
                             @foreach ($relatedProduct as $content)

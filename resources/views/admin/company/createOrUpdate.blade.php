@@ -94,7 +94,7 @@
                                 value="{{ old('slug', $company->slug ?? '') }}" >
                             <span class="text-danger">{{ $errors->first('slug') }}</span>
                         </div>
- <div class="col-md-3  col-sm-3 form-group">@lang('messages.mobile'):
+                        <div class="col-md-3  col-sm-3 form-group">@lang('messages.mobile'):
                             <input class="form-control" name="mobile" type="text"
                                 value="{{ old('mobile', $company->mobile ?? '') }}" required>
                             <span class="text-danger">{{ $errors->first('mobile') }}</span>

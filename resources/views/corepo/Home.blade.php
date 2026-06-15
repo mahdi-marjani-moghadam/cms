@@ -239,7 +239,7 @@
                                         <a class="" href="{{ url($content['slug']) }}">
 
                                             <img class="rounded p-0" width="70" height="70" alt="{{ $content['title'] }}"
-                                                src="{{ image_or_placeholder($content['images']['images']['small']) }}">
+                                                src="{{ image_or_placeholder($content['images']['images']['small'] ?? '') }}">
 
                                         </a>
                                         <div class="pb-0 flex-1 flex mb-0">

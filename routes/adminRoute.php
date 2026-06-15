@@ -8,6 +8,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ModuleBuilderController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\WebsiteSettingController;
@@ -77,10 +78,12 @@ Route::prefix('/admin')->middleware(['auth', 'role:super admin'])->group(functio
     Route::delete('company/{company}', [CompanyController::class, 'companyDestroy'])->name('admin.company.destroy');
 
     /* Order */
-    Route::get('orders', [CompanyController::class, 'orderList'])->name('admin.order.index');
-    Route::get('order/{order}', [CompanyController::class, 'orderDetail'])->name('admin.order.detail');
-    Route::patch('order/{order}', [CompanyController::class, 'orderEdit'])->name('admin.order.edit');
-    Route::delete('order/{order}', [CompanyController::class, 'orderDestroy'])->name('admin.order.destroy');
+    Route::get('orders', [OrderController::class, 'orderList'])->name('admin.order.index');
+    Route::get('order/create', [OrderController::class, 'orderCreate'])->name('admin.order.create');
+    Route::post('order/create', [OrderController::class, 'orderStore'])->name('admin.order.store');
+    Route::get('order/{order}', [OrderController::class, 'orderDetail'])->name('admin.order.detail');
+    Route::patch('order/{order}', [OrderController::class, 'orderEdit'])->name('admin.order.edit');
+    Route::delete('order/{order}', [OrderController::class, 'orderDestroy'])->name('admin.order.destroy');
 
     Route::patch('transaction/edit/{transaction}', [TransactionsController::class, 'update'])->name('admin.transaction.edit');
 

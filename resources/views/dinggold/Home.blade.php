@@ -13,17 +13,21 @@
             w = window.innerWidth;
             console.log(w);
             if (w <= 500) {
-                perPageNumber = 3;
+                perPageNumber = 2;
                 perPageNumberProducts = 2;
+                perPageArticle = 2;
             } else if (w <= 768) {
                 perPageNumber = 5;
                 perPageNumberProducts = 4;
+                perPageArticle = 4;
             } else if (w <= 1024) {
                 perPageNumber = 5;
-                perPageNumberProducts = 4;
+                perPageNumberProducts = 5;
+                perPageArticle = 4;
             } else {
-                perPageNumber = 6;
-                perPageNumberProducts = 4;
+                perPageNumber = 5;
+                perPageNumberProducts = 5;
+                perPageArticle = 4;
             }
         }
 
@@ -59,10 +63,6 @@
 
 
         // new product
-
-
-
-
         var products = new Siema({
             selector: '.siema-products',
             duration: 200,
@@ -144,7 +144,7 @@
             selector: '.siema-products4',
             duration: 200,
             easing: 'ease-out',
-            perPage: perPageNumberProducts,
+            perPage: perPageArticle,
             startIndex: 0,
             draggable: true,
             multipleDrag: true,
@@ -155,8 +155,8 @@
             onChange: () => {
             },
         });
-        // document.querySelector('.prev-products4').addEventListener('click', () => products4.prev());
-        // document.querySelector('.next-products4').addEventListener('click', () => products4.next());
+        document.querySelector('.prev-products4').addEventListener('click', () => products4.prev());
+        document.querySelector('.next-products4').addEventListener('click', () => products4.next());
     </script>
 @endsection
 
@@ -203,8 +203,8 @@
 
 
     <section class="banner my-0 py-0">
-        <div class="flex one max-w-max" >
-            <img class="h-auto p-0"
+        <div class="flex one md:max-w-max" >
+            <img class="md:h-auto  p-0"
                 srcset="{{ url('dinggold/img/banner-mob.jpg') }} 800w, {{ url('dinggold/img/banner.jpg') }} 1200w, {{ url('dinggold/img/banner.jpg') }} 1800w"
                 src="{{ url('dinggold/img/banner-mob.jpg') }}" alt="طلای دینگ" title="طلای دینگ" width="1200" height="344">
 
@@ -214,37 +214,58 @@
 
 
 
+    @php
+        $cat = [
+            [
+            'alt' => 'انگشتر طلا زنانه',
+            'url'=> '/category/انگشتر-طلا-زنانه',
+            'img' => 'https://dinggold.ir/upload/images/2026/%D8%A7%D9%86%DA%AF%D8%B4%D8%AA%D8%B1-%D8%B7%D9%84%D8%A7-%D8%B2%D9%86%D8%A7%D9%86%D9%87-medium.jpg'
+            ],
+            [
+            'alt' => 'نیم ست طلا زنانه',
+            'url'=> '/نیم-ست-طلا-زنانه',
+            'img' => 'https://dinggold.ir/upload/images/2026/%D9%86%DB%8C%D9%85-%D8%B3%D8%AA-%D8%B7%D9%84%D8%A7-%D8%B2%D9%86%D8%A7%D9%86%D9%87-medium.jpg'
+            ],
+            [
+            'alt' => 'دستبند طلا زنانه',
+            'url'=> '/دستبند-طلا-زنانه',
+            'img' => 'https://dinggold.ir/upload/images/2026/%D8%AF%D8%B3%D8%AA%D8%A8%D9%86%D8%AF-%D8%B7%D9%84%D8%A7-%D8%B2%D9%86%D8%A7%D9%86%D9%87-medium.jpg'
+            ],
+            [
+            'alt' => 'گردنبند طلا زنانه',
+            'url'=> '/گردنبند-طلا-زنانه',
+            'img' => 'https://dinggold.ir/upload/images/2026/%DA%AF%D8%B1%D8%AF%D9%86%D8%A8%D9%86%D8%AF-%D8%B7%D9%84%D8%A7-%D8%B2%D9%86%D8%A7%D9%86%D9%87-medium.jpg'
+            ],
+            [
+            'alt' => 'گوشواره طلا زنانه',
+            'url'=> '/گوشواره',
+            'img' => 'https://dinggold.ir/upload/images/2026/%DA%AF%D9%88%D8%B4%D9%88%D8%A7%D8%B1%D9%87-%D8%B7%D9%84%D8%A7-%D8%B2%D9%86%D8%A7%D9%86%D9%87-medium.jpg'
+            ],
 
-    <section class="index-item-top  mt-0 mb-0  bg-white category-section " onresize="onResize()">
-        <div class="   relative px-2 ">
-            <div class="siema p-0">
-                {{--category&label=cat&var=category&count=10 --}}
-                @isset($category['data'])
-                    @foreach ($category['data'] as $content)
-                        <a href="{{ $content->slug }}">
-                            <div class="hover text-center">
-                                @if (isset($content->images['images']['small']))
-                                    <figure class="image">
-                                        <img loading="lazy" src="{{ image_or_placeholder($content->images['images']['small']) }}"
-                                            alt="{{ $content->title }}" width="61" height="79"
-                                            srcset="
-                                                                                        {{ image_or_placeholder($content->images['images']['small']) }} {{ env('CATEGORY_SMALL_W') }}w,
-                                                                                        {{ image_or_placeholder($content->images['images']['medium']) }} {{ env('CATEGORY_MEDIUM_W') }}w">
-                                        <figcaption>
-                                            <h2 class="p-0 m-0 text-center font-08 font-normal"> {{ $content->title }}</h2>
-                                        </figcaption>
-                                    </figure>
-                                @else
-                                    <h2 class="p-0 m-0 text-center"> {{ $content->title }}</h2>
-                                @endif
+        ]
+    @endphp
+    <section class=" index-item-top  mt-0 mb-0  bg-white category-section ">
+        <div class="max-w-5xl m-auto   relative px-2 ">
+            <div class="   text-center ">
+                <div class="siema py-2">
 
+                    @foreach ($cat as $k => $v)
+                        <a href="{{ $v['url'] }}">
+                            <div class="md:hover:scale-110 transition text-center">
+                                <figure class="image">
+                                    <img loading="lazy"
+                                    class="rounded ring"
+                                    src="{{ $v['img'] }}"
+                                    alt="{{ $v['alt'] }}" width="150" height="150">
+                                </figure>
                             </div>
                         </a>
                     @endforeach
-                @endisset
+
+                </div>
+                <a class="prev2 prev-cat">&#10094;</a>
+                <a class="next2 next-cat">&#10095;</a>
             </div>
-            <a class="prev2 prev-cat">&#10094;</a>
-            <a class="next2 next-cat">&#10095;</a>
         </div>
     </section>
 
@@ -263,7 +284,7 @@
                 @isset($products['data'])
                     @foreach ($products['data'] as $content)
                         <a href="{{ $content->slug }}" >
-                            <div class=" hover p-0   h-full px-0.5">
+                            <div class=" hover:scale-110 transition p-0   h-full px-0.5">
                                 @if (isset($content->images['images']['small']))
                                     <figure class="image">
                                         @if (isset($content->attr['in-stock']) && $content->attr['in-stock'] == 0)
@@ -369,7 +390,7 @@
                 @isset($products_women['data'])
                     @foreach ($products_women['data'] as $content)
                         <a href="{{ $content->slug }}">
-                            <div class=" hover p-0   h-full px-0.5">
+                            <div class=" hover:scale-110 transition p-0   h-full px-0.5">
                                 @if (isset($content->images['images']['small']))
                                     <figure class="image">
                                         @if (isset($content->attr['in-stock']) && $content->attr['in-stock'] == 0)
@@ -428,7 +449,7 @@
 
             <div class="flex two six-500 p-0 ">
                 <a class="  p-0 bg-gray-dark cat1-home" href="/انگشتر-طلا-زنانه"
-                    style=" background-image:url({{ url('dinggold/img/دسته-بندی-انگشتر-طلا.jpg') }}) ">
+                    style=" background-image:url('/dinggold/img/دسته-بندی-انگشتر-طلا.jpg') ">
                     <div class="h-full">
                         <h2 class="p-0">انگشتر</h2>
                     </div>
@@ -438,7 +459,7 @@
                 @isset($procat1['data'])
                     @foreach ($procat1['data'] as $content)
                         <a class="p-0" href="{{ $content->slug }}">
-                            <div class="shadow hover p-0   h-full">
+                            <div class="shadow hover:scale-110 transition p-0   h-full">
 
                                 @if (isset($content->images['images']['small']))
                                     <figure class="image">
