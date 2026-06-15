@@ -38,29 +38,34 @@
     <div class="content-body">
         <div class="panel panel-default pos-abs chat-panel bottom-0">
             <div class="panel-body full-height">
+                @php
+                    $firstDetail = $list->first();
+                    $isAdminOrder = is_null($order->user_id);
+                    $customerName   = $isAdminOrder ? ($firstDetail?->attributes['customer_name'] ?? '-')   : (($order->user->customer->name ?? '') . ' ' . ($order->user->customer->family ?? ''));
+                    $customerMobile = $isAdminOrder ? ($firstDetail?->attributes['customer_mobile'] ?? '-') : ($order->user->mobile ?? '-');
+                    $customerZip    = $isAdminOrder ? ($firstDetail?->attributes['customer_zipcode'] ?? '-'): ($order->user->customer?->zipcode ?? '-');
+                    $customerAddr   = $isAdminOrder ? ($firstDetail?->attributes['customer_address'] ?? '-'): ($order->user->customer?->address ?? '-');
+                @endphp
                 <table class="w-full border-collapse">
                     <tbody>
                         <tr>
                             <td class="w-24 font-bold">نام:</td>
-                            <td>
-                                {{ $order->user->customer->name ?? '-' }}
-                                {{ $order->user->customer->family ?? '' }}
-                            </td>
+                            <td>{{ trim($customerName) ?: '-' }}</td>
                         </tr>
 
                         <tr>
                             <td class="w-24 font-bold">موبایل:</td>
-                            <td>{{ $order->user->mobile }}</td>
+                            <td>{{ $customerMobile }}</td>
                         </tr>
 
                         <tr>
                             <td class="w-24 font-bold">کد پستی:</td>
-                            <td>{{ $order->user->customer?->zipcode ?? '-' }}</td>
+                            <td>{{ $customerZip }}</td>
                         </tr>
 
                         <tr>
                             <td class="w-24 font-bold">آدرس:</td>
-                            <td>{{ $order->user->customer?->address ?? '-' }}</td>
+                            <td>{{ $customerAddr }}</td>
                         </tr>
                     </tbody>
                 </table>

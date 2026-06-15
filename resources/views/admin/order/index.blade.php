@@ -47,7 +47,7 @@
                         @foreach ($list as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
-                                <td class="">{{ $item->user->mobile ?? '' }} {{ $item->user->customer->name ?? '' }} {{ $item->user->customer->family ?? '' }}<br>
+                                <td class="">{{ $item->user?->mobile ?? ($item->orderDetail->first()?->attributes['customer_mobile'] ?? '') }} {{ $item->user?->customer?->name ?? ($item->orderDetail->first()?->attributes['customer_name'] ?? '') }}<br>
                                 @foreach ($item->orderDetail as $item2)
                                         @if (isset($item2['attributes']['image']) && file_exists(public_path() . $item2['attributes']['image']))
                                             <img height="60" style="border:1px solid #ccc"

@@ -53,6 +53,45 @@ class OrderController extends Controller
         return redirect()->back()->with('success', Lang::get('messages.updated'));
     }
 
+    public function orderStore(Request $request)
+    {
+        $request->validate([
+            'name'     => 'required',
+            'products' => 'required|array|min:1',
+        ]);
+
+        $totalPrice = 0;
+        foreach ($request->products as $item) {
+            $totalPrice += (int)($item['price'] ?? 0) * (int)($item['count'] ?? 1);
+        }
+
+        $order = Order::create([
+            'user_id'     => null,
+            'status'      => $request->status ?? 0,
+            'total_price' => $totalPrice,
+        ]);
+
+        foreach ($request->products as $item) {
+            $product = Content::find((int)$item['product_id']);
+            $order->orderDetail()->create([
+                'title' => $item['title'],
+                'price' => (int)($item['price'] ?? 0),
+                'count' => (int)($item['count'] ?? 1),
+                'attributes' => [
+                    'product_id'       => $item['product_id'],
+                    'slug'             => $product->slug ?? '',
+                    'image'            => $product ? (($product->images['images'][0] ?? '')) : '',
+                    'customer_name'    => $request->name,
+                    'customer_mobile'  => $request->mobile,
+                    'customer_zipcode' => $request->zipcode,
+                    'customer_address' => $request->address,
+                ],
+            ]);
+        }
+
+        return redirect()->route('admin.order.index')->with('success', 'سفارش با موفقیت ثبت شد.');
+    }
+
     public function orderCreate(Request $request, Order $order)
     {
 
