@@ -16,7 +16,7 @@ class Customer extends Model
     protected $fillable = [
         'name', 'description', 'address', 'city', 'province', 'mobile', 'location',
         'phone', 'email', 'whatsapp', 'telegram', 'instagram', 'image', 'user_id',
-        'status'
+        'status', 'zipcode'
     ];
 
     public function user()

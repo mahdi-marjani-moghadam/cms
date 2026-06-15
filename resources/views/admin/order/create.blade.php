@@ -124,8 +124,8 @@
                         <div class="col-sm-6 col-md-6">
                             <label class="col-form-label text-md-left">@lang('messages.status'):</label>
                             <select class="form-control" name="status">
-                                <option value="-1">ثبت شده</option>
-                                <option value="0">رد شد</option>
+                                <option value="0">ثبت شده</option>
+                                <option value="-1">رد شد</option>
                                 <option value="1">ارسال به بانک</option>
                                 <option value="2">آپلود فیش</option>
                                 <option value="3">@lang('messages.paid successfully')</option>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Content;
+use App\Models\Customer;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
@@ -57,16 +59,39 @@ class OrderController extends Controller
     {
         $request->validate([
             'name'     => 'required',
+            'mobile'   => 'required',
             'products' => 'required|array|min:1',
         ]);
 
-        $totalPrice = 0;
-        foreach ($request->products as $item) {
-            $totalPrice += (int)($item['price'] ?? 0) * (int)($item['count'] ?? 1);
+        $user = User::where('mobile', $request->mobile)->first();
+        if (!$user) {
+            $user = User::create([
+                'mobile'   => $request->mobile,
+                'name'     => $request->name,
+                'password' => bcrypt(\Illuminate\Support\Str::random(10)),
+            ]);
+        }
+
+        Customer::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'name'    => $request->name,
+                'mobile'  => $request->mobile,
+                'address' => $request->address,
+                'zipcode' => $request->zipcode,
+            ]
+        );
+
+        $totalPrice = (int) $request->total_price;
+        if ($totalPrice <= 0) {
+            $totalPrice = 0;
+            foreach ($request->products as $item) {
+                $totalPrice += (int)($item['price'] ?? 0) * (int)($item['count'] ?? 1);
+            }
         }
 
         $order = Order::create([
-            'user_id'     => null,
+            'user_id'     => $user->id,
             'status'      => $request->status ?? 0,
             'total_price' => $totalPrice,
         ]);
@@ -80,7 +105,7 @@ class OrderController extends Controller
                 'attributes' => [
                     'product_id'       => $item['product_id'],
                     'slug'             => $product->slug ?? '',
-                    'image'            => $product ? (($product->images['images'][0] ?? '')) : '',
+                    'image'            => $product ? (($product->images['images']['small'] ?? '')) : '',
                     'customer_name'    => $request->name,
                     'customer_mobile'  => $request->mobile,
                     'customer_zipcode' => $request->zipcode,
