@@ -109,7 +109,15 @@ class AdminController extends Controller
 
             foreach ($order->orderDetail as $detail) {
                 $attr = $detail->attributes;
-                $monthly[$month]['profit'] += (int)($attr['profit'] ?? 0) * $detail->count;
+                $profitPerUnit = (int)($attr['profit'] ?? 0);
+                if ($profitPerUnit === 0) {
+                    $product = Content::find((int)($attr['product_id'] ?? 0));
+                    if ($product) {
+                        $gp = $product->GoldPrice();
+                        $profitPerUnit = (int)($gp['sood'] ?? 0);
+                    }
+                }
+                $monthly[$month]['profit'] += $profitPerUnit * $detail->count;
             }
         }
 

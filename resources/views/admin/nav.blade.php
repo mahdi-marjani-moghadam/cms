@@ -28,7 +28,7 @@
 
     <!-- header brand -->
     <div class="header-brand " >
-        <a href="{{ url('/admin') }}"><img height="40"  src="/{{ asset('/img/logo1x.png') }}"
+        <a href="{{ url('/') }}" target="_blank"><img height="40"  src="/{{ asset('/img/logo1x.png') }}"
                 class="liveChatLogo pull-left"></a>
     </div>
 
