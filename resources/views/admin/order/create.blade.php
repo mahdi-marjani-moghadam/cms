@@ -198,6 +198,7 @@
             $tr.find('.row-total').text(formatNumber(rowTotal));
             $('.hidden-price-' + idx).val(unitPrice);
             $('.hidden-count-' + idx).val(count);
+            $('.hidden-profit-' + idx).val(comp.sood);
             updateTotal();
         }
 
@@ -283,6 +284,7 @@
                     '<input type="hidden" name="products[' + idx + '][product_id]" value="' + product.id + '">' +
                     '<input type="hidden" name="products[' + idx + '][title]"      value="' + titleEscaped + '">' +
                     '<input type="hidden" name="products[' + idx + '][price]"      value="' + unitPrice + '" class="hidden-price-' + idx + '">' +
+                    '<input type="hidden" name="products[' + idx + '][profit]"      value="' + comp.sood + '" class="hidden-profit-' + idx + '">' +
                     '<input type="hidden" name="products[' + idx + '][count]"      value="' + count + '"     class="hidden-count-' + idx + '">'
                 );
 

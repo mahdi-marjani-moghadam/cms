@@ -110,6 +110,7 @@ class OrderController extends Controller
                     'customer_mobile'  => $request->mobile,
                     'customer_zipcode' => $request->zipcode,
                     'customer_address' => $request->address,
+                    'profit'           => (int)($item['profit'] ?? 0),
                 ],
             ]);
         }
@@ -119,7 +120,7 @@ class OrderController extends Controller
                 $product = Content::find((int)$item['product_id']);
                 if ($product) {
                     $attr = $product->attr;
-                    $attr['in-stock'] = '0';
+                    $attr['in-stock'] = '1';
                     $product->attr = $attr;
                     $product->save();
                 }

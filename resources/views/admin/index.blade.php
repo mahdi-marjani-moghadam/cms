@@ -49,8 +49,37 @@
                     <a class="count" href="{{ route('comment.index') }}">{{ $data['commentsCount'] }}</a>
                 </div>
             </div>
+        </div>
 
-
+        <div class="dashboard" style="margin-top:30px;">
+            <div>
+                <div class="title">سود ماهیانه (پرداخت موفق)</div>
+                <div class="info" style="display:block;">
+                    <table class="table table-striped" style="max-width:100%;margin-bottom:0;">
+                        <thead>
+                            <tr>
+                                <th>ماه</th>
+                                <th>تعداد</th>
+                                <th>مبلغ کل فروش (تومان)</th>
+                                <th>سود (تومان)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($data['monthlyProfits'] as $monthKey => $row)
+                                <tr>
+                                    <td>{{ $row['name'] }}</td>
+                                    <td>{{ $row['count'] }}</td>
+                                    <td>{{ number_format($row['sales']) }}</td>
+                                    <td>{{ number_format($row['profit']) }}</td>
+                                </tr>
+                            @endforeach
+                            @if (count($data['monthlyProfits']) == 0)
+                                <tr><td colspan="4">موردی یافت نشد</td></tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
