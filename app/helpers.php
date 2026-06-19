@@ -930,7 +930,7 @@ if (!function_exists('getGoldPrice')) {
 
                 // milli
                 $priceArr = json_decode($page, true);
-                $integerPrice = $priceArr['data']['price18'] * 100;
+                $integerPrice = ($priceArr['data']['price18'] * 100) + 100000;
 
                 if (!is_null($integerPrice)) {
                     $stringPrice = number_format($integerPrice, 0);

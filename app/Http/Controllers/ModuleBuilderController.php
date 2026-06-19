@@ -42,6 +42,7 @@ class ModuleBuilderController extends Controller
     public function edit($fileName)
     {
 
+
         //{{--module=category&label=NEWS&count=3&query=last--}}
         //{{--gallery&label=NEWS&count=3&query=last--}}
 

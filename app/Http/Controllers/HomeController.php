@@ -94,6 +94,7 @@ class HomeController extends Controller
                     $data[$var]['data'] = Content::where('publish_date', '<=', Carbon::now())
                         ->where('status', '=', 1)
                         ->where('attr_type', '=', 'product')
+                        ->where('attr->in-stock', '=', '1')
                         ->orderBy('publish_date', 'desc')
                         ->limit($config['count'])
                         ->get();

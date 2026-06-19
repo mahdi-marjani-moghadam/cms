@@ -114,6 +114,18 @@ class OrderController extends Controller
             ]);
         }
 
+        if ($request->status == 3) {
+            foreach ($request->products as $item) {
+                $product = Content::find((int)$item['product_id']);
+                if ($product) {
+                    $attr = $product->attr;
+                    $attr['in-stock'] = '0';
+                    $product->attr = $attr;
+                    $product->save();
+                }
+            }
+        }
+
         return redirect()->route('admin.order.index')->with('success', 'سفارش با موفقیت ثبت شد.');
     }
 
@@ -122,6 +134,7 @@ class OrderController extends Controller
 
         $products = Content::where('status', '=', '1')
         ->where('type','=',2)
+        ->where('attr->in-stock','=',1)
         ->orderBy('id', 'desc')
         ->get();
 

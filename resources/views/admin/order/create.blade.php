@@ -72,7 +72,10 @@
                                 <div style="flex:1;">
                                     <select id="product" style="width:100%">
                                         @foreach ($products as $p)
-                                            <option value="{{ $p->id }}">{!! $p->title !!}</option>
+                                            @php
+                                                $img = $p->images['images']['small'] ?? $p->images['images']['medium'] ?? $p->images['images']['large'] ?? '';
+                                            @endphp
+                                            <option value="{{ $p->id }}" data-image="{{ $img }}">{!! $p->title !!}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -96,7 +99,8 @@
                                         <th>وزن (گرم)</th>
                                         <th>اجرت%</th>
                                         <th>سود%</th>
-                                        <th>قیمت اضافه (تومان)</th>
+                                        <th>مالیات 10%</th>
+                                        <th> اضافه (تومان)</th>
                                         <th>قیمت واحد (تومان)</th>
                                         <th>تعداد</th>
                                         <th>جمع</th>
@@ -107,7 +111,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="10" style="font-weight:bold; text-align:right;">مبلغ کل:</td>
+                                        <td colspan="11" style="font-weight:bold; text-align:right;">مبلغ کل:</td>
                                         <td colspan="2" style="white-space:nowrap;">
                                             <input type="text" id="total-price-display"
                                                 value="0" class="form-control"
@@ -165,7 +169,14 @@
             var ojrat  = gold * ojratPct / 100;
             var sood   = (gold + ojrat) * (soodPct / 100);
             var tax    = (sood + ojrat) * 0.1;
-            return Math.floor((gold + sood + ojrat + tax + additionalPrice) / 1000) * 1000;
+            var total  = gold + sood + ojrat + tax + additionalPrice;
+            return {
+                gold: gold,
+                ojrat: ojrat,
+                sood: sood,
+                tax: tax,
+                total: Math.floor(total / 1000) * 1000
+            };
         }
 
         function recalcRow($tr) {
@@ -174,12 +185,16 @@
             var soodPct         = parseFloat($tr.find('.sood-input').val())        || 0;
             var additionalPrice = parseInt($tr.find('.additional-price-input').val()) || 0;
             var count           = parseInt($tr.find('.count-input').val())         || 1;
-            var unitPrice       = calcPrice(p.gold_price_gram, p.weight, ojratPct, soodPct, additionalPrice);
+            var comp            = calcPrice(p.gold_price_gram, p.weight, ojratPct, soodPct, additionalPrice);
+            var unitPrice       = comp.total;
             var rowTotal     = unitPrice * count;
             var idx          = $tr.data('index');
 
             $tr.data('unit-price', unitPrice);
             $tr.find('.unit-price-input').val(formatNumber(unitPrice));
+            $tr.find('.ojrat-amount').text(formatNumber(comp.ojrat));
+            $tr.find('.sood-amount').text(formatNumber(comp.sood));
+            $tr.find('.tax-amount').text(formatNumber(comp.tax));
             $tr.find('.row-total').text(formatNumber(rowTotal));
             $('.hidden-price-' + idx).val(unitPrice);
             $('.hidden-count-' + idx).val(count);
@@ -217,7 +232,8 @@
                 var imgHtml   = product.image
                     ? '<img src="' + product.image + '" alt="" style="max-height:45px; border-radius:4px;">'
                     : '-';
-                var unitPrice = product.total_price;
+                var comp         = calcPrice(product.gold_price_gram, product.weight, product.ojrat_percent, product.sood_percent, product.additional_price);
+                var unitPrice = comp.total;
                 var rowTotal  = unitPrice * count;
 
                 var $row = $('<tr></tr>')
@@ -228,14 +244,19 @@
                     .append('<td>' + product.id + '</td>')
                     .append('<td>' + imgHtml + '</td>')
                     .append('<td><a target="_blank" href="/' + product.slug + '">' + product.title + '</a></td>')
-                    .append('<td>' + product.weight + '</td>')
+                    .append('<td>' + product.weight + ' <span class="weight-amount" style="color:#888;font-size:0.85em;">(' + formatNumber(comp.gold) + ')</span></td>')
                     .append(
-                        '<td><input type="number" class="form-control ojrat-input" ' +
-                        'value="' + product.ojrat_percent + '" min="0" step="0.1" style="width:70px;" data-idx="' + idx + '"></td>'
+                        '<td style="white-space:nowrap;"><input type="number" class="form-control ojrat-input" ' +
+                        'value="' + product.ojrat_percent + '" min="0" step="0.1" style="width:60px;display:inline-block;" data-idx="' + idx + '">' +
+                        ' <span class="ojrat-amount" style="font-weight:bold;color:#d35400;">' + formatNumber(comp.ojrat) + '</span></td>'
                     )
                     .append(
-                        '<td><input type="number" class="form-control sood-input" ' +
-                        'value="' + product.sood_percent + '" min="0" step="0.1" style="width:70px;" data-idx="' + idx + '"></td>'
+                        '<td style="white-space:nowrap;"><input type="number" class="form-control sood-input" ' +
+                        'value="' + product.sood_percent + '" min="0" step="0.1" style="width:60px;display:inline-block;" data-idx="' + idx + '">' +
+                        ' <span class="sood-amount" style="font-weight:bold;color:#2980b9;">' + formatNumber(comp.sood) + '</span></td>'
+                    )
+                    .append(
+                        '<td><span class="tax-amount" style="font-weight:bold;color:#27ae60;">' + formatNumber(comp.tax) + '</span></td>'
                     )
                     .append(
                         '<td><input type="number" class="form-control additional-price-input" ' +
