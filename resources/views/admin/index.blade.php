@@ -59,7 +59,8 @@
                         <thead>
                             <tr>
                                 <th>ماه</th>
-                                <th>تعداد</th>
+                                <th>تعداد محصول</th>
+                                <th>وزن کل (گرم)</th>
                                 <th>مبلغ کل فروش (تومان)</th>
                                 <th>سود (تومان)</th>
                             </tr>
@@ -69,12 +70,13 @@
                                 <tr>
                                     <td>{{ $row['name'] }}</td>
                                     <td>{{ $row['count'] }}</td>
+                                    <td>{{ number_format($row['weight'], 3) }}</td>
                                     <td>{{ number_format($row['sales']) }}</td>
                                     <td>{{ number_format($row['profit']) }}</td>
                                 </tr>
                             @endforeach
                             @if (count($data['monthlyProfits']) == 0)
-                                <tr><td colspan="4">موردی یافت نشد</td></tr>
+                                <tr><td colspan="5">موردی یافت نشد</td></tr>
                             @endif
                         </tbody>
                     </table>

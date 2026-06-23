@@ -102,12 +102,14 @@ class AdminController extends Controller
         foreach ($orders as $order) {
             $month = Jalalian::fromCarbon($order->created_at)->format('m');
             if (!isset($monthly[$month])) {
-                $monthly[$month] = ['name' => $monthNames[$month] ?? $month, 'sales' => 0, 'profit' => 0, 'count' => 0];
+                $monthly[$month] = ['name' => $monthNames[$month] ?? $month, 'sales' => 0, 'profit' => 0, 'count' => 0, 'weight' => 0];
             }
             $monthly[$month]['sales'] += $order->total_price;
-            $monthly[$month]['count']++;
 
             foreach ($order->orderDetail as $detail) {
+                $monthly[$month]['count'] += $detail->count;
+
+                $product = null;
                 $attr = $detail->attributes;
                 $profitPerUnit = (int)($attr['profit'] ?? 0);
                 if ($profitPerUnit === 0) {
@@ -118,6 +120,12 @@ class AdminController extends Controller
                     }
                 }
                 $monthly[$month]['profit'] += $profitPerUnit * $detail->count;
+
+                if (!$product) {
+                    $product = Content::find((int)($attr['product_id'] ?? 0));
+                }
+                $weight = (float)($product->attr['weight'] ?? 0);
+                $monthly[$month]['weight'] += $weight * $detail->count;
             }
         }
 
