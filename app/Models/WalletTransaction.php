@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class WalletTransaction extends Model
+{
+    public function reference()
+    {
+        return $this->morphTo();
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+}
