@@ -13,6 +13,9 @@ class ContentAttributeContentTypeTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('content_attribute_content_type')) {
+            return;
+        }
         Schema::create('content_attribute_content_type', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('content_type_id')->unsigned()->default(0);

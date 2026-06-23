@@ -13,6 +13,9 @@ class ContentTypeTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('content_type')) {
+            return;
+        }
         Schema::create('content_type', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->nullable();

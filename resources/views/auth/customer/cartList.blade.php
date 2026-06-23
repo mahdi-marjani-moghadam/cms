@@ -122,7 +122,7 @@
                 });
             </script>
             @endif
-            <a class="border border-[#9e6c00] hover:border-[#4b3300] inline-block  rounded px-5 py-3 mt-5"
+            <a class="border border-[#9e6c00] hover:border-[#4b3300] inline-block  rounded px-5 py-2 mt-5"
                 href="{{ $backLink }}">ادامه خرید</a>
             @else
             @lang('messages.not found')

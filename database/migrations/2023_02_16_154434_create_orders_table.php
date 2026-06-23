@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('orders')) {
+            return;
+        }
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable()->default(null);
             $table->unsignedBigInteger('total_price')->default(0);
 
             // $table->morphs('orderable'); // Adds unsigned INTEGER order_id and STRING order_type
@@ -30,7 +33,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('cascade')
+                ->onDelete('set null')
                 ->onUpdate('cascade');
         });
     }

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,6 +12,9 @@ return new class extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('customers')) {
+            return;
+        }
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->default(0);
@@ -27,16 +29,19 @@ return new class extends Migration
             $table->string('whatsapp')->nullable();
             $table->string('telegram')->nullable();
             $table->string('instagram')->nullable();
-            $table->string('image',255)->nullable();
+            $table->string('image', 255)->nullable();
             $table->string('location')->nullable();
+            $table->decimal('rial_credit', 18, 0)->default(0);
+            $table->decimal('gold_credit', 12, 3)->default(0);
+            $table->string('zipcode')->nullable();
             $table->integer('status')->default(0);
 
 
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
         });
     }

@@ -13,6 +13,9 @@ class ContentAttributeTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('content_attribute')) {
+            return;
+        }
         Schema::create('content_attribute', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('field_name',191)->nullable();

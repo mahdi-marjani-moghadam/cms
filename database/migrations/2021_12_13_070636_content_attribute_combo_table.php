@@ -13,6 +13,9 @@ class ContentAttributeComboTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('content_attribute_combo')) {
+            return;
+        }
         Schema::create('content_attribute_combo', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('content_attribute_id')->unsigned()->default(0);

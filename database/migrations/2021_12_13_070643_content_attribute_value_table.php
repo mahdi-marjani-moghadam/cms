@@ -13,6 +13,9 @@ class ContentAttributeValueTable extends Migration
      */
     public function up()
     {
+        if (Schema::hasTable('content_attribute_value')) {
+            return;
+        }
         Schema::create('content_attribute_value', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('content_id')->unsigned()->default(0);
