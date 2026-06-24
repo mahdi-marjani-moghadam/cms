@@ -13,7 +13,7 @@
     </div>
 
     <div class="content-body">
-        <div class="panel panel-default pos-abs chat-panel bottom-0">
+        <div class=" pos-abs chat-panel bottom-0" style="background-color: white;">
             <div class="panel-body full-height">
                 @if (\Session::has('success'))
                     <div class="alert alert-success">
@@ -72,11 +72,11 @@
                                     @elseif ($item->status == 3)
                                         <i class="fa fa-check bg-green" style="padding:5px 5px; border-radius:50%"></i> @lang('messages.paid successfully')
                                     @elseif ($item->status == 2)
-                                        آپلود فیش <i class="fa fa-check bg-orange" style="padding:4px 1em"></i>
+                                        <i class="fa fa-check bg-orange" style="padding:5px 5px; border-radius:50%"></i>  فیش اپلود شده
                                     @elseif ($item->status == 1)
                                         ارسال به بانک
                                     @elseif ($item->status == -1)
-                                        <span class="bg-red" style="padding: 0 1em">رد شد</span>
+                                         <i class="fa fa-remove bg-red" style="padding:5px 7px; border-radius:50%"></i> رد شد
                                     @else
                                         ثبت شده
                                     @endif
@@ -111,6 +111,9 @@
                         @endforeach
                     </tbody>
                 </table>
+
+
+                {!! $list->appends(Request::except('page'))->onEachSide(5)->links() !!}
             </div>
         </div>
     </div>

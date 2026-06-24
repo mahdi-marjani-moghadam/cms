@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="col-md-3 col-sm-3 form-group">@lang('messages.mobile'):
-                            <input id="mobile" type="text" class="form-control" name="mobile" value="{{ old('mobile') }}" />
+                            <input id="mobile" type="text" class="form-control" name="mobile" required value="{{ old('mobile') }}" />
                             <span class="text-danger">{{ $errors->first('mobile') }}</span>
                         </div>
 
@@ -198,7 +198,9 @@
             $tr.find('.row-total').text(formatNumber(rowTotal));
             $('.hidden-price-' + idx).val(unitPrice);
             $('.hidden-count-' + idx).val(count);
-            $('.hidden-profit-' + idx).val(comp.sood);
+            $('.hidden-sood-' + idx).val(comp.sood);
+            $('.hidden-weight-' + idx).val(p.weight);
+            $('.hidden-ojrat-' + idx).val(comp.ojrat);
             updateTotal();
         }
 
@@ -284,7 +286,9 @@
                     '<input type="hidden" name="products[' + idx + '][product_id]" value="' + product.id + '">' +
                     '<input type="hidden" name="products[' + idx + '][title]"      value="' + titleEscaped + '">' +
                     '<input type="hidden" name="products[' + idx + '][price]"      value="' + unitPrice + '" class="hidden-price-' + idx + '">' +
-                    '<input type="hidden" name="products[' + idx + '][profit]"      value="' + comp.sood + '" class="hidden-profit-' + idx + '">' +
+                    '<input type="hidden" name="products[' + idx + '][weight]"      value="' + product.weight + '"     class="hidden-weight-' + idx + '">'+
+                    '<input type="hidden" name="products[' + idx + '][ojrat]"      value="' + comp.ojrat + '"     class="hidden-ojrat-' + idx + '">'+
+                    '<input type="hidden" name="products[' + idx + '][sood]"      value="' + comp.sood + '" class="hidden-sood-' + idx + '">' +
                     '<input type="hidden" name="products[' + idx + '][count]"      value="' + count + '"     class="hidden-count-' + idx + '">'
                 );
 

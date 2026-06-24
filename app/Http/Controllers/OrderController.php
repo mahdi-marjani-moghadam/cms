@@ -31,7 +31,7 @@ class OrderController extends Controller
     // admin panel
     public function orderList()
     {
-        $list = Order::orderBy('id', 'desc')->get();
+        $list = Order::orderBy('id', 'desc')->paginate(5);
         return view('admin.order.index', compact('list'));
     }
     public function orderDetail(Order $order)
@@ -97,6 +97,7 @@ class OrderController extends Controller
         ]);
 
         foreach ($request->products as $item) {
+
             $product = Content::find((int)$item['product_id']);
             $order->orderDetail()->create([
                 'title' => $item['title'],
@@ -110,7 +111,10 @@ class OrderController extends Controller
                     'customer_mobile'  => $request->mobile,
                     'customer_zipcode' => $request->zipcode,
                     'customer_address' => $request->address,
-                    'profit'           => (int)($item['profit'] ?? 0),
+                    'sood'           => (int)($item['sood'] ?? 0),
+                    'weight'           => $item['weight'] ?? 0,
+                    'ojrat'           => (int)($item['ojrat'] ?? 0),
+                    'gold_price'       => getGoldPrice()['priceToman'],
                 ],
             ]);
         }
