@@ -13,7 +13,7 @@ Route::prefix('/customer')->middleware(['auth', 'role:super admin|customer'])->g
     Route::get('/order/{order}/detail', [CustomerController::class, 'orderDetail'])->name('customer.order.detail');
     Route::delete('/order/{order}', [CustomerController::class, 'orderDestroy'])->name('customer.order.destroy');
 
-
+    Route::get('/wallet', [WalletController::class, 'orderList'])->name('customer.order.list');
 
     Route::get('profile', [CustomerController::class, 'profile'])->name('customer.profile');
     Route::post('profileChangeLogo', [CustomerController::class, 'profileChangeLogo'])->name('customer.profile.changeLogo');

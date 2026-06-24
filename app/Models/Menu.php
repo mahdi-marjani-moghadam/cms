@@ -22,4 +22,9 @@ class Menu extends Model
         'module',
         'module_id'
     ];
+
+    public function children()
+    {
+        return $this->hasMany(Menu::class, 'parent');
+    }
 }
