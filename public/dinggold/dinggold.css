@@ -1681,35 +1681,23 @@
   .grid-cols-12 {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
-  .grid-cols-\[40px_100px_120px_100px_1fr\] {
-    grid-template-columns: 40px 100px 120px 100px 1fr;
-  }
-  .grid-cols-\[40px_100px_120px_200px_1fr\] {
-    grid-template-columns: 40px 100px 120px 200px 1fr;
-  }
-  .grid-cols-\[40px_100px_120px_250px_1fr\] {
-    grid-template-columns: 40px 100px 120px 250px 1fr;
-  }
-  .grid-cols-\[40px_100px_150px_100px_1fr\] {
-    grid-template-columns: 40px 100px 150px 100px 1fr;
+  .grid-cols-\[40px_1fr_100px_120px_120px_120px\] {
+    grid-template-columns: 40px 1fr 100px 120px 120px 120px;
   }
   .grid-cols-\[40px_150px_120px_250px_1fr\] {
     grid-template-columns: 40px 150px 120px 250px 1fr;
   }
-  .grid-cols-\[40px_200px_150px_100px_1fr\] {
-    grid-template-columns: 40px 200px 150px 100px 1fr;
+  .grid-cols-\[40px_200px_100px_120px_120px_120px\] {
+    grid-template-columns: 40px 200px 100px 120px 120px 120px;
   }
-  .grid-cols-\[40px_200px_200px_100px_1fr\] {
-    grid-template-columns: 40px 200px 200px 100px 1fr;
+  .grid-cols-\[40px_200px_100px_120px_120px_220px\] {
+    grid-template-columns: 40px 200px 100px 120px 120px 220px;
   }
-  .grid-cols-\[50px_200px_200px_50px_1fr\] {
-    grid-template-columns: 50px 200px 200px 50px 1fr;
+  .grid-cols-\[40px_200px_100px_150px_150px_220px\] {
+    grid-template-columns: 40px 200px 100px 150px 150px 220px;
   }
-  .grid-cols-\[50px_200px_200px_100px_1fr\] {
-    grid-template-columns: 50px 200px 200px 100px 1fr;
-  }
-  .grid-cols-\[50px_200px_200px_150px_1fr\] {
-    grid-template-columns: 50px 200px 200px 150px 1fr;
+  .grid-cols-\[40px_200px_100px_150px_150px_250px\] {
+    grid-template-columns: 40px 200px 100px 150px 150px 250px;
   }
   .grid-cols-\[80px_1fr\] {
     grid-template-columns: 80px 1fr;
@@ -3169,9 +3157,6 @@
   }
   .last\:pb-0:last-child {
     padding-bottom: calc(var(--spacing) * 0);
-  }
-  .even\:bg-gray-200:nth-child(even) {
-    background-color: var(--color-gray-200);
   }
   @media (hover: hover) {
     .hover\:-translate-y-2:hover {
@@ -4848,26 +4833,6 @@
   .\[\&_table\]\:mx-auto table {
     margin-inline: auto;
   }
-  .\[\*\>div\]\:even\:bg-gray-200:is(* > div):nth-child(even) {
-    background-color: var(--color-gray-200);
-  }
-  .\[\*\>div\]\:even\:bg-gray-400:is(* > div):nth-child(even) {
-    background-color: var(--color-gray-400);
-  }
-  .\[\*\>li\]\:border-b-1:is(* > li) {
-    border-bottom-style: var(--tw-border-style);
-    border-bottom-width: 1px;
-  }
-  .\[\*\>li\]\:last\:border-b-0:is(* > li):last-child {
-    border-bottom-style: var(--tw-border-style);
-    border-bottom-width: 0px;
-  }
-  :is(.\[\&\>\*\]\:even\:bg-gray-200 > *):nth-child(even) {
-    background-color: var(--color-gray-200);
-  }
-  .\[\&\>\*\:nth-child\(even\)\]\:bg-gray-200 > *:nth-child(even) {
-    background-color: var(--color-gray-200);
-  }
   .\[\&\>a\]\:flex > a {
     display: flex;
   }
@@ -4933,15 +4898,6 @@
   }
   .\[\&\>div\]\:text-right > div {
     text-align: right;
-  }
-  :is(.\[\&\>div\]\:even\:bg-amber-100 > div):nth-child(even) {
-    background-color: var(--color-amber-100);
-  }
-  :is(.\[\&\>div\]\:even\:bg-gray-200 > div):nth-child(even) {
-    background-color: var(--color-gray-200);
-  }
-  :is(.\[\&\>div\]\:even\:bg-gray-400 > div):nth-child(even) {
-    background-color: var(--color-gray-400);
   }
   .\[\&\>li\]\:mb-0 > li {
     margin-bottom: calc(var(--spacing) * 0);

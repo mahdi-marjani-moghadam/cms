@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->enum('type', [
                 'buy',
                 'sell',
-            ]);
+            ])->index();
 
             // مقدار طلا
             $table->decimal('gold_amount', 20, 3);
@@ -32,7 +32,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('total_price');
 
             // کارمزد (اختیاری)
-            $table->unsignedBigInteger('fee')
+            $table->decimal('fee', 2, 1)
                 ->default(0);
 
             $table->enum('status', [

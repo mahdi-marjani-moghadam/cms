@@ -17,22 +17,22 @@ return new class extends Migration {
                 ->constrained('customers')
                 ->cascadeOnDelete();
 
-            $table->enum('wallet_type', ['toman', 'gold'])
-                ->index();
+            $table->enum('wallet_type', ['toman', 'gold'])->index();
 
             $table->enum('operation', [
                 'deposit',      // افزایش اعتبار
                 'withdraw',     // برداشت اعتبار
-                'purchase',     // خرید
-                'refund',       // برگشت
-                'adjustment'    // اصلاح دستی
             ])->index();
 
             $table->decimal('amount', 18, 3);
 
             $table->nullableMorphs('reference');
-            // reference_type
-            // reference_id
+            /**
+                OnlinePayment::class
+                Trade::class
+                Order::class
+                AdminAdjustment::class
+            */
 
             $table->text('description')->nullable();
 

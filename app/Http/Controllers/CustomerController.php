@@ -8,6 +8,7 @@ use App\Models\Content;
 use App\Models\CustomerContents;
 use App\Models\ContentType;
 use App\Models\Order;
+use App\Models\Trade;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Services\attribute\Attribute;
@@ -214,6 +215,17 @@ class CustomerController extends Controller
         return redirect()->route('customer.order.list')->with('message', __('messages.deleted'));
     }
 
+
+    public function tradeList()
+    {
+        $user = Auth::user();
+        $customer = $user->customer;
+        $trades = $customer->trades()
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('auth.customer.tradeList', compact('trades', 'customer'));
+    }
 
     public function dashboard()
     {

@@ -15,11 +15,18 @@ class Trade extends Model
         'fee',
         'status',
         'description',
+        'reference_type',
+        'reference_id',
     ];
 
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function reference()
+    {
+        return $this->morphTo();
     }
 
     public function transactions()

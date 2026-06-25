@@ -43,6 +43,11 @@
         </li>
 
 
+        <li class="{{ Request::is('customer/trades') ? 'active' : '' }} flex">
+            <i class="fa fa-chart-line mt-2  text-gray-500"></i>
+            <a class="no-border" href="{{ route('customer.trade.list') }}"> معاملات</a>
+        </li>
+
         <li class="{{ Request::is('customer/wallet') ? 'active' : '' }} flex">
             <i class="fa fa-wallet mt-2  text-gray-500"></i>
             <a class="no-border" href="{{ route('customer.wallet.list') }}"> کیف پول</a>

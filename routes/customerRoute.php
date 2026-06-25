@@ -14,7 +14,9 @@ Route::prefix('/customer')->middleware(['auth', 'role:super admin|customer'])->g
     Route::get('/order/{order}/detail', [CustomerController::class, 'orderDetail'])->name('customer.order.detail');
     Route::delete('/order/{order}', [CustomerController::class, 'orderDestroy'])->name('customer.order.destroy');
 
-    Route::get('/wallet', [WalletTransactionController::class, 'walletList'])->name('customer.wallet.list');
+    Route::get('/walletTransactions', [WalletTransactionController::class, 'walletList'])->name('customer.wallet.list');
+
+    Route::get('/trades', [CustomerController::class, 'tradeList'])->name('customer.trade.list');
 
     Route::get('profile', [CustomerController::class, 'profile'])->name('customer.profile');
     Route::post('profileChangeLogo', [CustomerController::class, 'profileChangeLogo'])->name('customer.profile.changeLogo');
