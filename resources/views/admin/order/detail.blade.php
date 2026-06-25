@@ -253,10 +253,16 @@
                                 <td></td>
                                 <td><span style="font-weight:bold">{{ $total_weight }} گرم</span></td>
                                 <td></td>
-                                <td><span style="font-weight:bold">@convertCurrency($total_sood) تومان</span></td>
+                                <td>
+                                    <span style="font-weight:bold">@convertCurrency($total_sood) تومان</span>
+                                </td>
                                 <td>
                                     <div style="font-weight:bold">
                                         مبلغ کل @convertCurrency($order->total_price) @lang('messages.toman')
+                                    </div>
+                                    <div style="display: flex; gap:1em;">
+                                        {{ number_format($order->total_price / ($list[0]->attributes['gold_price'] ?? 1) ,3) }} گرم
+                                        <a href="">قسطی</a>
                                     </div>
                                 </td>
                                 <td></td>

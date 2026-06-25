@@ -65,14 +65,9 @@ class CustomerController extends Controller
 
     public function cartList(Request $request)
     {
-        // dd($request->getRequestUri());
-        // dd($request);
-        // dd($request->header('Referer'));
-
-
         $cookieUser = getSession('cart'); // the user ID to bind the cart contents
 
-        $cart = ($cookieUser) ? \Cart::session($cookieUser)->getContent()->toArray() : array();
+        $cart = ($cookieUser) ? \Cart::session($cookieUser)->getContent()->toArray() : [];
 
         $previousUrl = url()->previous();
         $backLink = Str::contains($previousUrl, 'customer/cart') ? url('/محصولات') : $previousUrl;
@@ -93,18 +88,31 @@ class CustomerController extends Controller
         $totalPrice = (isset($Product->attr['in-stock']) && $Product->attr['in-stock'] == 1)
             ? $Product->GoldPrice()['totalPrice']
             : 500000;
+
+        $gold_price = getGoldPrice()['priceToman'];
+        $weight = $Product->attr['weight'];
+        $base_price =  $gold_price * $weight;
+        $ojrat = $base_price * $Product->attr['ojrat']/100;
+        $sood = ($ojrat + $base_price) * 0.07;
+        $tax = ($ojrat + $sood) * 0.1 ;
+        
         \Cart::session($cookieUser)->add(array(
             'id' => $Product->id,
             'name' => $Product->title,
             'price' => $totalPrice,
             'quantity' => $request?->count ?? 1,
-            'attributes' => array(
+            'attributes' => [
                 'userId' => $cookieUser,
                 'product_id' => $Product->id,
                 'slug' => $Product->slug,
                 'image' => $Product->images['images']['small'],
                 'in-stock' => $Product->attr['in-stock'],
-            ),
+                'gold_price' => $gold_price,
+                'weight' => $weight ,
+                'ojrat' => $ojrat ,
+                'sood' => $sood,
+                'tax' => $tax
+            ],
             'associatedModel' => $Product
         ));
 
@@ -489,7 +497,7 @@ class CustomerController extends Controller
         return $url;
     }
 
-    
+
 
     public function productPowerUp(Request $request, Content $content)
     {
@@ -815,35 +823,52 @@ class CustomerController extends Controller
 
 
 
-
-
+    /**
+    /////////////
+    //  Admin  //
+    /////////////
+    */
 
     public function customerList()
     {
-        $companies = Customer::orderBy('id', 'desc')->get();
 
-        return view('admin.customer.index', compact('companies'));
+        $customers = Customer::query()
+            ->withSum([
+                'walletTransactions as toman_balance' => function ($q) {
+                    $q->where('wallet_type', 'toman')
+                        ->selectRaw("
+                    SUM(
+                        CASE
+                            WHEN operation IN ('deposit','refund','adjustment')
+                                THEN amount
+                            ELSE -amount
+                        END
+                    )
+                ");
+                }
+            ], 'amount')
+            ->withSum([
+                'walletTransactions as gold_balance' => function ($q) {
+                    $q->where('wallet_type', 'gold')
+                        ->selectRaw("
+                    SUM(
+                        CASE
+                            WHEN operation IN ('deposit','refund','adjustment')
+                                THEN amount
+                            ELSE -amount
+                        END
+                    )
+                ");
+                }
+            ], 'amount')
+            ->paginate();
+
+        return view('admin.customer.index', compact('customers'));
     }
 
     public function customerCreateOrUpdate(Request $request, Customer $customer)
     {
-        $categoryImplode = $cropperPreview = '';
-        $result = app('App\Http\Controllers\CategoryController')->tree_set();
-        $category = app('App\Http\Controllers\CategoryController')->convertTemplateSelect1($result);
-        // dd($customer->exists());
-
-        if ($customer->exists) {
-            $categoryImplode = "'" . implode("','", $customer->categories->pluck('id')->toArray()) . "'";
-            $cropperPreview = $customer->logo['large'] ?? '';
-        }
-
-
-        return view('admin.customer.createOrUpdate', compact(
-            'customer',
-            'cropperPreview',
-            'category',
-            'categoryImplode'
-        ));
+        return view('admin.customer.createOrUpdate', compact('customer'));
     }
 
     public function customerStore(Request $request)
@@ -863,7 +888,6 @@ class CustomerController extends Controller
 
         return redirect()->route('admin.customer.index')->with('success', Lang::get('messages.Greate! Customer created successfully.'));
     }
-
     public function customerEdit(Request $request, Customer $customer)
     {
         $this->validate($request, array(
@@ -880,8 +904,6 @@ class CustomerController extends Controller
 
         return redirect()->route('admin.customer.index')->with('success', Lang::get('messages.Greate! Customer edited successfully.'));
     }
-
-
 
     public function customerStoreService($data, $customer)
     {
@@ -929,25 +951,9 @@ class CustomerController extends Controller
     public function customerDestroy(Customer $customer)
     {
 
-        $customer->contents()->delete();
-
-        $customer->categories()->detach();
-
-        $customer->user()->delete();
-
-        $customer->delete();
+        $customer->user?->delete();
 
         return redirect()->route('admin.customer.index')->with('success', Lang::get('messages.deleted'));
     }
-    public function wpGetproduct()
-    {
-        $wp = new wpService();
-        $wp->getproduct();
-        // $customer->delete();
-        // $companu->dettach();
-        // $compnay->contents;
-        // unllink
-        dd(1);
-        return redirect()->route('admin.customer.index')->with('success', Lang::get('messages.deleted'));
-    }
+
 }

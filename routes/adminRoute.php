@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContentController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ModuleBuilderController;
 use App\Http\Controllers\OrderController;
@@ -76,6 +77,10 @@ Route::prefix('/admin')->middleware(['auth', 'role:super admin'])->group(functio
     Route::get('company/edit/{company}', [CompanyController::class, 'companyCreateOrUpdate'])->name('admin.company.update');
     Route::patch('company/edit/{company}', [CompanyController::class, 'companyEdit'])->name('admin.company.edit');
     Route::delete('company/{company}', [CompanyController::class, 'companyDestroy'])->name('admin.company.destroy');
+
+    Route::get('customer', [CustomerController::class, 'customerList'])->name('admin.customer.index');
+    Route::get('customer/edit/{customer}', [CustomerController::class, 'customerCreateOrUpdate'])->name('admin.customer.edit');
+    Route::delete('customer/{customer}', [CustomerController::class, 'customerDestroy'])->name('admin.customer.destroy');
 
     /* Order */
     Route::get('orders', [OrderController::class, 'orderList'])->name('admin.order.index');

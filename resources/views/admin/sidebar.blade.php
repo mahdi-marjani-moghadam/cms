@@ -128,15 +128,21 @@
         <li class="divider"></li>
         <li class="no-margin">
             <a href="{{ route('admin.company.index') }}" class="no-margin @if (!$ltr) text-right @endif">
-                <i class="sidebar-icon @if (!$ltr) pull-right @endif fa fa-user"></i>
+                <i class="sidebar-icon @if (!$ltr) pull-right @endif fa fa-building"></i>
                 <span class="sidebar-text @if (!$ltr) text-right @endif">@lang('messages.companies')</span>
             </a>
         </li>
 
         <li class="no-margin">
             <a href="{{ route('users.index') }}" class="no-margin @if (!$ltr) text-right @endif">
-                <i class="sidebar-icon @if (!$ltr) pull-right @endif fa fa-users"></i>
+                <i class="sidebar-icon @if (!$ltr) pull-right @endif fa fa-user"></i>
                 <span class="sidebar-text @if (!$ltr) text-right @endif">@lang('messages.users')</span>
+            </a>
+        </li>
+        <li class="no-margin">
+            <a href="{{ route('admin.customer.index') }}" class="no-margin @if (!$ltr) text-right @endif">
+                <i class="sidebar-icon @if (!$ltr) pull-right @endif fa fa-users"></i>
+                <span class="sidebar-text @if (!$ltr) text-right @endif">مشتری</span>
             </a>
         </li>
         <li class="no-margin">

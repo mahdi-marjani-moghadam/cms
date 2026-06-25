@@ -8,7 +8,7 @@
         <span></span>
         <span></span>
     </div>
-    <ul>
+    <ul class="[&>li]:border-b-1 [&>li]:last:border-b-0">
 
         <li>
             {{ Auth::user()->mobile ?? ''}}
@@ -19,6 +19,13 @@
         <li class="{{ Request::is('customer/profile') ? 'active' : '' }}"><a href="{{ route('customer.profile') }}">
                 {{ __('messages.profile') }}</a></li>
         @endrole
+
+
+
+        <li class="{{ Request::is('customer/') ? 'active' : '' }} flex">
+            <i class="fa fa-dashboard mt-2  text-gray-500"></i>
+            <a class="no-border" href="{{ route('customer.dashboard') }}"> {{ __('messages.Dashboard') }}</a>
+        </li>
 
         <li class="{{ Request::is('customer/cart') ? 'active' : '' }} flex">
             <i class="fa fa-cart-shopping mt-2  text-gray-500"></i>
@@ -38,7 +45,7 @@
 
         <li class="{{ Request::is('customer/wallet') ? 'active' : '' }} flex">
             <i class="fa fa-wallet mt-2  text-gray-500"></i>
-            <a class="no-border" href="{{ route('customer.wallet') }}"> کیف پول</a>
+            <a class="no-border" href="{{ route('customer.wallet.list') }}"> کیف پول</a>
         </li>
 
         <li>
@@ -64,7 +71,7 @@
 
 
 <script>
-    $('.company-nav').click(function () {
+    $('.company-nav .burger').click(function () {
         $('.company-nav ul').slideToggle();
         $('.burger').children('span:last-child').toggleClass('hide');
         $('.burger').children('span:nth-child(1)').toggleClass('rotate1');

@@ -12,7 +12,8 @@
 
 section.panel {
   font-size: 0.9em;
-  padding: 1em;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: row;
 }

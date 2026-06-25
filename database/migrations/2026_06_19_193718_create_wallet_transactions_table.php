@@ -17,7 +17,7 @@ return new class extends Migration {
                 ->constrained('customers')
                 ->cascadeOnDelete();
 
-            $table->enum('wallet_type', ['rial', 'gold'])
+            $table->enum('wallet_type', ['toman', 'gold'])
                 ->index();
 
             $table->enum('operation', [
@@ -28,7 +28,7 @@ return new class extends Migration {
                 'adjustment'    // اصلاح دستی
             ])->index();
 
-            $table->decimal('amount', 18, 4);
+            $table->decimal('amount', 18, 3);
 
             $table->nullableMorphs('reference');
             // reference_type

@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class WalletTransaction extends Model
 {
+    protected $fillable = [
+        'customer_id',
+        'wallet_type', // toman//gold
+        'operation', // deposit//withdraw//purchase//refund//adjustment
+        'amount', 
+        'reference',
+        'description_type',
+        'description_id'
+    ];
     public function reference()
     {
         return $this->morphTo();
