@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Comment;
 use App\Models\Contact;
 use App\Models\Order;
+use App\Observers\OrderObserver;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -33,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
+        Order::observe(OrderObserver::class);
 
         Schema::defaultStringLength(191);
 
@@ -59,6 +61,8 @@ class AppServiceProvider extends ServiceProvider
             View::share('orderCount',$orderCount );
             View::share('contactCount',$contactCount );
         });
+
+
 
 
     }

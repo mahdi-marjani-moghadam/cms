@@ -16,7 +16,7 @@
 section.panel {
     font-size: 0.9em;
     padding: 0;
-    margin: 0;
+    // margin: 0;
     display: flex;
     flex-direction: row;
     > div {
@@ -248,7 +248,7 @@ section.panel {
     }
     section.panel {
         flex-direction: column;
-        margin: 0 !important;
+        // margin: 0 !important;
         display: block;
         .burger {
             display: flex !important;

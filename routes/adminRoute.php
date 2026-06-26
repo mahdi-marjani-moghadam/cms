@@ -89,6 +89,7 @@ Route::prefix('/admin')->middleware(['auth', 'role:super admin'])->group(functio
     Route::get('order/{order}', [OrderController::class, 'orderDetail'])->name('admin.order.detail');
     Route::patch('order/{order}', [OrderController::class, 'orderEdit'])->name('admin.order.edit');
     Route::delete('order/{order}', [OrderController::class, 'orderDestroy'])->name('admin.order.destroy');
+    Route::post('order/{order}/pay-gold-fund', [OrderController::class, 'orderPayFromGoldFund'])->name('admin.order.payGoldFund');
 
     Route::patch('transaction/edit/{transaction}', [TransactionsController::class, 'update'])->name('admin.transaction.edit');
 

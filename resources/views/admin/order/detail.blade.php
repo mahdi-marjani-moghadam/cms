@@ -11,15 +11,33 @@
             </li>
             <span>
                 <div style="display:flex; gap:1em;">
-                    @if ($order->status != 3)
-                        <form method="post" action="{{ route('admin.order.edit', $order) }}">
-                            @csrf
-                            @method('patch')
-                            <input type="hidden" name="status" value="3">
-                            <button href="" class=" btn btn-sm btn-success btn-icon  mat-button ">
-                                <i class="fa fa-check"></i>@lang('messages.paid successfully')
-                            </button>
-                        </form>
+                    @if ($order->status != 3 )
+                        @php
+                            $customer = $order->user?->customer;
+                            $goldBalance = $customer?->getWalletBalances()['gold'] ?? 0;
+                        @endphp
+                        @if (!$order->orderDetail->contains(fn($detail) => (\App\Models\Content::find($detail->attributes['product_id'])->attr['in-stock'] ?? 0) == 0))
+
+                            <form method="post" action="{{ route('admin.order.edit', $order) }}">
+                                @csrf
+                                @method('patch')
+                                <input type="hidden" name="status" value="3">
+                                <button href="" class=" btn btn-sm btn-success btn-icon  mat-button " >
+                                    <i class="fa fa-check"></i>@lang('messages.paid successfully')
+                                </button>
+                            </form>
+                        @else
+                            این فاکتور یکی محصولاتش موجود نیست
+                        @endif
+                        @if ($customer)
+                            <form method="post" action="{{ route('admin.order.payGoldFund', $order) }}">
+                                @csrf
+                                <button type="submit" class=" btn btn-sm btn-icon  mat-button " style="border:1px solid #000; background-color: #f3f30c;"
+                                    onclick="return confirm('پرداخت از صندوق طلا (موجودی: {{ number_format($goldBalance, 3) }} گرم)؟')">
+                                    <i class="fa fa-btc"></i>پرداخت از صندوق طلا
+                                </button>
+                            </form>
+                        @endif
                     @endif
 
                     @if ($order->status != -1)
@@ -43,8 +61,14 @@
         <div class=" chat-panel bottom-0">
             <div class="panel-body full-height" style="padding: 0;">
                 @php
-                    $total_weight = 0;
+
+                    $gp = $list[0]->attributes['gold_price'] ?? 1;
                     $total_sood = 0;
+                    $totalGoldOrder = 0;
+                    $total_additional = 0;
+                    $total_ojrat = 0;
+                    $total_tax = 0;
+                    $totalGoldEquivalent = 0;
                     $firstDetail = $list->first();
                     $isAdminOrder = is_null($order->user_id);
                     $customerName = $isAdminOrder ? ($firstDetail?->attributes['customer_name'] ?? '-') : (($order->user->customer->name ?? '') . ' ' . ($order->user->customer->family ?? ''));
@@ -74,6 +98,7 @@
 
 
                         @if (count($transactions))
+
                             @foreach ($transactions as $item)
                                 @if (strpos($item->description, 'upload'))
                                     <div class="" style="display:flex; align-items: center; gap:1em; padding-top: 1em; ">
@@ -185,6 +210,8 @@
                                 <th>وزن</th>
                                 <th>اجرت</th>
                                 <th>سود</th>
+                                <th>مبلغ اضافی</th>
+                                <th>مالیات</th>
                                 <th>@lang('messages.price')</th>
                                 <th>@lang('messages.status')</th>
                                 <th width="50"></th>
@@ -193,15 +220,30 @@
                         <tbody>
                             @foreach ($list as $item)
                                 @php
-                                    $total_weight += $item->attributes['weight'] ?? 0;
+                                    $weight = (float)($item->attributes['weight'] ?? 0);
+                                    $gp = (int)($item->attributes['gold_price'] ?? 0);
+
+
+                                    $additionalPriceToman = (int) ($item->attributes['additional_price'] ?? 0);
+                                    $additionalPriceGold = $gp > 0 ? $additionalPriceToman / $gp : 0;
+
+                                    $totalGoldEquivalent += $weight;
+
+
+                                    $total_ojrat += $item->attributes['ojrat'] ?? 0;
                                     $total_sood += $item->attributes['sood'] ?? 0;
+                                    $total_additional += $item->attributes['additional_price'] ?? 0;
+                                    $total_tax += $item->attributes['tax'] ?? 0;
+
+
+
+                                    // $total_tax += $taxToman;
                                 @endphp
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>
                                         @if (isset($item['attributes']['image']) && file_exists(public_path() . $item['attributes']['image']))
-                                            <a target="__blank"
-                                                href="{{ url(\App\Models\Content::find($item->attributes['product_id'])->slug) }}">
+                                            <a target="__blank" href="{{ url($item->attributes['slug']) }}">
                                                 <img height="50" src="{{ $item->attributes['image'] }}" alt="">
                                             </a>
                                         @else
@@ -210,9 +252,21 @@
                                     </td>
                                     <td class=""><a href="{{ url($item->attributes['slug']) }}">{{ $item->title ?? '' }}</a>
                                     </td>
-                                    <td>{{ $item->attributes['weight'] ?? 0 }} گرم</td>
-                                    <td>@convertCurrency($item->attributes['ojrat'] ?? 0) تومان</td>
-                                    <td>@convertCurrency($item->attributes['sood'] ?? 0) تومان</td>
+                                    <td>@convertCurrency($weight * $gp) تومان<br>
+                                        <span class="text-xs text-gray-500">{{ $weight }} گرم</span>
+                                    </td>
+                                    <td>@convertCurrency($item->attributes['ojrat'] ?? 0) تومان<br>
+                                        <span class="text-xs text-gray-500">{{ number_format($item->attributes['ojrat'] / $gp, 3) }} گرم</span>
+                                    </td>
+                                    <td>@convertCurrency($item->attributes['sood'] ?? 0) تومان<br>
+                                        <span class="text-xs text-gray-500">{{ number_format($item->attributes['sood'] / $gp, 3) }} گرم</span>
+                                    </td>
+                                    <td>@convertCurrency($item->attributes['additional_price'] ?? 0) تومان<br>
+                                        <span class="text-xs text-gray-500">{{ number_format(($item->attributes['additional_price']??0) / $gp, 3) }} گرم</span>
+                                    </td>
+                                    <td>@convertCurrency(($item->attributes['tax'] ?? 0)) تومان<br>
+                                        <span class="text-xs text-gray-500">{{ number_format(($item->attributes['tax']??0) / $gp, 3) }} گرم</span>
+                                    </td>
                                     <td class="">
 
                                         <div style="font-weight:bold">@convertCurrency($item->price) @lang('messages.toman')
@@ -247,21 +301,36 @@
                                     </td>
                                 </tr>
                             @endforeach
+
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><span style="font-weight:bold">{{ $total_weight }} گرم</span></td>
-                                <td></td>
+                                <td><span style="font-weight:bold">@convertCurrency($totalGoldEquivalent * $gp ) تومان</span><br>
+                                    <span class="text-xs">{{ number_format($totalGoldEquivalent, 3) }} گرم</span>
+                                </td>
                                 <td>
-                                    <span style="font-weight:bold">@convertCurrency($total_sood) تومان</span>
+                                    <span style="font-weight:bold">@convertCurrency($total_ojrat) تومان</span><br>
+                                    <span class="text-xs">{{ number_format($total_ojrat / $gp , 3) }} گرم</span>
+                                </td>
+                                <td>
+                                    <span style="font-weight:bold">@convertCurrency($total_sood) تومان</span><br>
+                                    <span class="text-xs">{{ number_format($total_sood / $gp, 3)  }} گرم</span>
+                                </td>
+                                <td>
+                                    <span style="font-weight:bold">@convertCurrency($total_additional) تومان</span><br>
+                                    <span class="text-xs">{{ number_format($total_additional / $gp , 3) }} گرم</span>
+                                </td>
+                                <td>
+                                    <span style="font-weight:bold">@convertCurrency($total_tax) تومان</span><br>
+                                    <span class="text-xs">{{ number_format($total_tax / $gp , 3)  }} گرم</span>
                                 </td>
                                 <td>
                                     <div style="font-weight:bold">
                                         مبلغ کل @convertCurrency($order->total_price) @lang('messages.toman')
                                     </div>
                                     <div style="display: flex; gap:1em;">
-                                        {{ number_format($order->total_price / ($list[0]->attributes['gold_price'] ?? 1) ,3) }} گرم
+                                        {{ number_format($order->total_price/$gp,3) }} گرم
                                         <a href="">قسطی</a>
                                     </div>
                                 </td>

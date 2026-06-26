@@ -16,7 +16,7 @@ Route::prefix('/customer')->middleware(['auth', 'role:super admin|customer'])->g
 
     Route::get('/walletTransactions', [WalletTransactionController::class, 'walletList'])->name('customer.wallet.list');
 
-    Route::get('/trades', [CustomerController::class, 'tradeList'])->name('customer.trade.list');
+    Route::get('/gold-wallet', [CustomerController::class, 'goldWalletList'])->name('customer.goldWallet.list');
 
     Route::get('profile', [CustomerController::class, 'profile'])->name('customer.profile');
     Route::post('profileChangeLogo', [CustomerController::class, 'profileChangeLogo'])->name('customer.profile.changeLogo');
@@ -27,7 +27,11 @@ Route::prefix('/customer')->middleware(['auth', 'role:super admin|customer'])->g
     Route::get('invoice/{transaction}', [CustomerController::class, 'invoice'])->name('customer.invoice');
     Route::patch('invoice/{content}', [CustomerController::class, 'invoiceStore'])->name('customer.invoice.store');
 
+    /**
+     pay way
+    */
     Route::post('uploadBill/{order}', [CustomerController::class, 'uploadBill'])->name('customer.uploadBill');
+    Route::post('order/{order}/pay-wallet', [CustomerController::class, 'orderPayFromWallet'])->name('customer.order.payWallet');
     Route::patch('sendToBand/{transaction}', [CustomerController::class, 'sendToBand'])->name('customer.sendToBand');
 
     Route::get('transaction', [CustomerController::class, 'transaction'])->name('customer.transaction');

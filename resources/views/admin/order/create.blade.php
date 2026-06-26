@@ -199,6 +199,8 @@
             $('.hidden-price-' + idx).val(unitPrice);
             $('.hidden-count-' + idx).val(count);
             $('.hidden-sood-' + idx).val(comp.sood);
+            $('.hidden-tax-' + idx).val(comp.tax);
+            $('.hidden-additional-price-' + idx).val(comp.tax);
             $('.hidden-weight-' + idx).val(p.weight);
             $('.hidden-ojrat-' + idx).val(comp.ojrat);
             updateTotal();
@@ -288,6 +290,8 @@
                     '<input type="hidden" name="products[' + idx + '][price]"      value="' + unitPrice + '" class="hidden-price-' + idx + '">' +
                     '<input type="hidden" name="products[' + idx + '][weight]"      value="' + product.weight + '"     class="hidden-weight-' + idx + '">'+
                     '<input type="hidden" name="products[' + idx + '][ojrat]"      value="' + comp.ojrat + '"     class="hidden-ojrat-' + idx + '">'+
+                    '<input type="hidden" name="products[' + idx + '][tax]"      value="' + comp.tax + '"     class="hidden-tax-' + idx + '">'+
+                    '<input type="hidden" name="products[' + idx + '][additional_price]"      value="' + product.additional_price + '"     class="hidden-additional-price-' + idx + '">'+
                     '<input type="hidden" name="products[' + idx + '][sood]"      value="' + comp.sood + '" class="hidden-sood-' + idx + '">' +
                     '<input type="hidden" name="products[' + idx + '][count]"      value="' + count + '"     class="hidden-count-' + idx + '">'
                 );

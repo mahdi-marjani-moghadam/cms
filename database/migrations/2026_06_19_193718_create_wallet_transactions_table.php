@@ -20,11 +20,12 @@ return new class extends Migration {
             $table->enum('wallet_type', ['toman', 'gold'])->index();
 
             $table->enum('operation', [
-                'deposit',      // افزایش اعتبار
-                'withdraw',     // برداشت اعتبار
+                'deposit',      // افزایش
+                'withdraw',     // برداشت
             ])->index();
 
             $table->decimal('amount', 18, 3);
+            $table->decimal('asset_price', 20, 2)->nullable();  // gold price
 
             $table->nullableMorphs('reference');
             /**

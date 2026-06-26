@@ -10,10 +10,10 @@ class WalletTransaction extends Model
         'customer_id',
         'wallet_type', // toman//gold
         'operation', // deposit//withdraw//purchase//refund//adjustment
-        'amount', 
-        'reference',
-        'description_type',
-        'description_id'
+        'amount',
+        'reference_type',
+        'reference_id',
+        'description',
     ];
     public function reference()
     {

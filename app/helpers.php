@@ -1023,18 +1023,19 @@ if (!function_exists('getGoldPrice')) {
     }
 }
 if (!function_exists('calcuteGoldPrice')) {
-    function calcuteGoldPrice($weight = 0, $additionalPrice = 0, $ojrat = 13, $goldPrice = 0, $round = false)
+    function calcuteGoldPrice(float $weight = 0, int $additionalPrice = 0, float $ojrat = 13, int $goldPrice = 0)
     {
         $str = is_numeric($goldPrice) && $goldPrice > 0 ? $goldPrice : getGoldPrice();
+
         $weight = (float) $weight;
         $additionalPrice = (int) $additionalPrice;
 
-        $goldPrice = isset($str['priceToman']) ? $str['priceToman'] : 0;
+        $goldPrice = isset($str['priceToman']) ? (int) $str['priceToman'] : 0;
         $gold = $goldPrice * $weight;
-        // dd($ojrat);
         $ojrat = $gold * $ojrat / 100;
         $Sood = ($gold + $ojrat) * 0.07;
         $tax = ($Sood + $ojrat) * 0.1;
+
 
         return [
             'totalPrice' => (int) floor(($gold + $Sood + $ojrat + $tax + $additionalPrice) / 1000) * 1000,

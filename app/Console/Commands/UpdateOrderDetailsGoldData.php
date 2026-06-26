@@ -92,10 +92,14 @@ class UpdateOrderDetailsGoldData extends Command
                     // سود ثابت 7 درصد
                     $sood = ($basePrice + $ojrat) * 0.07;
 
+                    $tax = ($sood + $ojrat) * 0.1;
+
                     $attr['weight'] = $weight;
                     $attr['ojrat'] = round($ojrat);
                     $attr['sood'] = round($sood);
                     $attr['gold_price'] = $goldPrice;
+                    $attr['tax'] = $tax;
+                    $attr['additional_price'] = $productAttr['additionalprice'];
 
 
                     $detail->attributes = $attr;

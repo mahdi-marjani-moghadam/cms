@@ -8,11 +8,9 @@ use App\Models\Content;
 use App\Models\CustomerContents;
 use App\Models\ContentType;
 use App\Models\Order;
-use App\Models\Trade;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Services\attribute\Attribute;
-use App\Services\wpService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -21,12 +19,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\File;
-// use Intervention\Image\Facades\Image;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
 use App\Services\ImageResizeService;
-
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -81,22 +75,20 @@ class CustomerController extends Controller
             redirect()->back();
         }
 
+
+
         $Product = (new Content)->where('id', '=', $request->id)->where('type', '=', 2)->first();
+
+        $calc = $Product->GoldPrice();
+
 
         // $cookieUser = $request->cookie('cart'); // the user ID to bind the cart contents
         $cookieUser = getSession('cart');
 
         $totalPrice = (isset($Product->attr['in-stock']) && $Product->attr['in-stock'] == 1)
-            ? $Product->GoldPrice()['totalPrice']
+            ? $calc['totalPrice']
             : 500000;
 
-        $gold_price = getGoldPrice()['priceToman'];
-        $weight = $Product->attr['weight'];
-        $base_price =  $gold_price * $weight;
-        $ojrat = $base_price * $Product->attr['ojrat']/100;
-        $sood = ($ojrat + $base_price) * 0.07;
-        $tax = ($ojrat + $sood) * 0.1 ;
-        
         \Cart::session($cookieUser)->add(array(
             'id' => $Product->id,
             'name' => $Product->title,
@@ -107,12 +99,13 @@ class CustomerController extends Controller
                 'product_id' => $Product->id,
                 'slug' => $Product->slug,
                 'image' => $Product->images['images']['small'],
-                'in-stock' => $Product->attr['in-stock'],
-                'gold_price' => $gold_price,
-                'weight' => $weight ,
-                'ojrat' => $ojrat ,
-                'sood' => $sood,
-                'tax' => $tax
+                'in-stock' => (int) $Product->attr['in-stock'],
+                'gold_price' => $calc['goldprice'],
+                'weight' => (float) $Product->attr['weight'],
+                'ojrat' => $calc['ojrat'],
+                'sood' => $calc['sood'],
+                'additionalprice' => (int) $Product->attr['additionalprice'],
+                'tax' => $calc['tax']
             ],
             'associatedModel' => $Product
         ));
@@ -204,8 +197,10 @@ class CustomerController extends Controller
             return redirect()->route('customer.order.list')->with('message', __('messages.not found'));
         $user = Auth()->user();
         $orderDetail = $user->orders($order->id)->orderDetail;
+        $customer = $user->customer;
+        $balance = $customer?->getWalletBalances();
 
-        return view('auth.customer.orderDetailList', compact('order', 'orderDetail'));
+        return view('auth.customer.orderDetailList', compact('order', 'orderDetail', 'customer', 'balance'));
     }
     public function orderDestroy(Order $order)
     {
@@ -216,15 +211,85 @@ class CustomerController extends Controller
     }
 
 
-    public function tradeList()
+    public function orderPayFromWallet(Request $request, Order $order)
     {
         $user = Auth::user();
         $customer = $user->customer;
-        $trades = $customer->trades()
-            ->orderBy('created_at', 'desc')
+
+        if ($order->user_id != $user->id) {
+            return redirect()->back()->with('error', 'این سفارش متعلق به شما نیست');
+        }
+
+        if ($order->status != 0) {
+            return redirect()->back()->with('error', 'این سفارش قبلاً پرداخت شده است');
+        }
+
+        $balance = $customer->getWalletBalances();
+        $totalPrice = $order->total_price;
+
+        $order_detail = $order->orderDetail;
+        $gp = $order_detail->first()->attributes['gold_price']
+            ? $order_detail->first()->attributes['gold_price']
+            : getGoldPrice();
+
+        $orderGold = $totalPrice / $gp;
+
+        $goldValue = (int) ($orderGold * $gp);
+
+
+        if ($balance['gold'] < $orderGold) {
+            return redirect()->back()->with('error', 'موجودی طلا ناکافی است');
+        }
+
+
+        DB::beginTransaction();
+        try {
+            if ($orderGold > 0) {
+                $customer->walletTransactions()->create([
+                    'wallet_type' => 'gold',
+                    'operation' => 'withdraw',
+                    'amount' => $orderGold,
+                    'asset_price' => $gp,
+                    'reference_type' => Order::class,
+                    'reference_id' => $order->id,
+                    'description' => "پرداخت سفارش #{$order->id}",
+                ]);
+            }
+
+
+            $user->transactions()->create([
+                'title' => 'پرداخت از کیف پول',
+                'price' => $totalPrice,
+                'count' => 1,
+                'status' => 2,
+                'message' => "پرداخت سفارش #{$order->id} از طریق کیف پول",
+                'description' => "پرداخت از کیف پول",
+                'transactionable_type' => Order::class,
+                'transactionable_id' => $order->id,
+            ]);
+
+            $order->update(['status' => 3]);
+
+            DB::commit();
+            return redirect()->back()->with('success', 'سفارش با موفقیت از کیف پول پرداخت شد');
+        }
+        catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'خطا در پرداخت: ' . $e->getMessage());
+        }
+    }
+
+    public function goldWalletList()
+    {
+        $user = Auth::user();
+        $customer = $user->customer;
+        $gold_wallet = $customer->walletTransactions()
+            ->with('reference')
+            ->where('wallet_type', 'gold')
+            ->orderByDesc('id')
             ->paginate(10);
 
-        return view('auth.customer.tradeList', compact('trades', 'customer'));
+        return view('auth.customer.goldWalletList', compact('gold_wallet', 'customer'));
     }
 
     public function dashboard()
