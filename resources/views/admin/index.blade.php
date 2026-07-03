@@ -69,10 +69,10 @@
                             @foreach ($data['monthlyProfits'] as $monthKey => $row)
                                 <tr>
                                     <td>{{ $row['name'] }}</td>
-                                    <td>{{ $row['count'] }}</td>
+                                    <td>{{ number_format($row['count']) }}</td>
                                     <td>{{ number_format($row['weight'], 3) }}</td>
-                                    <td>{{ number_format($row['sales']) }}</td>
-                                    <td>{{ number_format($row['profit']) }}</td>
+                                    <td>{{ number_format($row['sales']) }}<br><small class="text-muted">{{ number_format($row['sales_gold'], 3) }} گرم</small></td>
+                                    <td>{{ number_format($row['profit']) }}<br><small class="text-muted">{{ number_format($row['profit_gold'], 3) }} گرم</small></td>
                                 </tr>
                             @endforeach
                             @if (count($data['monthlyProfits']) == 0)

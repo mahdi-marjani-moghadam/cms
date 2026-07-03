@@ -314,6 +314,49 @@
                                     گرم</span>
                             </div>
                         </div>
+
+                        @if ($goldDebt)
+                            <div class="border-t-2 border-gray-400 mt-2 pt-2  text-sm">
+                                <div class="font-bold text-base mb-2">اقساط طلا</div>
+                                <table class="w-full  border-collapse text-center">
+                                    <thead>
+                                        <tr class=" [&>th]:text-center!">
+                                            <th class="p-1 border">مانده قبل (گرم)</th>
+                                            <th> طلا هنگام پرداخت (تومان)</th>
+                                            <th class="p-1 border"> پرداختی (تومان)</th>
+                                            <th class="p-1 border">مقدار طلا (گرم)</th>
+                                            <th class="p-1 border">تاریخ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            $runningBalance = $goldDebt->total_gold;
+                                        @endphp
+                                        @forelse ($goldDebt->payments->sortBy('created_at') as $payment)
+                                            <tr>
+                                                <td class="p-1 border text-xs">{{ number_format(max(0, $runningBalance), 3) }}</td>
+                                                <td class="text-xs">@convertCurrency($payment->gold_price) </td>
+                                                <td class="p-1 border text-green-700">@convertCurrency($payment->amount) </td>
+                                                <td class="p-1 border  text-green-700 font-bold">{{ number_format($payment->gold_weight, 3) }}</td>
+                                                <td class="p-1 border text-xs">{{ convertGtoJ($payment->created_at, time: true) }}</td>
+                                            </tr>
+                                            @php
+                                                $runningBalance -= $payment->gold_weight;
+                                            @endphp
+                                        @empty
+                                            <tr>
+                                                <td colspan="4" class="p-1 border text-center">پرداختی ثبت نشده</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                                <div class="text-center mt-2 p-2 bg-yellow-100 border border-yellow-500 rounded">
+                                    <span class="font-bold">مانده بدهی:</span>
+                                    <span class="font-bold text-red-600 text-lg">{{ number_format($goldDebt->remaining_debt, 3) }}</span>
+                                    <span class="font-bold">گرم</span>
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
                 </div>

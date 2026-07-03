@@ -34,7 +34,7 @@
                                 @csrf
                                 <button type="submit" class=" btn btn-sm btn-icon  mat-button " style="border:1px solid #000; background-color: #f3f30c;"
                                     onclick="return confirm('پرداخت از صندوق طلا (موجودی: {{ number_format($goldBalance, 3) }} گرم)؟')">
-                                    <i class="fa fa-btc"></i>پرداخت از صندوق طلا
+                                    <i class="fa fa-btc"></i>پرداخت از صندوق طلا ({{ number_format($goldBalance, 3) }} گرم)
                                 </button>
                             </form>
                         @endif
@@ -331,7 +331,14 @@
                                     </div>
                                     <div style="display: flex; gap:1em;">
                                         {{ number_format($order->total_price/$gp,3) }} گرم
-                                        <a href="">قسطی</a>
+                                        @if (!$goldDebt)
+                                            <form method="post" action="{{ route('admin.order.goldDebt', $order) }}" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" style="background:none; border:none; color:#007bff; cursor:pointer; padding:0;">قسطی</button>
+                                            </form>
+                                        @else
+                                            <span style="color:green; font-weight:bold;">قسطی شد</span>
+                                        @endif
                                     </div>
                                 </td>
                                 <td></td>
@@ -340,6 +347,85 @@
                         </tbody>
                     </table>
                 </div>
+
+                @if ($goldDebt)
+                    <div style="padding: 4em 0;">
+                        <h4 style="margin-bottom: 0.5em;">اقساط طلا</h4>
+                        <table class="table table-striped" style="background-color: white; border: 1px solid #ccc;">
+                            <thead>
+                                <tr>
+                                    <th>مانده بدهی قبل از تراکنش(گرم)</th>
+                                    <th>قیمت طلا هنگام پرداخت</th>
+                                    <th>مبلغ پرداختی</th>
+                                    <th>مقدار طلا (گرم)</th>
+                                    <th>تاریخ پرداخت</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $runningBalance = $goldDebt->total_gold;
+                                @endphp
+                                @forelse ($goldDebt->payments->sortBy('id') as $payment)
+                                    <tr>
+                                        <td>{{ number_format($runningBalance, 3) }}</td>
+                                        <td>@convertCurrency($payment->gold_price) تومان</td>
+                                        <td  style="color: green; font-weight: 700; ">@convertCurrency($payment->amount) تومان</td>
+                                        <td style="color: green; font-weight: 700; font-size: 1.2em;">{{ number_format($payment->gold_weight, 3) }}</td>
+                                        <td>{{ convertGtoJ($payment->created_at, time: true) }}</td>
+                                    </tr>
+                                    @php
+                                        $runningBalance -= $payment->gold_weight;
+                                    @endphp
+                                @empty
+                                    <tr>
+                                        <td colspan="5" style="text-align: center;">هیچ پرداختی ثبت نشده است</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+
+                        <div style="text-align: center; padding: 1.5em; background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; margin-top: 1em;">
+                            <span style="font-size: 1.2em; font-weight: bold; display: block;">مانده بدهی</span>
+                            <span style="font-size: 2.5em; font-weight: bold; color: #dc3545;">
+                                {{ number_format($goldDebt->remaining_debt, 3) }}
+                            </span>
+                            <span style="font-size: 1.5em; font-weight: bold;">گرم</span>
+                        </div>
+
+                        <hr style="margin: 2em 0;">
+                        <h4 style="margin-bottom: 1em;">ثبت پرداخت جدید</h4>
+                        <form method="post" action="{{ route('admin.order.goldDebtPayment', $order) }}" style="background: #f9f9f9; padding: 1.5em; border: 1px solid #ddd; border-radius: 8px;">
+                            @csrf
+                            <div style="display: flex; flex-wrap: wrap; gap: 1em; margin-bottom: 1em;">
+                                <div style="flex: 1; min-width: 200px;">
+                                    <label style="display: block; margin-bottom: 0.3em; font-weight: bold;">مبلغ پرداختی (تومان)</label>
+                                    <input type="number" name="amount" required style="width: 100%; padding: 0.5em; border: 1px solid #ccc; border-radius: 4px;">
+                                </div>
+                                <div style="flex: 1; min-width: 200px;">
+                                    <label style="display: block; margin-bottom: 0.3em; font-weight: bold;">قیمت طلا (تومان)</label>
+                                    <input type="number" name="gold_price" value="{{ getGoldPrice()['priceToman'] }}" required style="width: 100%; padding: 0.5em; border: 1px solid #ccc; border-radius: 4px;">
+                                </div>
+                                <div style="flex: 1; min-width: 200px;">
+                                    <label style="display: block; margin-bottom: 0.3em; font-weight: bold;">روش پرداخت</label>
+                                    <select name="payment_method" style="width: 100%; padding: 0.5em; border: 1px solid #ccc; border-radius: 4px;">
+                                        <option value="">انتخاب کنید</option>
+                                        <option value="gateway">درگاه</option>
+                                        <option value="card_reader">کارتخوان</option>
+                                        <option value="cash">نقدی</option>
+                                        <option value="card_to_card">کارت به کارت</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 1em;">
+                                <label style="display: block; margin-bottom: 0.3em; font-weight: bold;">توضیحات</label>
+                                <textarea name="description" rows="2" style="width: 100%; padding: 0.5em; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-success btn-icon mat-button">
+                                <i class="fa fa-plus"></i> ثبت پرداخت
+                            </button>
+                        </form>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

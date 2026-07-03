@@ -199,8 +199,9 @@ class CustomerController extends Controller
         $orderDetail = $user->orders($order->id)->orderDetail;
         $customer = $user->customer;
         $balance = $customer?->getWalletBalances();
+        $goldDebt = $order->goldDebt()->with('payments')->first();
 
-        return view('auth.customer.orderDetailList', compact('order', 'orderDetail', 'customer', 'balance'));
+        return view('auth.customer.orderDetailList', compact('order', 'orderDetail', 'customer', 'balance', 'goldDebt'));
     }
     public function orderDestroy(Order $order)
     {

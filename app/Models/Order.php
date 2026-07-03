@@ -31,7 +31,9 @@ class Order extends Model
         return $this->morphMany(Transaction::class, 'transactionable');
     }
 
-
-    
+    public function goldDebt()
+    {
+        return $this->hasOne(GoldDebt::class);
+    }
 
 }
