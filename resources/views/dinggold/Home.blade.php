@@ -177,8 +177,8 @@
         },
         "geo": {
             "@type": "GeoCoordinates",
-            "latitude": "35.726810",
-            "longitude": "51.476914"
+            "latitude": "35.7271953",
+            "longitude": "51.4748945"
         },
         "url": "https://dinggold.ir/",
         "telephone": "+989374599840",
@@ -194,8 +194,8 @@
                 "Wednesday",
                 "Thursday"
                 ],
-                "opens": "17:30",
-                "closes": "20:30"
+                "opens": "11:00",
+                "closes": "21:00"
             }
         ]
     }

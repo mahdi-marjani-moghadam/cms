@@ -80,7 +80,9 @@
                                 </div>
                             </div>
                     @endforeach
-                    {{ $wallet->links() }}
+                    <div class="mt-4">
+                        {{ $wallet->links('pagination::default') }}
+                    </div>
                 </div>
                 <div class="align-center">
                     @if (count($wallet) == 0)

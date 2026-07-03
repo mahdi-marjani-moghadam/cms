@@ -22,6 +22,9 @@ Route::group(['middleware' => 'HtmlMinifier'], function () {
 
     Route::get('/reload', [ContentController::class, 'reload']);
 
+Route::get('/tablo-tala', [HomeController::class, 'tabloTala'])->name('tablo.tala');
+Route::get('/tablo-tala/price', [HomeController::class, 'tabloTalaPrice'])->name('tablo.tala.price');
+
     Route::get('/profile/{slug?}', [CompanyController::class, 'profileShow'])->name('profile.index');
 
     Route::get('/wp/getProduct', [CompanyController::class, 'wpGetproduct'])->name('wp.product');

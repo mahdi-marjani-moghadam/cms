@@ -81,6 +81,8 @@ Route::prefix('/admin')->middleware(['auth', 'role:super admin'])->group(functio
     Route::get('customer', [CustomerController::class, 'customerList'])->name('admin.customer.index');
     Route::get('customer/edit/{customer}', [CustomerController::class, 'customerCreateOrUpdate'])->name('admin.customer.edit');
     Route::delete('customer/{customer}', [CustomerController::class, 'customerDestroy'])->name('admin.customer.destroy');
+    Route::get('customer/{customer}/add-gold', [CustomerController::class, 'showAddGoldForm'])->name('admin.customer.addGold');
+    Route::post('customer/{customer}/add-gold', [CustomerController::class, 'addGold'])->name('admin.customer.addGold.store');
 
     /* Order */
     Route::get('orders', [OrderController::class, 'orderList'])->name('admin.order.index');
