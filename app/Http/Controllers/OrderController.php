@@ -33,9 +33,21 @@ class OrderController extends Controller
 
 
     // admin panel
-    public function orderList()
+    public function orderList(Request $request)
     {
-        $list = Order::orderBy('id', 'desc')->paginate(5);
+        $query = Order::orderBy('id', 'desc');
+
+        if ($request->qdebt == '1') {
+            $query->whereHas('goldDebt');
+        } elseif ($request->qdebt == '0') {
+            $query->whereDoesntHave('goldDebt');
+        }
+
+        if ($request->qstatus == 'unpaid') {
+            $query->where('status', '!=', 3);
+        }
+
+        $list = $query->paginate(5);
         return view('admin.order.index', compact('list'));
     }
     public function orderDetail(Order $order)

@@ -31,6 +31,25 @@
                     </div>
                 @endif
 
+                <form style="margin-bottom:1em; display:inline-flex;flex-wrap:wrap;gap:0 10px" action="{{ route('admin.order.index') }}" method="get">
+                    <div>
+                        <label for="qdebt">قسطی</label>
+                        <select class="form-control" style="display: inline-block; width: auto;" name="qdebt" id="qdebt">
+                            <option value="">همه</option>
+                            <option value="1" {{ app('request')->qdebt == '1' ? 'selected' : '' }}>قسطی شده</option>
+                            <option value="0" {{ app('request')->qdebt == '0' ? 'selected' : '' }}>قسطی نشده</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="qstatus">وضعیت پرداخت</label>
+                        <select class="form-control" style="display: inline-block; width: auto;" name="qstatus" id="qstatus">
+                            <option value="">همه</option>
+                            <option value="unpaid" {{ app('request')->qstatus == 'unpaid' ? 'selected' : '' }}>پرداخت نشده</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-sm">فیلتر</button>
+                </form>
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -38,7 +57,7 @@
                             <th width="300">@lang('messages.mobile')</th>
                             <th>@lang('messages.total price')</th>
                             <th>@lang('messages.status')</th>
-
+                            <th>قسطی</th>
                             <th>@lang('messages.created at')</th>
                             <th width="150"></th>
                         </tr>
@@ -81,6 +100,14 @@
                                         ثبت شده
                                     @endif
 
+                                </td>
+                                <td>
+                                    @php
+                                        $dept = $item->goldDebt;
+                                    @endphp
+                                    @if ($dept)
+                                        <i class="fa fa-check bg-green" style="padding:5px 5px; border-radius:50%"></i>
+                                        @endif
                                 </td>
 
 
