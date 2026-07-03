@@ -906,39 +906,47 @@ class CustomerController extends Controller
     /////////////
     */
 
-    public function customerList()
+    public function customerList(Request $request, )
     {
 
+
+
         $customers = Customer::query()
-            ->withSum([
-                'walletTransactions as toman_balance' => function ($q) {
-                    $q->where('wallet_type', 'toman')
-                        ->selectRaw("
-                    SUM(
-                        CASE
-                            WHEN operation IN ('deposit','refund','adjustment')
-                                THEN amount
-                            ELSE -amount
-                        END
-                    )
-                ");
-                }
-            ], 'amount')
-            ->withSum([
-                'walletTransactions as gold_balance' => function ($q) {
-                    $q->where('wallet_type', 'gold')
-                        ->selectRaw("
-                    SUM(
-                        CASE
-                            WHEN operation IN ('deposit','refund','adjustment')
-                                THEN amount
-                            ELSE -amount
-                        END
-                    )
-                ");
-                }
-            ], 'amount')
-            ->paginate();
+            ->select('customers.*')
+
+            ->selectSub(function ($q) {
+                $q->from('wallet_transactions')
+                    ->selectRaw("
+                COALESCE(SUM(
+                    CASE
+                        WHEN operation IN ('deposit', 'refund', 'adjustment')
+                            THEN amount
+                        ELSE -amount
+                    END
+                ), 0)
+            ")
+                    ->whereColumn('wallet_transactions.customer_id', 'customers.id')
+                    ->where('wallet_type', 'toman');
+            }, 'toman_balance')
+
+            ->selectSub(function ($q) {
+                $q->from('wallet_transactions')
+                    ->selectRaw("
+                COALESCE(SUM(
+                    CASE
+                        WHEN operation IN ('deposit', 'refund', 'adjustment')
+                            THEN amount
+                        ELSE -amount
+                    END
+                ), 0)
+            ")
+                    ->whereColumn('wallet_transactions.customer_id', 'customers.id')
+                    ->where('wallet_type', 'gold');
+            }, 'gold_balance');
+        if (isset($request->qmobile)) {
+            $customers = $customers->where('mobile', 'like', '%' . $request->qmobile . '%');
+        }
+        $customers = $customers->paginate();
 
         return view('admin.customer.index', compact('customers'));
     }
@@ -1025,6 +1033,64 @@ class CustomerController extends Controller
 
         return $user;
     }
+    public function showAddGoldForm(Customer $customer)
+    {
+        $balance = $customer->getWalletBalances();
+        $gold_wallet = $customer->walletTransactions()
+            ->with('reference')
+            ->where('wallet_type', 'gold')
+            ->orderByDesc('id')
+            ->paginate(10);
+        return view('admin.customer.addGold', compact('customer', 'balance', 'gold_wallet'));
+    }
+
+    public function addGold(Request $request, Customer $customer)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:0.001',
+            'description' => 'nullable|string|max:255',
+        ]);
+
+        $amount = (float) $request->amount;
+        $fee = (float) $request->fee;
+        $operation = (string) $request->operation;
+
+        $amount += $amount * $fee;
+
+        $description = $request->description ?? ($operation=='deposit'?'افزایش':'کاهش').' موجودی طلا توسط ادمین';
+
+        DB::beginTransaction();
+        try {
+            $gp = getGoldPrice()['priceToman'];
+            $customer->walletTransactions()->create([
+                'wallet_type' => 'gold',
+                'operation' => $operation,
+                'amount' => $amount,
+                'asset_price' => $gp,
+                'description' => $description,
+                'reference_type' => User::class,
+                'reference_id' => Auth::user()->id
+            ]);
+
+            $customer->trades()->create([
+                'type' => 'admin_add',
+                'gold_amount' => $amount,
+                'gold_price' => $gp,
+                'fee' => $fee,
+                'total_price' => $gp * $amount,
+                'status' => 'completed',
+                'description' => $description,
+            ]);
+
+            DB::commit();
+            return redirect()->back()->with('success', "{$amount} گرم طلا با موفقیت به حساب {$customer->name} اضافه شد");
+        }
+        catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'خطا: ' . $e->getMessage());
+        }
+    }
+
     public function customerDestroy(Customer $customer)
     {
 

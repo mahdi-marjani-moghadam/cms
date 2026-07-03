@@ -12,7 +12,7 @@ class RedirectUrl extends Model
     ];
     // public $timestamps = false;
 
-    function createIfChange($uri,$to) {
+    function createIfChange(string $uri,string $to) {
         if ($uri != $to) {
             return RedirectUrl::create(['url' => '/'.$uri, 'redirect_to' => '/'.$to]);
         }

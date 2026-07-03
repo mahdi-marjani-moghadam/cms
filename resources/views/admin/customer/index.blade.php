@@ -25,7 +25,23 @@
                 </ul>
             </div>
         @endif
+        <div class="text-center">
 
+
+            <form
+                style="margin-bottom:1em; display:inline-flex;flex-wrap:wrap;gap:0 10px; margin-left:auto; margin-right: auto; "
+                action="{{ route('admin.customer.index') }}" method="get">
+
+                <div>
+                    <label for="qmobile"> @lang('messages.mobile')</label>
+                    <input class="form-control" style="display: inline-block; width: auto;" id="qmobile" name="qmobile"
+                        value="{{ old('qmobile', app('request')->qmobile) }}" type="text">
+                </div>
+
+
+                <button class="btn btn-sm">فیلتر</button>
+            </form>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -47,7 +63,8 @@
                         <td>@convertCurrency($item?->toman_balance) </td>
                         <td>
                             {{ $item?->gold_balance }}
-                            <a href=""><i class="fa fa-plus bg-green" style="border-radius: 50px; padding:5px 5px 2px"></i></a>
+                            <a href="{{ route('admin.customer.addGold', $item) }}"><i class="fa fa-plus bg-green"
+                                    style="border-radius: 50px; padding:5px 5px 2px"></i></a>
                         </td>
                         <td>{{ $item->mobile }}</td>
                         <td>{{ $item?->address }} - {{ $item?->zipcode }}</td>
@@ -67,19 +84,19 @@
 
                                 </div>
                                 <!-- <div class="col-md-6">
-                                    <a href="{{ route('admin.customer.edit', $item->id) }}"
-                                        class="font-full-plus-half-em text-success btn-xs pull-right"
-                                        title="@lang('messages.edit')">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                </div> -->
+                                                    <a href="{{ route('admin.customer.edit', $item->id) }}"
+                                                        class="font-full-plus-half-em text-success btn-xs pull-right"
+                                                        title="@lang('messages.edit')">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                </div> -->
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
 
-        {!! $customers->appends(Request::except('page'))->onEachSide(5)->links() !!}
+        {!! $customers->appends(Request::except('page'))->appends(Request::except('qmobile'))->onEachSide(5)->links() !!}
     </div>
 
 

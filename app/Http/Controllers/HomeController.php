@@ -315,6 +315,28 @@ class HomeController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
+    public function tabloTala()
+    {
+        $goldPrice = getGoldPrice();
+        $products = Content::where('type', '=', 2)
+            ->where('status', '=', 1)
+            ->orderBy('id', 'desc')
+            ->take(20)
+            ->get();
+
+        return view('dinggold.tablo-tala', compact('goldPrice', 'products'));
+    }
+
+    public function tabloTalaPrice()
+    {
+        $goldPrice = getGoldPrice();
+        return response()->json([
+            'price' => number_format($goldPrice['priceToman']),
+            'priceNum' => $goldPrice['priceToman'],
+            'time' => now()->format('H:i:s'),
+        ]);
+    }
+
     public function destroy($id)
     {
         // $crud = Home::find($id);

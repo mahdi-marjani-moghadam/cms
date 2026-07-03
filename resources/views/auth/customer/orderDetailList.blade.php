@@ -109,15 +109,10 @@
                                     <p class="border bg-white rounded-md p-1 mt-1 text-center ">شماره کارت به نام مهدی مرجانی
                                         مقدم
                                         <br>
-                                        <span class="font-bold text-lg ltr ">6037-9973-2634-9918 <a href="#"
+                                        <span class="font-bold text-lg ltr ">6219-8610-2672-9706 <a href="#"
                                                 class="text-sm ring-1  rounded-full px-3" id="copy-card"> کپی</a> </span>
-
-
-
-
                                     </p>
                                 </div>
-
 
 
                                 <div class="mt-2 block" for="">می توانید تصویر چندین فیش را انتخاب نمایید</div>
@@ -337,7 +332,7 @@
             e.preventDefault();
             var $temp = $("<input>");
             $("body").append($temp);
-            $temp.val("6037991526869023").select();
+            $temp.val("6219861026729706").select();
             document.execCommand("copy");
             $temp.remove();
             alert('شماره کارت کپی شد');

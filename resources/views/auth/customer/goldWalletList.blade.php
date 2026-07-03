@@ -1,5 +1,5 @@
 @extends(@env('TEMPLATE_NAME') . '.App')
-@section('meta-title', 'معاملات')
+@section('meta-title', 'صندوق طلا')
 
 @section('Content')
     <section class="panel">
@@ -46,24 +46,31 @@
                             {{ number_format($transaction->amount, 3) }}
                         </div>
                         <div class="border text-center">
-                            @if ($transaction->asset_price > 0)
-                                @convertCurrency($transaction->asset_price) تومان
-                            @endif
+                            @switch($transaction->reference_type)
+                                @case(\App\Models\Trade::class)
+                                    @convertCurrency($transaction->asset_price) تومان
+                                    @break
+                                @case(\App\Models\Order::class)
+                                    @convertCurrency($transaction->reference()->first()?->orderDetail()->first()->attributes['gold_price']) تومان
+                                    @break
+                                @default
+                                    @convertCurrency($transaction->asset_price ) تومان
+                                    @break
+                            @endswitch
                         </div>
                         <div class="border text-center">
 
 
                                 @switch($transaction->reference_type)
                                     @case(\App\Models\Trade::class)
-
                                         @convertCurrency($transaction->asset_price * $transaction->amount) تومان
                                         @break
-                                    @case(\App\Models\Order::class)
 
+                                    @case(\App\Models\Order::class)
                                         @convertCurrency($transaction->reference()->first()?->total_price) تومان
                                         @break
-                                    @default
 
+                                    @default
                                         @convertCurrency($transaction->asset_price * $transaction->amount) تومان
                                         @break
                                 @endswitch

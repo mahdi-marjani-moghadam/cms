@@ -11,6 +11,7 @@ class WalletTransaction extends Model
         'wallet_type', // toman//gold
         'operation', // deposit//withdraw//purchase//refund//adjustment
         'amount',
+        'asset_price',
         'reference_type',
         'reference_id',
         'description',
