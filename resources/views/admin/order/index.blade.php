@@ -47,6 +47,10 @@
                             <option value="unpaid" {{ app('request')->qstatus == 'unpaid' ? 'selected' : '' }}>پرداخت نشده</option>
                         </select>
                     </div>
+                    <div>
+                        <label for="qmobile">موبایل</label>
+                        <input id="qmobile" class="form-control" style="display: inline-block; width: auto;" name="qmobile" value="{{ app('request')->qmobile }}" type="text">
+                    </div>
                     <button class="btn btn-sm">فیلتر</button>
                 </form>
 

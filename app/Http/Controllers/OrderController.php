@@ -47,6 +47,16 @@ class OrderController extends Controller
             $query->where('status', '!=', 3);
         }
 
+        if ($mobile = $request->qmobile) {
+            $query->where(function ($q) use ($mobile) {
+                $q->whereHas('user', function ($q) use ($mobile) {
+                    $q->where('mobile', 'like', "%{$mobile}%");
+                })->orWhereHas('orderDetail', function ($q) use ($mobile) {
+                    $q->where('attributes->customer_mobile', 'like', "%{$mobile}%");
+                });
+            });
+        }
+
         $list = $query->paginate(5);
         return view('admin.order.index', compact('list'));
     }

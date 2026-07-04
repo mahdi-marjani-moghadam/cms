@@ -333,6 +333,14 @@
                 $('#total-price-input').val(raw);
             });
 
+            $('#mobile').on('input', function () {
+                this.value = this.value.replace(/[۰-۹]/g, function (d) {
+                    return String.fromCharCode(d.charCodeAt(0) - 1728);
+                }).replace(/[٠-٩]/g, function (d) {
+                    return String.fromCharCode(d.charCodeAt(0) - 1584);
+                });
+            });
+
             $('#order-form').on('submit', function (e) {
                 if ($('#products-tbody tr').length === 0) {
                     e.preventDefault();
