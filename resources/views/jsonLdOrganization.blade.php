@@ -1,6 +1,6 @@
 <script type="application/ld+json">
     {
-        "@context": "http://www.schema.org",
+        "@@context": "http://www.schema.org",
         "@type": "Organization",
         "name": "{{ Str::camel(env('TEMPLATE_NAME')) }}",
         "url": "{{ url('/') }}",

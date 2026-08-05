@@ -3,7 +3,7 @@
     @foreach($relatedProduct as $key => $content)
 
     {
-        "@context": "https://schema.org/",
+        "@@context": "https://schema.org/",
         "@type": "Product",
         "name": "{{ $content->title }}",
 
