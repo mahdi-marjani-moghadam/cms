@@ -7,7 +7,7 @@ use App\Models\Content;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
+use App\Support\Image;
 use PDF;
 use Illuminate\Support\Str;
 use App\Models\RedirectUrl;

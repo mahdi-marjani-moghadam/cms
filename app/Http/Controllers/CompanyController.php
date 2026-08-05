@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Lang;
-use Intervention\Image\Facades\Image;
+use App\Support\Image;
 use Illuminate\Support\Facades\File;
 
 

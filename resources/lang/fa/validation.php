@@ -147,6 +147,7 @@ return [
 
     'attributes' => [],
     'recaptcha' => 'اخطار!!! فیلد :attribute اشتباه است.',
+    'captcha' => 'کد امنیتی صحیح نیست.',
 
 
 ];

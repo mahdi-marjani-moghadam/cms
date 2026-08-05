@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-use Intervention\Image\Facades\Image;
+use App\Support\Image;
 use App\Models\RedirectUrl;
 use App\Models\Widget;
 use Hamcrest\Arrays\IsArray;

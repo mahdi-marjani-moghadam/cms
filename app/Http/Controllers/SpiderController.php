@@ -13,7 +13,7 @@ use Phpfastcache\Helper\Psr16Adapter;
 use GuzzleHttp;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
+use App\Support\Image;
 use Illuminate\Http\JsonResponse;
 
 class SpiderController extends Controller

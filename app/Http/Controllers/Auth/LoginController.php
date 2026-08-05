@@ -75,6 +75,13 @@ class LoginController extends Controller
             $this->username() => 'required|string',
             'password' => 'required|string',
         ]);
+
+        if ($request->has('captcha')) {
+            $request->validate([
+                'captcha' => 'required|captcha',
+            ]);
+        }
+
         $user = User::where('mobile','=',$d['mobile'])->first();
         if($user instanceof User){
             return $this->traitLogin($request);

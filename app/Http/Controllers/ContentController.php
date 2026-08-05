@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
-use Intervention\Image\Facades\Image;
+use App\Support\Image;
 use Illuminate\Support\Str;
 use App\Models\RedirectUrl;
 use Exception;

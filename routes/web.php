@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CaptchaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
@@ -36,6 +37,9 @@ include_once 'customerRoute.php';
 include_once 'adminRoute.php';
 
 Auth::routes();
+
+Route::get('/reload-captcha', [CaptchaController::class, 'reloadCaptcha']);
+Route::post('/captcha-validation', [CaptchaController::class, 'capthcaFormValidate']);
 
 Route::get('spider', [SpiderController::class, 'spider']);
 Route::get('/spider/reload', [SpiderController::class, 'reload']);

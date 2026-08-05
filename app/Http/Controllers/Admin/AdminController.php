@@ -10,7 +10,7 @@ use App\Models\Company;
 use App\Models\Content;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
-use Intervention\Image\Facades\Image;
+use App\Support\Image;
 
 
 

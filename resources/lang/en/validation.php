@@ -147,6 +147,7 @@ return [
 
     'attributes' => [],
     'recaptcha' => 'Hey!!! :attribute is wrong!',
+    'captcha' => 'The captcha is incorrect.',
 
 
 ];
