@@ -152,6 +152,9 @@
     table{
         @apply my-5 border w-full text-sm text-left rtl:text-right text-gray-500 border-gray-200 dark:text-gray-400
     }
+    table[align="center"]{
+        @apply mx-auto
+    }
     tr{
         @apply border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200
     }
