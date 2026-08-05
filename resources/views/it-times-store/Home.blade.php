@@ -618,8 +618,8 @@
                         <div class="grid gap-4 grid-cols-2 place-items-center">
                             <div
                                 class="col-span-1 border-gray-200 border h-42 space-y-2 text-center shadow-md w-full rounded-lg bg-gray-200 py-4 p-3 dark:bg-zinc-800">
-                                <h3 class="font-bold text-lg line-clamp-1 dark:text-white" itemprop="name">تجهیزات
-                                    الکترونیکی</h3>
+                                <h3 class="font-bold text-lg line-clamp-1 dark:text-white" itemprop="name">کانکتور
+                                    نظامی</h3>
                                 <p class="text-neutral-600 text-xs line-clamp-1 dark:text-neutral-400">بر اساس بازید های شما
                                 </p>
                                 <img src="/it-times-store/assets/images/product/تجهیزات-الکترونیکی.png"
@@ -648,7 +648,7 @@
                                 @endforeach
                             @endisset
                             <div class="col-span-2 w-full">
-                                <a href="/تجهیزات-الکترونیک"
+                                <a href="/کانکتور-نظامی"
                                     class="flex items-center bg-white shadow-md p-3 rounded-lg justify-between w-full dark:bg-zinc-700"
                                     itemprop="url">
                                     <span class="dark:text-white">مشاهده همه</span>
