@@ -115,6 +115,7 @@
                 <h1 class="font-black text-3xl">
                     <span class="text-primary font-bold">{{ $detail->title ?? '' }}</span>
                 </h1>
+                {!! $detail->brief_description !!}
             </div>
 
             <!-- quick select category -->
@@ -125,7 +126,7 @@
 
                         @if (count($subCategory))
                             @foreach ($subCategory as $content)
-                                <div class="swiper-slide p-1 !w-auto">
+                                <div class="swiper-slide p-1 w-auto!">
                                     <div
                                         class="size-40 overflow-hidden rounded-lg border border-gray-200 flex flex-col justify-center items-center space-y-3 bg-white dark:bg-background-dark p-3 drop-shadow-sm">
                                         <img src="{{ image_or_placeholder($content->images['images']['small'] ?? '') }}" alt="{{ $content->title }}"
@@ -148,10 +149,10 @@
 
                     </div>
                     <div
-                        class="swiper-button-prev bg-white rounded-full dark:bg-zinc-800 dark:bg-zinc-800 border border-gray-200 !size-12 after:!text-xl px-3">
+                        class="swiper-button-prev bg-white rounded-full dark:bg-zinc-800  border border-gray-200 size-12! after:text-xl! px-3">
                     </div>
                     <div
-                        class="swiper-button-next bg-white rounded-full dark:bg-zinc-800 dark:bg-zinc-800 border border-gray-200 !size-12 after:!text-xl px-3ؤ">
+                        class="swiper-button-next bg-white rounded-full dark:bg-zinc-800  border border-gray-200 size-12! after:text-xl! px-3ؤ">
                     </div>
                 </div>
             </div>
@@ -166,7 +167,7 @@
                         <!-- search -->
                         <section>
                             <div
-                                class="dark:bg-background-dark dark:text-white bg-white rounded-lg drop-shadow-lg border-gray-300 border-1 p-4">
+                                class="dark:bg-background-dark dark:text-white bg-white rounded-lg drop-shadow-lg border-gray-300 border p-4">
                                 <h2
                                     class="font-bold text-lg mb-4 relative pb-4 before:absolute before:right-0 before:bottom-0 before:size-2 before:rounded-full before:bg-primary after:absolute after:w-40 after:h-2 after:bottom-0 after:right-4 after:bg-primary after:rounded-lg">
                                     جستجوی محصولات</h2>
@@ -198,7 +199,7 @@
                     @foreach ($relatedProduct as $content)
                         <div class="lg:col-span-3 md:col-span-6 col-span-12 w-full">
                             <article
-                                class="bg-white product-box-item drop-shadow-md rounded-xl p-4 dark:bg-card-dark dark:border-white dark:border-1"
+                                class="bg-white product-box-item drop-shadow-md rounded-xl p-4 dark:bg-card-dark dark:border-white dark:border"
                                 >
 
                                 <figure class="flex image justify-center my-4">

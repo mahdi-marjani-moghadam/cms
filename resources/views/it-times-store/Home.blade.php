@@ -699,16 +699,16 @@
                                 <a href="{{ $content->slug }}" class="w-full block" >
                                     <article
                                         class="flex py-2 px-3 rounded-xl hover:bg-gray-200 transition border border-gray-200 bg-white drop-shadow-md items-center justify-between dark:bg-background-dark dark:hover:bg-zinc-600">
-                                        <section class="w-1/6 border-l-2 border-gray-300">
+                                        <section class="w-2/7 border-l-2 border-gray-300">
                                             <div class="text-center">
                                                 <span class="font-bold text-3xl text-primary ">{{ $content->viewCount }}</span>
                                             </div>
                                         </section>
-                                        <section class="w-3/6 space-y-2 pr-3">
+                                        <section class="w-3/7 space-y-2 pr-3">
                                             <h3
                                                 class="font-bold leading-loose line-clamp-2 h-13 text-xs dark:text-white">{{ $content->title }}</h3>
                                         </section>
-                                        <figure class="w-2/6"  itemscope itemtype="https://schema.org/ImageObject">
+                                        <figure class="w-2/7"  itemscope itemtype="https://schema.org/ImageObject">
                                             <div class="text-end flex justify-end">
                                                 <img src="{{ image_or_placeholder($content->images['images']['small']) }}" class="size-20"
                                                     loading="lazy" alt="{{ $content->title }}"

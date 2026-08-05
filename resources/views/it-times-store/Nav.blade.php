@@ -85,7 +85,7 @@
                     <!-- menu -->
                     <ul class="flex dark:text-white items-center space-x-8 tracking-tight">
                         <li id="mega-menu-fire" class="py-2">
-                            <a href="" class="flex font-bold hover:text-primary transition">
+                            <a href="/محصولات" class="flex font-bold hover:text-primary transition">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-6 me-2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -96,7 +96,7 @@
                             <div id="mega-menu-fire-target"
                                 class="bg-white dark:bg-background-dark container z-50 hidden top-[90%] drop-shadow-sm absolute mt-1 ml-10 shadow-md rounded-b-md">
                                 <div class="grid grid-cols-12">
-                                    <div class="col-span-2 h-[400px] overflow-y-scroll border-l border-gray-400">
+                                    <div class="col-span-2 h-100 overflow-y-scroll border-l border-gray-400">
                                         <ul class="my-2 space-y-1">
 
 
@@ -142,7 +142,7 @@
 
                                             @foreach ($mainMenu as $menuItem)
                                                 <div data-mega-target="{{ $loop->index + 1 }}"
-                                                    class="grid {{ ($loop->first) ? '' : 'hidden' }} h-[400px] overflow-y-scroll grid-cols-8 gap-10 m-3">
+                                                    class="grid {{ ($loop->first) ? '' : 'hidden' }} h-100 overflow-y-scroll grid-cols-8 gap-10 m-3">
 
                                                     <!-- sub menu 1 -->
                                                     @foreach ($menuItem->children as $subMenuItem)

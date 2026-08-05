@@ -48,7 +48,8 @@
                 <h4 class="font-bold text-lg mb-5" aria-label="فروشگاه ">فروشگاه</h4>
                 <ul class="space-y-4 mt-1" role="menu">
                     <li role="menuitem"><a href="/سیم-نسوز">سیم نسوز </a></li>
-                    <li role="menuitem"><a href="/سیم-سیلیکونی">سیم سیلیکونی </a></li>
+                    <li role="menuitem"><a href="/سیم-افشان-مس">سیم افشان </a></li>
+                    <li role="menuitem"><a href="/سیم-AWG">سیم AWG </a></li>
                 </ul>
             </div>
             <div class="lg:col-span-1 sm:col-span-2 col-span-4 w-full">
@@ -64,6 +65,7 @@
                     <li><a href="/کانکتور-کواکسیال">کانکتور کواکسیال </a></li>
                     <li><a href="/کانکتور-برق">کانکتور برق </a></li>
                     <li><a href="/کانکتور-شبکه">کانکتور شبکه</a></li>
+                    <li><a href="/کانکتور-و-تبدیل">انواع سوکت و کانکتور</a></li>
                 </ul>
             </div>
             <div class="lg:col-span-1 sm:col-span-2 col-span-4 w-full">
@@ -87,7 +89,7 @@
             <div class="lg:col-span-2 col-span-4 w-full">
                 <ul class="flex items-center justify-end space-x-3">
                     <li>
-                        <a href="" class="bg-white h-full block p-3 rounded-lg">
+                        <a href="/محصولات" class="bg-white h-full block p-3 rounded-lg">
                             مشاهده محصولات
                         </a>
                     </li>
