@@ -13,24 +13,7 @@ use Illuminate\Support\Facades\Lang;
 
 class MenuController extends Controller
 {
-    //protected $menuService;
 
-
-    /**
-     * MenuController constructor.
-     * @param PostService $postService
-     */
-    public function __construct()
-    {
-        //$this->menuService = $menuService;
-    }
-
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
 
@@ -55,7 +38,7 @@ class MenuController extends Controller
         return $list;
     }
 
-    public function convertTemplateTable1($listCat, $_input = array(), $start = '|-', $befor = '', $after = '', $level = 0)
+    public function convertTemplateTable1(array $listCat, $_input = array(), $start = '|-', $befor = '', $after = '', $level = 0)
     {
         static $mainMenu = array();
         //echo $this->level;
@@ -82,7 +65,7 @@ class MenuController extends Controller
         return $mainMenu;
     }
 
-    public function convertTemplateSelect1($listCat, $_input = array(), $start = '|-', $befor = '', $after = '', $level = 0)
+    public function convertTemplateSelect1(array $listCat, $_input = array(), $start = '|-', $befor = '', $after = '', $level = 0)
     {
         static $mainMenu = array();
         if (!count($_input) and count($listCat)) {
@@ -104,11 +87,6 @@ class MenuController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
 
@@ -142,12 +120,8 @@ class MenuController extends Controller
         $data['menu'] = $this->convertTemplateSelect1($tree);
         return view('admin.menu.Create', $data);
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function store(Request $request)
     {
 
@@ -174,7 +148,7 @@ class MenuController extends Controller
         Menu::create($data);
         return redirect('admin/menu')->with('success', 'Greate! Menu created successfully.');
     }
-    public function getSinglePagePoint($content)
+    public function getSinglePagePoint(string $content)
     {
         // {{--#anchor news--}}
         preg_match_all("/({{--#anchor(.*)--}})/U", $content, $pat_array);
@@ -183,25 +157,7 @@ class MenuController extends Controller
 
 
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Menu $menu)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(int $id)
     {
         $where = array('id' => $id);
         $data['menu_info'] = Menu::where($where)->first();
@@ -209,7 +165,6 @@ class MenuController extends Controller
         /*$searchmap = [
             ['parent_id', '<>', $id],
             ['id', '<>', $id]
-
         ];*/
 
         $data['post'] = Content::where('type', '=', '2')
@@ -235,13 +190,13 @@ class MenuController extends Controller
         $tree = $this->tree_set($searchmap);
         $data['menu'] = $this->convertTemplateSelect1($tree);
         $filter[$id] = '';
-        foreach ($data['menu'] as $id => $obj) {
-            if (isset($filter[$id])) {
-                unset($data['menu'][$id]);
+        foreach ($data['menu'] as $id2 => $obj) {
+            if (isset($filter[$id2])) {
+                unset($data['menu'][$id2]);
             }
             if (isset($filter[$obj->parent])) {
-                $filter[$id] = '';
-                unset($data['menu'][$id]);
+                $filter[$id2] = '';
+                unset($data['menu'][$id2]);
             }
         }
 
@@ -251,14 +206,7 @@ class MenuController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $crud = Menu::find($id);
 
@@ -279,13 +227,6 @@ class MenuController extends Controller
 
 
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Menu $menu)
     {
         $menu->delete();
